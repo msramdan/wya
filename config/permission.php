@@ -181,5 +181,5 @@ return [
                 'role & permission delete',
             ]
         ],
-        ['group' => 'positions', 'access' => ['position view', 'position create', 'position edit', 'position delete']],
+        ['group' => 'positions', 'access' => ['position view', 'position create', 'position edit', 'position delete']],['group' => 'departments', 'access' => ['department view', 'department create', 'department edit', 'department delete']], 
 		],];

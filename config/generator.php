@@ -112,7 +112,8 @@ return [
     [
         'header' => 'Employee',
         'permissions' => [
-            'position view'
+            'position view',
+            'department view'
         ],
         'menus' => [
             [
@@ -121,13 +122,19 @@ return [
                 'route' => null,
                 'permission' => null,
                 'permissions' => [
-                    'position view'
+                    'position view',
+                    'department view'
                 ],
                 'submenus' => [
                     [
                         'title' => 'Positions',
                         'route' => '/positions',
                         'permission' => 'position view'
+                    ],
+                    [
+                        'title' => 'Departments',
+                        'route' => '/departments',
+                        'permission' => 'department view'
                     ]
                 ]
             ]
