@@ -108,6 +108,7 @@ return [
      *
      * This code below always changes when you use a generator and maybe you must lint or format the code.
      */
+    'sidebars' => [
     [
         'header' => 'Main',
         'permissions' => [
