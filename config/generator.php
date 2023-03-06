@@ -110,27 +110,20 @@ return [
      */
     'sidebars' => [
     [
-        'header' => 'Main',
+        'header' => 'Employee',
         'permissions' => [
-            'cat view',
             'position view'
         ],
         'menus' => [
             [
-                'title' => 'Main Data',
+                'title' => 'Employee Data',
                 'icon' => '<i class="mdi mdi-format-list-bulleted-square"></i>',
                 'route' => null,
                 'permission' => null,
                 'permissions' => [
-                    'cat view',
                     'position view'
                 ],
                 'submenus' => [
-                    [
-                        'title' => 'Cats',
-                        'route' => '/cats',
-                        'permission' => 'cat view'
-                    ],
                     [
                         'title' => 'Positions',
                         'route' => '/positions',
