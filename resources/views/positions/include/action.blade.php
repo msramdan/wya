@@ -1,12 +1,12 @@
 <td>
-    @can('role & permission edit')
-        <a href="{{ route('roles.edit', $model->id) }}" class="btn btn-success btn-sm">
+    @can('position edit')
+        <a href="{{ route('positions.edit', $model->id) }}" class="btn btn-success btn-sm">
             <i class="mdi mdi-pencil"></i>
         </a>
     @endcan
 
-    @can('role & permission delete')
-        <form action="{{ route('roles.destroy', $model->id) }}" method="post" class="d-inline"
+    @can('position delete')
+        <form action="{{ route('positions.destroy', $model->id) }}" method="post" class="d-inline"
             onsubmit="return confirm('Are you sure to delete this record?')">
             @csrf
             @method('delete')

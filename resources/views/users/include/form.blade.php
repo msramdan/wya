@@ -1,5 +1,5 @@
 <div class="row mb-2">
-    <div class="col-md-6">
+    <div class="col-md-6 mb-2">
         <div class="form-group">
             <label for="name">{{ __('Name') }}</label>
             <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror"
@@ -13,7 +13,7 @@
         </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-6 mb-2">
         <div class="form-group">
             <label for="email">{{ __('Email') }}</label>
             <input type="email" name="email" id="email"
@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-6 mb-2">
         <div class="form-group">
             <label for="password">{{ __('Password') }}</label>
             <input type="password" name="password" id="password"
@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-6 mb-2">
         <div class="form-group">
             <label for="password-confirmation">{{ __('Password Confirmation') }}</label>
             <input type="password" name="password_confirmation" id="password-confirmation" class="form-control"
@@ -55,7 +55,7 @@
     </div>
 
     @empty($user)
-        <div class="col-md-6">
+        <div class="col-md-6 mb-2">
             <div class="form-group">
                 <label for="role">{{ __('Role') }}</label>
                 <select class="form-select" name="role" id="role" class="form-control" required>
@@ -72,7 +72,7 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6 mb-2">
             <div class="form-group">
                 <label for="avatar">{{ __('Avatar') }}</label>
                 <input type="file" name="avatar" id="avatar"
@@ -88,7 +88,7 @@
 
     @isset($user)
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 mb-2">
                 <div class="form-group">
                     <label for="role">{{ __('Role') }}</label>
                     <select class="form-select" name="role" id="role" class="form-control" required>
@@ -121,7 +121,8 @@
             <div class="col-md-5 me-0 pe-0">
                 <div class="form-group">
                     <label for="avatar">{{ __('Avatar') }}</label>
-                    <input type="file" name="avatar" class="form-control @error('avatar') is-invalid @enderror" id="avatar">
+                    <input type="file" name="avatar" class="form-control @error('avatar') is-invalid @enderror"
+                        id="avatar">
                     @error('avatar')
                         <span class="text-danger">
                             {{ $message }}

@@ -112,22 +112,29 @@ return [
     [
         'header' => 'Employee',
         'permissions' => [
-            'department view'
+            'department view',
+            'position view'
         ],
         'menus' => [
             [
                 'title' => 'Employee Data',
-                'icon' => '<i class="mdi mdi-format-list-bulleted-square"></i>',
+                'icon' => '<i class="mdi mdi-account-multiple"></i>',
                 'route' => null,
                 'permission' => null,
                 'permissions' => [
-                    'department view'
+                    'department view',
+                    'position view'
                 ],
                 'submenus' => [
                     [
                         'title' => 'Departments',
                         'route' => '/departments',
                         'permission' => 'department view'
+                    ],
+                    [
+                        'title' => 'Positions',
+                        'route' => '/positions',
+                        'permission' => 'position view'
                     ]
                 ]
             ]

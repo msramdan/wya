@@ -1,11 +1,7 @@
 <td>
-    <a href="{{ route('users.show', $model->id) }}" class="btn btn-outline-success btn-sm">
-        <i class="fa fa-eye"></i>
-    </a>
-
     @can('user edit')
-        <a href="{{ route('users.edit', $model->id) }}" class="btn btn-outline-primary btn-sm">
-            <i class="fa fa-pencil-alt"></i>
+        <a href="{{ route('users.edit', $model->id) }}" class="btn btn-success btn-sm">
+            <i class="mdi mdi-pencil"></i>
         </a>
     @endcan
 
@@ -15,8 +11,8 @@
             @csrf
             @method('delete')
 
-            <button class="btn btn-outline-danger btn-sm">
-                <i class="ace-icon fa fa-trash-alt"></i>
+            <button class="btn btn-danger btn-sm">
+                <i class="mdi mdi-trash-can-outline"></i>
             </button>
         </form>
     @endcan
