@@ -19,3 +19,5 @@ Route::middleware(['auth', 'web'])->group(function () {
 
 
 Route::resource('cats', App\Http\Controllers\CatController::class)->middleware('auth');
+
+Route::resource('positions', App\Http\Controllers\PositionController::class)->middleware('auth');

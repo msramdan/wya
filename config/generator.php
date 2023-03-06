@@ -112,7 +112,8 @@ return [
     [
         'header' => 'Main',
         'permissions' => [
-            'cat view'
+            'cat view',
+            'position view'
         ],
         'menus' => [
             [
@@ -121,13 +122,19 @@ return [
                 'route' => null,
                 'permission' => null,
                 'permissions' => [
-                    'cat view'
+                    'cat view',
+                    'position view'
                 ],
                 'submenus' => [
                     [
                         'title' => 'Cats',
                         'route' => '/cats',
                         'permission' => 'cat view'
+                    ],
+                    [
+                        'title' => 'Positions',
+                        'route' => '/positions',
+                        'permission' => 'position view'
                     ]
                 ]
             ]

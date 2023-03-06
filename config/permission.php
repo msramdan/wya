@@ -181,5 +181,5 @@ return [
                 'role & permission delete',
             ]
         ],
-        ['group' => 'cats', 'access' => ['cat view', 'cat create', 'cat edit', 'cat delete']],
+        ['group' => 'cats', 'access' => ['cat view', 'cat create', 'cat edit', 'cat delete']],['group' => 'positions', 'access' => ['position view', 'position create', 'position edit', 'position delete']], 
 		],];
