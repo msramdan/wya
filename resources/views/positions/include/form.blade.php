@@ -27,10 +27,10 @@
         <label for="is-active">{{ __('Is Active') }}</label>
         <select class="form-control @error('is_active') is-invalid @enderror" name="is_active" id="is-active" required>
             <option value="" selected disabled>-- {{ __('Select is active') }} --</option>
-            <option value="0"
+            <option value="1"
                 {{ isset($position) && $position->is_active == '1' ? 'selected' : (old('is_active') == '1' ? 'selected' : '') }}>
                 {{ __('True') }}</option>
-            <option value="1"
+            <option value="0"
                 {{ isset($position) && $position->is_active == '0' ? 'selected' : (old('is_active') == '0' ? 'selected' : '') }}>
                 {{ __('False') }}</option>
         </select>
