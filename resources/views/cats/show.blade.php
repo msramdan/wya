@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Detail of Kelases'))
+@section('title', __('Detail of Cats'))
 
 @section('content')
         <div class="page-body">
@@ -8,13 +8,13 @@
                     <div class="page-header" style="margin-top: 5px">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h3>{{ __('Kelases') }}</h3>
+                                <h3>{{ __('Cats') }}</h3>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
                                         <a href="/">{{ __('Dashboard') }}</a>
                                     </li>
                                     <li class="breadcrumb-item">
-                                        <a href="{{ route('kelases.index') }}">{{ __('Kelases') }}</a>
+                                        <a href="{{ route('cats.index') }}">{{ __('Cats') }}</a>
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
                                         {{ __('Detail') }}
@@ -34,16 +34,16 @@
                                     <div class="table-responsive">
                                         <table class="table table-hover table-striped">
                                             <tr>
-                                            <td class="fw-bold">{{ __('Kelas') }}</td>
-                                            <td>{{ $kelase->kelas }}</td>
+                                            <td class="fw-bold">{{ __('Name') }}</td>
+                                            <td>{{ $cat->name }}</td>
                                         </tr>
                                             <tr>
                                                 <td class="fw-bold">{{ __('Created at') }}</td>
-                                                <td>{{ $kelase->created_at->format('d/m/Y H:i') }}</td>
+                                                <td>{{ $cat->created_at->format('d/m/Y H:i') }}</td>
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold">{{ __('Updated at') }}</td>
-                                                <td>{{ $kelase->updated_at->format('d/m/Y H:i') }}</td>
+                                                <td>{{ $cat->updated_at->format('d/m/Y H:i') }}</td>
                                             </tr>
                                         </table>
                                     </div>

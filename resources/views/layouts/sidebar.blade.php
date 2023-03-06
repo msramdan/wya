@@ -37,8 +37,7 @@
                                             {!! $menu['icon'] !!}
                                             <span data-key="t-apps">{{ __($menu['title']) }}</span>
                                         </a>
-                                        <div class="collapse menu-dropdown {{ is_show_menu($menu['permissions']) }}"
-                                            id="sidebarApps{{ $i }}">
+                                        <div class="collapse menu-dropdown" id="sidebarApps{{ $i }}">
                                             <ul class="nav nav-sm flex-column">
                                                 @canany($menu['permissions'])
                                                     @foreach ($menu['submenus'] as $submenu)

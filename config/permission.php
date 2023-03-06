@@ -181,11 +181,5 @@ return [
                 'role & permission delete',
             ]
         ],
-        [
-            'group' => 'tests',
-            'access' => [
-                'test view',
-            ]
-        ],
-  ['group' => 'kelases', 'access' => ['kelase view', 'kelase create', 'kelase edit', 'kelase delete']], 
+        ['group' => 'cats', 'access' => ['cat view', 'cat create', 'cat edit', 'cat delete']],
 		],];

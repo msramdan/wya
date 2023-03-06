@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Edit Kelases'))
+@section('title', __('Create Cats'))
 
 @section('content')
         <div class="page-body">
@@ -8,16 +8,16 @@
                     <div class="page-header" style="margin-top: 5px">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h3>{{ __('Kelases') }}</h3>
+                                <h3>{{ __('Cats') }}</h3>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
                                         <a href="/">{{ __('Dashboard') }}</a>
                                     </li>
                                     <li class="breadcrumb-item">
-                                        <a href="{{ route('kelases.index') }}">{{ __('Kelases') }}</a>
+                                        <a href="{{ route('cats.index') }}">{{ __('Cats') }}</a>
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
-                                        {{ __('Edit') }}
+                                        {{ __('Create') }}
                                     </li>
                                 </ol>
                             </div>
@@ -26,21 +26,20 @@
                         </div>
                     </div>
                 </div>
-
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{ route('kelases.update', $kelase->id) }}" method="POST">
+                            <form action="{{ route('cats.store') }}" method="POST">
                                 @csrf
-                                @method('PUT')
+                                @method('POST')
 
-                                @include('kelases.include.form')
+                                @include('cats.include.form')
 
                                 <a href="{{ url()->previous() }}" class="btn btn-secondary">{{ __('Back') }}</a>
 
-                                <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
+                                <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
                             </form>
                         </div>
                     </div>

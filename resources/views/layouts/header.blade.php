@@ -10,4 +10,5 @@
     <link href="{{ asset('material/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('material/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('material/assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
 </head>

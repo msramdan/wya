@@ -108,11 +108,10 @@ return [
      *
      * This code below always changes when you use a generator and maybe you must lint or format the code.
      */
-    'sidebars' => [
     [
         'header' => 'Main',
         'permissions' => [
-            'kelase view'
+            'cat view'
         ],
         'menus' => [
             [
@@ -121,18 +120,13 @@ return [
                 'route' => null,
                 'permission' => null,
                 'permissions' => [
-                    'kelase view'
+                    'cat view'
                 ],
                 'submenus' => [
                     [
-                        'title' => 'Tests',
-                        'route' => '/tests',
-                        'permission' => 'test view'
-                    ],
-                    [
-                        'title' => 'Kelases',
-                        'route' => '/kelases',
-                        'permission' => 'kelase view'
+                        'title' => 'Cats',
+                        'route' => '/cats',
+                        'permission' => 'cat view'
                     ]
                 ]
             ]
