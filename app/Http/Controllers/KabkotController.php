@@ -62,7 +62,7 @@ class KabkotController extends Controller
      */
     public function store(StoreKabkotRequest $request)
     {
-        
+
         Kabkot::create($request->validated());
         Alert::toast('The kabkot was created successfully.', 'success');
         return redirect()->route('kabkots.index');
@@ -104,7 +104,7 @@ class KabkotController extends Controller
      */
     public function update(UpdateKabkotRequest $request, Kabkot $kabkot)
     {
-        
+
         $kabkot->update($request->validated());
         Alert::toast('The kabkot was updated successfully.', 'success');
         return redirect()

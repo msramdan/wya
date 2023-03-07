@@ -107,7 +107,7 @@
     <div class="col-md-6 mb-3">
         @if ($settingApp->logo != '' || $settingApp->logo != null)
             <img src="{{ Storage::url('public/img/setting_app/') . $settingApp->logo }}"
-                class="img-preview d-block w-20 mb-1 col-sm-5 rounded ">
+                class="img-preview d-block w-20 mb- col-sm-5 rounded ">
             <p style="color: red">* Choose a logo if you want to change it</p>
         @endif
         <label class="form-label" for="logo"> Logo</label>

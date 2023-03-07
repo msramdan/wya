@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     UserController,
     ProfileController,
-    RoleAndPermissionController
+    RoleAndPermissionController,
+    WilayahController
 };
 
 Route::middleware(['auth', 'web'])->group(function () {
@@ -17,6 +18,9 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::resource('roles', RoleAndPermissionController::class);
 });
 
+Route::get('kota/{provinsiId}', [WilayahController::class, 'kota'])->name('api.kota');
+Route::get('kecamatan/{kotaId}', [WilayahController::class, 'kecamatan'])->name('api.kecamatan');
+Route::get('kelurahan/{kecamatanId}', [WilayahController::class, 'kelurahan'])->name('api.kelurahan');
 
 Route::resource('positions', App\Http\Controllers\PositionController::class)->middleware('auth');
 Route::resource('departments', App\Http\Controllers\DepartmentController::class)->middleware('auth');
@@ -31,3 +35,4 @@ Route::resource('kabkots', App\Http\Controllers\KabkotController::class)->middle
 Route::resource('kecamatans', App\Http\Controllers\KecamatanController::class)->middleware('auth');
 Route::resource('kelurahans', App\Http\Controllers\KelurahanController::class)->middleware('auth');
 Route::resource('employee-types', App\Http\Controllers\EmployeeTypeController::class)->middleware('auth');
+Route::resource('employees', App\Http\Controllers\EmployeeController::class)->middleware('auth');

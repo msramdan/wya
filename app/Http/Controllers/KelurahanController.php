@@ -25,7 +25,7 @@ class KelurahanController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $kelurahans = Kelurahan::with('kecamatan:id,kabkot_id');
+            $kelurahans = Kelurahan::with('kecamatan:id,kecamatan');
 
             return DataTables::of($kelurahans)
                 ->addIndexColumn()
@@ -36,7 +36,7 @@ class KelurahanController extends Controller
                 })
 
                 ->addColumn('kecamatan', function ($row) {
-                    return $row->kecamatan ? $row->kecamatan->kabkot_id : '';
+                    return $row->kecamatan ? $row->kecamatan->kecamatan : '';
                 })->addColumn('action', 'kelurahans.include.action')
                 ->toJson();
         }
@@ -62,7 +62,7 @@ class KelurahanController extends Controller
      */
     public function store(StoreKelurahanRequest $request)
     {
-        
+
         Kelurahan::create($request->validated());
         Alert::toast('The kelurahan was created successfully.', 'success');
         return redirect()->route('kelurahans.index');
@@ -104,7 +104,7 @@ class KelurahanController extends Controller
      */
     public function update(UpdateKelurahanRequest $request, Kelurahan $kelurahan)
     {
-        
+
         $kelurahan->update($request->validated());
         Alert::toast('The kelurahan was updated successfully.', 'success');
         return redirect()

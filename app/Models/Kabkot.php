@@ -23,10 +23,9 @@ class Kabkot extends Model
      */
     protected $casts = ['kabupaten_kota' => 'string', 'ibukota' => 'string', 'k_bsni' => 'string', 'created_at' => 'datetime:d/m/Y H:i', 'updated_at' => 'datetime:d/m/Y H:i'];
 
-    
 
-	public function province()
-	{
-		return $this->belongsTo(\App\Models\Province::class);
-	}
+    public function province()
+    {
+        return $this->belongsTo(\App\Models\Province::class, 'provinsi_id');
+    }
 }

@@ -114,7 +114,8 @@ return [
         'permissions' => [
             'department view',
             'position view',
-            'employee type view'
+            'employee type view',
+            'employee view'
         ],
         'menus' => [
             [
@@ -125,9 +126,15 @@ return [
                 'permissions' => [
                     'department view',
                     'position view',
-                    'employee type view'
+                    'employee type view',
+                    'employee view'
                 ],
                 'submenus' => [
+                    [
+                        'title' => 'Employees',
+                        'route' => '/employees',
+                        'permission' => 'employee view'
+                    ],
                     [
                         'title' => 'Departments',
                         'route' => '/departments',

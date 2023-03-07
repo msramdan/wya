@@ -25,7 +25,7 @@ class KecamatanController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $kecamatans = Kecamatan::with('kabkot:id,provinsi_id');
+            $kecamatans = Kecamatan::with('kabkot:id,kabupaten_kota');
 
             return DataTables::of($kecamatans)
                 ->addIndexColumn()
@@ -36,7 +36,7 @@ class KecamatanController extends Controller
                 })
 
                 ->addColumn('kabkot', function ($row) {
-                    return $row->kabkot ? $row->kabkot->provinsi_id : '';
+                    return $row->kabkot ? $row->kabkot->kabupaten_kota : '';
                 })->addColumn('action', 'kecamatans.include.action')
                 ->toJson();
         }
@@ -62,7 +62,7 @@ class KecamatanController extends Controller
      */
     public function store(StoreKecamatanRequest $request)
     {
-        
+
         Kecamatan::create($request->validated());
         Alert::toast('The kecamatan was created successfully.', 'success');
         return redirect()->route('kecamatans.index');
@@ -104,7 +104,7 @@ class KecamatanController extends Controller
      */
     public function update(UpdateKecamatanRequest $request, Kecamatan $kecamatan)
     {
-        
+
         $kecamatan->update($request->validated());
         Alert::toast('The kecamatan was updated successfully.', 'success');
         return redirect()

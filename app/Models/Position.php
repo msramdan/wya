@@ -21,8 +21,8 @@ class Position extends Model
      *
      * @var string[]
      */
-    protected $casts = ['code_position' => 'string', 'name_position' => 'string', 'is_active' => 'boolean', 'created_at' => 'datetime:d/m/Y H:i', 'updated_at' => 'datetime:d/m/Y H:i'];
+    protected $casts = ['code_position' => 'string', 'name_position' => 'string', 'is_active' => 'boolean'];
 
-    
+
 
 }
