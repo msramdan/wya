@@ -113,7 +113,8 @@ return [
         'header' => 'Employee',
         'permissions' => [
             'department view',
-            'position view'
+            'position view',
+            'employee type view'
         ],
         'menus' => [
             [
@@ -123,7 +124,8 @@ return [
                 'permission' => null,
                 'permissions' => [
                     'department view',
-                    'position view'
+                    'position view',
+                    'employee type view'
                 ],
                 'submenus' => [
                     [
@@ -135,6 +137,94 @@ return [
                         'title' => 'Positions',
                         'route' => '/positions',
                         'permission' => 'position view'
+                    ],
+                    [
+                        'title' => 'Employee Types',
+                        'route' => '/employee-types',
+                        'permission' => 'employee type view'
+                    ]
+                ]
+            ]
+        ]
+    ],
+    [
+        'header' => 'Main',
+        'permissions' => [
+            'unit item view',
+            'equipment location view',
+            'equipment category view'
+        ],
+        'menus' => [
+            [
+                'title' => 'Main Data',
+                'icon' => '<i class="mdi mdi-format-list-bulleted"></i>',
+                'route' => null,
+                'permission' => null,
+                'permissions' => [
+                    'unit item view',
+                    'equipment location view',
+                    'equipment category view'
+                ],
+                'submenus' => [
+                    [
+                        'title' => 'Unit Items',
+                        'route' => '/unit-items',
+                        'permission' => 'unit item view'
+                    ],
+                    [
+                        'title' => 'Equipment Locations',
+                        'route' => '/equipment-locations',
+                        'permission' => 'equipment location view'
+                    ],
+                    [
+                        'title' => 'Equipment Categories',
+                        'route' => '/equipment-categories',
+                        'permission' => 'equipment category view'
+                    ]
+                ]
+            ]
+        ]
+    ],
+    [
+        'header' => 'Region',
+        'permissions' => [
+            'province view',
+            'kabkot view',
+            'kecamatan view',
+            'kelurahan view'
+        ],
+        'menus' => [
+            [
+                'title' => 'Region Data',
+                'icon' => '<i class="mdi mdi-google-maps"></i>',
+                'route' => null,
+                'permission' => null,
+                'permissions' => [
+                    'province view',
+                    'kabkot view',
+                    'kecamatan view',
+                    'kelurahan view'
+                ],
+                'submenus' => [
+                    [
+                        'title' => 'Provinces',
+                        'route' => '/provinces',
+                        'permission' => 'province view'
+                    ],
+                    [
+                        'title' => 'Kabupaten Kota',
+                        'route' => '/kabkots',
+                        'permission' => 'kabkot view'
+                    ],
+                    [
+                        'title' => 'Kecamatan',
+                        'route' => '/kecamatans',
+                        'permission' => 'kecamatan view'
+                    ],
+                    [
+                        'title' => 'Kelurahan',
+                        'route' => '/kelurahans',
+                        'permission' => 'kelurahan view'
                     ]
                 ]
             ]

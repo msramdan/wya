@@ -23,3 +23,11 @@ Route::resource('departments', App\Http\Controllers\DepartmentController::class)
 Route::resource('positions', App\Http\Controllers\PositionController::class)->middleware('auth');
 
 Route::resource('setting-apps', App\Http\Controllers\SettingAppController::class)->middleware('auth');
+Route::resource('unit-items', App\Http\Controllers\UnitItemController::class)->middleware('auth');
+Route::resource('equipment-locations', App\Http\Controllers\EquipmentLocationController::class)->middleware('auth');
+Route::resource('equipment-categories', App\Http\Controllers\EquipmentCategoryController::class)->middleware('auth');
+Route::resource('provinces', App\Http\Controllers\ProvinceController::class)->middleware('auth');
+Route::resource('kabkots', App\Http\Controllers\KabkotController::class)->middleware('auth');
+Route::resource('kecamatans', App\Http\Controllers\KecamatanController::class)->middleware('auth');
+Route::resource('kelurahans', App\Http\Controllers\KelurahanController::class)->middleware('auth');
+Route::resource('employee-types', App\Http\Controllers\EmployeeTypeController::class)->middleware('auth');
