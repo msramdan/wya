@@ -181,5 +181,7 @@ return [
                 'role & permission delete',
             ]
         ],
-        ['group' => 'departments', 'access' => ['department view', 'department create', 'department edit', 'department delete']],['group' => 'positions', 'access' => ['position view', 'position create', 'position edit', 'position delete']], 
+        ['group' => 'departments', 'access' => ['department view', 'department create', 'department edit', 'department delete']],
+        ['group' => 'positions', 'access' => ['position view', 'position create', 'position edit', 'position delete']],
+        ['group' => 'setting apps', 'access' => ['setting app view','setting app edit']],
 		],];

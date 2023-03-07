@@ -145,7 +145,8 @@ return [
         'permissions' => [
             'setting view',
             'role & permission view',
-            'user view'
+            'user view',
+            'setting app view'
         ],
         'menus' => [
             [
@@ -156,7 +157,8 @@ return [
                 'permissions' => [
                     'setting view',
                     'role & permission view',
-                    'user view'
+                    'user view',
+                    'setting app view'
                 ],
                 'submenus' => [
                     [
@@ -173,6 +175,11 @@ return [
                         'title' => 'Roles & permissions',
                         'route' => '/roles',
                         'permission' => 'role & permission view'
+                    ],
+                    [
+                        'title' => 'Setting Apps',
+                        'route' => '/setting-apps',
+                        'permission' => 'setting app view'
                     ]
                 ]
             ]

@@ -1,5 +1,5 @@
 <div class="row mb-2">
-    <div class="col-md-6 mb-2">
+    <div class="col-md-6 mb-3">
         <label for="code-position">{{ __('Code Position') }}</label>
         <input type="text" name="code_position" id="code-position"
             class="form-control @error('code_position') is-invalid @enderror"
@@ -11,7 +11,7 @@
             </span>
         @enderror
     </div>
-    <div class="col-md-6 mb-2">
+    <div class="col-md-6 mb-3">
         <label for="name-position">{{ __('Name Position') }}</label>
         <input type="text" name="name_position" id="name-position"
             class="form-control @error('name_position') is-invalid @enderror"
@@ -23,7 +23,7 @@
             </span>
         @enderror
     </div>
-    <div class="col-md-6 mb-2">
+    <div class="col-md-6 mb-3">
         <label for="is-active">{{ __('Is Active') }}</label>
         <select class="form-control @error('is_active') is-invalid @enderror" name="is_active" id="is-active" required>
             <option value="" selected disabled>-- {{ __('Select is active') }} --</option>

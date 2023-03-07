@@ -21,3 +21,5 @@ Route::middleware(['auth', 'web'])->group(function () {
 Route::resource('positions', App\Http\Controllers\PositionController::class)->middleware('auth');
 Route::resource('departments', App\Http\Controllers\DepartmentController::class)->middleware('auth');
 Route::resource('positions', App\Http\Controllers\PositionController::class)->middleware('auth');
+
+Route::resource('setting-apps', App\Http\Controllers\SettingAppController::class)->middleware('auth');
