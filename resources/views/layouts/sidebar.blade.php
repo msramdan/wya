@@ -3,6 +3,7 @@
         <div id="two-column-menu">
         </div>
         <ul class="navbar-nav" id="navbar-nav">
+            <li class="menu-title"><span data-key="t-menu">Main Menu</span></li>
             <li class="nav-item">
                 <a class="nav-link menu-link {{ request()->is('/') || request()->is('dashboard') ? ' active' : '' }}"
                     href="/">

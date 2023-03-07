@@ -6,7 +6,6 @@
 
 <body>
     <div id="layout-wrapper">
-
         <header id="page-topbar">
             <div class="layout-width">
                 <div class="navbar-header">
