@@ -60,20 +60,6 @@
                     @endcanany
                 @endif
             @endforeach
-
-
-
-
-
-            @if (env('APP_ENV') === 'local')
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ request()->is('generators/create') ? ' active' : '' }}"
-                        href="{{ route('generators.create') }}">
-                        <i class="mdi mdi-cogs"></i> <span data-key="t-widgets">{{ __('CRUD Generator') }}</span>
-                    </a>
-                </li>
-            @endif
-
         </ul>
     </div>
 </div>

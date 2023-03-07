@@ -1,23 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg"
+    data-sidebar-image="none">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
     <title>@yield('title') - {{ config('app.name', 'Laravel') }}</title>
-    <link rel="stylesheet" href="{{ asset('mazer') }}/css/main/app.css">
-    @stack('css')
-    <link rel="shortcut icon" href="{{ asset('mazer') }}/images/logo/favicon.svg" type="image/x-icon">
-    <link rel="shortcut icon" href="{{ asset('mazer') }}/images/logo/favicon.png" type="image/png">
-</head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <script src="assets/js/layout.js"></script>
+    <link href="{{ asset('material/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('material/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('material/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('material/assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-    <div id="auth">
-        @yield('content')
-    </div>
+    @yield('content')
+    <script src="{{ asset('material/assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('material/assets/libs/simplebar/simplebar.min.js') }}"></script>
+    <script src="{{ asset('material/assets/libs/node-waves/waves.min.js') }}"></script>
+    <script src="{{ asset('material/assets/libs/feather-icons/feather.min.js') }}"></script>
+    <script src="{{ asset('material/assets/js/pages/plugins/lord-icon-2.1.0.js') }}"></script>
+    <script src="{{ asset('material/assets/js/plugins.js') }}"></script>
+    <script src="{{ asset('material/assets/js/pages/password-addon.init.js') }}"></script>
+    <script>
+        function myFunction() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
 
-    <script src="{{ asset('mazer') }}/js/app.js"></script>
 </body>
 
 </html>
