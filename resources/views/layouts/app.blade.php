@@ -420,9 +420,17 @@
                             <button type="button" class="btn shadow-none" id="page-header-user-dropdown"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="d-flex align-items-center">
-                                    <img class="rounded-circle header-profile-user"
-                                        src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim(auth()->user()->email))) }}&s=30"
-                                        alt="Header Avatar">
+                                    @if (auth()->user()->avatar == null)
+                                        <img class="rounded-circle header-profile-user"
+                                            src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim(auth()->user()->email))) }}&s=30"
+                                            alt="Header Avatar">
+                                    @else
+                                        <img class="rounded-circle header-profile-user"
+                                            src="{{ asset('uploads/images/avatars/' . auth()->user()->avatar) }}"
+                                            alt="">
+                                    @endif
+
+
                                     <span class="text-start ms-xl-2">
                                         <span
                                             class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ Auth::user()->name }}</span>

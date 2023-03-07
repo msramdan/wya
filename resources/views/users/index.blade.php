@@ -3,7 +3,6 @@
 @section('title', __('Users'))
 
 @section('content')
-
     <div class="page-content">
         <div class="container-fluid">
             <div class="row">
@@ -53,59 +52,60 @@
                 </div>
             </div>
         </div>
-    @endsection
+    </div>
+@endsection
 
-    @push('js')
-        <script>
-            $('#data-table').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('users.index') }}",
-                columns: [
-                    // {
-                    //     data: 'DT_RowIndex',
-                    //     name: 'DT_RowIndex',
-                    //     orderable: false,
-                    //     searchable: false
-                    // },
-                    {
-                        data: 'avatar',
-                        name: 'avatar',
-                        orderable: false,
-                        searchable: false,
-                        render: function(data, type, full, meta) {
-                            return `<div class="avatar">
+@push('js')
+    <script>
+        $('#data-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('users.index') }}",
+            columns: [
+                // {
+                //     data: 'DT_RowIndex',
+                //     name: 'DT_RowIndex',
+                //     orderable: false,
+                //     searchable: false
+                // },
+                {
+                    data: 'avatar',
+                    name: 'avatar',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, full, meta) {
+                        return `<div class="avatar">
                             <img src="${data}" alt="avatar">
                         </div>`;
-                        }
-                    },
-                    {
-                        data: 'name',
-                        name: 'name'
-                    },
-                    {
-                        data: 'email',
-                        name: 'email'
-                    },
-                    {
-                        data: 'role',
-                        name: 'role'
-                    },
-                    {
-                        data: 'created_at',
-                        name: 'created_at'
-                    },
-                    {
-                        data: 'updated_at',
-                        name: 'updated_at'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
                     }
-                ],
-            });
-        </script>
-    @endpush
+                },
+                {
+                    data: 'name',
+                    name: 'name'
+                },
+                {
+                    data: 'email',
+                    name: 'email'
+                },
+                {
+                    data: 'role',
+                    name: 'role'
+                },
+                {
+                    data: 'created_at',
+                    name: 'created_at'
+                },
+                {
+                    data: 'updated_at',
+                    name: 'updated_at'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                }
+            ],
+        });
+    </script>
+@endpush
