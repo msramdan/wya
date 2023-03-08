@@ -25,7 +25,7 @@
                         <input type="text" name="nid_employee" id="nid-employee"
                             class="form-control @error('nid_employee') is-invalid @enderror"
                             value="{{ isset($employee) ? $employee->nid_employee : old('nid_employee') }}"
-                            placeholder="{{ __('Nid Employee') }}" required />
+                            placeholder="{{ __('Nid Employee') }}" />
                         @error('nid_employee')
                             <span class="text-danger">
                                 {{ $message }}
@@ -117,7 +117,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <label for="email">{{ __('Email') }}</label>
                         <input type="text" name="email" id="email"
                             class="form-control @error('email') is-invalid @enderror"
@@ -129,7 +129,7 @@
                             </span>
                         @enderror
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <label for="phone">{{ __('Phone') }}</label>
                         <input type="text" name="phone" id="phone"
                             class="form-control @error('phone') is-invalid @enderror"
@@ -141,10 +141,7 @@
                             </span>
                         @enderror
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <label for="join-date">{{ __('Join Date') }}</label>
                         <input type="date" name="join_date" id="join-date"
                             class="form-control @error('join_date') is-invalid @enderror"
@@ -156,17 +153,33 @@
                             </span>
                         @enderror
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="photo">{{ __('Photo') }}</label>
-                        <input type="file" name="photo" id="photo"
-                            class="form-control @error('photo') is-invalid @enderror"
-                            value="{{ isset($employee) ? $employee->photo : old('photo') }}"
-                            placeholder="{{ __('Photo') }}" required />
-                        @error('photo')
-                            <span class="text-danger">
-                                {{ $message }}
-                            </span>
-                        @enderror
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="avatar avatar-xl mb-3">
+                            @if ($employee->photo != '' || $employee->photo != null)
+                                <img src="{{ Storage::url('public/img/employee/') . $employee->photo }}" alt="Avatar"
+                                    style="width: 150px">
+                            @else
+                            @endif
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label class="form-label" for="photo"> Photo</label>
+                            <input type="file" class="form-control @error('photo') is-invalid @enderror"
+                                id="photo" name="photo" onchange="previewImg()"
+                                value="{{ $employee->photo }}">
+                            <p style="color: red">* Choose a photo if you want to change it</p>
+                            @error('photo')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                        </div>
                     </div>
                 </div>
 

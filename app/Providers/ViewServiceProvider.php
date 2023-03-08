@@ -82,5 +82,41 @@ class ViewServiceProvider extends ServiceProvider
             );
         });
 
+
+				View::composer(['vendors.create', 'vendors.edit'], function ($view) {
+            return $view->with(
+                'categoryVendors',
+                \App\Models\CategoryVendor::select('id', 'name_category_vendors')->get()
+            );
+        });
+
+		View::composer(['vendors.create', 'vendors.edit'], function ($view) {
+            return $view->with(
+                'provinces',
+                \App\Models\Province::select('id', 'provinsi')->get()
+            );
+        });
+
+		View::composer(['vendors.create', 'vendors.edit'], function ($view) {
+            return $view->with(
+                'kabkots',
+                \App\Models\Kabkot::select('id', 'provinsi_id')->get()
+            );
+        });
+
+		View::composer(['vendors.create', 'vendors.edit'], function ($view) {
+            return $view->with(
+                'kecamatans',
+                \App\Models\Kecamatan::select('id', 'kabkot_id')->get()
+            );
+        });
+
+		View::composer(['vendors.create', 'vendors.edit'], function ($view) {
+            return $view->with(
+                'kelurahans',
+                \App\Models\Kelurahan::select('id', 'kecamatan_id')->get()
+            );
+        });
+
 	}
 }

@@ -155,6 +155,38 @@ return [
         ]
     ],
     [
+        'header' => 'Vendor',
+        'permissions' => [
+            'category vendor view',
+            'vendor view'
+        ],
+        'menus' => [
+            [
+                'title' => 'Vendor Data',
+                'icon' => '<i class="mdi mdi-contacts"></i>',
+                'route' => null,
+                'permission' => null,
+                'permissions' => [
+                    'category vendor view',
+                    'vendor view'
+                ],
+                'submenus' => [
+                    [
+                        'title' => 'Vendors',
+                        'route' => '/vendors',
+                        'permission' => 'vendor view'
+                    ],
+                    [
+                        'title' => 'Category Vendors',
+                        'route' => '/category-vendors',
+                        'permission' => 'category vendor view'
+                    ]
+
+                ]
+            ]
+        ]
+    ],
+    [
         'header' => 'Main',
         'permissions' => [
             'unit item view',

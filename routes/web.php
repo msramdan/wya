@@ -36,3 +36,6 @@ Route::resource('kecamatans', App\Http\Controllers\KecamatanController::class)->
 Route::resource('kelurahans', App\Http\Controllers\KelurahanController::class)->middleware('auth');
 Route::resource('employee-types', App\Http\Controllers\EmployeeTypeController::class)->middleware('auth');
 Route::resource('employees', App\Http\Controllers\EmployeeController::class)->middleware('auth');
+
+Route::resource('category-vendors', App\Http\Controllers\CategoryVendorController::class)->middleware('auth');
+Route::resource('vendors', App\Http\Controllers\VendorController::class)->middleware('auth');

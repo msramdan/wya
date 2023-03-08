@@ -9,6 +9,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 
 class SettingAppController extends Controller
@@ -28,11 +29,11 @@ class SettingAppController extends Controller
     {
         $settingApp = SettingApp::findOrFail(1)->first();
         return view('setting-apps.edit', compact('settingApp'));
-
     }
 
     public function update(Request $request, $id)
     {
+
         $setting_app = SettingApp::findOrFail($id);
         if ($request->file('logo') != null || $request->file('logo') != '') {
             Storage::disk('local')->delete('public/img/setting_app/' . $setting_app->logo);
@@ -66,5 +67,4 @@ class SettingAppController extends Controller
         Alert::toast('The settingApp was updated successfully.', 'success');
         return redirect()->route('setting-apps.index');
     }
-
 }

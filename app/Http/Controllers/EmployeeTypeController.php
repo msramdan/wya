@@ -60,7 +60,7 @@ class EmployeeTypeController extends Controller
      */
     public function store(StoreEmployeeTypeRequest $request)
     {
-        
+
         EmployeeType::create($request->validated());
         Alert::toast('The employeeType was created successfully.', 'success');
         return redirect()->route('employee-types.index');
@@ -98,7 +98,7 @@ class EmployeeTypeController extends Controller
      */
     public function update(UpdateEmployeeTypeRequest $request, EmployeeType $employeeType)
     {
-        
+
         $employeeType->update($request->validated());
         Alert::toast('The employeeType was updated successfully.', 'success');
         return redirect()

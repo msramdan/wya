@@ -191,5 +191,5 @@ return [
         ['group' => 'kecamatans', 'access' => ['kecamatan view', 'kecamatan create', 'kecamatan edit', 'kecamatan delete']],
         ['group' => 'kelurahans', 'access' => ['kelurahan view', 'kelurahan create', 'kelurahan edit', 'kelurahan delete']],
         ['group' => 'employee types', 'access' => ['employee type view', 'employee type create', 'employee type edit', 'employee type delete']],
-        ['group' => 'employees', 'access' => ['employee view', 'employee create', 'employee edit', 'employee delete']],
+        ['group' => 'employees', 'access' => ['employee view', 'employee create', 'employee edit', 'employee delete']],['group' => 'category vendors', 'access' => ['category vendor view', 'category vendor create', 'category vendor edit', 'category vendor delete']],['group' => 'vendors', 'access' => ['vendor view', 'vendor create', 'vendor edit', 'vendor delete']], 
 		],];

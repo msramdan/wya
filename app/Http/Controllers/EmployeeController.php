@@ -6,6 +6,10 @@ use App\Models\Employee;
 use App\Http\Requests\{StoreEmployeeRequest, UpdateEmployeeRequest};
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class EmployeeController extends Controller
 {
@@ -25,7 +29,7 @@ class EmployeeController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $employees = Employee::with('employee_type:id,name_employee_type', 'department:id,name_department', 'position:id,name_position', 'province:id,provinsi', 'kabkot:id,provinsi_id', 'kecamatan:id,kabkot_id', 'kelurahan:id,kecamatan_id', );
+            $employees = Employee::with('employee_type:id,name_employee_type', 'department:id,name_department', 'position:id,name_position', 'province:id,provinsi', 'kabkot:id,provinsi_id', 'kecamatan:id,kabkot_id', 'kelurahan:id,kecamatan_id');
 
             return DataTables::of($employees)
                 ->addIndexColumn()
@@ -35,10 +39,10 @@ class EmployeeController extends Controller
                     return $row->updated_at->format('d M Y H:i:s');
                 })
 
-                ->addColumn('address', function($row){
+                ->addColumn('address', function ($row) {
                     return str($row->address)->limit(100);
                 })
-				->addColumn('employee_type', function ($row) {
+                ->addColumn('employee_type', function ($row) {
                     return $row->employee_type ? $row->employee_type->name_employee_type : '';
                 })->addColumn('department', function ($row) {
                     return $row->department ? $row->department->name_department : '';
@@ -75,13 +79,72 @@ class EmployeeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreEmployeeRequest $request)
+    public function store(Request $request)
     {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'name' => 'required|string|min:1|max:200',
+                'nid_employee' => 'required|string|min:1|max:50',
+                'employee_type_id' => 'required|exists:App\Models\EmployeeType,id',
+                'employee_status' => 'required|boolean',
+                'departement_id' => 'required|exists:App\Models\Department,id',
+                'position_id' => 'required|exists:App\Models\Position,id',
+                'email' => 'required|string|min:1|max:100',
+                'phone' => 'required|string|min:1|max:15',
+                'provinsi_id' => 'required|exists:App\Models\Province,id',
+                'kabkot_id' => 'required|exists:App\Models\Kabkot,id',
+                'kecamatan_id' => 'required|exists:App\Models\Kecamatan,id',
+                'kelurahan_id' => 'required|exists:App\Models\Kelurahan,id',
+                'zip_kode' => 'required|string|min:1|max:10',
+                'address' => 'required|string',
+                'longitude' => 'required|string|min:1|max:200',
+                'latitude' => 'required|string|min:1|max:200',
+                'join_date' => 'required|date',
+                'photo'     => 'required|image|mimes:png,jpg,jpeg',
+            ],
+        );
+        if ($validator->fails()) {
+            return redirect()->back()->withInput($request->all())->withErrors($validator);
+        }
 
-        Employee::create($request->validated());
-        Alert::toast('The employee was created successfully.', 'success');
-        return redirect()->route('employees.index');
+        DB::beginTransaction();
+        try {
 
+            //upload image
+            $photo = $request->file('photo');
+            $photo->storeAs('public/img/employee', $photo->hashName());
+
+            Employee::create([
+                'name' => $request->name,
+                'nid_employee' => $request->nid_employee,
+                'employee_type_id' => $request->employee_type_id,
+                'employee_status' => $request->employee_status,
+                'departement_id' => $request->departement_id,
+                'position_id' => $request->position_id,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'provinsi_id' => $request->provinsi_id,
+                'kabkot_id' => $request->kabkot_id,
+                'kecamatan_id' => $request->kecamatan_id,
+                'kelurahan_id' => $request->kelurahan_id,
+                'zip_kode' => $request->zip_kode,
+                'address' => $request->address,
+                'longitude' => $request->longitude,
+                'latitude' => $request->latitude,
+                'join_date' => $request->join_date,
+                'photo'     => $photo->hashName(),
+            ]);
+
+            Alert::toast('The employee was created successfully.', 'success');
+            return redirect()->route('employees.index');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            Alert::toast('Data failed to save', 'error');
+            return redirect()->route('employees.index');
+        } finally {
+            DB::commit();
+        }
     }
 
     /**
@@ -92,9 +155,9 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        $employee->load('employee_type:id,name_employee_type', 'department:id,code_department', 'position:id,code_position', 'province:id,provinsi', 'kabkot:id,provinsi_id', 'kecamatan:id,kabkot_id', 'kelurahan:id,kecamatan_id', );
+        $employee->load('employee_type:id,name_employee_type', 'department:id,code_department', 'position:id,code_position', 'province:id,provinsi', 'kabkot:id,provinsi_id', 'kecamatan:id,kabkot_id', 'kelurahan:id,kecamatan_id');
 
-		return view('employees.show', compact('employee'));
+        return view('employees.show', compact('employee'));
     }
 
     /**
@@ -105,9 +168,9 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
-        $employee->load('employee_type:id,name_employee_type', 'department:id,code_department', 'position:id,code_position', 'province:id,provinsi', 'kabkot:id,provinsi_id', 'kecamatan:id,kabkot_id', 'kelurahan:id,kecamatan_id', );
+        $employee->load('employee_type:id,name_employee_type', 'department:id,code_department', 'position:id,code_position', 'province:id,provinsi', 'kabkot:id,provinsi_id', 'kecamatan:id,kabkot_id', 'kelurahan:id,kecamatan_id');
 
-		return view('employees.edit', compact('employee'));
+        return view('employees.edit', compact('employee'));
     }
 
     /**
@@ -117,10 +180,64 @@ class EmployeeController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateEmployeeRequest $request, Employee $employee)
+    public function update(Request $request, $id)
     {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'name' => 'required|string|min:1|max:200',
+                'nid_employee' => 'required|string|min:1|max:50',
+                'employee_type_id' => 'required|exists:App\Models\EmployeeType,id',
+                'employee_status' => 'required|boolean',
+                'departement_id' => 'required|exists:App\Models\Department,id',
+                'position_id' => 'required|exists:App\Models\Position,id',
+                'email' => 'required|string|min:1|max:100',
+                'phone' => 'required|string|min:1|max:15',
+                'provinsi_id' => 'required|exists:App\Models\Province,id',
+                'kabkot_id' => 'required|exists:App\Models\Kabkot,id',
+                'kecamatan_id' => 'required|exists:App\Models\Kecamatan,id',
+                'kelurahan_id' => 'required|exists:App\Models\Kelurahan,id',
+                'zip_kode' => 'required|string|min:1|max:10',
+                'address' => 'required|string',
+                'longitude' => 'required|string|min:1|max:200',
+                'latitude' => 'required|string|min:1|max:200',
+                'join_date' => 'required|date',
+                'photo'     => 'required|image|mimes:png,jpg,jpeg',
+            ],
+        );
+        if ($validator->fails()) {
+            return redirect()->back()->withInput($request->all())->withErrors($validator);
+        }
 
-        $employee->update($request->validated());
+        $employee = Employee::findOrFail($id);
+        if ($request->file('photo') != null || $request->file('photo') != '') {
+            Storage::disk('local')->delete('public/img/employee/' . $employee->photo);
+            $photo = $request->file('photo');
+            $photo->storeAs('public/img/employee', $photo->hashName());
+            $employee->update([
+                'photo'     => $photo->hashName(),
+            ]);
+        }
+
+        $employee->update([
+            'name' => $request->name,
+            'nid_employee' => $request->nid_employee,
+            'employee_type_id' => $request->employee_type_id,
+            'employee_status' => $request->employee_status,
+            'departement_id' => $request->departement_id,
+            'position_id' => $request->position_id,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'provinsi_id' => $request->provinsi_id,
+            'kabkot_id' => $request->kabkot_id,
+            'kecamatan_id' => $request->kecamatan_id,
+            'kelurahan_id' => $request->kelurahan_id,
+            'zip_kode' => $request->zip_kode,
+            'address' => $request->address,
+            'longitude' => $request->longitude,
+            'latitude' => $request->latitude,
+            'join_date' => $request->join_date,
+        ]);
         Alert::toast('The employee was updated successfully.', 'success');
         return redirect()
             ->route('employees.index');
