@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('vendor_pics', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('vendor_id')->constrained('vendors')->restrictOnUpdate()->cascadeOnDelete();
             $table->string('name', 200);
-			$table->string('phone', 15);
-			$table->string('email', 200);
-			$table->string('remark', 200);
+            $table->string('phone', 15);
+            $table->string('email', 200);
+            $table->string('remark', 200);
             $table->timestamps();
         });
     }

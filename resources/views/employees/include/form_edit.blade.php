@@ -282,7 +282,7 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="zip-kode">{{ __('Zip Kode') }}</label>
-                        <input type="text" name="zip_kode" id="zip-kode"
+                        <input readonly type="text" name="zip_kode" id="zip-kode"
                             class="form-control @error('zip_kode') is-invalid @enderror"
                             value="{{ isset($employee) ? $employee->zip_kode : old('zip_kode') }}"
                             placeholder="{{ __('Zip Kode') }}" required />

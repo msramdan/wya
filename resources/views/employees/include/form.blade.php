@@ -246,7 +246,7 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="zip-kode">{{ __('Zip Kode') }}</label>
-                        <input type="text" name="zip_kode" id="zip-kode"
+                        <input readonly type="text" name="zip_kode" id="zip-kode"
                             class="form-control @error('zip_kode') is-invalid @enderror"
                             value="{{ isset($employee) ? $employee->zip_kode : old('zip_kode') }}"
                             placeholder="{{ __('Zip Kode') }}" required />
@@ -256,21 +256,7 @@
                             </span>
                         @enderror
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="address">{{ __('Address') }}</label>
-                        <textarea name="address" id="address" class="form-control @error('address') is-invalid @enderror"
-                            placeholder="{{ __('Address') }}" required>{{ isset($employee) ? $employee->address : old('address') }}</textarea>
-                        @error('address')
-                            <span class="text-danger">
-                                {{ $message }}
-                            </span>
-                        @enderror
-                    </div>
                 </div>
-
-
-
-
 
                 <div class="row">
                     <div class="col-md-6 mb-3">

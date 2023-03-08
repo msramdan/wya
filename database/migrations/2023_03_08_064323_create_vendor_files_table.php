@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('vendor_files', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('vendor_id')->constrained('vendors')->restrictOnUpdate()->cascadeOnDelete();
             $table->string('name_file', 200);
-			$table->string('file', 200);
+            $table->string('file', 200);
             $table->timestamps();
         });
     }
