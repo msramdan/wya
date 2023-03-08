@@ -1,9 +1,9 @@
 <td>
-    @can('employee view')
+    {{-- @can('employee view')
         <a href="{{ route('employees.show', $model->id) }}" class="btn btn-primary btn-sm">
             <i class="mdi mdi-eye"></i>
         </a>
-    @endcan
+    @endcan --}}
 
     @can('employee edit')
         <a href="{{ route('employees.edit', $model->id) }}" class="btn btn-success btn-sm">

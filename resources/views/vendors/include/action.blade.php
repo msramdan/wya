@@ -56,7 +56,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"><span id="modal_nama_produk"></span></h5>
+                    <h5 class="modal-title">File Vendor : <span id="modal_nama_produk"></span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     <hr>
                 </div>
