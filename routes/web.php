@@ -39,3 +39,4 @@ Route::resource('employees', App\Http\Controllers\EmployeeController::class)->mi
 
 Route::resource('category-vendors', App\Http\Controllers\CategoryVendorController::class)->middleware('auth');
 Route::resource('vendors', App\Http\Controllers\VendorController::class)->middleware('auth');
+Route::resource('spareparts', App\Http\Controllers\SparepartController::class)->middleware('auth');

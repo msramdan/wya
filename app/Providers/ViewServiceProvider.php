@@ -118,5 +118,19 @@ class ViewServiceProvider extends ServiceProvider
             );
         });
 
+				View::composer(['spareparts.create', 'spareparts.edit'], function ($view) {
+            return $view->with(
+                'unitItems',
+                \App\Models\UnitItem::select('id', 'code_unit')->get()
+            );
+        });
+
+				View::composer(['spareparts.create', 'spareparts.edit'], function ($view) {
+            return $view->with(
+                'unitItems',
+                \App\Models\UnitItem::select('id', 'code_unit')->get()
+            );
+        });
+
 	}
 }

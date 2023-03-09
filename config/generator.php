@@ -109,210 +109,259 @@ return [
      * This code below always changes when you use a generator and maybe you must lint or format the code.
      */
     'sidebars' => [
-    [
-        'header' => 'Employee',
-        'permissions' => [
-            'department view',
-            'position view',
-            'employee type view',
-            'employee view'
-        ],
-        'menus' => [
-            [
-                'title' => 'Employee Data',
-                'icon' => '<i class="mdi mdi-account-multiple"></i>',
-                'route' => null,
-                'permission' => null,
-                'permissions' => [
-                    'department view',
-                    'position view',
-                    'employee type view',
-                    'employee view'
-                ],
-                'submenus' => [
-                    [
-                        'title' => 'Employees',
-                        'route' => '/employees',
-                        'permission' => 'employee view'
+        [
+            'header' => 'WorkOrder',
+            'permissions' => [
+                'employee view'
+            ],
+            'menus' => [
+                [
+                    'title' => 'Work Order',
+                    'icon' => '<i class="mdi mdi-book-multiple"></i>',
+                    'route' => null,
+                    'permission' => null,
+                    'permissions' => [
+                        'employee view'
                     ],
-                    [
-                        'title' => 'Departments',
-                        'route' => '/departments',
-                        'permission' => 'department view'
-                    ],
-                    [
-                        'title' => 'Positions',
-                        'route' => '/positions',
-                        'permission' => 'position view'
-                    ],
-                    [
-                        'title' => 'Employee Types',
-                        'route' => '/employee-types',
-                        'permission' => 'employee type view'
+                    'submenus' => [
+                        [
+                            'title' => 'Employee Types',
+                            'route' => '/employee-types',
+                            'permission' => 'employee type view'
+                        ]
                     ]
                 ]
             ]
-        ]
-    ],
-    [
-        'header' => 'Vendor',
-        'permissions' => [
-            'category vendor view',
-            'vendor view'
         ],
-        'menus' => [
-            [
-                'title' => 'Vendor Data',
-                'icon' => '<i class="mdi mdi-contacts"></i>',
-                'route' => null,
-                'permission' => null,
-                'permissions' => [
-                    'category vendor view',
-                    'vendor view'
-                ],
-                'submenus' => [
-                    [
-                        'title' => 'Vendors',
-                        'route' => '/vendors',
-                        'permission' => 'vendor view'
+        [
+            'header' => 'Inventory',
+            'permissions' => [
+                'sparepart view'
+            ],
+            'menus' => [
+                [
+                    'title' => 'Inventory Data',
+                    'icon' => '<i class="mdi mdi-cube"></i>',
+                    'route' => null,
+                    'permission' => null,
+                    'permissions' => [
+                        'sparepart view'
                     ],
-                    [
-                        'title' => 'Category Vendors',
-                        'route' => '/category-vendors',
-                        'permission' => 'category vendor view'
-                    ]
-
-                ]
-            ]
-        ]
-    ],
-    [
-        'header' => 'Main',
-        'permissions' => [
-            'unit item view',
-            'equipment location view',
-            'equipment category view'
-        ],
-        'menus' => [
-            [
-                'title' => 'Main Data',
-                'icon' => '<i class="mdi mdi-format-list-bulleted"></i>',
-                'route' => null,
-                'permission' => null,
-                'permissions' => [
-                    'unit item view',
-                    'equipment location view',
-                    'equipment category view'
-                ],
-                'submenus' => [
-                    [
-                        'title' => 'Unit Items',
-                        'route' => '/unit-items',
-                        'permission' => 'unit item view'
-                    ],
-                    [
-                        'title' => 'Equipment Locations',
-                        'route' => '/equipment-locations',
-                        'permission' => 'equipment location view'
-                    ],
-                    [
-                        'title' => 'Equipment Categories',
-                        'route' => '/equipment-categories',
-                        'permission' => 'equipment category view'
+                    'submenus' => [
+                        [
+                            'title' => 'Spareparts',
+                            'route' => '/spareparts',
+                            'permission' => 'sparepart view'
+                        ]
                     ]
                 ]
             ]
-        ]
-    ],
-    [
-        'header' => 'Region',
-        'permissions' => [
-            'province view',
-            'kabkot view',
-            'kecamatan view',
-            'kelurahan view'
         ],
-        'menus' => [
-            [
-                'title' => 'Region Data',
-                'icon' => '<i class="mdi mdi-google-maps"></i>',
-                'route' => null,
-                'permission' => null,
-                'permissions' => [
-                    'province view',
-                    'kabkot view',
-                    'kecamatan view',
-                    'kelurahan view'
-                ],
-                'submenus' => [
-                    [
-                        'title' => 'Provinces',
-                        'route' => '/provinces',
-                        'permission' => 'province view'
+        [
+            'header' => 'Employee',
+            'permissions' => [
+                'department view',
+                'position view',
+                'employee type view',
+                'employee view'
+            ],
+            'menus' => [
+                [
+                    'title' => 'Employee Data',
+                    'icon' => '<i class="mdi mdi-account-multiple"></i>',
+                    'route' => null,
+                    'permission' => null,
+                    'permissions' => [
+                        'department view',
+                        'position view',
+                        'employee type view',
+                        'employee view'
                     ],
-                    [
-                        'title' => 'Kabupaten Kota',
-                        'route' => '/kabkots',
-                        'permission' => 'kabkot view'
-                    ],
-                    [
-                        'title' => 'Kecamatan',
-                        'route' => '/kecamatans',
-                        'permission' => 'kecamatan view'
-                    ],
-                    [
-                        'title' => 'Kelurahan',
-                        'route' => '/kelurahans',
-                        'permission' => 'kelurahan view'
+                    'submenus' => [
+                        [
+                            'title' => 'Employees',
+                            'route' => '/employees',
+                            'permission' => 'employee view'
+                        ],
+                        [
+                            'title' => 'Departments',
+                            'route' => '/departments',
+                            'permission' => 'department view'
+                        ],
+                        [
+                            'title' => 'Positions',
+                            'route' => '/positions',
+                            'permission' => 'position view'
+                        ],
+                        [
+                            'title' => 'Employee Types',
+                            'route' => '/employee-types',
+                            'permission' => 'employee type view'
+                        ]
                     ]
                 ]
             ]
-        ]
-    ],
-    [
-        'header' => 'Utilities',
-        'permissions' => [
-            'setting view',
-            'role & permission view',
-            'user view',
-            'setting app view'
         ],
-        'menus' => [
-            [
-                'title' => 'Utilities',
-                'icon' => '<i data-feather="settings"></i>',
-                'route' => null,
-                'permission' => null,
-                'permissions' => [
-                    'setting view',
-                    'role & permission view',
-                    'user view',
-                    'setting app view'
-                ],
-                'submenus' => [
-                    [
-                        'title' => 'Settings App',
-                        'route' => '/settings',
-                        'permission' => 'setting view'
+        [
+            'header' => 'Vendor',
+            'permissions' => [
+                'category vendor view',
+                'vendor view'
+            ],
+            'menus' => [
+                [
+                    'title' => 'Vendor Data',
+                    'icon' => '<i class="mdi mdi-contacts"></i>',
+                    'route' => null,
+                    'permission' => null,
+                    'permissions' => [
+                        'category vendor view',
+                        'vendor view'
                     ],
-                    [
-                        'title' => 'Users',
-                        'route' => '/users',
-                        'permission' => 'user view'
+                    'submenus' => [
+                        [
+                            'title' => 'Vendors',
+                            'route' => '/vendors',
+                            'permission' => 'vendor view'
+                        ],
+                        [
+                            'title' => 'Category Vendors',
+                            'route' => '/category-vendors',
+                            'permission' => 'category vendor view'
+                        ]
+                    ]
+                ]
+            ]
+        ],
+        [
+            'header' => 'Main',
+            'permissions' => [
+                'unit item view',
+                'equipment location view',
+                'equipment category view',
+                'accessories type view'
+            ],
+            'menus' => [
+                [
+                    'title' => 'Main Data',
+                    'icon' => '<i class="mdi mdi-format-list-bulleted"></i>',
+                    'route' => null,
+                    'permission' => null,
+                    'permissions' => [
+                        'unit item view',
+                        'equipment location view',
+                        'equipment category view',
+                        'accessories type view'
                     ],
-                    [
-                        'title' => 'Roles & permissions',
-                        'route' => '/roles',
-                        'permission' => 'role & permission view'
+                    'submenus' => [
+                        [
+                            'title' => 'Unit Items',
+                            'route' => '/unit-items',
+                            'permission' => 'unit item view'
+                        ],
+                        [
+                            'title' => 'Equipment Locations',
+                            'route' => '/equipment-locations',
+                            'permission' => 'equipment location view'
+                        ],
+                        [
+                            'title' => 'Equipment Categories',
+                            'route' => '/equipment-categories',
+                            'permission' => 'equipment category view'
+                        ]
+                    ]
+                ]
+            ]
+        ],
+        [
+            'header' => 'Region',
+            'permissions' => [
+                'province view',
+                'kabkot view',
+                'kecamatan view',
+                'kelurahan view'
+            ],
+            'menus' => [
+                [
+                    'title' => 'Region Data',
+                    'icon' => '<i class="mdi mdi-google-maps"></i>',
+                    'route' => null,
+                    'permission' => null,
+                    'permissions' => [
+                        'province view',
+                        'kabkot view',
+                        'kecamatan view',
+                        'kelurahan view'
                     ],
-                    [
-                        'title' => 'Setting Apps',
-                        'route' => '/setting-apps',
-                        'permission' => 'setting app view'
+                    'submenus' => [
+                        [
+                            'title' => 'Provinces',
+                            'route' => '/provinces',
+                            'permission' => 'province view'
+                        ],
+                        [
+                            'title' => 'Kabupaten Kota',
+                            'route' => '/kabkots',
+                            'permission' => 'kabkot view'
+                        ],
+                        [
+                            'title' => 'Kecamatan',
+                            'route' => '/kecamatans',
+                            'permission' => 'kecamatan view'
+                        ],
+                        [
+                            'title' => 'Kelurahan',
+                            'route' => '/kelurahans',
+                            'permission' => 'kelurahan view'
+                        ]
+                    ]
+                ]
+            ]
+        ],
+        [
+            'header' => 'Utilities',
+            'permissions' => [
+                'setting view',
+                'role & permission view',
+                'user view',
+                'setting app view'
+            ],
+            'menus' => [
+                [
+                    'title' => 'Utilities',
+                    'icon' => '<i data-feather="settings"></i>',
+                    'route' => null,
+                    'permission' => null,
+                    'permissions' => [
+                        'setting view',
+                        'role & permission view',
+                        'user view',
+                        'setting app view'
+                    ],
+                    'submenus' => [
+                        [
+                            'title' => 'Settings App',
+                            'route' => '/settings',
+                            'permission' => 'setting view'
+                        ],
+                        [
+                            'title' => 'Users',
+                            'route' => '/users',
+                            'permission' => 'user view'
+                        ],
+                        [
+                            'title' => 'Roles & permissions',
+                            'route' => '/roles',
+                            'permission' => 'role & permission view'
+                        ],
+                        [
+                            'title' => 'Setting Apps',
+                            'route' => '/setting-apps',
+                            'permission' => 'setting app view'
+                        ]
                     ]
                 ]
             ]
         ]
     ]
-]
 ];
