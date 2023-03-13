@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Auth;
+use PDF;
 
 class SparepartController extends Controller
 {
@@ -41,7 +42,9 @@ class SparepartController extends Controller
                 })->addColumn('updated_at', function ($row) {
                     return $row->updated_at->format('d M Y H:i:s');
                 })
-
+                ->addColumn('estimated_price', function ($row) {
+                    return rupiah($row->estimated_price);
+                })
                 ->addColumn('unit_item', function ($row) {
                     return $row->unit_item ? $row->unit_item->code_unit : '';
                 })->addColumn('action', 'spareparts.include.action')
@@ -208,48 +211,73 @@ class SparepartController extends Controller
         }
     }
 
-    public function stok_in(Request $request){
-            $a = mt_rand(100000,999999);
-            DB::table('sparepart_trace')->insert([
-                'qty' => $request->qty,
-                'sparepart_id' => $request->sparepart_id,
-                'note' => $request->note,
-                'no_referensi' => 'SI-' .$a,
-                'type' =>'In',
-                'user_id' => Auth::user()->id,
-                'created_at' => date("Y-m-d H:i:s"),
-            ]);
-            $sparepart = Sparepart::findOrFail($request->sparepart_id);
-            DB::table('spareparts')
-              ->where('id', $request->sparepart_id)
-              ->update(['stock'=> $sparepart->stock + $request->qty]);
+    public function stok_in(Request $request)
+    {
+        $a = mt_rand(100000, 999999);
+        DB::table('sparepart_trace')->insert([
+            'qty' => $request->qty,
+            'sparepart_id' => $request->sparepart_id,
+            'note' => $request->note,
+            'no_referensi' => 'SI-' . $a,
+            'type' => 'In',
+            'user_id' => Auth::user()->id,
+            'created_at' => date("Y-m-d H:i:s"),
+        ]);
+        $sparepart = Sparepart::findOrFail($request->sparepart_id);
+        DB::table('spareparts')
+            ->where('id', $request->sparepart_id)
+            ->update(['stock' => $sparepart->stock + $request->qty]);
 
-            Alert::toast('Stock In was created successfully.', 'success');
-            return redirect()->back();
+        Alert::toast('Stock In was created successfully.', 'success');
+        return redirect()->back();
     }
 
-    public function stok_out(Request $request){
-            $a = mt_rand(100000,999999);
-            DB::table('sparepart_trace')->insert([
-                'qty' => $request->qty,
-                'sparepart_id' => $request->sparepart_id,
-                'note' => $request->note,
-                'no_referensi' => 'SO-' . $a,
-                'type' =>'Out',
-                'user_id' => Auth::user()->id,
-                'created_at' => date("Y-m-d H:i:s"),
-            ]);
-             $sparepart = Sparepart::findOrFail($request->sparepart_id);
-            DB::table('spareparts')
-              ->where('id', $request->sparepart_id)
-              ->update(['stock'=> $sparepart->stock - $request->qty]);
+    public function stok_out(Request $request)
+    {
+        $a = mt_rand(100000, 999999);
+        DB::table('sparepart_trace')->insert([
+            'qty' => $request->qty,
+            'sparepart_id' => $request->sparepart_id,
+            'note' => $request->note,
+            'no_referensi' => 'SO-' . $a,
+            'type' => 'Out',
+            'user_id' => Auth::user()->id,
+            'created_at' => date("Y-m-d H:i:s"),
+        ]);
+        $sparepart = Sparepart::findOrFail($request->sparepart_id);
+        DB::table('spareparts')
+            ->where('id', $request->sparepart_id)
+            ->update(['stock' => $sparepart->stock - $request->qty]);
 
-            Alert::toast('Stock Out was created successfully.', 'success');
-            return redirect()->back();
-
+        Alert::toast('Stock Out was created successfully.', 'success');
+        return redirect()->back();
     }
 
-    public function delete_history(Request $request){
+    public function delete_history(Request $request, $id)
+    {
+        $sparepart_trace = DB::table('sparepart_trace')->where('id', $id)->first();
+        $type = $sparepart_trace->type;
+        $sparepart = Sparepart::findOrFail($sparepart_trace->sparepart_id);
+        if ($type == 'Out') {
+            DB::table('spareparts')
+                ->where('id', $sparepart_trace->sparepart_id)
+                ->update(['stock' => $sparepart->stock + $sparepart_trace->qty]);
+        } else {
+            DB::table('spareparts')
+                ->where('id', $sparepart_trace->sparepart_id)
+                ->update(['stock' => $sparepart->stock - $sparepart_trace->qty]);
+        }
+        DB::table('sparepart_trace')->where('id', $id)->delete();
+        Alert::toast('History stock was deleted successfully.', 'success');
+        return redirect()->back();
+    }
 
+    public function print_qr(Request $request, $id)
+    {
+        $sparepart = Sparepart::findOrFail($id);
+        $pdf = PDF::loadview('spareparts.qr', ['sparepart' => $sparepart])
+            ->setPaper([0, 0, 88, 68.0315], 'landscape');
+        return $pdf->stream();
+        // return $pdf->download('qr.pdf');
     }
 }

@@ -80,17 +80,18 @@
 
                         <center>
                             <img src="{{ asset('qr/qr_sparepart/' . $sparepart->image_qr) }}" alt=""
-                                style="width:250px"> <br> <br>
-                            <h5>Barcode : {{ $sparepart->barcode }} </h5>
-                            <h5>Sparepart Name : {{ $sparepart->sparepart_name }} </h5>
+                                style="width:150px"> <br> <br>
+                            <h6>Barcode : {{ $sparepart->barcode }} </h6>
+                            <h6>Sparepart Name : {{ $sparepart->sparepart_name }} </h6>
                         </center>
 
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger "> <i class="fa fa-print" aria-hidden="true"></i>
-                        Print</button>
+                    <a href="{{ route('print_qr', $model->id) }}" target="_blank" class="btn btn-danger "> <i
+                            class="fa fa-print" aria-hidden="true"></i>
+                        Print</a>
                 </div>
             </div>
         </div>
@@ -205,12 +206,11 @@
                                     <td>{{ $row->note }}</td>
                                     <td>{{ $row->created_at }}</td>
                                     <td>
-                                        <form action="{{ route('spareparts.destroy', $model->id) }}" method="post"
+                                        <form action="{{ route('delete_history', $row->id) }}" method="post"
                                             class="d-inline"
                                             onsubmit="return confirm('Are you sure to delete this record?')">
                                             @csrf
                                             @method('delete')
-
                                             <button class="btn btn-danger btn-sm">
                                                 <i class="mdi mdi-trash-can-outline"></i>
                                             </button>

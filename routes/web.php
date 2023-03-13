@@ -43,4 +43,5 @@ Route::resource('spareparts', App\Http\Controllers\SparepartController::class)->
 
 Route::post('stok_in', [App\Http\Controllers\SparepartController::class, 'stok_in'])->name('stok_in');
 Route::post('stok_out', [App\Http\Controllers\SparepartController::class, 'stok_out'])->name('stok_out');
-Route::delete('delete_history', [App\Http\Controllers\SparepartController::class, 'delete_history'])->name('delete_history');
+Route::delete('delete_history/{id}', [App\Http\Controllers\SparepartController::class, 'delete_history'])->name('delete_history');
+Route::get('print_qr/{id}', [App\Http\Controllers\SparepartController::class, 'print_qr'])->name('print_qr');
