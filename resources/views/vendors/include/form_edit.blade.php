@@ -284,7 +284,8 @@
         <div class="card">
             <div class="card-body">
                 <div class="alert alert-secondary" role="alert">
-                    <b> <i class="mdi mdi-file"></i> File Vendor</b>
+                    <b> <i class="mdi mdi-file"></i> File Vendor <span style="color:red; font-size:11px">( Recommended
+                            format is pdf )</span></b>
                 </div>
                 <hr>
                 <div class="row">
@@ -305,7 +306,7 @@
                                     @foreach ($file as $row)
                                         <tr id="detail_file<?= $row->id ?>">
                                             <td>
-                                                <input type="text" name="id_asal_file[]"
+                                                <input type="hidden" name="id_asal_file[]"
                                                     value="{{ $row->id }}" class="form-control " />
                                                 <input style="width: 220px" required type="text"
                                                     name="name_file[]" value="{{ $row->name_file }}" placeholder=""
@@ -313,10 +314,15 @@
                                             </td>
                                             <td>
                                                 <center>
-                                                    <button style="width: 200px" type="button" name="add_berkas2"
-                                                        id="" class="btn btn-primary"><i class="fa fa-eye"
-                                                            aria-hidden="true"></i> View
-                                                        File</button>
+                                                    <a href="#" style="width: 200px" class="btn btn-primary"
+                                                        data-bs-toggle="modal" id="view_gambar"
+                                                        data-id="{{ $row->id }}"
+                                                        data-file="{{ $row->file }}"
+                                                        data-name_file="{{ $row->name_file }}"
+                                                        data-bs-target="#largeModal" title="View Gambar"><i
+                                                            class="mdi mdi-file"></i> View File
+                                                    </a>
+
                                                 </center>
                                             </td>
                                             <td><button type="button" name="" id=""
@@ -331,6 +337,26 @@
 
                 </div>
 
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">File Vendor : <span id="name_file"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <hr>
+            </div>
+            <div class="modal-body">
+                <center><embed src="" id="file_vendor" style="width: 700px;height:500px; margin:0px" />
+                </center>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

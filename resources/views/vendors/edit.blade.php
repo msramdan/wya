@@ -230,6 +230,17 @@
 @endsection
 
 @push('js')
+    <script type="text/javascript">
+        $(document).on('click', '#view_gambar', function() {
+            var file = $(this).data('file');
+            var name_file = $(this).data('name_file');
+            $('#largeModal #file_vendor').attr("src", "../../../storage/img/file_vendor/" + file);
+            $('#largeModal #name_file').text(name_file);
+            console.log(name_file);
+        })
+    </script>
+
+
     <script src="{{ asset('material/assets/jqvmap/dist/jquery.vmap.js') }}"></script>
     <script src="{{ asset('material/assets/jqvmap/dist/maps/jquery.vmap.world.js') }}"></script>
     <script src="{{ asset('material/assets/jqvmap/examples/js/jquery.vmap.sampledata.js') }}"></script>
@@ -523,7 +534,7 @@
             $('#add_berkas2').click(function() {
                 i++;
                 $('#dynamic_field2').append('<tr id="row2' + i +
-                    '"><td><input type="text" name="id_asal_file[]" value="" class="form-control " /><input required type="text" name="name_file[]" placeholder="" class="form-control " /></td><td><input type="file" name="file[]" class="form-control" required="" /></td><td><button type="button" name="remove" id="' +
+                    '"><td><input type="hidden" name="id_asal_file[]" value="" class="form-control " /><input required type="text" name="name_file[]" placeholder="" class="form-control " /></td><td><input type="file" name="file[]" class="form-control" required="" /></td><td><button type="button" name="remove" id="' +
                     i +
                     '" class="btn btn-danger btn_remove2"><i class="fa fa-trash" aria-hidden="true"></i></button></td></tr>'
                 );

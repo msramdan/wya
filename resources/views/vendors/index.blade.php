@@ -87,6 +87,26 @@
 
 
 @push('js')
+    <script type="text/javascript">
+        $(document).on('click', '#view_gambar', function() {
+            var id = $(this).data('id');
+            // var name_file = $(this).data('name_file');
+            // $('#largeModal #name_file').text(name_file);
+            $.ajax({
+                url: '/GetFileVendor/' + id,
+                type: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+                data: {},
+                success: function(html) {
+                    $("#result").html(html);
+                }
+
+            });
+        })
+    </script>
+
     <script>
         $('#data-table').DataTable({
             processing: true,

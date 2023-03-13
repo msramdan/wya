@@ -79,7 +79,7 @@ class VendorController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'code_vendor' => 'required|string|min:1|max:20|unique:vendors,code_vendor",',
+                'code_vendor' => 'required|string|min:1|max:20|unique:vendors,code_vendor',
                 'name_vendor' => 'required|string|min:1|max:200',
                 'category_vendor_id' => 'required|exists:App\Models\CategoryVendor,id',
                 'email' => 'required|string|min:1|max:100',
@@ -113,7 +113,6 @@ class VendorController extends Controller
             'latitude' => $request->latitude,
         ]);
         $insertedId = $vendor->id;
-
         if ($vendor) {
             $files = $request->file('file');
             $name_file = $request->name_file;
@@ -136,16 +135,17 @@ class VendorController extends Controller
             $phone = $request->phone;
             $email_pic = $request->email_pic;
             $remark = $request->remark;
-            foreach ($name_pic as $key => $value) {
-
-                $data_pic = [
-                    'vendor_id' => $insertedId,
-                    'name' => $name_pic[$key],
-                    'phone' => $phone[$key],
-                    'email' => $email_pic[$key],
-                    'remark' => $remark[$key],
-                ];
-                DB::table('vendor_pics')->insert($data_pic);
+            if ($name_pic != null) {
+                foreach ($name_pic as $key => $value) {
+                    $data_pic = [
+                        'vendor_id' => $insertedId,
+                        'name' => $name_pic[$key],
+                        'phone' => $phone[$key],
+                        'email' => $email_pic[$key],
+                        'remark' => $remark[$key],
+                    ];
+                    DB::table('vendor_pics')->insert($data_pic);
+                }
             }
         }
         Alert::toast('The vendor was created successfully.', 'success');
@@ -235,6 +235,7 @@ class VendorController extends Controller
             ->where('vendor_id', '=', $vendor->id)
             ->whereNotIn('id', $tidak_terhapus_file)
             ->get();
+
         foreach ($hapus_pic as $row) {
             DB::table('vendor_files')->where('id', $row->id)->delete();
             Storage::disk('local')->delete('public/img/file_vendor/' . $row->file);
@@ -281,33 +282,37 @@ class VendorController extends Controller
         $remark = $request->remark;
         $asal = $request->id_asal;
 
-        foreach ($name_pic as $key => $value) {
-            if ($asal[$key] != null) {
-                $vendor_pics = DB::table('vendor_pics')
-                    ->where('id', '=', $asal[$key])
-                    ->first();
-                if ($vendor_pics) {
-                    DB::table('vendor_pics')
-                        ->where('id', $vendor_pics->id)
-                        ->update([
-                            'vendor_id' => $vendor->id,
-                            'name' => $name_pic[$key],
-                            'phone' => $phone[$key],
-                            'email' => $email_pic[$key],
-                            'remark' => $remark[$key],
-                        ]);
+        if ($name_pic != null) {
+            foreach ($name_pic as $key => $value) {
+                if ($asal[$key] != null) {
+                    $vendor_pics = DB::table('vendor_pics')
+                        ->where('id', '=', $asal[$key])
+                        ->first();
+                    if ($vendor_pics) {
+                        DB::table('vendor_pics')
+                            ->where('id', $vendor_pics->id)
+                            ->update([
+                                'vendor_id' => $vendor->id,
+                                'name' => $name_pic[$key],
+                                'phone' => $phone[$key],
+                                'email' => $email_pic[$key],
+                                'remark' => $remark[$key],
+                            ]);
+                    }
+                } else {
+                    $data_pic = [
+                        'vendor_id' => $vendor->id,
+                        'name' => $name_pic[$key],
+                        'phone' => $phone[$key],
+                        'email' => $email_pic[$key],
+                        'remark' => $remark[$key],
+                    ];
+                    DB::table('vendor_pics')->insert($data_pic);
                 }
-            } else {
-                $data_pic = [
-                    'vendor_id' => $vendor->id,
-                    'name' => $name_pic[$key],
-                    'phone' => $phone[$key],
-                    'email' => $email_pic[$key],
-                    'remark' => $remark[$key],
-                ];
-                DB::table('vendor_pics')->insert($data_pic);
             }
         }
+
+
         Alert::toast('The vendor was updated successfully.', 'success');
         return redirect()
             ->route('vendors.index');
@@ -328,6 +333,33 @@ class VendorController extends Controller
         } catch (\Throwable $th) {
             Alert::toast('The vendor cant be deleted because its related to another table.', 'error');
             return redirect()->route('vendors.index');
+        }
+    }
+
+    public function GetFileVendor($vendor_id)
+    {
+
+        $data = DB::table('vendor_files')
+            ->where('vendor_id', '=', $vendor_id)
+            ->get();
+        $output = '';
+        $output .= '<div class="carousel-inner">';
+        $no = 1;
+        foreach ($data as $row) {
+            $output .= ' <div class="carousel-item ' . $this->active($no) . '"><embed style="width: 100%;height:500px"
+            src="' . Storage::url('public/img/file_vendor/' . $row->file) . '" />
+            </div>
+          ';
+            $no++;
+        }
+        $output .= '</div>';
+        echo $output;
+    }
+
+    public function active($no)
+    {
+        if ($no == 1) {
+            return "active";
         }
     }
 }

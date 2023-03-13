@@ -246,7 +246,8 @@
         <div class="card">
             <div class="card-body">
                 <div class="alert alert-secondary" role="alert">
-                    <b> <i class="mdi mdi-file"></i> File Vendor</b>
+                    <b> <i class="mdi mdi-file"></i> File Vendor <span style="color:red; font-size:11px">( Recommended
+                            format is pdf )</span></b>
                 </div>
                 <hr>
                 <div class="row">
