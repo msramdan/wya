@@ -6,6 +6,13 @@ use App\Models\Sparepart;
 use App\Http\Requests\{StoreSparepartRequest, UpdateSparepartRequest};
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
+use Auth;
 
 class SparepartController extends Controller
 {
@@ -25,7 +32,7 @@ class SparepartController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $spareparts = Sparepart::with('unit_item:id,code_unit', );
+            $spareparts = Sparepart::with('unit_item:id,code_unit',);
 
             return DataTables::of($spareparts)
                 ->addIndexColumn()
@@ -60,26 +67,58 @@ class SparepartController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreSparepartRequest $request)
+    public function store(Request $request)
     {
-        
-        Sparepart::create($request->validated());
-        Alert::toast('The sparepart was created successfully.', 'success');
-        return redirect()->route('spareparts.index');
 
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'barcode' => 'required|string|min:1|max:200|unique:spareparts,barcode',
+                'sparepart_name' => 'required|string|min:1|max:200',
+                'merk' => 'required|string|min:1|max:200',
+                'sparepart_type' => 'required|string|min:1|max:200',
+                'unit_id' => 'required|exists:App\Models\UnitItem,id',
+                'estimated_price' => 'required|numeric',
+                'stock' => 'nullable',
+                'image_qr' => 'nullable',
+            ],
+        );
+        if ($validator->fails()) {
+            return redirect()->back()->withInput($request->all())->withErrors($validator);
+        }
+
+        DB::beginTransaction();
+        try {
+            //upload QR
+            $name = Str::slug($request->barcode, '-');
+            $image_qr = $name . '.svg';
+            $qr = QrCode::size(100)->format('svg')->generate($request->barcode, '../public/qr/qr_sparepart/' . $image_qr);
+            Sparepart::create([
+                'barcode' => $request->barcode,
+                'sparepart_name' => $request->sparepart_name,
+                'merk' => $request->merk,
+                'sparepart_type' => $request->sparepart_type,
+                'unit_id' => $request->unit_id,
+                'estimated_price' => $request->estimated_price,
+                'stock' => $request->stock,
+                'image_qr' => $image_qr,
+            ]);
+            Alert::toast('The sparepart was created successfully.', 'success');
+            return redirect()->route('spareparts.index');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            Alert::toast('Data failed to save', 'error');
+            return redirect()->route('spareparts.index');
+        } finally {
+            DB::commit();
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Sparepart  $sparepart
-     * @return \Illuminate\Http\Response
-     */
     public function show(Sparepart $sparepart)
     {
-        $sparepart->load('unit_item:id,code_unit', );
+        $sparepart->load('unit_item:id,code_unit',);
 
-		return view('spareparts.show', compact('sparepart'));
+        return view('spareparts.show', compact('sparepart'));
     }
 
     /**
@@ -90,9 +129,9 @@ class SparepartController extends Controller
      */
     public function edit(Sparepart $sparepart)
     {
-        $sparepart->load('unit_item:id,code_unit', );
+        $sparepart->load('unit_item:id,code_unit',);
 
-		return view('spareparts.edit', compact('sparepart'));
+        return view('spareparts.edit', compact('sparepart'));
     }
 
     /**
@@ -102,10 +141,48 @@ class SparepartController extends Controller
      * @param  \App\Models\Sparepart  $sparepart
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateSparepartRequest $request, Sparepart $sparepart)
+    public function update(Request $request, $id)
     {
-        
-        $sparepart->update($request->validated());
+
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'barcode' => 'required|string|min:1|max:200|unique:spareparts,barcode,' . $id,
+                'sparepart_name' => 'required|string|min:1|max:200',
+                'merk' => 'required|string|min:1|max:200',
+                'sparepart_type' => 'required|string|min:1|max:200',
+                'unit_id' => 'required|exists:App\Models\UnitItem,id',
+                'estimated_price' => 'required|numeric',
+                'stock' => 'nullable',
+                'image_qr' => 'nullable',
+            ],
+        );
+        if ($validator->fails()) {
+            return redirect()->back()->withInput($request->all())->withErrors($validator);
+        }
+        $sparepart = Sparepart::findOrFail($id);
+
+
+        // delete qr lama
+        $file_path = public_path("qr/qr_sparepart/" . $sparepart->image_qr);
+        File::delete($file_path);
+
+        // upload baru
+        $name = Str::slug($request->barcode, '-');
+        $image_qr = $name . '.svg';
+        QrCode::size(100)->format('svg')->generate($request->barcode, '../public/qr/qr_sparepart/' . $image_qr);
+
+        $sparepart->update([
+            'barcode' => $request->barcode,
+            'sparepart_name' => $request->sparepart_name,
+            'merk' => $request->merk,
+            'sparepart_type' => $request->sparepart_type,
+            'unit_id' => $request->unit_id,
+            'estimated_price' => $request->estimated_price,
+            'stock' => $request->stock,
+            'image_qr' => $image_qr,
+        ]);
+
         Alert::toast('The sparepart was updated successfully.', 'success');
         return redirect()
             ->route('spareparts.index');
@@ -120,6 +197,8 @@ class SparepartController extends Controller
     public function destroy(Sparepart $sparepart)
     {
         try {
+            $file_path = public_path("qr/qr_sparepart/" . $sparepart->image_qr);
+            File::delete($file_path);
             $sparepart->delete();
             Alert::toast('The sparepart was deleted successfully.', 'success');
             return redirect()->route('spareparts.index');
@@ -127,5 +206,50 @@ class SparepartController extends Controller
             Alert::toast('The sparepart cant be deleted because its related to another table.', 'error');
             return redirect()->route('spareparts.index');
         }
+    }
+
+    public function stok_in(Request $request){
+            $a = mt_rand(100000,999999);
+            DB::table('sparepart_trace')->insert([
+                'qty' => $request->qty,
+                'sparepart_id' => $request->sparepart_id,
+                'note' => $request->note,
+                'no_referensi' => 'SI-' .$a,
+                'type' =>'In',
+                'user_id' => Auth::user()->id,
+                'created_at' => date("Y-m-d H:i:s"),
+            ]);
+            $sparepart = Sparepart::findOrFail($request->sparepart_id);
+            DB::table('spareparts')
+              ->where('id', $request->sparepart_id)
+              ->update(['stock'=> $sparepart->stock + $request->qty]);
+
+            Alert::toast('Stock In was created successfully.', 'success');
+            return redirect()->back();
+    }
+
+    public function stok_out(Request $request){
+            $a = mt_rand(100000,999999);
+            DB::table('sparepart_trace')->insert([
+                'qty' => $request->qty,
+                'sparepart_id' => $request->sparepart_id,
+                'note' => $request->note,
+                'no_referensi' => 'SO-' . $a,
+                'type' =>'Out',
+                'user_id' => Auth::user()->id,
+                'created_at' => date("Y-m-d H:i:s"),
+            ]);
+             $sparepart = Sparepart::findOrFail($request->sparepart_id);
+            DB::table('spareparts')
+              ->where('id', $request->sparepart_id)
+              ->update(['stock'=> $sparepart->stock - $request->qty]);
+
+            Alert::toast('Stock Out was created successfully.', 'success');
+            return redirect()->back();
+
+    }
+
+    public function delete_history(Request $request){
+
     }
 }

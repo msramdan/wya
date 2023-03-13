@@ -14,7 +14,7 @@ class Sparepart extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['barcode', 'sparepart_name', 'merk', 'sparepart_type', 'unit_id', 'estimated_price', 'stock'];
+    protected $fillable = ['barcode', 'sparepart_name', 'merk', 'sparepart_type', 'unit_id', 'estimated_price', 'stock', 'image_qr'];
 
     /**
      * The attributes that should be cast.

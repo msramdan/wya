@@ -9,6 +9,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class VendorController extends Controller
 {
@@ -78,7 +79,7 @@ class VendorController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'code_vendor' => 'required|string|min:1|max:20',
+                'code_vendor' => 'required|string|min:1|max:20|unique:vendors,code_vendor",',
                 'name_vendor' => 'required|string|min:1|max:200',
                 'category_vendor_id' => 'required|exists:App\Models\CategoryVendor,id',
                 'email' => 'required|string|min:1|max:100',
@@ -172,9 +173,10 @@ class VendorController extends Controller
      */
     public function edit(Vendor $vendor)
     {
-        $vendor->load('category_vendor:id,name_category_vendors', 'province:id,provinsi', 'kabkot:id,provinsi_id', 'kecamatan:id,kabkot_id', 'kelurahan:id,kecamatan_id',);
-
-        return view('vendors.edit', compact('vendor'));
+        $vendor->load('category_vendor:id,name_category_vendors', 'province:id,provinsi', 'kabkot:id,kabupaten_kota', 'kecamatan:id,kecamatan', 'kelurahan:id,kelurahan',);
+        $pic = DB::table('vendor_pics')->where('vendor_id', $vendor->id)->get();
+        $file = DB::table('vendor_files')->where('vendor_id', $vendor->id)->get();
+        return view('vendors.edit', compact('vendor', 'pic', 'file'));
     }
 
     /**
@@ -184,10 +186,128 @@ class VendorController extends Controller
      * @param  \App\Models\Vendor  $vendor
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateVendorRequest $request, Vendor $vendor)
+    public function update(Request $request, Vendor $vendor)
     {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'code_vendor' => "required|string||min:1|max:20|unique:vendors,code_vendor," . $vendor->id,
+                'name_vendor' => 'required|string|min:1|max:200',
+                'category_vendor_id' => 'required|exists:App\Models\CategoryVendor,id',
+                'email' => 'required|string|min:1|max:100',
+                'provinsi_id' => 'required|exists:App\Models\Province,id',
+                'kabkot_id' => 'required|exists:App\Models\Kabkot,id',
+                'kecamatan_id' => 'required|exists:App\Models\Kecamatan,id',
+                'kelurahan_id' => 'required|exists:App\Models\Kelurahan,id',
+                'zip_kode' => 'required|string|min:1|max:5',
+                'longitude' => 'required|string|min:1|max:100',
+                'latitude' => 'required|string|min:1|max:100',
+                'address' => 'required|string',
+                'name' => 'array',
+            ],
+        );
+        if ($validator->fails()) {
+            return redirect()->back()->withInput($request->all())->withErrors($validator);
+        }
+        $vendor = Vendor::findOrFail($vendor->id);
+        $vendor->update([
+            'code_vendor' => $request->code_vendor,
+            'name_vendor' => $request->name_vendor,
+            'category_vendor_id' => $request->category_vendor_id,
+            'email' => $request->email,
+            'provinsi_id' => $request->provinsi_id,
+            'kabkot_id' => $request->kabkot_id,
+            'kecamatan_id' => $request->kecamatan_id,
+            'kelurahan_id' => $request->kelurahan_id,
+            'zip_kode' => $request->zip_kode,
+            'address' => $request->address,
+            'longitude' => $request->longitude,
+            'latitude' => $request->latitude,
+        ]);
 
-        $vendor->update($request->validated());
+        // hapus file
+        if ($request->id_asal_file == null) {
+            $tidak_terhapus_file = [];
+        } else {
+            $tidak_terhapus_file = $request->id_asal_file;
+        }
+        $hapus_pic = DB::table('vendor_files')
+            ->where('vendor_id', '=', $vendor->id)
+            ->whereNotIn('id', $tidak_terhapus_file)
+            ->get();
+        foreach ($hapus_pic as $row) {
+            DB::table('vendor_files')->where('id', $row->id)->delete();
+            Storage::disk('local')->delete('public/img/file_vendor/' . $row->file);
+        }
+
+
+        $files = $request->file('file');
+        $name_file = $request->name_file;
+        $asal_file = $request->id_asal_file;
+        // dd($asal_file);
+        if ($request->hasFile('file')) {
+            foreach ($files as $key => $file) {
+                // if ($asal_file[$key] == null) {
+                $name = $file->hashName();
+                $file->storeAs('public/img/file_vendor', $name);
+                $data = [
+                    'vendor_id' => $vendor->id,
+                    'file' => $name,
+                    'name_file' => $name_file[$key],
+                ];
+                DB::table('vendor_files')->insert($data);
+                // }
+            }
+        }
+
+        // hapus pic
+        if ($request->id_asal == null) {
+            $tidak_terhapus = [];
+        } else {
+            $tidak_terhapus = $request->id_asal;
+        }
+        $hapus_pic = DB::table('vendor_pics')
+            ->where('vendor_id', '=', $vendor->id)
+            ->whereNotIn('id', $tidak_terhapus)
+            ->get();
+        foreach ($hapus_pic as $row) {
+            DB::table('vendor_pics')->where('id', $row->id)->delete();
+        }
+
+        // insert or updae pic
+        $name_pic = $request->name;
+        $phone = $request->phone;
+        $email_pic = $request->email_pic;
+        $remark = $request->remark;
+        $asal = $request->id_asal;
+
+        foreach ($name_pic as $key => $value) {
+            if ($asal[$key] != null) {
+                $vendor_pics = DB::table('vendor_pics')
+                    ->where('id', '=', $asal[$key])
+                    ->first();
+                if ($vendor_pics) {
+                    DB::table('vendor_pics')
+                        ->where('id', $vendor_pics->id)
+                        ->update([
+                            'vendor_id' => $vendor->id,
+                            'name' => $name_pic[$key],
+                            'phone' => $phone[$key],
+                            'email' => $email_pic[$key],
+                            'remark' => $remark[$key],
+                        ]);
+                }
+            } else {
+                $data_pic = [
+                    'vendor_id' => $vendor->id,
+                    'name' => $name_pic[$key],
+                    'phone' => $phone[$key],
+                    'email' => $email_pic[$key],
+                    'remark' => $remark[$key],
+                ];
+                DB::table('vendor_pics')->insert($data_pic);
+            }
+        }
         Alert::toast('The vendor was updated successfully.', 'success');
         return redirect()
             ->route('vendors.index');

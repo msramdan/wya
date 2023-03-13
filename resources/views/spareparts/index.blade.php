@@ -39,9 +39,10 @@
                                             <th>{{ __('Sparepart Name') }}</th>
                                             <th>{{ __('Merk') }}</th>
                                             <th>{{ __('Sparepart Type') }}</th>
-                                            <th>{{ __('Unit Item') }}</th>
+
                                             <th>{{ __('Estimated Price') }}</th>
                                             <th>{{ __('Stock') }}</th>
+                                            <th>{{ __('Unit Item') }}</th>
                                             {{-- <th>{{ __('Created At') }}</th>
                                             <th>{{ __('Updated At') }}</th> --}}
                                             <th>{{ __('Action') }}</th>
@@ -86,10 +87,7 @@
                     data: 'sparepart_type',
                     name: 'sparepart_type',
                 },
-                {
-                    data: 'unit_item',
-                    name: 'unit_item.code_unit'
-                },
+
                 {
                     data: 'estimated_price',
                     name: 'estimated_price',
@@ -97,6 +95,10 @@
                 {
                     data: 'stock',
                     name: 'stock',
+                },
+                {
+                    data: 'unit_item',
+                    name: 'unit_item.code_unit'
                 },
                 // {
                 //     data: 'created_at',

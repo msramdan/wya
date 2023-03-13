@@ -16,12 +16,13 @@ return new class extends Migration
         Schema::create('spareparts', function (Blueprint $table) {
             $table->id();
             $table->string('barcode', 200);
-			$table->string('sparepart_name', 200);
-			$table->string('merk', 200);
-			$table->string('sparepart_type', 200);
-			$table->foreignId('unit_id')->nullable()->constrained('unit_items')->restrictOnUpdate()->nullOnDelete();
-			$table->integer('estimated_price');
-			$table->integer('stock')->nullable();
+            $table->string('sparepart_name', 200);
+            $table->string('merk', 200);
+            $table->string('sparepart_type', 200);
+            $table->foreignId('unit_id')->nullable()->constrained('unit_items')->restrictOnUpdate()->nullOnDelete();
+            $table->integer('estimated_price');
+            $table->integer('stock')->nullable();
+            $table->string('image_qr')->nullable();
             $table->timestamps();
         });
     }

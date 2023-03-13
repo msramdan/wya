@@ -252,6 +252,7 @@ class EmployeeController extends Controller
     public function destroy(Employee $employee)
     {
         try {
+            Storage::disk('local')->delete('public/img/employee/' . $employee->photo);
             $employee->delete();
             Alert::toast('The employee was deleted successfully.', 'success');
             return redirect()->route('employees.index');

@@ -40,3 +40,7 @@ Route::resource('employees', App\Http\Controllers\EmployeeController::class)->mi
 Route::resource('category-vendors', App\Http\Controllers\CategoryVendorController::class)->middleware('auth');
 Route::resource('vendors', App\Http\Controllers\VendorController::class)->middleware('auth');
 Route::resource('spareparts', App\Http\Controllers\SparepartController::class)->middleware('auth');
+
+Route::post('stok_in', [App\Http\Controllers\SparepartController::class, 'stok_in'])->name('stok_in');
+Route::post('stok_out', [App\Http\Controllers\SparepartController::class, 'stok_out'])->name('stok_out');
+Route::delete('delete_history', [App\Http\Controllers\SparepartController::class, 'delete_history'])->name('delete_history');

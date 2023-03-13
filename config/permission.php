@@ -194,6 +194,6 @@ return [
         ['group' => 'employees', 'access' => ['employee view', 'employee create', 'employee edit', 'employee delete']],
         ['group' => 'category vendors', 'access' => ['category vendor view', 'category vendor create', 'category vendor edit', 'category vendor delete']],
         ['group' => 'vendors', 'access' => ['vendor view', 'vendor create', 'vendor edit', 'vendor delete']],
-        ['group' => 'spareparts', 'access' => ['sparepart view', 'sparepart create', 'sparepart edit', 'sparepart delete']],
+        ['group' => 'spareparts', 'access' => ['sparepart view', 'sparepart create', 'sparepart edit', 'sparepart delete', 'download qr', 'sparepart stock in', 'sparepart stock out', 'sparepart history']],
     ],
 ];
