@@ -30,9 +30,17 @@
     <div class="col-md-6 mb-2">
         <div class="form-group">
             <label for="password">{{ __('Password') }}</label>
-            <input type="password" name="password" id="password"
-                class="form-control @error('password') is-invalid @enderror" placeholder="{{ __('Password') }}"
-                {{ empty($user) ? 'required' : '' }}>
+            <div class="input-group">
+                <input type="password" name="password" id="password"
+                    class="form-control @error('password') is-invalid @enderror" placeholder="{{ __('Password') }}"
+                    {{ empty($user) ? 'required' : '' }}> &nbsp;
+                <button class="btn btn-success" type="button" onclick="generatePassword()"
+                    id="">Generate</button> &nbsp;
+                <button class="btn btn-primary" type="button" onclick="toggleShowPassword()" id=""><i
+                        class="fa fa-eye"></i></button>
+            </div>
+            <span style="color:red; font-size:10px">Password should contain at least 8 characters, 1 uppercase, 1
+                lowercase, 1 number, and 1 symbol</span>
             @error('password')
                 <span class="text-danger">
                     {{ $message }}
@@ -138,3 +146,67 @@
         </div>
     @endisset
 </div>
+
+
+@push('js')
+    <script>
+        function toggleShowPassword() {
+            const type = $('input#password').attr('type');
+            if (type === "password") {
+                $('input#password').attr('type', 'text');
+                $('input#password-confirmation').attr('type', 'text');
+            } else {
+                $('input#password').attr('type', 'password');
+                $('input#password-confirmation').attr('type', 'password');
+            }
+        }
+
+        function generatePassword() {
+            let password = "";
+            let passwordLength = 1;
+
+            const lowerCase = 'abcdefghijklmnopqrstuvwxyz'
+            for (let i = 0; i < passwordLength; i++) {
+                const randomNumber = Math.floor(Math.random() * lowerCase.length);
+                password += lowerCase.substring(randomNumber, randomNumber + 1);
+            }
+
+            passwordLength = 1;
+            const number = '0123456789'
+            for (let i = 0; i < passwordLength; i++) {
+                const randomNumber = Math.floor(Math.random() * number.length);
+                password += number.substring(randomNumber, randomNumber + 1);
+            }
+
+            passwordLength = 1;
+            const upperCase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+            for (let i = 0; i < passwordLength; i++) {
+                const randomNumber = Math.floor(Math.random() * upperCase.length);
+                password += upperCase.substring(randomNumber, randomNumber + 1);
+            }
+
+            passwordLength = 1;
+            const character = '!@#$%^&*()'
+            for (let i = 0; i < passwordLength; i++) {
+                const randomNumber = Math.floor(Math.random() * character.length);
+                password += character.substring(randomNumber, randomNumber + 1);
+            }
+
+            const allChars = "0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            passwordLength = 4;
+            for (let i = 0; i < passwordLength; i++) {
+                const randomNumber = Math.floor(Math.random() * allChars.length);
+                password += allChars.substring(randomNumber, randomNumber + 1);
+            }
+
+            const shuffled = password.split('').sort(function() {
+                return 0.5 - Math.random()
+            }).join('');
+            $('input#password').val(shuffled);
+            $('input#password').attr('type', 'text')
+
+            $('input#password-confirmation').val(shuffled);
+            $('input#password-confirmation').attr('type', 'text')
+        }
+    </script>
+@endpush
