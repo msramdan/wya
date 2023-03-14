@@ -140,7 +140,7 @@
     </div>
     <div class="col-md-6 mb-3">
         @if ($settingApp->favicon != '' || $settingApp->favicon != null)
-            <img src="{{ Storage::url('public/img/setting_app/') . $settingApp->logo }}"
+            <img src="{{ Storage::url('public/img/setting_app/') . $settingApp->favicon }}"
                 class="img-preview d-block w-20 mb-1 col-sm-5 rounded ">
             <p style="color: red">* Choose a favicon if you want to change it</p>
         @endif
