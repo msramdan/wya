@@ -176,7 +176,11 @@ class VendorController extends Controller
         $vendor->load('category_vendor:id,name_category_vendors', 'province:id,provinsi', 'kabkot:id,kabupaten_kota', 'kecamatan:id,kecamatan', 'kelurahan:id,kelurahan',);
         $pic = DB::table('vendor_pics')->where('vendor_id', $vendor->id)->get();
         $file = DB::table('vendor_files')->where('vendor_id', $vendor->id)->get();
-        return view('vendors.edit', compact('vendor', 'pic', 'file'));
+        $kabkot = DB::table('kabkots')->where('provinsi_id', $vendor->provinsi_id)->get();
+        $kecamatan = DB::table('kecamatans')->where('kabkot_id', $vendor->kabkot_id)->get();
+        $kelurahan = DB::table('kelurahans')->where('kecamatan_id', $vendor->kecamatan_id)->get();
+
+        return view('vendors.edit', compact('vendor', 'pic', 'file', 'kabkot', 'kecamatan', 'kelurahan'));
     }
 
     /**

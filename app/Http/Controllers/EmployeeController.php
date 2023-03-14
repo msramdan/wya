@@ -169,8 +169,10 @@ class EmployeeController extends Controller
     public function edit(Employee $employee)
     {
         $employee->load('employee_type:id,name_employee_type', 'department:id,code_department', 'position:id,code_position', 'province:id,provinsi', 'kabkot:id,provinsi_id', 'kecamatan:id,kabkot_id', 'kelurahan:id,kecamatan_id');
-
-        return view('employees.edit', compact('employee'));
+        $kabkot = DB::table('kabkots')->where('provinsi_id', $employee->provinsi_id)->get();
+        $kecamatan = DB::table('kecamatans')->where('kabkot_id', $employee->kabkot_id)->get();
+        $kelurahan = DB::table('kelurahans')->where('kecamatan_id', $employee->kecamatan_id)->get();
+        return view('employees.edit', compact('employee', 'kabkot', 'kecamatan', 'kelurahan'));
     }
 
     /**

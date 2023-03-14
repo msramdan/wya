@@ -93,7 +93,7 @@
                         <select class="form-control @error('kabkot_id') is-invalid @enderror" name="kabkot_id"
                             id="kabkot-id" required>
                             <option value="" selected disabled>-- {{ __('Select kabkot') }} --</option>
-                            @foreach ($kabkots as $kabkot)
+                            @foreach ($kabkot as $kabkot)
                                 <option value="{{ $kabkot->id }}"
                                     {{ isset($vendor) && $vendor->kabkot_id == $kabkot->id ? 'selected' : (old('kabkot_id') == $kabkot->id ? 'selected' : '') }}>
                                     {{ $kabkot->kabupaten_kota }}
@@ -113,7 +113,7 @@
                         <select class="form-control @error('kecamatan_id') is-invalid @enderror" name="kecamatan_id"
                             id="kecamatan-id" required>
                             <option value="" selected disabled>-- {{ __('Select kecamatan') }} --</option>
-                            @foreach ($kecamatans as $kecamatan)
+                            @foreach ($kecamatan as $kecamatan)
                                 <option value="{{ $kecamatan->id }}"
                                     {{ isset($vendor) && $vendor->kecamatan_id == $kecamatan->id ? 'selected' : (old('kecamatan_id') == $kecamatan->id ? 'selected' : '') }}>
                                     {{ $kecamatan->kecamatan }}
@@ -132,7 +132,7 @@
                         <select class="form-control @error('kelurahan_id') is-invalid @enderror" name="kelurahan_id"
                             id="kelurahan-id" required>
                             <option value="" selected disabled>-- {{ __('Select kelurahan') }} --</option>
-                            @foreach ($kelurahans as $kelurahan)
+                            @foreach ($kelurahan as $kelurahan)
                                 <option value="{{ $kelurahan->id }}"
                                     {{ isset($vendor) && $vendor->kelurahan_id == $kelurahan->id ? 'selected' : (old('kelurahan_id') == $kelurahan->id ? 'selected' : '') }}>
                                     {{ $kelurahan->kelurahan }}
