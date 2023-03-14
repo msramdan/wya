@@ -125,8 +125,8 @@
 
     <div class="col-md-6 mb-3">
         @if ($settingApp->logo != '' || $settingApp->logo != null)
-            <img src="{{ Storage::url('public/img/setting_app/') . $settingApp->logo }}"
-                class="img-preview d-block w-20 mb- col-sm-5 rounded ">
+            <img style="width: 180px; height:80px"
+                src="{{ Storage::url('public/img/setting_app/') . $settingApp->logo }}" class="">
             <p style="color: red">* Choose a logo if you want to change it</p>
         @endif
         <label class="form-label" for="logo"> Logo</label>
@@ -140,8 +140,8 @@
     </div>
     <div class="col-md-6 mb-3">
         @if ($settingApp->favicon != '' || $settingApp->favicon != null)
-            <img src="{{ Storage::url('public/img/setting_app/') . $settingApp->favicon }}"
-                class="img-preview d-block w-20 mb-1 col-sm-5 rounded ">
+            <img style="width:80px;height:80px"
+                src="{{ Storage::url('public/img/setting_app/') . $settingApp->favicon }}" class="">
             <p style="color: red">* Choose a favicon if you want to change it</p>
         @endif
         <label class="form-label" for="favicon"> {{ __('Favicon') }}</label>
