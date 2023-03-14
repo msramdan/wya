@@ -440,7 +440,10 @@
             <div class="navbar-brand-box">
                 <a href="index.html" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="{{ asset('material/assets/images/logo-sm.png') }}" alt="" height="22">
+                        @if (setting_web()->favicon != null)
+                            <img src="{{ Storage::url('public/img/setting_app/') . setting_web()->favicon }}"
+                                alt="" height="30">
+                        @endif
                     </span>
                     <span class="logo-lg">
                         @if (setting_web()->logo != null)
@@ -451,7 +454,10 @@
                 </a>
                 <a href="index.html" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="{{ asset('material/assets/images/logo-sm.png') }}" alt="" height="22">
+                        @if (setting_web()->favicon != null)
+                            <img src="{{ Storage::url('public/img/setting_app/') . setting_web()->favicon }}"
+                                alt="" height="30">
+                        @endif
                     </span>
                     <span class="logo-lg">
                         @if (setting_web()->logo != null)
