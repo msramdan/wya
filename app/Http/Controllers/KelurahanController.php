@@ -29,11 +29,11 @@ class KelurahanController extends Controller
 
             return DataTables::of($kelurahans)
                 ->addIndexColumn()
-                ->addColumn('created_at', function ($row) {
-                    return $row->created_at->format('d M Y H:i:s');
-                })->addColumn('updated_at', function ($row) {
-                    return $row->updated_at->format('d M Y H:i:s');
-                })
+                // ->addColumn('created_at', function ($row) {
+                //     return $row->created_at->format('d M Y H:i:s');
+                // })->addColumn('updated_at', function ($row) {
+                //     return $row->updated_at->format('d M Y H:i:s');
+                // })
 
                 ->addColumn('kecamatan', function ($row) {
                     return $row->kecamatan ? $row->kecamatan->kecamatan : '';
@@ -66,7 +66,6 @@ class KelurahanController extends Controller
         Kelurahan::create($request->validated());
         Alert::toast('The kelurahan was created successfully.', 'success');
         return redirect()->route('kelurahans.index');
-
     }
 
     /**
@@ -79,7 +78,7 @@ class KelurahanController extends Controller
     {
         $kelurahan->load('kecamatan:id,kabkot_id');
 
-		return view('kelurahans.show', compact('kelurahan'));
+        return view('kelurahans.show', compact('kelurahan'));
     }
 
     /**
@@ -92,7 +91,7 @@ class KelurahanController extends Controller
     {
         $kelurahan->load('kecamatan:id,kabkot_id');
 
-		return view('kelurahans.edit', compact('kelurahan'));
+        return view('kelurahans.edit', compact('kelurahan'));
     }
 
     /**

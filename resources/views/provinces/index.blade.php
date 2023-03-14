@@ -38,8 +38,8 @@
                                             <th>{{ __('Provinsi') }}</th>
 											<th>{{ __('Ibukota') }}</th>
 											<th>{{ __('P Bsni') }}</th>
-                                            <th>{{ __('Created At') }}</th>
-                                            <th>{{ __('Updated At') }}</th>
+                                            {{-- <th>{{ __('Created At') }}</th>
+                                            <th>{{ __('Updated At') }}</th> --}}
                                             <th>{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
@@ -79,14 +79,14 @@
                     data: 'p_bsni',
                     name: 'p_bsni',
                 },
-                {
-                    data: 'created_at',
-                    name: 'created_at'
-                },
-                {
-                    data: 'updated_at',
-                    name: 'updated_at'
-                },
+                // {
+                //     data: 'created_at',
+                //     name: 'created_at'
+                // },
+                // {
+                //     data: 'updated_at',
+                //     name: 'updated_at'
+                // },
                 {
                     data: 'action',
                     name: 'action',

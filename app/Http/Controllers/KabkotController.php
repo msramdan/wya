@@ -29,11 +29,11 @@ class KabkotController extends Controller
 
             return DataTables::of($kabkots)
                 ->addIndexColumn()
-                ->addColumn('created_at', function ($row) {
-                    return $row->created_at->format('d M Y H:i:s');
-                })->addColumn('updated_at', function ($row) {
-                    return $row->updated_at->format('d M Y H:i:s');
-                })
+                // ->addColumn('created_at', function ($row) {
+                //     return $row->created_at->format('d M Y H:i:s');
+                // })->addColumn('updated_at', function ($row) {
+                //     return $row->updated_at->format('d M Y H:i:s');
+                // })
 
                 ->addColumn('province', function ($row) {
                     return $row->province ? $row->province->provinsi : '';
@@ -66,7 +66,6 @@ class KabkotController extends Controller
         Kabkot::create($request->validated());
         Alert::toast('The kabkot was created successfully.', 'success');
         return redirect()->route('kabkots.index');
-
     }
 
     /**
@@ -79,7 +78,7 @@ class KabkotController extends Controller
     {
         $kabkot->load('province:id,provinsi');
 
-		return view('kabkots.show', compact('kabkot'));
+        return view('kabkots.show', compact('kabkot'));
     }
 
     /**
@@ -92,7 +91,7 @@ class KabkotController extends Controller
     {
         $kabkot->load('province:id,provinsi');
 
-		return view('kabkots.edit', compact('kabkot'));
+        return view('kabkots.edit', compact('kabkot'));
     }
 
     /**

@@ -29,11 +29,11 @@ class KecamatanController extends Controller
 
             return DataTables::of($kecamatans)
                 ->addIndexColumn()
-                ->addColumn('created_at', function ($row) {
-                    return $row->created_at->format('d M Y H:i:s');
-                })->addColumn('updated_at', function ($row) {
-                    return $row->updated_at->format('d M Y H:i:s');
-                })
+                // ->addColumn('created_at', function ($row) {
+                //     return $row->created_at->format('d M Y H:i:s');
+                // })->addColumn('updated_at', function ($row) {
+                //     return $row->updated_at->format('d M Y H:i:s');
+                // })
 
                 ->addColumn('kabkot', function ($row) {
                     return $row->kabkot ? $row->kabkot->kabupaten_kota : '';
@@ -66,7 +66,6 @@ class KecamatanController extends Controller
         Kecamatan::create($request->validated());
         Alert::toast('The kecamatan was created successfully.', 'success');
         return redirect()->route('kecamatans.index');
-
     }
 
     /**
@@ -79,7 +78,7 @@ class KecamatanController extends Controller
     {
         $kecamatan->load('kabkot:id,provinsi_id');
 
-		return view('kecamatans.show', compact('kecamatan'));
+        return view('kecamatans.show', compact('kecamatan'));
     }
 
     /**
@@ -92,7 +91,7 @@ class KecamatanController extends Controller
     {
         $kecamatan->load('kabkot:id,provinsi_id');
 
-		return view('kecamatans.edit', compact('kecamatan'));
+        return view('kecamatans.edit', compact('kecamatan'));
     }
 
     /**

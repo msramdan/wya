@@ -39,8 +39,8 @@
                                             <th>{{ __('Kabupaten Kota') }}</th>
                                             <th>{{ __('Ibukota') }}</th>
                                             <th>{{ __('K Bsni') }}</th>
-                                            <th>{{ __('Created At') }}</th>
-                                            <th>{{ __('Updated At') }}</th>
+                                            {{-- <th>{{ __('Created At') }}</th>
+                                            <th>{{ __('Updated At') }}</th> --}}
                                             <th>{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
@@ -83,14 +83,14 @@
                     data: 'k_bsni',
                     name: 'k_bsni',
                 },
-                {
-                    data: 'created_at',
-                    name: 'created_at'
-                },
-                {
-                    data: 'updated_at',
-                    name: 'updated_at'
-                },
+                // {
+                //     data: 'created_at',
+                //     name: 'created_at'
+                // },
+                // {
+                //     data: 'updated_at',
+                //     name: 'updated_at'
+                // },
                 {
                     data: 'action',
                     name: 'action',
