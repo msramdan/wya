@@ -16,15 +16,16 @@ return new class extends Migration
         Schema::create('setting_apps', function (Blueprint $table) {
             $table->id();
             $table->string('aplication_name', 200);
-			$table->string('logo', 255);
-			$table->string('favicon', 255);
-			$table->string('phone', 15);
-			$table->string('email', 200);
-			$table->text('address');
+            $table->string('logo', 255);
+            $table->string('favicon', 255);
+            $table->string('phone', 15);
+            $table->string('email', 200);
+            $table->text('address');
             $table->boolean('notif_wa');
-			$table->string('url_wa_gateway', 200);
-			$table->string('session_wa_gateway', 200);
-			$table->boolean('bot_telegram');
+            $table->string('url_wa_gateway', 200);
+            $table->string('paper_qr_code', 200);
+            $table->string('session_wa_gateway', 200);
+            $table->boolean('bot_telegram');
             $table->timestamps();
         });
     }

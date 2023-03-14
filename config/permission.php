@@ -195,5 +195,6 @@ return [
         ['group' => 'category vendors', 'access' => ['category vendor view', 'category vendor create', 'category vendor edit', 'category vendor delete']],
         ['group' => 'vendors', 'access' => ['vendor view', 'vendor create', 'vendor edit', 'vendor delete']],
         ['group' => 'spareparts', 'access' => ['sparepart view', 'sparepart create', 'sparepart edit', 'sparepart delete', 'download qr', 'sparepart stock in', 'sparepart stock out', 'sparepart history']],
+        ['group' => 'nomenklaturs', 'access' => ['nomenklatur view']],
     ],
 ];

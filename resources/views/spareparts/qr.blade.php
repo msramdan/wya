@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    <img style="width: 80px;" src="{{ public_path('qr/qr_sparepart/mollit-aut-corporis.svg') }}">
+    <img style="width: {{ $widthQR }}px;" src="{{ public_path('qr/qr_sparepart/mollit-aut-corporis.svg') }}">
     <center>
         <span style="font-size: 16px"> <b>Scan Me</b> </span>
     </center>

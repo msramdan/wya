@@ -43,7 +43,7 @@
             </span>
         @enderror
     </div>
-    <div class="col-md-6 mb-3">
+    <div class="col-md-3 mb-3">
         <label for="notif-wa">{{ __('Notif Wa') }}</label>
         <select class="form-control @error('notif_wa') is-invalid @enderror" name="notif_wa" id="notif-wa" required>
             <option value="" selected disabled>-- {{ __('Select notif wa') }} --</option>
@@ -55,6 +55,18 @@
                 {{ __('False') }}</option>
         </select>
         @error('notif_wa')
+            <span class="text-danger">
+                {{ $message }}
+            </span>
+        @enderror
+    </div>
+    <div class="col-md-3 mb-3">
+        <label for="session-wa-gateway">{{ __('Session Wa Gateway') }}</label>
+        <input type="text" name="session_wa_gateway" id="session-wa-gateway"
+            class="form-control @error('session_wa_gateway') is-invalid @enderror"
+            value="{{ isset($settingApp) ? $settingApp->session_wa_gateway : old('session_wa_gateway') }}"
+            placeholder="{{ __('Session Wa Gateway') }}" required />
+        @error('session_wa_gateway')
             <span class="text-danger">
                 {{ $message }}
             </span>
@@ -73,18 +85,7 @@
             </span>
         @enderror
     </div>
-    <div class="col-md-6 mb-3">
-        <label for="session-wa-gateway">{{ __('Session Wa Gateway') }}</label>
-        <input type="text" name="session_wa_gateway" id="session-wa-gateway"
-            class="form-control @error('session_wa_gateway') is-invalid @enderror"
-            value="{{ isset($settingApp) ? $settingApp->session_wa_gateway : old('session_wa_gateway') }}"
-            placeholder="{{ __('Session Wa Gateway') }}" required />
-        @error('session_wa_gateway')
-            <span class="text-danger">
-                {{ $message }}
-            </span>
-        @enderror
-    </div>
+
     <div class="col-md-6 mb-3">
         <label for="bot-telegram">{{ __('Bot Telegram') }}</label>
         <select class="form-control @error('bot_telegram') is-invalid @enderror" name="bot_telegram" id="bot-telegram"
@@ -98,6 +99,24 @@
                 {{ __('False') }}</option>
         </select>
         @error('bot_telegram')
+            <span class="text-danger">
+                {{ $message }}
+            </span>
+        @enderror
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="bot-telegram">{{ __('QRcode Paper') }}</label>
+        <select class="form-control @error('paper_qr_code') is-invalid @enderror" name="paper_qr_code" id="bot-telegram"
+            required>
+            <option value="" selected disabled>-- {{ __('Select QRcode Paper') }} --</option>
+            <option value="68.0315"
+                {{ isset($settingApp) && $settingApp->paper_qr_code == '68.0315' ? 'selected' : (old('paper_qr_code') == '68.0315' ? 'selected' : '') }}>
+                {{ __('24mm') }}</option>
+            <option value="93.5433"
+                {{ isset($settingApp) && $settingApp->paper_qr_code == '93.5433' ? 'selected' : (old('paper_qr_code') == '93.5433' ? 'selected' : '') }}>
+                {{ __('36mm') }}</option>
+        </select>
+        @error('paper_qr_code')
             <span class="text-danger">
                 {{ $message }}
             </span>
@@ -126,8 +145,8 @@
             <p style="color: red">* Choose a favicon if you want to change it</p>
         @endif
         <label class="form-label" for="favicon"> {{ __('Favicon') }}</label>
-        <input type="file" class="form-control @error('favicon') is-invalid @enderror" id="favicon" name="favicon"
-            onchange="previewImg()" value="{{ $settingApp->favicon }}">
+        <input type="file" class="form-control @error('favicon') is-invalid @enderror" id="favicon"
+            name="favicon" onchange="previewImg()" value="{{ $settingApp->favicon }}">
         @error('favicon')
             <span class="text-danger">
                 {{ $message }}

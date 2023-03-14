@@ -61,6 +61,7 @@ class SettingAppController extends Controller
             'notif_wa' => $request->notif_wa,
             'url_wa_gateway' => $request->url_wa_gateway,
             'session_wa_gateway' => $request->session_wa_gateway,
+            'paper_qr_code' => $request->paper_qr_code,
             'bot_telegram' => $request->bot_telegram
         ]);
 

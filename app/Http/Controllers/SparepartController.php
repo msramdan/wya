@@ -274,9 +274,19 @@ class SparepartController extends Controller
 
     public function print_qr(Request $request, $id)
     {
+        if (setting_web()->paper_qr_code == '68.0315') {
+            $widthQR = 80;
+            $hightPaper = 88;
+        } else {
+            $widthQR = 114;
+            $hightPaper = 115;
+        }
         $sparepart = Sparepart::findOrFail($id);
-        $pdf = PDF::loadview('spareparts.qr', ['sparepart' => $sparepart])
-            ->setPaper([0, 0, 88, 68.0315], 'landscape');
+        $pdf = PDF::loadview('spareparts.qr', [
+            'sparepart' => $sparepart,
+            'widthQR' => $widthQR
+        ])
+            ->setPaper([0, 0, $hightPaper, setting_web()->paper_qr_code], 'landscape');
         return $pdf->stream();
         // return $pdf->download('qr.pdf');
     }

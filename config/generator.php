@@ -136,7 +136,8 @@ return [
         [
             'header' => 'Inventory',
             'permissions' => [
-                'sparepart view'
+                'sparepart view',
+                'nomenklatur view'
             ],
             'menus' => [
                 [
@@ -145,13 +146,19 @@ return [
                     'route' => null,
                     'permission' => null,
                     'permissions' => [
-                        'sparepart view'
+                        'sparepart view',
+                        'nomenklatur view'
                     ],
                     'submenus' => [
                         [
                             'title' => 'Spareparts',
                             'route' => '/spareparts',
                             'permission' => 'sparepart view'
+                        ],
+                        [
+                            'title' => 'Reference Nomeklatur',
+                            'route' => '/nomenklaturs',
+                            'permission' => 'nomenklatur view'
                         ]
                     ]
                 ]
