@@ -44,3 +44,4 @@ Route::delete('delete_history/{id}', [App\Http\Controllers\SparepartController::
 Route::get('print_qr/{id}', [App\Http\Controllers\SparepartController::class, 'print_qr'])->name('print_qr')->middleware('auth');
 
 Route::resource('nomenklaturs', App\Http\Controllers\NomenklaturController::class)->middleware('auth');
+Route::resource('equipment', App\Http\Controllers\EquipmentController::class)->middleware('auth');

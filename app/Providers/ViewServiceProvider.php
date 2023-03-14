@@ -103,5 +103,34 @@ class ViewServiceProvider extends ServiceProvider
                 \App\Models\UnitItem::select('id', 'code_unit')->get()
             );
         });
+
+
+        View::composer(['equipments.create', 'equipments.edit'], function ($view) {
+            return $view->with(
+                'nomenklaturs',
+                \App\Models\Nomenklatur::select('id', 'code_nomenklatur')->get()
+            );
+        });
+
+        View::composer(['equipments.create', 'equipments.edit'], function ($view) {
+            return $view->with(
+                'equipmentCategories',
+                \App\Models\EquipmentCategory::select('id', 'code_categoty')->get()
+            );
+        });
+
+        View::composer(['equipments.create', 'equipments.edit'], function ($view) {
+            return $view->with(
+                'vendors',
+                \App\Models\Vendor::select('id', 'code_vendor')->get()
+            );
+        });
+
+        View::composer(['equipments.create', 'equipments.edit'], function ($view) {
+            return $view->with(
+                'equipmentLocations',
+                \App\Models\EquipmentLocation::select('id', 'code_location')->get()
+            );
+        });
     }
 }

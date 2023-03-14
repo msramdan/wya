@@ -137,7 +137,8 @@ return [
             'header' => 'Inventory',
             'permissions' => [
                 'sparepart view',
-                'nomenklatur view'
+                'nomenklatur view',
+                'equipment view'
             ],
             'menus' => [
                 [
@@ -147,9 +148,15 @@ return [
                     'permission' => null,
                     'permissions' => [
                         'sparepart view',
-                        'nomenklatur view'
+                        'nomenklatur view',
+                        'equipment view'
                     ],
                     'submenus' => [
+                        [
+                            'title' => 'Equipments',
+                            'route' => '/equipment',
+                            'permission' => 'equipment view'
+                        ],
                         [
                             'title' => 'Spareparts',
                             'route' => '/spareparts',
