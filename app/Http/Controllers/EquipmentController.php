@@ -69,12 +69,61 @@ class EquipmentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreEquipmentRequest $request)
+    public function store(Request $request)
     {
 
-        Equipment::create($request->validated());
-        Alert::toast('The equipment was created successfully.', 'success');
-        return redirect()->route('equipment.index');
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'barcode' => 'required|string|min:1|max:100',
+                'nomenklatur_id' => 'required|exists:App\Models\Nomenklatur,id',
+                'equipment_category_id' => 'required|exists:App\Models\EquipmentCategory,id',
+                'manufacturer' => 'required|string|min:1|max:255',
+                'type' => 'required|string|min:1|max:255',
+                'serial_number' => 'required|string|min:1|max:255',
+                'vendor_id' => 'required|exists:App\Models\Vendor,id',
+                'condition' => 'required',
+                'risk_level' => 'required',
+                'equipment_location_id' => 'required|exists:App\Models\EquipmentLocation,id',
+                'financing_code' => 'required|string|min:1|max:255',
+                'photo'     => 'required|image|mimes:png,jpg,jpeg',
+            ],
+        );
+        if ($validator->fails()) {
+            return redirect()->back()->withInput($request->all())->withErrors($validator);
+        }
+
+
+        DB::beginTransaction();
+        try {
+            //upload photo
+            $photo = $request->file('photo');
+            $photo->storeAs('public/img/equipment', $photo->hashName());
+
+            Equipment::create([
+                'barcode' => $request->barcode,
+                'nomenklatur_id' => $request->nomenklatur_id,
+                'equipment_category_id' => $request->equipment_category_id,
+                'manufacturer' => $request->manufacturer,
+                'type' => $request->type,
+                'serial_number' => $request->serial_number,
+                'vendor_id' => $request->vendor_id,
+                'condition' => $request->condition,
+                'risk_level' => $request->risk_level,
+                'equipment_location_id' => $request->equipment_location_id,
+                'financing_code' => $request->financing_code,
+                'photo'     => $photo->hashName(),
+            ]);
+
+            Alert::toast('The employee was created successfully.', 'success');
+            return redirect()->route('equipment.index');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            Alert::toast('Data failed to save', 'error');
+            return redirect()->route('equipment.index');
+        } finally {
+            DB::commit();
+        }
     }
 
     /**

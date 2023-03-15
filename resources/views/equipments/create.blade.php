@@ -49,3 +49,53 @@
         </div>
     </div>
 @endsection
+@push('js')
+    <script>
+        $(document).ready(function() {
+            var i = 1;
+            $('#add_berkas').click(function() {
+                i++;
+                $('#dynamic_field').append('<tr id="row' + i +
+                    '"><td><input required type="text" name="name_fittings[]" placeholder="" class="form-control " /></td><td><input required style="" type="text" name="qty[]" placeholder="" class="form-control " /></td><td><input required style="" type="file" name="photo[]" placeholder="" class="form-control " /></td><td><button type="button" name="remove" id="' +
+                    i +
+                    '" class="btn btn-danger btn_remove"><i class="fa fa-trash" aria-hidden="true"></i></button></td></tr>'
+                );
+            });
+
+            $(document).on('click', '.btn_remove', function() {
+                var button_id = $(this).attr("id");
+                $('#row' + button_id + '').remove();
+            });
+            $(document).on('click', '.btn_remove_data', function() {
+                var bid = this.id;
+                var trid = $(this).closest('tr').attr('id');
+                $('#' + trid + '').remove();
+            });
+
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            var i = 1;
+            $('#add_berkas2').click(function() {
+                i++;
+                $('#dynamic_field2').append('<tr id="row2' + i +
+                    '"><td><input required type="text" name="name_file[]" placeholder="" class="form-control " /></td><td><input type="file" name="file[]" class="form-control" required="" /></td><td><button type="button" name="remove" id="' +
+                    i +
+                    '" class="btn btn-danger btn_remove2"><i class="fa fa-trash" aria-hidden="true"></i></button></td></tr>'
+                );
+            });
+
+            $(document).on('click', '.btn_remove2', function() {
+                var button_id = $(this).attr("id");
+                $('#row2' + button_id + '').remove();
+            });
+
+            $(document).on('click', '.btn_remove2', function() {
+                var bid = this.id;
+                var trid = $(this).closest('tr').attr('id');
+                $('#' + trid + '').remove();
+            });
+        });
+    </script>
+@endpush

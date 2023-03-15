@@ -239,7 +239,9 @@
         <div class="card">
             <div class="card-body">
                 <div class="alert alert-secondary" role="alert">
-                    <b> <i class="fa fa-list"></i> Equipment Fittings</b>
+                    <b> <i class="fa fa-list"></i> Equipment Fittings <span style="color:red; font-size:11px">(
+                            Recommended
+                            format photo is jpg/png )</span></b>
                 </div>
                 <hr>
                 <div class="row">
@@ -250,10 +252,9 @@
                         <table class="table table-bordered " id="dynamic_field">
                             <thead>
                                 <tr>
-                                    <th>Name </th>
-                                    <th>Phone</th>
-                                    <th>Email</th>
-                                    <th>Remark</th>
+                                    <th>Name Fittings </th>
+                                    <th>Qty</th>
+                                    <th>Photo</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -272,7 +273,8 @@
             <div class="card-body">
                 <div class="alert alert-secondary" role="alert">
                     <b> <i class="fa fa-file" aria-hidden="true"></i>
-                        Equipment Document</b>
+                        Equipment Document <span style="color:red; font-size:11px">( Recommended
+                            format document is pdf )</span></b>
                 </div>
                 <hr>
                 <div class="row">

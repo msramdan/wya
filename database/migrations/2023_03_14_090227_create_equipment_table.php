@@ -16,17 +16,17 @@ return new class extends Migration
         Schema::create('equipment', function (Blueprint $table) {
             $table->id();
             $table->string('barcode', 100);
-			$table->foreignId('nomenklatur_id')->nullable()->constrained('nomenklaturs')->restrictOnUpdate()->nullOnDelete();
-			$table->foreignId('equipment_category_id')->nullable()->constrained('equipment_categories')->restrictOnUpdate()->nullOnDelete();
-			$table->string('manufacturer', 255);
-			$table->string('type', 255);
-			$table->string('serial_number', 255);
-			$table->foreignId('vendor_id')->nullable()->constrained('vendors')->restrictOnUpdate()->nullOnDelete();
-			$table->boolean('condition');
-			$table->boolean('risk_level');
-			$table->foreignId('equipment_location_id')->nullable()->constrained('equipment_locations')->restrictOnUpdate()->nullOnDelete();
-			$table->string('financing_code', 255);
-			$table->string('photo', 255);
+            $table->foreignId('nomenklatur_id')->nullable()->constrained('nomenklaturs')->restrictOnUpdate()->nullOnDelete();
+            $table->foreignId('equipment_category_id')->nullable()->constrained('equipment_categories')->restrictOnUpdate()->nullOnDelete();
+            $table->string('manufacturer', 255);
+            $table->string('type', 255);
+            $table->string('serial_number', 255);
+            $table->foreignId('vendor_id')->nullable()->constrained('vendors')->restrictOnUpdate()->nullOnDelete();
+            $table->string('condition');
+            $table->string('risk_level');
+            $table->foreignId('equipment_location_id')->nullable()->constrained('equipment_locations')->restrictOnUpdate()->nullOnDelete();
+            $table->string('financing_code', 255);
+            $table->string('photo', 255);
             $table->timestamps();
         });
     }
