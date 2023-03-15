@@ -1,7 +1,8 @@
 <div class="row mb-2">
     <div class="col-md-6 mb-2">
         <label for="kabkot-id">{{ __('Kabkot') }}</label>
-        <select class="form-control @error('kabkot_id') is-invalid @enderror" name="kabkot_id" id="kabkot-id" required>
+        <select class="form-control js-example-basic-multiple @error('kabkot_id') is-invalid @enderror" name="kabkot_id"
+            id="kabkot-id" required>
             <option value="" selected disabled>-- {{ __('Select kabkot') }} --</option>
 
             @foreach ($kabkots as $kabkot)

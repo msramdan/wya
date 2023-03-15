@@ -37,7 +37,8 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="employee-type-id">{{ __('Employee Type') }}</label>
-                        <select class="form-control @error('employee_type_id') is-invalid @enderror"
+                        <select
+                            class="form-control js-example-basic-multiple @error('employee_type_id') is-invalid @enderror"
                             name="employee_type_id" id="employee-type-id" required>
                             <option value="" selected disabled>-- {{ __('Select employee type') }} --</option>
 
@@ -57,7 +58,8 @@
 
                     <div class="col-md-6 mb-3">
                         <label for="employee-status">{{ __('Employee Status') }}</label>
-                        <select class="form-control @error('employee_status') is-invalid @enderror"
+                        <select
+                            class="form-control js-example-basic-multiple @error('employee_status') is-invalid @enderror"
                             name="employee_status" id="employee-status" required>
                             <option value="" selected disabled>-- {{ __('Select employee status') }} --</option>
                             <option value="1"
@@ -78,8 +80,9 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="departement-id">{{ __('Department') }}</label>
-                        <select class="form-control @error('departement_id') is-invalid @enderror" name="departement_id"
-                            id="departement-id" required>
+                        <select
+                            class="form-control js-example-basic-multiple @error('departement_id') is-invalid @enderror"
+                            name="departement_id" id="departement-id" required>
                             <option value="" selected disabled>-- {{ __('Select department') }} --</option>
 
                             @foreach ($departments as $department)
@@ -98,8 +101,9 @@
 
                     <div class="col-md-6 mb-3">
                         <label for="position-id">{{ __('Position') }}</label>
-                        <select class="form-control @error('position_id') is-invalid @enderror" name="position_id"
-                            id="position-id" required>
+                        <select
+                            class="form-control js-example-basic-multiple @error('position_id') is-invalid @enderror"
+                            name="position_id" id="position-id" required>
                             <option value="" selected disabled>-- {{ __('Select position') }} --</option>
 
                             @foreach ($positions as $position)
@@ -198,8 +202,9 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="provinsi-id">{{ __('Province') }}</label>
-                        <select class="form-control @error('provinsi_id') is-invalid @enderror" name="provinsi_id"
-                            id="provinsi-id" required>
+                        <select
+                            class="form-control js-example-basic-multiple @error('provinsi_id') is-invalid @enderror"
+                            name="provinsi_id" id="provinsi-id" required>
                             <option value="" selected disabled>-- {{ __('Select province') }} --</option>
 
                             @foreach ($provinces as $province)
@@ -220,8 +225,9 @@
 
                     <div class="col-md-6 mb-3">
                         <label for="kabkot-id">{{ __('Kabkot') }}</label>
-                        <select class="form-control @error('kabkot_id') is-invalid @enderror" name="kabkot_id"
-                            id="kabkot-id" required>
+                        <select
+                            class="form-control js-example-basic-multiple @error('kabkot_id') is-invalid @enderror"
+                            name="kabkot_id" id="kabkot-id" required>
                             <option value="" selected disabled>-- {{ __('Select kabkot') }} --</option>
 
                             @foreach ($kabkot as $kabkot)
@@ -241,8 +247,9 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="kecamatan-id">{{ __('Kecamatan') }}</label>
-                        <select class="form-control @error('kecamatan_id') is-invalid @enderror" name="kecamatan_id"
-                            id="kecamatan-id" required>
+                        <select
+                            class="form-control js-example-basic-multiple @error('kecamatan_id') is-invalid @enderror"
+                            name="kecamatan_id" id="kecamatan-id" required>
                             <option value="" selected disabled>-- {{ __('Select kecamatan') }} --</option>
 
                             @foreach ($kecamatan as $kecamatan)
@@ -261,8 +268,9 @@
 
                     <div class="col-md-6 mb-3">
                         <label for="kelurahan-id">{{ __('Kelurahan') }}</label>
-                        <select class="form-control @error('kelurahan_id') is-invalid @enderror" name="kelurahan_id"
-                            id="kelurahan-id" required>
+                        <select
+                            class="form-control js-example-basic-multiple @error('kelurahan_id') is-invalid @enderror"
+                            name="kelurahan_id" id="kelurahan-id" required>
                             <option value="" selected disabled>-- {{ __('Select kelurahan') }} --</option>
 
                             @foreach ($kelurahan as $kelurahan)

@@ -108,7 +108,7 @@ class ViewServiceProvider extends ServiceProvider
         View::composer(['equipments.create', 'equipments.edit'], function ($view) {
             return $view->with(
                 'nomenklaturs',
-                \App\Models\Nomenklatur::select('id', 'code_nomenklatur')->get()
+                \App\Models\Nomenklatur::select('id', 'name_nomenklatur')->get()
             );
         });
 

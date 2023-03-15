@@ -45,7 +45,8 @@
     </div>
     <div class="col-md-3 mb-3">
         <label for="notif-wa">{{ __('Notif Wa') }}</label>
-        <select class="form-control @error('notif_wa') is-invalid @enderror" name="notif_wa" id="notif-wa" required>
+        <select class="form-control js-example-basic-multiple @error('notif_wa') is-invalid @enderror" name="notif_wa"
+            id="notif-wa" required>
             <option value="" selected disabled>-- {{ __('Select notif wa') }} --</option>
             <option value="1"
                 {{ isset($settingApp) && $settingApp->notif_wa == '1' ? 'selected' : (old('notif_wa') == '1' ? 'selected' : '') }}>
@@ -88,8 +89,8 @@
 
     <div class="col-md-6 mb-3">
         <label for="bot-telegram">{{ __('Bot Telegram') }}</label>
-        <select class="form-control @error('bot_telegram') is-invalid @enderror" name="bot_telegram" id="bot-telegram"
-            required>
+        <select class="form-control js-example-basic-multiple @error('bot_telegram') is-invalid @enderror"
+            name="bot_telegram" id="bot-telegram" required>
             <option value="" selected disabled>-- {{ __('Select bot telegram') }} --</option>
             <option value="1"
                 {{ isset($settingApp) && $settingApp->bot_telegram == '1' ? 'selected' : (old('bot_telegram') == '1' ? 'selected' : '') }}>
@@ -105,9 +106,9 @@
         @enderror
     </div>
     <div class="col-md-6 mb-3">
-        <label for="bot-telegram">{{ __('QRcode Paper') }}</label>
-        <select class="form-control @error('paper_qr_code') is-invalid @enderror" name="paper_qr_code" id="bot-telegram"
-            required>
+        <label for="paper-qr-code">{{ __('QRcode Paper') }}</label>
+        <select class="form-control js-example-basic-multiple  @error('paper_qr_code') is-invalid @enderror"
+            name="paper_qr_code" id="paper-qr-code" required>
             <option value="" selected disabled>-- {{ __('Select QRcode Paper') }} --</option>
             <option value="68.0315"
                 {{ isset($settingApp) && $settingApp->paper_qr_code == '68.0315' ? 'selected' : (old('paper_qr_code') == '68.0315' ? 'selected' : '') }}>

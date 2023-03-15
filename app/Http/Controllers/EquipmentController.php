@@ -6,6 +6,9 @@ use App\Models\Equipment;
 use App\Http\Requests\{StoreEquipmentRequest, UpdateEquipmentRequest};
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class EquipmentController extends Controller
 {

@@ -37,16 +37,12 @@
                                             <th>#</th>
                                             <th>{{ __('Barcode') }}</th>
                                             <th>{{ __('Nomenklatur') }}</th>
+                                            <th>{{ __('Serial Number') }}</th>
                                             <th>{{ __('Equipment Category') }}</th>
                                             <th>{{ __('Manufacturer') }}</th>
                                             <th>{{ __('Type') }}</th>
-                                            <th>{{ __('Serial Number') }}</th>
-                                            <th>{{ __('Vendor') }}</th>
-                                            <th>{{ __('Condition') }}</th>
-                                            <th>{{ __('Risk Level') }}</th>
+
                                             <th>{{ __('Equipment Location') }}</th>
-                                            <th>{{ __('Financing Code') }}</th>
-                                            <th>{{ __('Photo') }}</th>
                                             <th>{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
@@ -82,6 +78,10 @@
                     name: 'nomenklatur.code_nomenklatur'
                 },
                 {
+                    data: 'serial_number',
+                    name: 'serial_number',
+                },
+                {
                     data: 'equipment_category',
                     name: 'equipment_category.code_categoty'
                 },
@@ -94,32 +94,8 @@
                     name: 'type',
                 },
                 {
-                    data: 'serial_number',
-                    name: 'serial_number',
-                },
-                {
-                    data: 'vendor',
-                    name: 'vendor.code_vendor'
-                },
-                {
-                    data: 'condition',
-                    name: 'condition',
-                },
-                {
-                    data: 'risk_level',
-                    name: 'risk_level',
-                },
-                {
                     data: 'equipment_location',
                     name: 'equipment_location.code_location'
-                },
-                {
-                    data: 'financing_code',
-                    name: 'financing_code',
-                },
-                {
-                    data: 'photo',
-                    name: 'photo',
                 },
                 {
                     data: 'action',

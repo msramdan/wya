@@ -66,7 +66,8 @@
         <div class="col-md-6 mb-2">
             <div class="form-group">
                 <label for="role">{{ __('Role') }}</label>
-                <select class="form-select" name="role" id="role" class="form-control" required>
+                <select class="form-select js-example-basic-multiple" name="role" id="role" class="form-control"
+                    required>
                     <option value="" selected disabled>-- Select role --</option>
                     @foreach ($roles as $role)
                         <option value="{{ $role->id }}">{{ $role->name }}</option>
@@ -99,7 +100,8 @@
             <div class="col-md-6 mb-2">
                 <div class="form-group">
                     <label for="role">{{ __('Role') }}</label>
-                    <select class="form-select" name="role" id="role" class="form-control" required>
+                    <select class="form-select js-example-basic-multiple" name="role" id="role" class="form-control"
+                        required>
                         <option value="" selected disabled>{{ __('-- Select role --') }}</option>
                         @foreach ($roles as $role)
                             <option value="{{ $role->id }}"
