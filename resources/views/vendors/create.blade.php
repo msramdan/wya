@@ -514,7 +514,7 @@
             $('#add_berkas2').click(function() {
                 i++;
                 $('#dynamic_field2').append('<tr id="row2' + i +
-                    '"><td><input required type="text" name="name_file[]" placeholder="" class="form-control " /></td><td><input type="file" name="file[]" class="form-control" required="" /></td><td><button type="button" name="remove" id="' +
+                    '"><td><input required type="text" name="name_file[]" placeholder="" class="form-control " /></td><td><input type="file"  name="file[]" class="form-control" required="" /></td><td><button type="button" name="remove" id="' +
                     i +
                     '" class="btn btn-danger btn_remove2"><i class="fa fa-trash" aria-hidden="true"></i></button></td></tr>'
                 );

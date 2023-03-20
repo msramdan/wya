@@ -276,7 +276,7 @@
                                         <td style="width: 200px">
                                             <center>
                                                 {{-- equipment_fittings --}}
-                                                <a href="#" style="" class="btn btn-primary"
+                                                <a href="#" style="width: 160px" class="btn btn-primary"
                                                     data-bs-toggle="modal" id="view_photo"
                                                     data-id="{{ $row->id }}" data-photo="{{ $row->photo }}"
                                                     data-name_fittings="{{ $row->name_fittings }}"
@@ -327,12 +327,12 @@
                                         <td>
                                             <input type="hidden" name="id_asal_file[]" value="{{ $row->id }}"
                                                 class="form-control " />
-                                            <input style="width: 220px" required type="text" name="name_file[]"
+                                            <input required type="text" name="name_file[]"
                                                 value="{{ $row->name_file }}" placeholder="" class="form-control" />
                                         </td>
-                                        <td>
+                                        <td style="width: 200px">
                                             <center>
-                                                <a href="#" style="width: 200px" class="btn btn-primary"
+                                                <a href="#" style="width: 160px" class="btn btn-primary"
                                                     data-bs-toggle="modal" id="view_gambar"
                                                     data-id="{{ $row->id }}" data-file="{{ $row->file }}"
                                                     data-name_file="{{ $row->name_file }}"

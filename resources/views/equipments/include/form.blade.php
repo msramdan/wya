@@ -254,7 +254,7 @@
                                 <tr>
                                     <th>Name Fittings </th>
                                     <th>Qty</th>
-                                    <th>Photo</th>
+                                    <th style="width: 200px">Photo</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -266,8 +266,6 @@
                 </div>
             </div>
         </div>
-
-
 
         <div class="card">
             <div class="card-body">
@@ -286,7 +284,7 @@
                             <thead>
                                 <tr>
                                     <th>File Name</th>
-                                    <th>File</th>
+                                    <th style="width: 200px">File</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>

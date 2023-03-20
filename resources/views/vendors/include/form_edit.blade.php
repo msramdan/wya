@@ -316,9 +316,9 @@
                                                     name="name_file[]" value="{{ $row->name_file }}" placeholder=""
                                                     class="form-control" />
                                             </td>
-                                            <td>
+                                            <td style="width: 200px">
                                                 <center>
-                                                    <a href="#" style="width: 200px" class="btn btn-primary"
+                                                    <a href="#" style="width: 160px" class="btn btn-primary"
                                                         data-bs-toggle="modal" id="view_gambar"
                                                         data-id="{{ $row->id }}"
                                                         data-file="{{ $row->file }}"
