@@ -314,7 +314,7 @@
                                                     value="{{ $row->id }}" class="form-control " />
                                                 <input style="width: 220px" required type="text"
                                                     name="name_file[]" value="{{ $row->name_file }}" placeholder=""
-                                                    class="form-control" />
+                                                    readonly class="form-control" />
                                             </td>
                                             <td style="width: 200px">
                                                 <center>

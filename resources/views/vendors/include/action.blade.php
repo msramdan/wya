@@ -1,5 +1,5 @@
 <td>
-    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" title="View PIC"
         data-bs-target="#exampleModalPic{{ $model->id }}">
         <i class="mdi mdi-phone-classic"></i>
     </button>
@@ -49,7 +49,7 @@
 
 
     <a href="#" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-id="{{ $model->id }}"
-        id="view_gambar" data-bs-target="#largeModal" title="View Gambar"><i class="mdi mdi-file"></i>
+        id="view_gambar" data-bs-target="#largeModal" title="View  File Vendor"><i class="mdi mdi-file"></i>
     </a>
     <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal"
         aria-hidden="true">

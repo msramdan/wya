@@ -32,7 +32,8 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{ route('equipment.update', $equipment->id) }}" method="POST">
+                            <form action="{{ route('equipment.update', $equipment->id) }}" method="POST"
+                                enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
 
@@ -78,7 +79,7 @@
             $('#add_berkas').click(function() {
                 i++;
                 $('#dynamic_field').append('<tr id="row' + i +
-                    '"><td><input type="hidden" name="id_asal[]" value="" class="form-control " /><input required type="text" name="name_fittings[]" placeholder="" class="form-control " /></td><td><input required style="" type="number" name="qty[]" placeholder="" class="form-control " /></td><td><input required type="file" name="equipment_fittings[]" placeholder="" class="form-control " /></td><td><button type="button" name="remove" id="' +
+                    '"><td><input type="hidden" name="id_asal_fittings[]" value="" class="form-control " /><input required type="text" name="name_fittings[]" placeholder="" class="form-control " /></td><td><input required style="" type="number" name="qty[]" placeholder="" class="form-control " /></td><td><input required type="file" name="equipment_fittings[]" placeholder="" class="form-control " /></td><td><button type="button" name="remove" id="' +
                     i +
                     '" class="btn btn-danger btn_remove"><i class="fa fa-trash" aria-hidden="true"></i></button></td></tr>'
                 );

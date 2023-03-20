@@ -209,15 +209,24 @@
                     </div>
                     <div class="col-md-6 mb-2">
                         <label for="photo">{{ __('Photo') }}</label>
-                        <input type="file" name="photo" id="photo"
-                            class="form-control @error('photo') is-invalid @enderror"
-                            value="{{ isset($employee) ? $employee->photo : old('photo') }}"
-                            placeholder="{{ __('Photo') }}" required />
-                        @error('photo')
-                            <span class="text-danger">
-                                {{ $message }}
-                            </span>
-                        @enderror
+                        <div class="input-group">
+                            <input type="file" name="photo" id="photo"
+                                class="form-control @error('photo') is-invalid @enderror"
+                                value="{{ isset($employee) ? $employee->photo : old('photo') }}"
+                                placeholder="{{ __('Photo') }}" />
+                            <button class="btn btn-primary" type="button"><i class="mdi mdi-image"
+                                    aria-hidden="true"></i></button>
+                            <p style="color: red">* Choose a photo if you want to change it</p>
+                            @error('photo')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                        </div>
+
+
+
+
                     </div>
                 </div>
             </div>
@@ -328,7 +337,8 @@
                                             <input type="hidden" name="id_asal_file[]" value="{{ $row->id }}"
                                                 class="form-control " />
                                             <input required type="text" name="name_file[]"
-                                                value="{{ $row->name_file }}" placeholder="" class="form-control" />
+                                                value="{{ $row->name_file }}" placeholder="" class="form-control"
+                                                readonly />
                                         </td>
                                         <td style="width: 200px">
                                             <center>
