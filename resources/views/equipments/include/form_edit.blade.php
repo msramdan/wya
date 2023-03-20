@@ -214,8 +214,18 @@
                                 class="form-control @error('photo') is-invalid @enderror"
                                 value="{{ isset($employee) ? $employee->photo : old('photo') }}"
                                 placeholder="{{ __('Photo') }}" />
+
+                            {{--
                             <button class="btn btn-primary" type="button"><i class="mdi mdi-image"
-                                    aria-hidden="true"></i></button>
+                                    aria-hidden="true"></i></button> --}}
+
+
+                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" id="view_photo_alat"
+                                data-photo="{{ $equipment->photo }}" data-bs-target="#modalPhotoAlat"
+                                title="View Photo"><i class="mdi mdi-image" aria-hidden="true"></i>
+                            </a>
+
+
                             <p style="color: red">* Choose a photo if you want to change it</p>
                             @error('photo')
                                 <span class="text-danger">
@@ -223,10 +233,6 @@
                                 </span>
                             @enderror
                         </div>
-
-
-
-
                     </div>
                 </div>
             </div>
@@ -401,6 +407,27 @@
             </div>
             <div class="modal-body">
                 <center><img src="" id="photo_fitting" style="width: 100%;margin:0px" />
+                </center>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalPhotoAlat" tabindex="-1" role="dialog" aria-labelledby="basicModal"
+    aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Photo Equipment </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <hr>
+            </div>
+            <div class="modal-body">
+                <center><img src="" id="photo_alat" style="width: 100%;margin:0px" />
                 </center>
             </div>
             <div class="modal-footer">

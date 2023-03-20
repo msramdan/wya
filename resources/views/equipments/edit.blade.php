@@ -55,12 +55,20 @@
 
 @push('js')
     <script type="text/javascript">
+        $(document).on('click', '#view_photo_alat', function() {
+            var photo = $(this).data('photo');
+            $('#modalPhotoAlat #photo_alat').attr("src", "../../../storage/img/equipment/" + photo);
+            console.log(photo);
+        })
+    </script>
+
+    <script type="text/javascript">
         $(document).on('click', '#view_gambar', function() {
             var file = $(this).data('file');
             var name_file = $(this).data('name_file');
             $('#largeModal #file_vendor').attr("src", "../../../storage/img/file_equipment/" + file);
             $('#largeModal #name_file').text(name_file);
-            console.log(name_file);
+            // console.log(name_file);
         })
     </script>
 
@@ -70,7 +78,7 @@
             var name_fittings = $(this).data('name_fittings');
             $('#largeModalFittings #photo_fitting').attr("src", "../../../storage/img/equipment_fittings/" + photo);
             $('#largeModalFittings #name_fittings').text(name_fittings);
-            console.log(name_fittings);
+            // console.log(name_fittings);
         })
     </script>
     <script>
