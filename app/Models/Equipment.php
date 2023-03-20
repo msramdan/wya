@@ -22,7 +22,7 @@ class Equipment extends Model
     }
     public function equipment_category()
     {
-        return $this->belongsTo(\App\Models\EquipmentCategory::class);
+        return $this->belongsTo(\App\Models\EquipmentCategory::class, 'equipment_category_id');
     }
     public function vendor()
     {
@@ -30,6 +30,6 @@ class Equipment extends Model
     }
     public function equipment_location()
     {
-        return $this->belongsTo(\App\Models\EquipmentLocation::class);
+        return $this->belongsTo(\App\Models\EquipmentLocation::class, 'equipment_location_id');
     }
 }

@@ -259,6 +259,37 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($fittings as $row)
+                                    <tr id="detail_fittings<?= $row->id ?>">
+                                        <td>
+                                            <input type="hidden" name="id_asal_fittings[]"
+                                                value="{{ $row->id }}" class="form-control " />
+                                            <input style="" required type="text" name="name_fittings[]"
+                                                value="{{ $row->name_fittings }}" placeholder=""
+                                                class="form-control" />
+                                        </td>
+
+                                        <td>
+                                            <input style="" required type="number" name="qty[]"
+                                                value="{{ $row->qty }}" placeholder="" class="form-control" />
+                                        </td>
+                                        <td style="width: 200px">
+                                            <center>
+                                                {{-- equipment_fittings --}}
+                                                <a href="#" style="" class="btn btn-primary"
+                                                    data-bs-toggle="modal" id="view_photo"
+                                                    data-id="{{ $row->id }}" data-photo="{{ $row->photo }}"
+                                                    data-name_fittings="{{ $row->name_fittings }}"
+                                                    data-bs-target="#largeModalFittings" title="View Photo"><i
+                                                        class="mdi mdi-image"></i> View Photo
+                                                </a>
+                                            </center>
+                                        </td>
+                                        <td><button type="button" name="" id=""
+                                                class="btn btn-danger btn_remove_data"><i class="fa fa-trash"
+                                                    aria-hidden="true"></i></button></td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -291,6 +322,31 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($file as $row)
+                                    <tr id="detail_file<?= $row->id ?>">
+                                        <td>
+                                            <input type="hidden" name="id_asal_file[]" value="{{ $row->id }}"
+                                                class="form-control " />
+                                            <input style="width: 220px" required type="text" name="name_file[]"
+                                                value="{{ $row->name_file }}" placeholder="" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <center>
+                                                <a href="#" style="width: 200px" class="btn btn-primary"
+                                                    data-bs-toggle="modal" id="view_gambar"
+                                                    data-id="{{ $row->id }}" data-file="{{ $row->file }}"
+                                                    data-name_file="{{ $row->name_file }}"
+                                                    data-bs-target="#largeModal" title="View Gambar"><i
+                                                        class="mdi mdi-file"></i> View File
+                                                </a>
+
+                                            </center>
+                                        </td>
+                                        <td><button type="button" name="" id=""
+                                                class="btn btn-danger btn_remove_data"><i class="fa fa-trash"
+                                                    aria-hidden="true"></i></button></td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -301,4 +357,45 @@
     </div>
 
 
+</div>
+
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">File Vendor : <span id="name_file"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <hr>
+            </div>
+            <div class="modal-body">
+                <center><embed src="" id="file_vendor" style="width: 700px;height:500px; margin:0px" />
+                </center>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="largeModalFittings" tabindex="-1" role="dialog" aria-labelledby="basicModal"
+    aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Photo Fitting : <span id="name_fittings"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <hr>
+            </div>
+            <div class="modal-body">
+                <center><img src="" id="photo_fitting" style="width: 100%;margin:0px" />
+                </center>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>

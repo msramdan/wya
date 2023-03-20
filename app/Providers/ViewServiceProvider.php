@@ -115,21 +115,21 @@ class ViewServiceProvider extends ServiceProvider
         View::composer(['equipments.create', 'equipments.edit'], function ($view) {
             return $view->with(
                 'equipmentCategories',
-                \App\Models\EquipmentCategory::select('id', 'code_categoty')->get()
+                \App\Models\EquipmentCategory::select('id', 'category_name')->get()
             );
         });
 
         View::composer(['equipments.create', 'equipments.edit'], function ($view) {
             return $view->with(
                 'vendors',
-                \App\Models\Vendor::select('id', 'code_vendor')->get()
+                \App\Models\Vendor::select('id', 'name_vendor')->get()
             );
         });
 
         View::composer(['equipments.create', 'equipments.edit'], function ($view) {
             return $view->with(
                 'equipmentLocations',
-                \App\Models\EquipmentLocation::select('id', 'code_location')->get()
+                \App\Models\EquipmentLocation::select('id', 'location_name')->get()
             );
         });
     }

@@ -9,6 +9,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class EquipmentController extends Controller
 {
@@ -28,7 +29,7 @@ class EquipmentController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $equipments = Equipment::with('nomenklatur:id,code_nomenklatur', 'equipment_category:id,code_categoty', 'vendor:id,code_vendor', 'equipment_location:id,code_location',);
+            $equipments = Equipment::with('nomenklatur:id,name_nomenklatur', 'equipment_category:id,category_name', 'vendor:id,name_vendor', 'equipment_location:id,location_name',);
 
             return DataTables::of($equipments)
                 ->addIndexColumn()
@@ -39,13 +40,13 @@ class EquipmentController extends Controller
                 })
 
                 ->addColumn('nomenklatur', function ($row) {
-                    return $row->nomenklatur ? $row->nomenklatur->code_nomenklatur : '';
+                    return $row->nomenklatur ? $row->nomenklatur->name_nomenklatur : '';
                 })->addColumn('equipment_category', function ($row) {
-                    return $row->equipment_category ? $row->equipment_category->code_categoty : '';
+                    return $row->equipment_category ? $row->equipment_category->category_name : '';
                 })->addColumn('vendor', function ($row) {
-                    return $row->vendor ? $row->vendor->code_vendor : '';
+                    return $row->vendor ? $row->vendor->name_vendor : '';
                 })->addColumn('equipment_location', function ($row) {
-                    return $row->equipment_location ? $row->equipment_location->code_location : '';
+                    return $row->equipment_location ? $row->equipment_location->location_name : '';
                 })->addColumn('action', 'equipments.include.action')
                 ->toJson();
         }
@@ -99,8 +100,7 @@ class EquipmentController extends Controller
             //upload photo
             $photo = $request->file('photo');
             $photo->storeAs('public/img/equipment', $photo->hashName());
-
-            Equipment::create([
+            $equipment = Equipment::create([
                 'barcode' => $request->barcode,
                 'nomenklatur_id' => $request->nomenklatur_id,
                 'equipment_category_id' => $request->equipment_category_id,
@@ -114,6 +114,43 @@ class EquipmentController extends Controller
                 'financing_code' => $request->financing_code,
                 'photo'     => $photo->hashName(),
             ]);
+            $insertedId = $equipment->id;
+            if ($equipment) {
+                $files = $request->file('file');
+                $name_file = $request->name_file;
+
+                if ($request->hasFile('file')) {
+                    foreach ($files as $key => $file) {
+                        $name = $file->hashName();
+                        $file->storeAs('public/img/file_equipment', $name);
+                        $data = [
+                            'equipment_id' => $insertedId,
+                            'file' => $name,
+                            'name_file' => $name_file[$key],
+                        ];
+
+                        DB::table('equipment_files')->insert($data);
+                    }
+                }
+
+                $name_fittings = $request->name_fittings;
+                $qty = $request->qty;
+                $equipment_fittings = $request->file('equipment_fittings');
+
+                if ($request->hasFile('equipment_fittings')) {
+                    foreach ($equipment_fittings as $key => $equipment_fittings) {
+                        $equipment_fittings_name = $equipment_fittings->hashName();
+                        $equipment_fittings->storeAs('public/img/equipment_fittings', $equipment_fittings_name);
+                        $data = [
+                            'equipment_id' => $insertedId,
+                            'name_fittings' => $name_fittings[$key],
+                            'qty' => $qty[$key],
+                            'photo' => $equipment_fittings_name,
+                        ];
+                        DB::table('equipment_fittings')->insert($data);
+                    }
+                }
+            }
 
             Alert::toast('The employee was created successfully.', 'success');
             return redirect()->route('equipment.index');
@@ -148,8 +185,9 @@ class EquipmentController extends Controller
     public function edit(Equipment $equipment)
     {
         $equipment->load('nomenklatur:id,code_nomenklatur', 'equipment_category:id,code_categoty', 'vendor:id,code_vendor', 'equipment_location:id,code_location',);
-
-        return view('equipments.edit', compact('equipment'));
+        $file = DB::table('equipment_files')->where('equipment_id', $equipment->id)->get();
+        $fittings  = DB::table('equipment_fittings')->where('equipment_id', $equipment->id)->get();
+        return view('equipments.edit', compact('equipment', 'file', 'fittings'));
     }
 
     /**
@@ -177,6 +215,25 @@ class EquipmentController extends Controller
     public function destroy(Equipment $equipment)
     {
         try {
+            // hapus equipment_fittings
+            $equipment_fittings = DB::table('equipment_fittings')
+                ->where('equipment_id', '=', $equipment->id)
+                ->get();
+            foreach ($equipment_fittings as $value) {
+                Storage::disk('local')->delete('public/img/equipment_fittings/' . $value->photo);
+                DB::table('equipment_fittings')->where('id', '=', $value->id)->delete();
+            }
+
+            // hapus equipment_files
+            $equipment_files = DB::table('equipment_files')
+                ->where('equipment_id', '=', $equipment->id)
+                ->get();
+            foreach ($equipment_files as $value) {
+                Storage::disk('local')->delete('public/img/file_equipment/' . $value->file);
+                DB::table('equipment_files')->where('id', '=', $value->id)->delete();
+            }
+
+            Storage::disk('local')->delete('public/img/equipment/' . $equipment->photo);
             $equipment->delete();
             Alert::toast('The equipment was deleted successfully.', 'success');
             return redirect()->route('equipment.index');

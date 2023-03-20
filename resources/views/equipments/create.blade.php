@@ -56,7 +56,7 @@
             $('#add_berkas').click(function() {
                 i++;
                 $('#dynamic_field').append('<tr id="row' + i +
-                    '"><td><input required type="text" name="name_fittings[]" placeholder="" class="form-control " /></td><td><input required style="" type="text" name="qty[]" placeholder="" class="form-control " /></td><td><input required style="" type="file" name="photo[]" placeholder="" class="form-control " /></td><td><button type="button" name="remove" id="' +
+                    '"><td><input required type="text" name="name_fittings[]" placeholder="" class="form-control " /></td><td><input required style="" type="number" name="qty[]" placeholder="" class="form-control " /></td><td><input required style="" type="file" name="equipment_fittings[]" placeholder="" class="form-control " /></td><td><button type="button" name="remove" id="' +
                     i +
                     '" class="btn btn-danger btn_remove"><i class="fa fa-trash" aria-hidden="true"></i></button></td></tr>'
                 );
