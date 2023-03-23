@@ -197,5 +197,5 @@ return [
         ['group' => 'spareparts', 'access' => ['sparepart view', 'sparepart create', 'sparepart edit', 'sparepart delete', 'download qr', 'sparepart stock in', 'sparepart stock out', 'sparepart history']],
         ['group' => 'nomenklaturs', 'access' => ['nomenklatur view']],
         ['group' => 'equipments', 'access' => ['equipment view', 'equipment create', 'equipment edit', 'equipment delete']],
-    ],
-];
+  ['group' => 'work orders', 'access' => ['work order view', 'work order create', 'work order edit', 'work order delete']], 
+		],];

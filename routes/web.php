@@ -45,3 +45,5 @@ Route::get('print_qr/{id}', [App\Http\Controllers\SparepartController::class, 'p
 
 Route::resource('nomenklaturs', App\Http\Controllers\NomenklaturController::class)->middleware('auth');
 Route::resource('equipment', App\Http\Controllers\EquipmentController::class)->middleware('auth');
+
+Route::resource('work-orders', App\Http\Controllers\WorkOrderController::class)->middleware('auth');

@@ -132,5 +132,20 @@ class ViewServiceProvider extends ServiceProvider
                 \App\Models\EquipmentLocation::select('id', 'location_name')->get()
             );
         });
+
+
+        View::composer(['work-orders.create', 'work-orders.edit'], function ($view) {
+            return $view->with(
+                'equipments',
+                \App\Models\Equipment::select('id', 'barcode')->get()
+            );
+        });
+
+        View::composer(['work-orders.create', 'work-orders.edit'], function ($view) {
+            return $view->with(
+                'users',
+                \App\Models\User::select('id', 'name')->get()
+            );
+        });
     }
 }

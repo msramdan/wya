@@ -112,7 +112,7 @@ return [
         [
             'header' => 'WorkOrder',
             'permissions' => [
-                'employee view'
+                'work order view'
             ],
             'menus' => [
                 [
@@ -121,13 +121,13 @@ return [
                     'route' => null,
                     'permission' => null,
                     'permissions' => [
-                        'employee view'
+                        'work order view'
                     ],
                     'submenus' => [
                         [
-                            'title' => 'Employee Types',
-                            'route' => '/employee-types',
-                            'permission' => 'employee type view'
+                            'title' => 'Work Orders Submission',
+                            'route' => '/work-orders',
+                            'permission' => 'work order view'
                         ]
                     ]
                 ]
