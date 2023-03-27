@@ -241,19 +241,30 @@
             <div class="container-fluid" data-aos="fade-up">
                 <div class="gallery-slider swiper">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide"><a href="assets/img/gallery/gallery-1.png" class="gallery-lightbox"
-                                data-gall="gallery-carousel"><img
-                                    src="{{ asset('landing/demo/templates/Appland/assets/img/gallery/gallery-1.png') }}"
+                        <div class="swiper-slide"><a
+                                href=" {{ asset('landing/demo/templates/Appland/assets/img/gallery/gallery-1.webp') }}"
+                                class="gallery-lightbox" data-gall="gallery-carousel"><img
+                                    style="width: 100%; border-radius: 10%;"
+                                    src="{{ asset('landing/demo/templates/Appland/assets/img/gallery/gallery-1.webp') }}"
                                     class="img-fluid" alt=""></a></div>
 
-                        <div class="swiper-slide"><a href="assets/img/gallery/gallery-2.png" class="gallery-lightbox"
-                                data-gall="gallery-carousel"><img
-                                    src="{{ asset('landing/demo/templates/Appland/assets/img/gallery/gallery-2.png') }}"
+                        <div class="swiper-slide"><a
+                                href="{{ asset('landing/demo/templates/Appland/assets/img/gallery/gallery-2.webp') }}"
+                                class="gallery-lightbox" data-gall="gallery-carousel"><img
+                                    style="width: 100%; border-radius: 10%;"
+                                    src="{{ asset('landing/demo/templates/Appland/assets/img/gallery/gallery-2.webp') }}"
                                     class="img-fluid" alt=""></a></div>
-
-                        <div class="swiper-slide"><a href="assets/img/gallery/gallery-3.png" class="gallery-lightbox"
-                                data-gall="gallery-carousel"><img
-                                    src="{{ asset('landing/demo/templates/Appland/assets/img/gallery/gallery-3.png') }}"
+                        <div class="swiper-slide"><a
+                                href="{{ asset('landing/demo/templates/Appland/assets/img/gallery/gallery-3.webp') }}"
+                                class="gallery-lightbox" data-gall="gallery-carousel"><img
+                                    style="width: 100%; border-radius: 10%;"
+                                    src="{{ asset('landing/demo/templates/Appland/assets/img/gallery/gallery-3.webp') }}"
+                                    class="img-fluid" alt=""></a></div>
+                        <div class="swiper-slide"><a
+                                href="{{ asset('landing/demo/templates/Appland/assets/img/gallery/gallery-4.webp') }}"
+                                class="gallery-lightbox" data-gall="gallery-carousel"><img
+                                    style="width: 100%; border-radius: 10%;"
+                                    src="{{ asset('landing/demo/templates/Appland/assets/img/gallery/gallery-4.webp') }}"
                                     class="img-fluid" alt=""></a></div>
                     </div>
                     <div class="swiper-pagination"></div>
