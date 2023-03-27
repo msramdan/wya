@@ -58,9 +58,9 @@
                             yang diperuntukan Rumah Sakit
                             yang befungsi untuk Mengelola Aset dan sebagai Sarana Pendukung Program Inspection
                             Preventive Maintanance yang mengacu pada MFK 8/KARS 2012/JCI.</p>
-                        <a href="#" class="download-btn"><i class="bx bxl-whatsapp"></i> Kirim
+                        {{-- <a href="#" class="download-btn"><i class="bx bxl-whatsapp"></i> Kirim
                             Email</a>
-                        <a href="#" class="download-btn"><i class="bx bxl-whatsapp"></i> Pesan WhatsApp</a>
+                        <a href="#" class="download-btn"><i class="bx bxl-whatsapp"></i> Pesan WhatsApp</a> --}}
                     </div>
                 </div>
                 <div class="col-lg-6 d-lg-flex flex-lg-column align-items-stretch order-1 order-lg-2 hero-img"
