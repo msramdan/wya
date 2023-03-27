@@ -270,6 +270,32 @@
     <script src="{{ asset('landing/assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
     <script src="{{ asset('landing/demo/templates/Appland/assets/js/main.js') }}"></script>
     <script async src='https://www.googletagmanager.com/gtag/js?id=G-P7JSYB1CSP'></script>
+    <!-- GetButton.io widget -->
+    <script type="text/javascript">
+        (function() {
+            var options = {
+                telegram: "msramdan9090", // Telegram bot username
+                whatsapp: "+6283874731480", // WhatsApp number
+                call_to_action: "Kirimi kami pesan", // Call to action
+                button_color: "#129BF4", // Color of button
+                position: "right", // Position may be 'right' or 'left'
+                order: "telegram,whatsapp", // Order of buttons
+            };
+            var proto = 'https:',
+                host = "getbutton.io",
+                url = proto + '//static.' + host;
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.async = true;
+            s.src = url + '/widget-send-button/js/init.js';
+            s.onload = function() {
+                WhWidgetSendButton.init(host, proto, options);
+            };
+            var x = document.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(s, x);
+        })();
+    </script>
+    <!-- /GetButton.io widget -->
 </body>
 
 </html>
