@@ -26,8 +26,7 @@
     <header id="header" class="fixed-top  header-transparent ">
         <div class="container d-flex align-items-center justify-content-between">
             <div class="logo">
-                {{-- <a href="index.html"><img src="https://www.marsweb.id/assets/login_v2/images/logo.png" alt=""
-                        style="width: 150px; height:120px"></a> --}}
+                <a href="index.html"><img src="{{ asset('landing/logo.png') }}" alt=""></a>
             </div>
 
             <nav id="navbar" class="navbar">
