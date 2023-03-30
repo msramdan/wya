@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\EquipmentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +17,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::group([
+    'as' => 'api.'
+], function () {
+    Route::group([
+        'prefix' => 'equipments',
+        'as' => 'equipment.',
+    ], function () {
+        Route::get('/', [EquipmentController::class, 'index'])->name('index');
+        Route::get('/{id}', [EquipmentController::class, 'show'])->name('show');
+    });
 });

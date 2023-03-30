@@ -14,7 +14,7 @@ class SettingApp extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['aplication_name', 'logo', 'favicon', 'phone', 'email', 'address', 'url_wa_gateway', 'session_wa_gateway', 'bot_telegram', 'paper_qr_code'];
+    protected $fillable = ['aplication_name', 'logo', 'favicon', 'phone', 'email', 'address', 'url_wa_gateway', 'session_wa_gateway', 'bot_telegram', 'paper_qr_code', 'work_order_has_access_approval_users_id'];
 
     /**
      * The attributes that should be cast.

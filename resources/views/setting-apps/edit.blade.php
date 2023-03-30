@@ -29,8 +29,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{ route('setting-apps.update', $settingApp->id) }}" method="POST"
-                                enctype="multipart/form-data">
+                            <form action="{{ route('setting-apps.update', $settingApp->id) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
 
@@ -45,3 +44,12 @@
         </div>
     </div>
 @endsection
+
+
+@push('css-styles')
+    <style>
+        .select2-container .select2-selection--multiple .select2-selection__choice {
+            color: #000 !important;
+        }
+    </style>
+@endpush

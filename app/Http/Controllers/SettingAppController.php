@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SettingApp;
 use App\Http\Requests\{StoreSettingAppRequest, UpdateSettingAppRequest};
+use App\Models\User;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
@@ -28,7 +29,9 @@ class SettingAppController extends Controller
     public function index()
     {
         $settingApp = SettingApp::findOrFail(1)->first();
-        return view('setting-apps.edit', compact('settingApp'));
+        $users = User::orderBy('name', 'ASC')->get();
+
+        return view('setting-apps.edit', compact('settingApp', 'users'));
     }
 
     public function update(Request $request, $id)
@@ -62,7 +65,8 @@ class SettingAppController extends Controller
             'url_wa_gateway' => $request->url_wa_gateway,
             'session_wa_gateway' => $request->session_wa_gateway,
             'paper_qr_code' => $request->paper_qr_code,
-            'bot_telegram' => $request->bot_telegram
+            'bot_telegram' => $request->bot_telegram,
+            'work_order_has_access_approval_users_id' => json_encode($request->work_order_has_access_approval_users_id)
         ]);
 
         Alert::toast('The settingApp was updated successfully.', 'success');
