@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\WorkOrder;
 use App\Http\Requests\{StoreWorkOrderRequest, UpdateWorkOrderRequest};
+use App\Models\EquipmentLocation;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -25,7 +26,7 @@ class WorkOrderController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $workOrders = WorkOrder::with('equipment:id,barcode', 'user:id,name', );
+            $workOrders = WorkOrder::with('equipment:id,barcode', 'user:id,name',);
 
             return DataTables::of($workOrders)
                 ->addIndexColumn()
@@ -35,10 +36,10 @@ class WorkOrderController extends Controller
                     return $row->updated_at->format('d M Y H:i:s');
                 })
 
-                ->addColumn('note', function($row){
+                ->addColumn('note', function ($row) {
                     return str($row->note)->limit(100);
                 })
-				->addColumn('equipment', function ($row) {
+                ->addColumn('equipment', function ($row) {
                     return $row->equipment ? $row->equipment->barcode : '';
                 })->addColumn('user', function ($row) {
                     return $row->user ? $row->user->name : '';
@@ -56,7 +57,11 @@ class WorkOrderController extends Controller
      */
     public function create()
     {
-        return view('work-orders.create');
+        $data = [
+            'equipmentLocations' => EquipmentLocation::orderBy('location_name', 'ASC')->get(),
+        ];
+
+        return view('work-orders.create', $data);
     }
 
     /**
@@ -67,11 +72,10 @@ class WorkOrderController extends Controller
      */
     public function store(StoreWorkOrderRequest $request)
     {
-        
+
         WorkOrder::create($request->validated());
         Alert::toast('The workOrder was created successfully.', 'success');
         return redirect()->route('work-orders.index');
-
     }
 
     /**
@@ -82,9 +86,9 @@ class WorkOrderController extends Controller
      */
     public function show(WorkOrder $workOrder)
     {
-        $workOrder->load('equipment:id,barcode', 'user:id,name', );
+        $workOrder->load('equipment:id,barcode', 'user:id,name',);
 
-		return view('work-orders.show', compact('workOrder'));
+        return view('work-orders.show', compact('workOrder'));
     }
 
     /**
@@ -95,9 +99,9 @@ class WorkOrderController extends Controller
      */
     public function edit(WorkOrder $workOrder)
     {
-        $workOrder->load('equipment:id,barcode', 'user:id,name', );
+        $workOrder->load('equipment:id,barcode', 'user:id,name',);
 
-		return view('work-orders.edit', compact('workOrder'));
+        return view('work-orders.edit', compact('workOrder'));
     }
 
     /**
@@ -109,7 +113,7 @@ class WorkOrderController extends Controller
      */
     public function update(UpdateWorkOrderRequest $request, WorkOrder $workOrder)
     {
-        
+
         $workOrder->update($request->validated());
         Alert::toast('The workOrder was updated successfully.', 'success');
         return redirect()
