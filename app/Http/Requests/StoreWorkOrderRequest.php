@@ -25,13 +25,14 @@ class StoreWorkOrderRequest extends FormRequest
     {
         return [
             'equipment_id' => 'required|exists:App\Models\Equipment,id',
-			'type_wo' => 'required|boolean',
-			'filed_date' => 'required|date',
-			'category_wo' => 'required|boolean',
-			'schedule_date' => 'required|date',
-			'note' => 'required|string',
-			'created_by' => 'required|exists:App\Models\User,id',
-			'status_wo' => 'required|boolean',
+            'type_wo' => 'required|in:Calibration,Service,Training,Inspection and Preventive Maintenance',
+            'filed_date' => 'required|date',
+            'category_wo' => 'required|in:Rutin,Non Rutin',
+            'schedule_date' => 'required|date',
+            'note' => 'required|string',
+            'start_date' => 'required_if:category_wo,Rutin|date|nullable',
+            'end_date' => 'required_if:category_wo,Rutin|date|nullable',
+            'schedule_wo' => 'required_if:category_wo,Rutin|in:Harian,Mingguan,Bulanan,2 Bulanan,3 Bulanan,4 Bulanan,6 Bulanan,Tahunan|nullable',
         ];
     }
 }

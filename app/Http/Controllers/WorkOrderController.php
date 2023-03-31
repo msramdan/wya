@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\WorkOrder;
 use App\Http\Requests\{StoreWorkOrderRequest, UpdateWorkOrderRequest};
 use App\Models\EquipmentLocation;
+use App\Models\SettingApp;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -57,8 +61,17 @@ class WorkOrderController extends Controller
      */
     public function create()
     {
+        $lastWorkOrder = WorkOrder::where(DB::raw('DATE_FORMAT(created_at, "%Y-%m-%d")'), date('Y-m-d'))->orderBy('created_at', 'DESC')->first();
+
+        if ($lastWorkOrder) {
+            $woNumber = 'WO-' . date('Ymd') . '-' . str_pad(intval(explode('-', $lastWorkOrder->wo_number)[count(explode('-', $lastWorkOrder->wo_number)) - 1]) + 1, 4, '0', STR_PAD_LEFT);
+        } else {
+            $woNumber = 'WO-' . date('Ymd') . '-0001';
+        }
+
         $data = [
             'equipmentLocations' => EquipmentLocation::orderBy('location_name', 'ASC')->get(),
+            'woNumber' => $woNumber,
         ];
 
         return view('work-orders.create', $data);
@@ -72,8 +85,37 @@ class WorkOrderController extends Controller
      */
     public function store(StoreWorkOrderRequest $request)
     {
+        $settingApp = SettingApp::first();
+        $workOrderHasAccessApprovalUsersId = json_decode($settingApp->work_order_has_access_approval_users_id, true);
+        $approvalUserId = [];
 
-        WorkOrder::create($request->validated());
+        if ($workOrderHasAccessApprovalUsersId) {
+            if (count($workOrderHasAccessApprovalUsersId) > 0) {
+                foreach ($workOrderHasAccessApprovalUsersId as $userId) {
+                    $approvalUserId[] = [
+                        'user_id' => $userId,
+                        'status' => 'pending'
+                    ];
+                }
+            }
+        }
+
+        $data = $request->validated();
+        $data['created_by'] = Auth::user()->id;
+        $data['status_wo'] = count($approvalUserId) > 0 ? 'pending' : 'accepted';
+        $data['approval_users_id'] = json_encode($approvalUserId);
+
+        if ($request->category_wo == 'Rutin') {
+            $data['start_date'] = $request->start_date;
+            $data['end_date'] = $request->end_date;
+            $data['schedule_wo'] = $request->schedul_wo;
+        } else {
+            unset($data['start_date']);
+            unset($data['end_date']);
+            unset($data['schedule_wo']);
+        }
+
+        WorkOrder::create($data);
         Alert::toast('The workOrder was created successfully.', 'success');
         return redirect()->route('work-orders.index');
     }
@@ -100,8 +142,10 @@ class WorkOrderController extends Controller
     public function edit(WorkOrder $workOrder)
     {
         $workOrder->load('equipment:id,barcode', 'user:id,name',);
+        $workOrderObj = WorkOrder::find($workOrder->id);
+        $equipmentLocations = EquipmentLocation::orderBy('location_name', 'ASC')->get();
 
-        return view('work-orders.edit', compact('workOrder'));
+        return view('work-orders.edit', compact('workOrder', 'workOrderObj', 'equipmentLocations'));
     }
 
     /**

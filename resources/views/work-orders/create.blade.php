@@ -36,9 +36,10 @@
 
                                 @include('work-orders.include.form')
 
-                                <a href="{{ url()->previous() }}" class="btn btn-secondary"><i class="mdi mdi-arrow-left-thin"></i> {{ __('Back') }}</a>
-
-                                <button type="submit" class="btn btn-primary"><i class="mdi mdi-content-save"></i> {{ __('Save') }}</button>
+                                <div class="d-flex justify-content-end">
+                                    <a href="{{ url()->previous() }}" class="btn btn-secondary me-2"><i class="mdi mdi-arrow-left-thin"></i> {{ __('Back') }}</a>
+                                    <button type="submit" class="btn btn-primary"><i class="mdi mdi-content-save"></i> {{ __('Save') }}</button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -55,7 +56,56 @@
          *  
          */
         $('#location_id').on("select2:select", function(e) {
+            eventChangeLocationId();
+        });
+
+        /**
+         * Event When Equipment is changed
+         * 
+         */
+        $('#equipment-id').on('select2:select', function(e) {
+            eventChangeEquipmentId();
+        });
+
+        /**
+         * Event When Category WO Changed
+         * 
+         */
+        $('#category-wo').on('change', function() {
+            const value = $('#category-wo').val();
+
+            if (value != '') {
+                $('#schedule-information-container').hasClass('d-none') ? $('#schedule-information-container').removeClass('d-none') : '';
+            }
+
+            if (value == 'Non Rutin') {
+                !$('#end-date').parent().hasClass('d-none') ? $('#end-date').parent().addClass('d-none') : '';
+                !$('#start-date').parent().hasClass('d-none') ? $('#start-date').parent().addClass('d-none') : '';
+                !$('#schedule-wo').parent().hasClass('d-none') ? $('#schedule-wo').parent().addClass('d-none') : '';
+            } else if (value == 'Rutin') {
+                $('#end-date').parent().hasClass('d-none') ? $('#end-date').parent().removeClass('d-none') : '';
+                $('#start-date').parent().hasClass('d-none') ? $('#start-date').parent().removeClass('d-none') : '';
+                $('#schedule-wo').parent().hasClass('d-none') ? $('#schedule-wo').parent().removeClass('d-none') : '';
+            }
+        })
+
+        /**
+         * Checking if location id value is not empty
+         *  
+         */
+        if ($('#location_id').val() != null) {
+            eventChangeLocationId(() => {
+                eventChangeEquipmentId();
+            });
+        }
+
+        /**
+         * Function event on change location id
+         * 
+         */
+        function eventChangeLocationId(cb = null) {
             const equipmentLocationId = $('#location_id').val();
+            const valueEquipmentId = '{{ old('equipment_id') }}';
 
             fetch(`{{ route('api.equipment.index') }}?equipment_location_id=${equipmentLocationId}`)
                 .then((res) => res.json())
@@ -64,18 +114,22 @@
                     $("#equipment-id").html('<option value="" selected disabled>-- Select equipment --</option>');
 
                     response.data.forEach((equipment) => {
-                        $("#equipment-id").append(`<option value="${equipment.id}">${equipment.serial_number}</option>`);
+                        $("#equipment-id").append(`<option value="${equipment.id}" ${valueEquipmentId == equipment.id ? 'selected' : ''}>${equipment.serial_number}</option>`);
                     });
                     $('#equipment-id').select2();
                     !$('#container-equipment-detail').hasClass('d-none') ? $('#container-equipment-detail').addClass('d-none') : '';
+
+                    if (cb != null) {
+                        cb();
+                    }
                 });
-        });
+        }
 
         /**
-         * Event When Equipment is changed
+         * Function event on change equipment id
          * 
          */
-        $('#equipment-id').on('select2:select', function(e) {
+        function eventChangeEquipmentId() {
             const value = $('#equipment-id').val();
 
             fetch(`{{ route('api.equipment.index') }}/${value}`)
@@ -151,28 +205,6 @@
                         </div>`
                     );
                 });
-        });
-
-        /**
-         * Event When Category WO Changed
-         * 
-         */
-        $('#category-wo').on('change', function() {
-            const value = $('#category-wo').val();
-
-            if (value != '') {
-                $('#schedule-information-container').hasClass('d-none') ? $('#schedule-information-container').removeClass('d-none') : '';
-            }
-
-            if (value == 'Rutin') {
-                !$('#end-date').parent().hasClass('d-none') ? $('#end-date').parent().addClass('d-none') : '';
-                !$('#start-date').parent().hasClass('d-none') ? $('#start-date').parent().addClass('d-none') : '';
-                !$('#schedule-wo').parent().hasClass('d-none') ? $('#schedule-wo').parent().addClass('d-none') : '';
-            } else if (value == 'Non Rutin') {
-                $('#end-date').parent().hasClass('d-none') ? $('#end-date').parent().removeClass('d-none') : '';
-                $('#start-date').parent().hasClass('d-none') ? $('#start-date').parent().removeClass('d-none') : '';
-                $('#schedule-wo').parent().hasClass('d-none') ? $('#schedule-wo').parent().removeClass('d-none') : '';
-            }
-        })
+        }
     </script>
 @endpush
