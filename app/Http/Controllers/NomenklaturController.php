@@ -12,9 +12,9 @@ class NomenklaturController extends Controller
     public function __construct()
     {
         $this->middleware('permission:nomenklatur view')->only('index', 'show');
-        // $this->middleware('permission:nomenklatur create')->only('create', 'store');
-        // $this->middleware('permission:nomenklatur edit')->only('edit', 'update');
-        // $this->middleware('permission:nomenklatur delete')->only('destroy');
+        $this->middleware('permission:nomenklatur create')->only('create', 'store');
+        $this->middleware('permission:nomenklatur edit')->only('edit', 'update');
+        $this->middleware('permission:nomenklatur delete')->only('destroy');
     }
 
     /**
