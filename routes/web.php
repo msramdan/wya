@@ -53,4 +53,6 @@ Route::prefix('panel')->group(function () {
     Route::resource('nomenklaturs', App\Http\Controllers\NomenklaturController::class)->middleware('auth');
     Route::resource('equipment', App\Http\Controllers\EquipmentController::class)->middleware('auth');
     Route::resource('work-orders', App\Http\Controllers\WorkOrderController::class)->middleware('auth');
+
+    Route::resource('work-order-approvals', App\Http\Controllers\WorkOrderApprovalController::class)->middleware('auth');
 });

@@ -60,11 +60,15 @@ class WorkOrderController extends Controller
                     return $row->user ? $row->user->name : '';
                 })->addColumn('action', function ($row) {
                     $displayAction = true;
-                    collect(json_decode($row->approval_users_id))->each(function ($row) use ($displayAction) {
-                        if ($row->status == 'approved' || $row->status == 'rejected') {
-                            $displayAction = false;
+                    if ($row->status_wo == 'accepted' || $row->status_wo == 'rejected') {
+                        $displayAction = false;
+                    } else {
+                        foreach (json_decode($row->approval_users_id, true) as $rowApproval) {
+                            if ($rowApproval['status'] == 'accepted' || $rowApproval['status'] == 'rejected') {
+                                $displayAction = false;
+                            }
                         }
-                    });
+                    }
 
                     if ($displayAction) {
                         return view('work-orders.include.action', ['model' => $row]);
