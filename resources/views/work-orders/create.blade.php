@@ -82,7 +82,9 @@
                 !$('#end-date').parent().hasClass('d-none') ? $('#end-date').parent().addClass('d-none') : '';
                 !$('#start-date').parent().hasClass('d-none') ? $('#start-date').parent().addClass('d-none') : '';
                 !$('#schedule-wo').parent().hasClass('d-none') ? $('#schedule-wo').parent().addClass('d-none') : '';
+                $('#schedule-date').parent().hasClass('d-none') ? $('#schedule-date').parent().removeClass('d-none') : '';
             } else if (value == 'Rutin') {
+                !$('#schedule-date').parent().hasClass('d-none') ? $('#schedule-date').parent().addClass('d-none') : '';
                 $('#end-date').parent().hasClass('d-none') ? $('#end-date').parent().removeClass('d-none') : '';
                 $('#start-date').parent().hasClass('d-none') ? $('#start-date').parent().removeClass('d-none') : '';
                 $('#schedule-wo').parent().hasClass('d-none') ? $('#schedule-wo').parent().removeClass('d-none') : '';
