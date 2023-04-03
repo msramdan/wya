@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Work Orders'))
+@section('title', __('Work Order Approval'))
 
 @section('content')
     <div class="page-content">
@@ -8,11 +8,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">{{ __('Work Orders') }}</h4>
+                        <h4 class="mb-sm-0">{{ __('Work Order Approval') }}</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="index.html">{{ __('Dashboard') }}</a></li>
-                                <li class="breadcrumb-item active">{{ __('Work Orders') }}</li>
+                                <li class="breadcrumb-item active">{{ __('Work Order Approval') }}</li>
                             </ol>
                         </div>
 
@@ -22,12 +22,6 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card">
-                        <div class="card-header">
-                            @can('work order create')
-                                <a href="{{ route('work-orders.create') }}" class="btn btn-md btn-primary"> <i class="mdi mdi-plus"></i> {{ __('Create a new work order') }}</a>
-                            @endcan
-                        </div>
-
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered table-sm" id="data-table">
@@ -62,13 +56,12 @@
     </div>
 @endsection
 
-
 @push('js')
     <script>
         $('#data-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('work-orders.index') }}",
+            ajax: "{{ route('work-order-approvals.index') }}?user_id={{ Auth::user()->id }}",
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',

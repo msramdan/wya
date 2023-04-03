@@ -21,8 +21,7 @@ class WorkOrder extends Model
      *
      * @var string[]
      */
-    protected $casts = ['type_wo' => 'boolean', 'filed_date' => 'date:d/m/Y', 'category_wo' => 'boolean', 'schedule_date' => 'date:d/m/Y', 'note' => 'string', 'status_wo' => 'boolean', 'created_at' => 'datetime:d/m/Y H:i', 'updated_at' => 'datetime:d/m/Y H:i'];
-
+    protected $casts = ['filed_date' => 'date:d/m/Y', 'schedule_date' => 'date:d/m/Y', 'note' => 'string', 'created_at' => 'datetime:d/m/Y H:i', 'updated_at' => 'datetime:d/m/Y H:i'];
 
 
     public function equipment()
@@ -31,6 +30,6 @@ class WorkOrder extends Model
     }
     public function user()
     {
-        return $this->belongsTo(\App\Models\User::class);
+        return $this->belongsTo(\App\Models\User::class, 'created_by', 'id');
     }
 }

@@ -141,7 +141,7 @@
 
     </div>
 
-    <div class="col-md-6 {{ old('category_wo') ? '' : 'd-none' }}" id="schedule-information-container">
+    <div class="col-md-6 {{ old('category_wo') ? '' : (isset($workOrder) ? '' : 'd-none') }}" id="schedule-information-container">
         <div class="card">
             <div class="card-body">
                 <div class="alert alert-secondary" role="alert">
@@ -150,7 +150,12 @@
                 <hr>
 
                 <div class="row">
-                    <div class="col-md-6 mb-2">
+                    <div class="col-md-6 mb-2
+                    @if (old('category_wo')) {{ old('category_wo') == 'Rutin' ? 'd-none' : '' }}
+                    @elseif(isset($workOrder))
+                    {{ $workOrder->category_wo == 'Rutin' ? 'd-none' : '' }} @endif
+                    
+                    ">
                         <label for="schedule-date">{{ __('Schedule Date') }}</label>
                         <input type="date" name="schedule_date" id="schedule-date" class="form-control @error('schedule_date') is-invalid @enderror" value="{{ isset($workOrder) && $workOrder->schedule_date ? $workOrder->schedule_date->format('Y-m-d') : old('schedule_date') }}" placeholder="{{ __('Schedule Date') }}" />
                         @error('schedule_date')
@@ -160,7 +165,13 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-6 mb-2 {{ old('category_wo') == 'Non Rutin' ? 'd-none' : '' }}">
+                    <div class="col-md-6 mb-2 
+                    
+                    @if (old('category_wo')) {{ old('category_wo') == 'Non Rutin' ? 'd-none' : '' }}
+                    @elseif(isset($workOrder))
+                    {{ $workOrder->category_wo == 'Non Rutin' ? 'd-none' : '' }} @endif
+                    
+                    ">
                         <label for="schedule-wo">{{ __('Schedule Wo') }}</label>
                         <select class="form-control js-example-basic-multiple @error('schedule_wo') is-invalid @enderror" name="schedule_wo" id="schedule-wo">
                             <option value="" selected disabled>-- {{ __('Select schedule wo') }} --</option>
@@ -188,7 +199,13 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-6 mb-2 {{ old('category_wo') == 'Non Rutin' ? 'd-none' : '' }}">
+                    <div class="col-md-6 mb-2 
+                    
+                    @if (old('category_wo')) {{ old('category_wo') == 'Non Rutin' ? 'd-none' : '' }}
+                    @elseif(isset($workOrder))
+                    {{ $workOrder->category_wo == 'Non Rutin' ? 'd-none' : '' }} @endif
+                    
+                    ">
                         <label for="start-date">{{ __('Start Date') }}</label>
                         <input type="date" name="start_date" id="start-date" class="form-control @error('start_date') is-invalid @enderror" value="{{ isset($workOrder) && $workOrder->start_date ? $workOrder->start_date : old('start_date') }}" placeholder="{{ __('Schedule Date') }}" />
                         @error('start_date')
@@ -197,7 +214,13 @@
                             </span>
                         @enderror
                     </div>
-                    <div class="col-md-6 mb-2 {{ old('category_wo') == 'Non Rutin' ? 'd-none' : '' }}">
+                    <div class="col-md-6 mb-2 
+                    
+                    @if (old('category_wo')) {{ old('category_wo') == 'Non Rutin' ? 'd-none' : '' }}
+                    @elseif(isset($workOrder))
+                    {{ $workOrder->category_wo == 'Non Rutin' ? 'd-none' : '' }} @endif
+                    
+                    ">
                         <label for="end-date">{{ __('End Date') }}</label>
                         <input type="date" name="end_date" id="end-date" class="form-control @error('end_date') is-invalid @enderror" value="{{ isset($workOrder) && $workOrder->end_date ? $workOrder->end_date : old('end_date') }}" placeholder="{{ __('Schedule Date') }}" />
                         @error('end_date')

@@ -6,6 +6,7 @@ use App\Models\WorkOrder;
 use App\Http\Requests\{StoreWorkOrderRequest, UpdateWorkOrderRequest};
 use App\Models\EquipmentLocation;
 use App\Models\SettingApp;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -38,8 +39,18 @@ class WorkOrderController extends Controller
                     return $row->created_at->format('d M Y H:i:s');
                 })->addColumn('updated_at', function ($row) {
                     return $row->updated_at->format('d M Y H:i:s');
+                })->addColumn('wo_number', function ($row) {
+                    return $row->wo_number;
                 })
+                ->addColumn('approval_users_id', function ($row) {
+                    $arrApprovalUsers = collect(json_decode($row->approval_users_id))->map(function ($row) {
+                        $row->user_name = User::find($row->user_id)->name;
 
+                        return $row;
+                    });
+
+                    return json_decode($arrApprovalUsers);
+                })
                 ->addColumn('note', function ($row) {
                     return str($row->note)->limit(100);
                 })
@@ -47,7 +58,24 @@ class WorkOrderController extends Controller
                     return $row->equipment ? $row->equipment->barcode : '';
                 })->addColumn('user', function ($row) {
                     return $row->user ? $row->user->name : '';
-                })->addColumn('action', 'work-orders.include.action')
+                })->addColumn('action', function ($row) {
+                    $displayAction = true;
+                    if ($row->status_wo == 'accepted' || $row->status_wo == 'rejected') {
+                        $displayAction = false;
+                    } else {
+                        foreach (json_decode($row->approval_users_id, true) as $rowApproval) {
+                            if ($rowApproval['status'] == 'accepted' || $rowApproval['status'] == 'rejected') {
+                                $displayAction = false;
+                            }
+                        }
+                    }
+
+                    if ($displayAction) {
+                        return view('work-orders.include.action', ['model' => $row]);
+                    } else {
+                        return '-';
+                    }
+                })
                 ->toJson();
         }
 
@@ -108,7 +136,7 @@ class WorkOrderController extends Controller
         if ($request->category_wo == 'Rutin') {
             $data['start_date'] = $request->start_date;
             $data['end_date'] = $request->end_date;
-            $data['schedule_wo'] = $request->schedul_wo;
+            $data['schedule_wo'] = $request->schedule_wo;
         } else {
             unset($data['start_date']);
             unset($data['end_date']);
