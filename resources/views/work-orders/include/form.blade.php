@@ -231,6 +231,26 @@
                     </div>
 
                 </div>
+                <hr>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="border rounded p-2">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="view_mode">View Mode</label>
+                                    <select name="view_mode" id="view_mode" class="form-control js-example-basic-multiple">
+                                        <option value="Day">Day</option>
+                                        <option value="Week">Week</option>
+                                        <option value="Month">Month</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div id="gantt"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
