@@ -50,8 +50,21 @@
     </div>
 @endsection
 
+@push('css-libs')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/frappe-gantt/0.6.1/frappe-gantt.min.css" integrity="sha512-b6CPl1eORfMoZgwWGEYWNxYv79KG0dALXfVu4uReZJOXAfkINSK4UhA0ELwGcBBY7VJN7sykwrCGQnbS8qTKhQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+@endpush
+
+@push('js-libs')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js" integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/frappe-gantt/0.6.1/frappe-gantt.min.js" integrity="sha512-HyGTvFEibBWxuZkDsE2wmy0VQ0JRirYgGieHp0pUmmwyrcFkAbn55kZrSXzCgKga04SIti5jZQVjbTSzFpzMlg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+@endpush
+
 @push('js-scripts')
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            refreshGanttChart();
+        });
+
         /**
          * Event When Equipment Location is changed
          *  
@@ -208,6 +221,150 @@
                         </div>`
                     );
                 });
+        }
+
+
+        /**
+         * Event on change schedule wo
+         *  
+         */
+        $('#schedule-wo').on('select2:select', function(e) {
+            refreshGanttChart();
+        });
+
+        /**
+         * Event on change view mode
+         *  
+         */
+        $('#view_mode').on('select2:select', function(e) {
+            refreshGanttChart($('#view_mode').val());
+        });
+
+        /**
+         * Event on change schedule wo
+         *  
+         */
+        $('#start-date').on('change', function(e) {
+            refreshGanttChart();
+        });
+
+        /**
+         * Event on change schedule wo
+         *  
+         */
+        $('#end-date').on('change', function(e) {
+            refreshGanttChart();
+        });
+
+        /**
+         * Event on change schedule data
+         * 
+         */
+        $('#schedule-date').on('change', function(e) {
+            refreshGanttChart();
+        });
+
+        /**
+         * Trigger Gantt Chart
+         *  
+         */
+        function refreshGanttChart(viewModeParram = null) {
+            let workOrderSchedules = [];
+            let viewMode = 'Day';
+
+            if ($('#category-wo').val() == 'Non Rutin') {
+                if ($('#schedule-date').val() != '') {
+                    view_mode = 'Day';
+
+                    workOrderSchedules.push({
+                        id: 'Schedule',
+                        name: 'Schedule Non Rutin',
+                        start: $('#schedule-date').val(),
+                        end: $('#schedule-date').val(),
+                        progress: 100,
+                    });
+                }
+            } else if ($('#category-wo').val() == 'Rutin') {
+                if ($('#schedule-wo').val() != null && $('#end-date').val() != '' && $('#start-date').val() != '') {
+                    let startDateValue = $('#start-date').val();
+                    let endDateValue = $('#end-date').val();
+                    let scheduleWoValue = $('#schedule-wo').val();
+                    let scheduleWoFormatted = '';
+                    let stepModeAmount = 1;
+                    let counter = 1;
+
+                    switch (scheduleWoValue) {
+                        case 'Harian':
+                            scheduleWoFormatted = 'days';
+                            viewMode = 'Day';
+                            break;
+                        case 'Mingguan':
+                            scheduleWoFormatted = 'weeks';
+                            viewMode = 'Week';
+                            break;
+                        case 'Bulanan':
+                            scheduleWoFormatted = 'months';
+                            viewMode = 'Month';
+                            break;
+                        case '2 Bulanan':
+                            stepModeAmount = 2;
+                            scheduleWoFormatted = 'months';
+                            viewMode = 'Month';
+                            break;
+                        case '3 Bulanan':
+                            stepModeAmount = 3;
+                            scheduleWoFormatted = 'months';
+                            viewMode = 'Month';
+                            break;
+                        case '4 Bulanan':
+                            stepModeAmount = 4;
+                            scheduleWoFormatted = 'months';
+                            viewMode = 'Month';
+                            break;
+                        case '6 Bulanan':
+                            stepModeAmount = 6;
+                            scheduleWoFormatted = 'months';
+                            viewMode = 'Month';
+                            break;
+                        case 'Tahunan':
+                            scheduleWoFormatted = 'years';
+                            break;
+                    }
+
+                    while (startDateValue <= endDateValue) {
+                        let tempEndData = moment(startDateValue).add(stepModeAmount, scheduleWoFormatted).format("YYYY-MM-DD");
+
+                        if (moment(tempEndData).subtract(1, 'days').format("YYYY-MM-DD") <= endDateValue) {
+                            workOrderSchedules.push({
+                                id: 'Schedule ' + counter,
+                                name: 'Schedule Rutin ' + counter,
+                                start: startDateValue,
+                                end: moment(tempEndData).subtract(1, 'days').format("YYYY-MM-DD"),
+                                progress: 100,
+                            });
+                        }
+
+                        startDateValue = tempEndData;
+                        counter++;
+                    }
+                }
+            }
+
+            if (workOrderSchedules.length > 0) {
+                if (!viewModeParram) {
+                    $('#view_mode').val(viewMode).trigger('change');
+                }
+
+                $('#gantt').hasClass('d-none') ? $('#gantt').removeClass('d-none') : '';
+                this.gantt = new Gantt("#gantt", workOrderSchedules, {
+                    step: 1,
+                    view_mode: viewModeParram ? viewModeParram : viewMode,
+                    view_modes: ['Day', 'Week', 'Month'],
+                });
+                $('.gantt .bar-wrapper').css('pointer-events', 'none');
+            } else {
+                !$('#gantt').hasClass('d-none') ? $('#gantt').addClass('d-none') : '';
+            }
         }
     </script>
 @endpush

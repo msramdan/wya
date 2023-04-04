@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateWorkOrderApprovalRequest;
 use App\Models\User;
 use App\Models\WorkOrder;
+use App\Models\WorkOrderProcess;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -114,6 +116,85 @@ class WorkOrderApprovalController extends Controller
             'approval_users_id' => json_encode($workOrderApprovalUsers),
             'status_wo' => $request->status == 'rejected' ? 'rejected' : ($existsPendingStatus ? 'pending' : $request->status)
         ]);
+
+        if ($workOrder->status_wo == 'accepted') {
+            if ($workOrder->category_wo == 'Rutin') {
+                $startDateValue = $workOrder->start_date;
+                $endDateValue = $workOrder->end_date;
+                $scheduleWoValue = $workOrder->schedule_wo;
+                $scheduleWoFormatted = '';
+                $stepModeAmount = 1;
+                $counter = 1;
+                $workOrderSchedules = [];
+
+                if ($startDateValue && $endDateValue && $scheduleWoValue) {
+                    switch ($scheduleWoValue) {
+                        case 'Harian':
+                            $scheduleWoFormatted = 'days';
+                            break;
+                        case 'Mingguan':
+                            $scheduleWoFormatted = 'weeks';
+                            break;
+                        case 'Bulanan':
+                            $scheduleWoFormatted = 'months';
+                            break;
+                        case '2 Bulanan':
+                            $stepModeAmount = 2;
+                            $scheduleWoFormatted = 'months';
+                            break;
+                        case '3 Bulanan':
+                            $stepModeAmount = 3;
+                            $scheduleWoFormatted = 'months';
+                            break;
+                        case '4 Bulanan':
+                            $stepModeAmount = 4;
+                            $scheduleWoFormatted = 'months';
+                            break;
+                        case '6 Bulanan':
+                            $stepModeAmount = 6;
+                            $scheduleWoFormatted = 'months';
+                            break;
+                        case 'Tahunan':
+                            $scheduleWoFormatted = 'years';
+                            break;
+                    }
+
+                    while ($startDateValue <= $endDateValue) {
+                        $tempEndData = Carbon::createFromFormat('Y-m-d', $startDateValue)->add($stepModeAmount, $scheduleWoFormatted)->format('Y-m-d');
+
+                        if (Carbon::createFromFormat('Y-m-d', $tempEndData)->subDay()->format('Y-m-d') <= $endDateValue) {
+                            $workOrderSchedules[] = [
+                                'start_date' => $startDateValue,
+                                'end_date' => Carbon::createFromFormat('Y-m-d', $tempEndData)->subDay()->format('Y-m-d'),
+                            ];
+                        }
+
+                        $startDateValue = $tempEndData;
+                        $counter++;
+                    }
+                }
+
+                foreach ($workOrderSchedules as $workOrderSchedule) {
+                    WorkOrderProcess::create([
+                        'work_order_id' => $workOrder->id,
+                        'schedule_date' => null,
+                        'start_date' => $workOrderSchedule['start_date'],
+                        'end_date' => $workOrderSchedule['end_date'],
+                        'schedule_wo' => $workOrder->schedule_wo,
+                        'status' => 'ready-to-start'
+                    ]);
+                }
+            } else if ($workOrder->category_wo == 'Non Rutin') {
+                WorkOrderProcess::create([
+                    'work_order_id' => $workOrder->id,
+                    'schedule_date' => $workOrder->schedule_date,
+                    'start_date' => null,
+                    'end_date' => null,
+                    'schedule_wo' => null,
+                    'status' => 'ready-to-start'
+                ]);
+            }
+        }
 
         Alert::toast('The workOrder was updated successfully.', 'success');
         return redirect()

@@ -32,4 +32,11 @@ class WorkOrder extends Model
     {
         return $this->belongsTo(\App\Models\User::class, 'created_by', 'id');
     }
+
+    public function countWoProcess($status = null)
+    {
+        return WorkOrderProcess::where('work_order_id', $this->id)->when($status, function ($query, $status) {
+            $query->where('status', $status);
+        })->count();
+    }
 }

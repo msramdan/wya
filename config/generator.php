@@ -133,7 +133,12 @@ return [
                             'title' => 'Work Orders Submission',
                             'route' => '/work-orders',
                             'permission' => 'work order view'
-                        ]
+                        ],
+                        [
+                            'title' => 'Work Order Processes',
+                            'route' => '/work-order-processes',
+                            'permission' => 'work order process',
+                        ],
                     ]
                 ]
             ]

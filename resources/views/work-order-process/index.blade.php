@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Work Order Approval'))
+@section('title', __('Work Order Processes'))
 
 @section('content')
     <div class="page-content">
@@ -8,11 +8,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">{{ __('Work Order Approval') }}</h4>
+                        <h4 class="mb-sm-0">{{ __('Work Order Procesess') }}</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="index.html">{{ __('Dashboard') }}</a></li>
-                                <li class="breadcrumb-item active">{{ __('Work Order Approval') }}</li>
+                                <li class="breadcrumb-item active">{{ __('Work Order Procesess') }}</li>
                             </ol>
                         </div>
 
@@ -38,7 +38,7 @@
                                             <th style="white-space: nowrap">{{ __('Schedule Wo') }}</th>
                                             <th style="white-space: nowrap">{{ __('Note') }}</th>
                                             <th style="white-space: nowrap">{{ __('User') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Approval Users') }}</th>
+                                            <th style="white-space: nowrap">{{ __('Finished Processes') }}</th>
                                             <th style="white-space: nowrap">{{ __('Status Wo') }}</th>
                                             <th style="white-space: nowrap">{{ __('Filed Date') }}</th>
                                             <th style="white-space: nowrap">{{ __('Created At') }}</th>
@@ -61,7 +61,7 @@
         $('#data-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('work-order-approvals.index') }}?user_id={{ Auth::user()->id }}",
+            ajax: "{{ route('work-order-processes.index') }}?user_id={{ Auth::user()->id }}",
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
@@ -117,52 +117,25 @@
                     name: 'user.name'
                 },
                 {
-                    name: "approval_users_id",
-                    render: function(datum, type, row) {
-                        let htmlEl = '<ul>';
-                        row.approval_users_id.forEach((e) => {
-                            switch (e.status) {
-                                case 'pending':
-                                    rowStatus = 'primary';
-                                    break;
-                                case 'rejected':
-                                    rowStatus = 'danger';
-                                    break;
-                                case 'accepted':
-                                    rowStatus = 'success';
-                                    break;
-                            }
-
-                            htmlEl += `<li style="white-space: nowrap">${e.user_name}: <span class="badge bg-${rowStatus}">${e.status}</span></li>`;
-                        })
-
-                        htmlEl += '</ul>';
-
-                        return htmlEl;
-                    }
+                    data: 'finished_processes',
+                    name: 'finished_processes'
                 },
                 {
                     data: 'status_wo',
                     render: function(datum, type, row) {
                         switch (row.status_wo) {
-                            case 'pending':
+                            case 'accepted':
                                 rowStatus = 'primary';
                                 break;
-                            case 'rejected':
-                                rowStatus = 'danger';
-                                break;
-                            case 'accepted':
-                                rowStatus = 'success';
-                                break;
                             case 'on-going':
-                                rowStatus = 'success';
+                                rowStatus = 'info';
                                 break;
                             case 'finished':
                                 rowStatus = 'success';
                                 break;
                         }
 
-                        return `<span class="badge bg-${rowStatus}">${['accepted', 'on-going', 'finished'].includes(row.status_wo) ? 'accepted' : row.status_wo}</span>`;
+                        return `<span class="badge bg-${rowStatus}">${row.status_wo == 'accepted' ? 'ready for process' : row.status_wo}</span>`;
                     }
                 },
                 {
@@ -178,11 +151,11 @@
                     name: 'updated_at'
                 },
                 {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                }
+                    data: 'status_wo',
+                    render: function(datum, type, row) {
+                        return `<a href="{{ route('work-order-processes.index') }}/${row.id}" class="btn btn-sm btn-success"><i class="mdi mdi-table-edit"></i></a>`
+                    }
+                },
             ],
         });
     </script>
