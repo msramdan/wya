@@ -22,9 +22,9 @@
                             @forelse ($workOrderProcesess->physicalChecks as $index => $physicalCheck)
                                 <tr data-index="{{ $index }}">
                                     <td>
-                                        <button class="btn btn-sm btn-primary" @if ($index == 0) onclick="addRowPhysicalCheck(this.parentElement.parentElement)"
+                                        <button class="btn btn-sm btn-{{ $index == 0 ? 'primary' : 'danger' }}" @if ($index == 0) onclick="addRowPhysicalCheck(this.parentElement.parentElement)"
                                     @else
-                                        onclick="this.parentElement.parentElement.remove()" @endif><i class="fa fa-plus"></i></button>
+                                        onclick="this.parentElement.parentElement.remove()" @endif><i class="fa fa-{{ $index == 0 ? 'plus' : 'trash' }}"></i></button>
                                     </td>
                                     <td>
                                         <div class="form-group">
