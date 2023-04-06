@@ -94,4 +94,11 @@ class WorkOrderProcessController extends Controller
         Alert::toast('The Work Order Process status was updated successfully.', 'success');
         return back();
     }
+
+    public function woProcessEdit()
+    {
+        return view('work-order-process.wo-process-wo', [
+            // 'workOrderId' => $workOrderId
+        ]);
+    }
 }
