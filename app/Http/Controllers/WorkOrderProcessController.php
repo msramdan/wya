@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateWorkOrderProcesessRequest;
 use App\Models\Sparepart;
 use App\Models\User;
 use App\Models\Vendor;
@@ -67,23 +68,23 @@ class WorkOrderProcessController extends Controller
         ]);
     }
 
-    public function update(Request $request, $workOrderProcessId)
+    public function update(UpdateWorkOrderProcesessRequest $request, $workOrderProcessId)
     {
-        $this->validate($request, [
-            'status' => 'required|in:on-progress,finished'
-        ]);
-
         $workOrderProcess = WorkOrderProcess::find($workOrderProcessId);
         $workOrder = WorkOrder::find($workOrderProcess->work_order_id);
         $workOrderProcess->update([
-            'status' => $request->status
+            'status' => $request->status == 'Doing' ? 'on-progress' : 'finished',
+            'initial_temperature' => $request->initial_temperature,
+            'initial_humidity' => $request->initial_humidity,
+            'final_temperature' => $request->final_temperature,
+            'final_humidity' => $request->final_humidity,
         ]);
 
-        if ($request->status == 'on-progress') {
+        if ($request->status == 'Doing') {
             $workOrder->update([
                 'status_wo' => 'on-going'
             ]);
-        } else if ($request->status == 'finished') {
+        } else if ($request->status == 'Finish') {
             if ($workOrder->countWoProcess('ready-to-start') == 0) {
                 if ($workOrder->countWoProcess('on-progress') == 0) {
                     $workOrder->update([
@@ -94,7 +95,7 @@ class WorkOrderProcessController extends Controller
         }
 
         Alert::toast('The Work Order Process status was updated successfully.', 'success');
-        return back();
+        return redirect('/panel/work-order-processes/' . $workOrder->id);
     }
 
     public function woProcessEdit($workOrderId, $workOrderProcesessId)

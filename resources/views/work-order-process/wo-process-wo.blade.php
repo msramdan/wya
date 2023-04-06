@@ -20,42 +20,66 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <div class="row">
-                        @include('work-order-process.includes.form-work-order-data')
-
-                        @include('work-order-process.includes.form-equipment')
-
-                        @include('work-order-process.includes.form-location')
-
-                        @include('work-order-process.includes.form-electrical-safety')
-
-                        @include('work-order-process.includes.form-calibration-performance')
-
-                        @include('work-order-process.includes.form-physical-check')
-
-                        @include('work-order-process.includes.form-function-check')
-
-                        @include('work-order-process.includes.form-equipment-inspection-check')
-
-                        @include('work-order-process.includes.form-tool-maintenance')
-
-                        @include('work-order-process.includes.form-replacement-of-parts')
-
-                        @include('work-order-process.includes.form-work-order-documents')
-
-                        @include('work-order-process.includes.form-inspection-recommendations')
-
-                        @include('work-order-process.includes.form-status')
-
-                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <input type="submit" class="w-100 btn btn-primary" name="submit" value="Doing"> <br>
-                                    <input type="submit" class="w-100 mt-3 btn btn-success" name="submit" value="Finish"><br>
-                                    <a href="{{ url('/panel/work-order-processes/' . $workOrder->id) }}"><button type="button" class="btn mt-4 btn-warning"><i class="fa fa-arrow-left"></i> Back To List WO</button></a>
-                                </div>
+                    @if ($errors->any())
+                        <div class="card">
+                            <div class="card-header bg-danger">
+                                <h3 class="text-white">Error Validation</h3>
+                            </div>
+                            <div class="card-body">
+                                <ul style="list-style: circle; padding-left: 0">
+                                    @foreach ($errors->all() as $error)
+                                        <span class="text-danger" style="font-size: 1rem">{{ $error }}</span>
+                                    @endforeach
+                                </ul>
                             </div>
                         </div>
+                    @endif
+                </div>
+                <div class="col-12">
+                    <div class="row">
+                        <form action="{{ route('work-order-processes.update', $workOrderProcesess->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+
+                            @include('work-order-process.includes.form-work-order-data')
+
+                            <div class="col-12">
+                                <div class="row">
+                                    @include('work-order-process.includes.form-equipment')
+                                    @include('work-order-process.includes.form-location')
+                                </div>
+                            </div>
+
+                            @include('work-order-process.includes.form-electrical-safety')
+
+                            @include('work-order-process.includes.form-calibration-performance')
+
+                            @include('work-order-process.includes.form-physical-check')
+
+                            @include('work-order-process.includes.form-function-check')
+
+                            @include('work-order-process.includes.form-equipment-inspection-check')
+
+                            @include('work-order-process.includes.form-tool-maintenance')
+
+                            @include('work-order-process.includes.form-replacement-of-parts')
+
+                            @include('work-order-process.includes.form-work-order-documents')
+
+                            @include('work-order-process.includes.form-inspection-recommendations')
+
+                            @include('work-order-process.includes.form-status')
+
+                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <input type="submit" class="w-100 btn btn-primary" name="status" value="Doing"> <br>
+                                        <input type="submit" class="w-100 mt-3 btn btn-success" name="status" value="Finish"><br>
+                                        <a href="{{ url('/panel/work-order-processes/' . $workOrder->id) }}"><button type="button" class="btn mt-4 btn-warning"><i class="fa fa-arrow-left"></i> Back To List WO</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
