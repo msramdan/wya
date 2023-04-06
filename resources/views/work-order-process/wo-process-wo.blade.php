@@ -43,78 +43,16 @@
 
                         @include('work-order-process.includes.form-work-order-documents')
 
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3>Inspection Recommendations</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6 col-xs-12">
-                                            <div class="form-check">
-                                                <input name="wo_rekomendasi_1" class="form-check-input" type="checkbox" value="1" id="wo_rekomendasi_1">
-                                                <label class="form-check-label" for="wo_rekomendasi_1">
-                                                    Alat Dapat Dipergunakan Dengan Baik
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input name="wo_rekomendasi_2" class="form-check-input" type="checkbox" value="1" id="wo_rekomendasi_2">
-                                                <label class="form-check-label" for="wo_rekomendasi_2" style="color: red">
-                                                    Alat Tidak Dapat Digunakan
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input name="wo_rekomendasi_3" class="form-check-input" type="checkbox" value="1" id="wo_rekomendasi_3">
-                                                <label class="form-check-label" for="wo_rekomendasi_3" style="color: red">
-                                                    Alat Perlu Perbaikan
-                                                </label>
-                                            </div>
-                                        </div>
+                        @include('work-order-process.includes.form-inspection-recommendations')
 
-                                        <div class="col-md-6 col-xs-12">
-                                            <div class="form-check">
-                                                <input name="wo_rekomendasi_4" class="form-check-input" type="checkbox" value="1" id="wo_rekomendasi_4">
-                                                <label class="form-check-label" for="wo_rekomendasi_4">
-                                                    Alat Dapat Dipergunakan Perlu Pergantian Asesoris
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input name="wo_rekomendasi_5" class="form-check-input" type="checkbox" value="1" id="wo_rekomendasi_5">
-                                                <label class="form-check-label" for="wo_rekomendasi_5" style="color: red">
-                                                    Alat Perlu Kalibrasi
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input name="wo_rekomendasi_6" class="form-check-input" type="checkbox" value="1" id="wo_rekomendasi_6">
-                                                <label class="form-check-label" for="wo_rekomendasi_6" style="color: red">
-                                                    Alat Perlu Pemutihan
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3>Status</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="card card-primary">
-                                        <div class="card-header">
-                                            <h3 class="card-title">Status : On Progress</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @include('work-order-process.includes.form-status')
+
                         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
                             <div class="card">
                                 <div class="card-body">
                                     <input type="submit" class="w-100 btn btn-primary" name="submit" value="Doing"> <br>
                                     <input type="submit" class="w-100 mt-3 btn btn-success" name="submit" value="Finish"><br>
-                                    <a href="https://www.marsweb.id/admin/wo/process"><button type="button" class="btn mt-4 btn-warning"><i class="fa fa-arrow-left"></i> Back To List WO</button></a>
+                                    <a href="{{ url('/panel/work-order-processes/' . $workOrder->id) }}"><button type="button" class="btn mt-4 btn-warning"><i class="fa fa-arrow-left"></i> Back To List WO</button></a>
                                 </div>
                             </div>
                         </div>
@@ -359,6 +297,35 @@
                     <td>
                         <div class="form-group">
                             <input type="text" name="amount[${lastRowIndex + 1}]" placeholder="Amount" class="form-control text-right" id="amount${lastRowIndex + 1}">
+                        </div>
+                    </td>
+                </tr>
+                `
+            );
+        }
+
+        function addRowWoDocument(currentRowHtml) {
+            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length - 1].dataset.index);
+
+            currentRowHtml.parentElement.insertAdjacentHTML('beforeend',
+                `
+                <tr data-index="${lastRowIndex + 1}">
+                    <td>
+                        <button class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input placeholder="Document Name" type="text" name="document_name[${lastRowIndex + 1}]" class="form-control" id="document_name_${lastRowIndex + 1}">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input placeholder="Description" type="text" name="description[${lastRowIndex + 1}]" class="form-control" id="description_${lastRowIndex + 1}">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input type="file" name="file[${lastRowIndex + 1}]" class="form-control" id="file_${lastRowIndex + 1}">
                         </div>
                     </td>
                 </tr>
