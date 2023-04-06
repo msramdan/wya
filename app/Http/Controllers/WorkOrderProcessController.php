@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Sparepart;
 use App\Models\User;
+use App\Models\Vendor;
 use App\Models\WorkOrder;
 use App\Models\WorkOrderProcess;
 use Illuminate\Http\Request;
@@ -95,10 +97,18 @@ class WorkOrderProcessController extends Controller
         return back();
     }
 
-    public function woProcessEdit()
+    public function woProcessEdit($workOrderId, $workOrderProcesessId)
     {
+        $workOrderProcesess = WorkOrderProcess::find($workOrderProcesessId);
+        $workOrder = WorkOrder::find($workOrderId);
+        $vendors = Vendor::select('id', 'name_vendor')->get();
+        $spareparts = Sparepart::select('id', 'sparepart_name')->get();
+
         return view('work-order-process.wo-process-wo', [
-            // 'workOrderId' => $workOrderId
+            'workOrder' => $workOrder,
+            'workOrderProcesess' => $workOrderProcesess,
+            'vendors' => $vendors,
+            'spareparts' => $spareparts,
         ]);
     }
 }

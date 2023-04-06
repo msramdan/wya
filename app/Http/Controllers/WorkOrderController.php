@@ -134,6 +134,10 @@ class WorkOrderController extends Controller
         $data['status_wo'] = count($approvalUserId) > 0 ? 'pending' : 'accepted';
         $data['approval_users_id'] = json_encode($approvalUserId);
 
+        if ($data['status_wo'] == 'accepted') {
+            $data['approved_at'] = date('Y-m-d H:i:s');
+        }
+
         if ($request->category_wo == 'Rutin') {
             $data['start_date'] = $request->start_date;
             $data['end_date'] = $request->end_date;

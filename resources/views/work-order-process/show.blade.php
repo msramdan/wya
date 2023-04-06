@@ -118,35 +118,12 @@
                 {
                     data: 'status',
                     render: function(datum, type, row) {
-                        return `<a href="/panel/work-order-processes/${row.work_order_id}/${row.id}" class="btn btn-sm btn-primary d-flex align-items-center" style="width: fit-content"><span class="material-symbols-outlined"> electric_bolt</span> Process </a>`;
+                        if (row.status != 'finished') {
 
-                        // if (row.status != 'finished') {
-                        //     return `
-                    //     <div class="d-flex" style="gap: 6px">
-                    //         ${row.status == 'ready-to-start' ?
-                    //     `<form method="POST" action="{{ route('work-order-processes.index') }}/${row.id}" onsubmit="return confirm('Are you sure to on-progress schedule')">
-                        //                                             @csrf
-                        //                                             @method('PUT')
-                        //                                             <input type="hidden" name="status" value="on-progress"></input>
-                        //                                             <button type="submit" class="btn btn-sm btn-primary">
-                        //                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 11q1.65 0 2.825-1.175T16 7V4H8v3q0 1.65 1.175 2.825T12 11ZM4 22v-2h2v-3q0-1.525.713-2.863T8.7 12q-1.275-.8-1.987-2.138T6 7V4H4V2h16v2h-2v3q0 1.525-.713 2.863T15.3 12q1.275.8 1.988 2.138T18 17v3h2v2H4Z"/></svg>
-                        //                                             </button>    
-                        //                                         </form>`: ''
-                    //     }
-                    //     <form method="POST" action="{{ route('work-order-processes.index') }}/${row.id}" onsubmit="return confirm('Are you sure to finished schedule')">
-                    //         @csrf
-                    //         @method('PUT')
-                    //         <input type="hidden" name="status" value="finished"></input>
-                    //         <button type="submit" class="btn btn-sm btn-success">
-                    //             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 2048 2048"><path fill="currentColor" d="M1024 0q141 0 272 36t244 104t207 160t161 207t103 245t37 272q0 141-36 272t-104 244t-160 207t-207 161t-245 103t-272 37q-141 0-272-36t-244-104t-207-160t-161-207t-103-245t-37-272q0-141 36-272t104-244t160-207t207-161T752 37t272-37zm603 685l-136-136l-659 659l-275-275l-136 136l411 411l795-795z"/></svg>
-                    //         </button>
-                    //     </form>  
-                    // </div>
-                    // `;
-                        // } else {
-                        //     return '';
-                        // }
-
+                            return `<a href="/panel/work-order-processes/${row.work_order_id}/${row.id}" class="btn btn-sm btn-primary d-flex align-items-center" style="width: fit-content"><span class="material-symbols-outlined"> electric_bolt</span> Process </a>`;
+                        } else {
+                            return '';
+                        }
                     }
                 },
             ],

@@ -15,516 +15,34 @@
                                 <li class="breadcrumb-item active">{{ __('Work Order Procesess') }}</li>
                             </ol>
                         </div>
-
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
                     <div class="row">
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3>Work Order Data</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="form-group mb-3">
-                                                <label for="wo_type">WO Type</label>
-                                                <input type="text" name="wo_type" id="wo_type" class="form-control" value="Service" readonly>
-                                            </div>
-                                            <div class="form-group mb-3">
-                                                <label for="executor">Executor</label>
-                                                <select name="executor" class="form-control js-example-basic-multiple" id="executor">
-                                                    <option value="" disabled>-- Choose Executor --</option>
-                                                    <option value="vendor_or_supplier">Vendor/Supplier</option>
-                                                    <option value="Teknisi">Teknisi</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group mb-3">
-                                                <label for="work_executor">Work Executor</label>
-                                                <select name="work_executor" class="form-control js-example-basic-multiple" id="work_executor">
-                                                    <option value="" disabled>-- Choose Work Executor --</option>
-                                                    <option value="demo">Demo</option>
-                                                    <option value="marju">Marju</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group mb-3">
-                                                <label for="vendor">Vendor</label>
-                                                <input type="text" name="vendor" id="vendor" class="form-control" value="Enesers" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group mb-3">
-                                                <label for="propose">Propose</label>
-                                                <input type="text" name="propose" id="propose" class="form-control" value="Test Demo" readonly>
-                                            </div>
-                                            <div class="form-group mb-3">
-                                                <label for="propose_date">Propose Date</label>
-                                                <input type="text" name="propose_date" id="propose_date" class="form-control" value="2023-04-04" readonly>
-                                            </div>
-                                            <div class="form-group mb-3">
-                                                <label for="date_propose_approved">Date Proposes Approved</label>
-                                                <input type="text" name="date_propose_approved" id="date_propose_approved" class="form-control" value="2023-04-04" readonly>
-                                            </div>
-                                            <div class="form-group mb-3">
-                                                <label for="propose_approved_by">Proposes Approved By</label>
-                                                <ul>
-                                                    <li>
-                                                        <input type="text" name="propose_approved_by" value="Tomy Wibowo" class="form-control" readonly>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="form-group mb-3">
-                                                <label for="work_date">Work Date</label>
-                                                <input type="text" name="work_date" id="work_date" class="form-control" value="2023-04-04">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3>Equipment</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="form-group mb-3">
-                                        <label for="equipment">Equipment</label>
-                                        <input type="text" name="equipment" id="equipment" value="INFRA RED LAMP" class="form-control" readonly>
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="category">Category</label>
-                                        <input type="text" name="category" id="category" value="Alat Kesehatan" class="form-control" readonly>
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="manufacturer">Manufacturer</label>
-                                        <input type="text" name="manufacturer" id="manufacturer" value="Riester" readonly class="form-control">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="serial_number">Serial Number</label>
-                                        <input type="text" name="serial_number" id="serial_number" readonly value="IRL09435" class="form-control">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="type">Type</label>
-                                        <input type="text" name="type" id="type" value="IRL" readonly class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3>Location</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="form-group mb-3">
-                                        <label for="location">Location</label>
-                                        <input type="text" name="location" id="location" value="Emergency" class="form-control" readonly>
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="initial_temperature">Initial Iemperature (℃)</label>
-                                        <input type="text" name="initial_temperature" id="initial_temperature" value="0" class="form-control">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="initial_humidity">Initial Humidity (℃)</label>
-                                        <input type="text" name="initial_humidity" id="initial_humidity" value="0" class="form-control">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="final_temperature">Final Iemperature (℃)</label>
-                                        <input type="text" name="final_temperature" id="final_temperature" value="0" class="form-control">
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <label for="final_humidity">Final Humidity (℃)</label>
-                                        <input type="text" name="final_humidity" id="final_humidity" value="0" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3>Electrical Safety</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="form-group mb-3">
-                                                <label for="mesh_voltage">Mesh Voltage (VAC)</label>
-                                                <input type="text" name="mesh_voltage" value="0" class="form-control" id="mesh_voltage">
-                                            </div>
-                                            <div class="form-group mb-3">
-                                                <label for="ups">UPS (VAC)</label>
-                                                <input type="text" name="ups" value="0" class="form-control" id="ups">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group mb-3">
-                                                <label for="grounding">Grounding (OHM)</label>
-                                                <input type="text" name="grounding" value="0" class="form-control" id="grounding">
-                                            </div>
-                                            <div class="form-group mb-3">
-                                                <label for="leakage_electric">Leakage Electric (uA)</label>
-                                                <input type="text" name="leakage_electric" value="0" class="form-control" id="leakage_electric">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group mb-3">
-                                                <label for="note">Note</label>
-                                                <textarea name="note" class="form-control" placeholder="Note" style="height: 80px" id="note" cols="30" rows="10"></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3>Calibration Performance</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <table class="table" id="table-kalibrasi">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Tool Performance Check</th>
-                                                    <th>Setting</th>
-                                                    <th>Measurable</th>
-                                                    <th>Reference Value</th>
-                                                    <th class="text-center">Good</th>
-                                                    <th class="text-center">Not Good</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="field_wrapper_kalibrasi">
-                                                <tr class="item_kalibrasi">
-                                                    <td>
-                                                        <a href="javascript:void(0);" class="add_button_kalibrasi btn btn-sm btn-primary" title="Add field"><i class="fa fa-plus"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <input type="text" placeholder="Tool Performance Check" name="kalibrasi_keterangan[0]" class="form-control" id="kalibrasi_keterangan" value="">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <input type="text" placeholder="Setting" name="kalibrasi_setting[0]" class="form-control" id="kalibrasi_setting">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <input type="text" placeholder="Measurable" name="kalibrasi_terukur[0]" class="form-control" id="price">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <input type="text" placeholder="Reference Value" name="kalibrasi_nilai[0]" class="form-control" id="kalibrasi_nilai_0">
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <div class="d-flex justify-content-center">
-                                                            <input type="radio" name="kalibrasi_status[0]" class="form-check" value="1">
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <div class="d-flex justify-content-center">
-                                                            <input type="radio" name="kalibrasi_status[0]" class="form-check" value="1">
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <hr>
-                                        <div class="col-md-6 col-sm-12 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="equip_id" class="control-label">Performance Check Results</label>
-                                                <div class="form-check">
-                                                    <input type="radio" id="feasible_to_use" class="form-check-input" value="1" name="hasil_kalibrasi" checked="">
-                                                    <label class="form-check-label" for="feasible_to_use">
-                                                        Feasible to Use
-                                                    </label>
-                                                </div>
-                                                <div class="form-check mt-2">
-                                                    <input type="radio" id="not_worth_to_use" class="form-check-input" value="0" name="hasil_kalibrasi" checked="">
-                                                    <label class="form-check-label" for="not_worth_to_use">
-                                                        Not Worth to Use
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-12 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="calibration_price" class="control-label">Calibration Price</label>
-                                                <input type="text" name="calibration_price" class="form-control" id="calibration_price" value="0">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3>Function Check</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <table class="table" id="table-fungsi">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Information</th>
-                                                    <th class="text-center">Yes</th>
-                                                    <th class="text-center">No</th>
-                                                    <th class="text-center">NA</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="field_wrapper_fungsi">
-                                                <tr class="item_fungsi">
-                                                    <td>
-                                                        <a href="javascript:void(0);" class="add_button_fungsi btn btn-sm btn-primary" title="Add field"><i class="fa fa-plus"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <input type="text" name="fungsi_keterangan[0]" class="form-control" placeholder="Information" id="fungsi_keterangan_0">
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <div class="d-flex justify-content-center">
-                                                            <input type="radio" name="kalibrasi_status[0]" class="form-check" value="1">
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <div class="d-flex justify-content-center">
-                                                            <input type="radio" name="kalibrasi_status[0]" class="form-check" value="1">
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <div class="d-flex justify-content-center">
-                                                            <input type="radio" name="kalibrasi_status[0]" class="form-check" value="1">
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3>Equipment Inspection</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <table class="table" id="table-fungsi">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Information</th>
-                                                    <th class="text-center">Yes</th>
-                                                    <th class="text-center">No</th>
-                                                    <th class="text-center">NA</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="field_wrapper_fungsi">
-                                                <tr class="item_fungsi">
-                                                    <td>
-                                                        <a href="javascript:void(0);" class="add_button_fungsi btn btn-sm btn-primary" title="Add field"><i class="fa fa-plus"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <input type="text" name="fungsi_keterangan[0]" class="form-control" placeholder="Information" id="fungsi_keterangan_0">
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <div class="d-flex justify-content-center">
-                                                            <input type="radio" name="kalibrasi_status[0]" class="form-check" value="1">
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <div class="d-flex justify-content-center">
-                                                            <input type="radio" name="kalibrasi_status[0]" class="form-check" value="1">
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <div class="d-flex justify-content-center">
-                                                            <input type="radio" name="kalibrasi_status[0]" class="form-check" value="1">
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3>Tool Maintenance</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <table class="table" id="table-fungsi">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Information</th>
-                                                    <th class="text-center">Yes</th>
-                                                    <th class="text-center">No</th>
-                                                    <th class="text-center">NA</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="field_wrapper_fungsi">
-                                                <tr class="item_fungsi">
-                                                    <td>
-                                                        <a href="javascript:void(0);" class="add_button_fungsi btn btn-sm btn-primary" title="Add field"><i class="fa fa-plus"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <input type="text" name="fungsi_keterangan[0]" class="form-control" placeholder="Information" id="fungsi_keterangan_0">
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <div class="d-flex justify-content-center">
-                                                            <input type="radio" name="kalibrasi_status[0]" class="form-check" value="1">
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <div class="d-flex justify-content-center">
-                                                            <input type="radio" name="kalibrasi_status[0]" class="form-check" value="1">
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <div class="d-flex justify-content-center">
-                                                            <input type="radio" name="kalibrasi_status[0]" class="form-check" value="1">
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3>Replacement of Parts/Consumables</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <table class="table" id="table-sparepart">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Part / Consumable</th>
-                                                    <th>Price</th>
-                                                    <th>Stock</th>
-                                                    <th>Amount</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="field_wrapper_sparepart">
-                                                <tr class="item_sparepart">
-                                                    <td>
-                                                        <a href="javascript:void(0);" class="add_button_sparepart btn btn-sm btn-primary" title="Add field"><i class="fa fa-plus"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <select name="sparepart_item[0]" class="form-control" id="sparepart_item0" onchange="getSparepartInfo(0)">
-                                                                <option value="">--Choose Sparepart--</option>
-                                                                <option value="48">Kabel ECG</option>
-                                                                <option value="50">Kertas ECG</option>
-                                                                <option value="49">Mainboard ECG</option>
-                                                                <option value="51">ECG Electroda</option>
-                                                            </select>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <input type="text" name="sparepart_item_price[0]" placeholder="Price" class="form-control text-right" id="sparepart_item_price0">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <input type="text" name="sparepart_stock[0]" placeholder="Stock" class="form-control text-right" id="sparepart_stock0" readonly="">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <input type="text" name="sparepart_item_qty[0]" placeholder="Amount" class="form-control text-right" id="sparepart_item_qty0">
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                        @include('work-order-process.includes.form-work-order-data')
 
-                                        <div class="col-md-6 col-sm-12 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="location" class="control-label">Service Price</label>
-                                                <input type="number" name="harga_service" class="form-control" placeholder="Service Price" id="harga_service" value="0">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3>Work Order Document</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <table class="table" id="table-dokumen">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Document Name</th>
-                                                    <th>Description</th>
-                                                    <th>File</th>
-                                                    <th>#</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="field_wrapper_dokumen">
-                                                <tr class="item_dokumen">
-                                                    <td>
-                                                        <a href="javascript:void(0);" class="add_button_dokumen btn btn-sm btn-primary" title="Add field"><i class="fa fa-plus"></i></a>
-                                                    </td>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <input placeholder="Document Name" type="text" name="document_name[0]" class="form-control" id="document_name">
-                                                        </div>
-                                                    </td>
+                        @include('work-order-process.includes.form-equipment')
 
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <input placeholder="Description" type="text" name="document_description[0]" class="form-control" id="document_description">
-                                                        </div>
-                                                    </td>
+                        @include('work-order-process.includes.form-location')
 
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <input type="file" name="document_link[0]" class="form-control" id="document_link">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            -
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @include('work-order-process.includes.form-electrical-safety')
+
+                        @include('work-order-process.includes.form-calibration-performance')
+
+                        @include('work-order-process.includes.form-physical-check')
+
+                        @include('work-order-process.includes.form-function-check')
+
+                        @include('work-order-process.includes.form-equipment-inspection-check')
+
+                        @include('work-order-process.includes.form-tool-maintenance')
+
+                        @include('work-order-process.includes.form-replacement-of-parts')
+
+                        @include('work-order-process.includes.form-work-order-documents')
+
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
@@ -606,3 +124,246 @@
         </div>
     </div>
 @endsection
+
+@push('js-scripts')
+    <script>
+        $('#executor').on("select2:select", function(e) {
+            if ($('#executor').select2('val') == 'vendor_or_supplier') {
+                $('#work_executor_vendor_id').parent().hasClass('d-none') ? $('#work_executor_vendor_id').parent().removeClass('d-none') : '';
+                !$('#work_executor_technician_id').parent().hasClass('d-none') ? $('#work_executor_technician_id').parent().addClass('d-none') : '';
+            } else if ($('#executor').select2('val') == 'technician') {
+                $('#work_executor_technician_id').parent().hasClass('d-none') ? $('#work_executor_technician_id').parent().removeClass('d-none') : '';
+                !$('#work_executor_vendor_id').parent().hasClass('d-none') ? $('#work_executor_vendor_id').parent().addClass('d-none') : '';
+            }
+        });
+
+        function addRowPerformanceCalibration(currentRowHtml) {
+            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length - 1].dataset.index);
+
+            currentRowHtml.parentElement.insertAdjacentHTML('beforeend',
+                `
+                <tr data-index="${lastRowIndex + 1}">
+                        <td>
+                            <button class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" autocomplete="off" placeholder="Tool Performance Check" name="tool_performance_check[${lastRowIndex + 1}]" class="form-control" id="tool_performance_check_${lastRowIndex + 1}">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" autocomplete="off" placeholder="Setting" name="setting[${lastRowIndex + 1}]" class="form-control" id="setting_${lastRowIndex + 1}">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" autocomplete="off" placeholder="Measurable" name="measurable[${lastRowIndex + 1}]" class="form-control" id="measurable_${lastRowIndex + 1}">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <input type="text" autocomplete="off" placeholder="Reference Value" name="reference_value[${lastRowIndex + 1}]" class="form-control" id="reference_value_${lastRowIndex + 1}">
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div class="d-flex justify-content-center">
+                                <input type="radio" name="is_good[${lastRowIndex + 1}]" class="form-check" value="1">
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <div class="d-flex justify-content-center">
+                                <input type="radio" name="is_good[${lastRowIndex + 1}]" class="form-check" value="0">
+                            </div>
+                        </td>
+                    </tr>
+                `
+            );
+        }
+
+        function addRowPhysicalCheck(currentRowHtml) {
+            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length - 1].dataset.index);
+
+            currentRowHtml.parentElement.insertAdjacentHTML('beforeend',
+                `
+                <tr data-index="${lastRowIndex + 1}">
+                    <td>
+                        <button class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input type="text" placeholder="Physical Check" name="physical_check[${lastRowIndex + 1}]" class="form-control">
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center">
+                            <input type="radio" name="physical_health[${lastRowIndex + 1}]" class="form-check" value="good">
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center">
+                            <input type="radio" name="physical_health[${lastRowIndex + 1}]" class="form-check" value="minor damage">
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center">
+                            <input type="radio" name="physical_health[${lastRowIndex + 1}]" class="form-check" value="major damage">
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center">
+                            <input type="radio" name="physical_cleanliness[${lastRowIndex + 1}]" class="form-check" value="clean">
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center">
+                            <input type="radio" name="physical_cleanliness[${lastRowIndex + 1}]" class="form-check" value="dirty">
+                        </div>
+                    </td>
+                </tr>
+                `
+            );
+        }
+
+        function addRowFunctionCheck(currentRowHtml) {
+            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length - 1].dataset.index);
+
+            currentRowHtml.parentElement.insertAdjacentHTML('beforeend',
+                `
+                <tr data-index="${lastRowIndex + 1}">
+                    <td>
+                        <button class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input type="text" name="information[${lastRowIndex + 1}]" class="form-control" placeholder="Information" id="information_${lastRowIndex + 1}">
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center">
+                            <input type="radio" name="status[${lastRowIndex + 1}]" class="form-check" value="Yes">
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center">
+                            <input type="radio" name="status[${lastRowIndex + 1}]" class="form-check" value="No">
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center">
+                            <input type="radio" name="status[${lastRowIndex + 1}]" class="form-check" value="NA">
+                        </div>
+                    </td>
+                </tr>
+                `
+            );
+        }
+
+        function addRowEquipmentInspectionCheck(currentRowHtml) {
+            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length - 1].dataset.index);
+
+            currentRowHtml.parentElement.insertAdjacentHTML('beforeend',
+                `
+                <tr data-index="${lastRowIndex + 1}">
+                    <td>
+                        <button class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input type="text" name="information[${lastRowIndex + 1}]" class="form-control" placeholder="Information" id="information_${lastRowIndex + 1}">
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center">
+                            <input type="radio" name="status[${lastRowIndex + 1}]" class="form-check" value="Yes">
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center">
+                            <input type="radio" name="status[${lastRowIndex + 1}]" class="form-check" value="No">
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center">
+                            <input type="radio" name="status[${lastRowIndex + 1}]" class="form-check" value="NA">
+                        </div>
+                    </td>
+                </tr>
+                `
+            );
+        }
+
+        function addRowToolMaintenance(currentRowHtml) {
+            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length - 1].dataset.index);
+
+            currentRowHtml.parentElement.insertAdjacentHTML('beforeend',
+                `
+                <tr data-index="${lastRowIndex + 1}">
+                    <td>
+                        <button class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input type="text" name="information[${lastRowIndex + 1}]" class="form-control" placeholder="Information" id="information_${lastRowIndex + 1}">
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center">
+                            <input type="radio" name="status[${lastRowIndex + 1}]" class="form-check" value="Yes">
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center">
+                            <input type="radio" name="status[${lastRowIndex + 1}]" class="form-check" value="No">
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center">
+                            <input type="radio" name="status[${lastRowIndex + 1}]" class="form-check" value="NA">
+                        </div>
+                    </td>
+                </tr>
+                `
+            );
+        }
+
+        function addRowReplacementOfPart(currentRowHtml) {
+            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length - 1].dataset.index);
+
+            currentRowHtml.parentElement.insertAdjacentHTML('beforeend',
+                `
+                <tr data-index="${lastRowIndex + 1}">
+                    <td>
+                        <button class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <select name="sparepart_id[${lastRowIndex + 1}]" class="form-control" id="sparepart_id_${lastRowIndex + 1}" onchange="getSparepartInfo(${lastRowIndex + 1})">
+                                <option value="">--Choose Sparepart--</option>
+                                @foreach ($spareparts as $sparepart)
+                                    <option value="{{ $sparepart->id }}">{{ $sparepart->sparepart_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input type="text" name="price[${lastRowIndex + 1}]" placeholder="Price" class="form-control text-right" id="price${lastRowIndex + 1}">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input type="text" name="stock[${lastRowIndex + 1}]" placeholder="Stock" class="form-control text-right" id="stock${lastRowIndex + 1}" readonly="">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input type="text" name="amount[${lastRowIndex + 1}]" placeholder="Amount" class="form-control text-right" id="amount${lastRowIndex + 1}">
+                        </div>
+                    </td>
+                </tr>
+                `
+            );
+        }
+    </script>
+@endpush
