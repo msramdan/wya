@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class WorkOrderProcessHasToolMaintenance extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'work_order_process_id', 'information', 'status'
+    ];
 }

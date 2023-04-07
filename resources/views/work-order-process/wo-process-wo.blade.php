@@ -26,9 +26,9 @@
                                 <h3 class="text-white">Error Validation</h3>
                             </div>
                             <div class="card-body">
-                                <ul style="list-style: circle; padding-left: 0">
+                                <ul style="list-style: circle;">
                                     @foreach ($errors->all() as $error)
-                                        <span class="text-danger" style="font-size: 1rem">{{ $error }}</span>
+                                        <li class="text-danger" style="font-size: 1rem">{{ $error }}</li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -106,36 +106,36 @@
                 `
                 <tr data-index="${lastRowIndex + 1}">
                         <td>
-                            <button class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
+                            <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
                         </td>
                         <td>
                             <div class="form-group">
-                                <input type="text" autocomplete="off" placeholder="Tool Performance Check" name="tool_performance_check[${lastRowIndex + 1}]" class="form-control" id="tool_performance_check_${lastRowIndex + 1}">
+                                <input autocomplete="off" type="text" autocomplete="off" placeholder="Tool Performance Check" name="calibration_performance_tool_performance_check[${lastRowIndex + 1}]" class="form-control" id="tool_performance_check_${lastRowIndex + 1}">
                             </div>
                         </td>
                         <td>
                             <div class="form-group">
-                                <input type="text" autocomplete="off" placeholder="Setting" name="setting[${lastRowIndex + 1}]" class="form-control" id="setting_${lastRowIndex + 1}">
+                                <input autocomplete="off" type="text" autocomplete="off" placeholder="Setting" name="calibration_performance_setting[${lastRowIndex + 1}]" class="form-control" id="setting_${lastRowIndex + 1}">
                             </div>
                         </td>
                         <td>
                             <div class="form-group">
-                                <input type="text" autocomplete="off" placeholder="Measurable" name="measurable[${lastRowIndex + 1}]" class="form-control" id="measurable_${lastRowIndex + 1}">
+                                <input autocomplete="off" type="text" autocomplete="off" placeholder="Measurable" name="calibration_performance_measurable[${lastRowIndex + 1}]" class="form-control" id="measurable_${lastRowIndex + 1}">
                             </div>
                         </td>
                         <td>
                             <div class="form-group">
-                                <input type="text" autocomplete="off" placeholder="Reference Value" name="reference_value[${lastRowIndex + 1}]" class="form-control" id="reference_value_${lastRowIndex + 1}">
+                                <input autocomplete="off" type="text" autocomplete="off" placeholder="Reference Value" name="calibration_performance_reference_value[${lastRowIndex + 1}]" class="form-control" id="reference_value_${lastRowIndex + 1}">
                             </div>
                         </td>
                         <td class="text-center">
                             <div class="d-flex justify-content-center">
-                                <input type="radio" name="is_good[${lastRowIndex + 1}]" class="form-check" value="1">
+                                <input type="radio" name="calibration_performance_is_good[${lastRowIndex + 1}]" class="form-check" value="1">
                             </div>
                         </td>
                         <td class="text-center">
                             <div class="d-flex justify-content-center">
-                                <input type="radio" name="is_good[${lastRowIndex + 1}]" class="form-check" value="0">
+                                <input type="radio" name="calibration_performance_is_good[${lastRowIndex + 1}]" class="form-check" value="0">
                             </div>
                         </td>
                     </tr>
@@ -150,11 +150,11 @@
                 `
                 <tr data-index="${lastRowIndex + 1}">
                     <td>
-                        <button class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
                     </td>
                     <td>
                         <div class="form-group">
-                            <input type="text" placeholder="Physical Check" name="physical_check[${lastRowIndex + 1}]" class="form-control">
+                            <input autocomplete="off" type="text" placeholder="Physical Check" name="physical_check[${lastRowIndex + 1}]" class="form-control">
                         </div>
                     </td>
                     <td class="text-center">
@@ -194,26 +194,26 @@
                 `
                 <tr data-index="${lastRowIndex + 1}">
                     <td>
-                        <button class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
                     </td>
                     <td>
                         <div class="form-group">
-                            <input type="text" name="information[${lastRowIndex + 1}]" class="form-control" placeholder="Information" id="information_${lastRowIndex + 1}">
+                            <input autocomplete="off" type="text" name="function_check_information[${lastRowIndex + 1}]" class="form-control" placeholder="Information" id="information_${lastRowIndex + 1}">
                         </div>
                     </td>
                     <td class="text-center">
                         <div class="d-flex justify-content-center">
-                            <input type="radio" name="status[${lastRowIndex + 1}]" class="form-check" value="Yes">
+                            <input type="radio" name="function_check_status[${lastRowIndex + 1}]" class="form-check" value="Yes">
                         </div>
                     </td>
                     <td class="text-center">
                         <div class="d-flex justify-content-center">
-                            <input type="radio" name="status[${lastRowIndex + 1}]" class="form-check" value="No">
+                            <input type="radio" name="function_check_status[${lastRowIndex + 1}]" class="form-check" value="No">
                         </div>
                     </td>
                     <td class="text-center">
                         <div class="d-flex justify-content-center">
-                            <input type="radio" name="status[${lastRowIndex + 1}]" class="form-check" value="NA">
+                            <input type="radio" name="function_check_status[${lastRowIndex + 1}]" class="form-check" value="NA">
                         </div>
                     </td>
                 </tr>
@@ -228,26 +228,26 @@
                 `
                 <tr data-index="${lastRowIndex + 1}">
                     <td>
-                        <button class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
                     </td>
                     <td>
                         <div class="form-group">
-                            <input type="text" name="information[${lastRowIndex + 1}]" class="form-control" placeholder="Information" id="information_${lastRowIndex + 1}">
+                            <input autocomplete="off" type="text" name="equipment_inspect_information[${lastRowIndex + 1}]" class="form-control" placeholder="Information" id="equipment_inspect_information_${lastRowIndex + 1}">
                         </div>
                     </td>
                     <td class="text-center">
                         <div class="d-flex justify-content-center">
-                            <input type="radio" name="status[${lastRowIndex + 1}]" class="form-check" value="Yes">
+                            <input type="radio" name="equipment_inspect_status[${lastRowIndex + 1}]" class="form-check" value="Yes">
                         </div>
                     </td>
                     <td class="text-center">
                         <div class="d-flex justify-content-center">
-                            <input type="radio" name="status[${lastRowIndex + 1}]" class="form-check" value="No">
+                            <input type="radio" name="equipment_inspect_status[${lastRowIndex + 1}]" class="form-check" value="No">
                         </div>
                     </td>
                     <td class="text-center">
                         <div class="d-flex justify-content-center">
-                            <input type="radio" name="status[${lastRowIndex + 1}]" class="form-check" value="NA">
+                            <input type="radio" name="equipment_inspect_status[${lastRowIndex + 1}]" class="form-check" value="NA">
                         </div>
                     </td>
                 </tr>
@@ -262,26 +262,26 @@
                 `
                 <tr data-index="${lastRowIndex + 1}">
                     <td>
-                        <button class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
                     </td>
                     <td>
                         <div class="form-group">
-                            <input type="text" name="information[${lastRowIndex + 1}]" class="form-control" placeholder="Information" id="information_${lastRowIndex + 1}">
+                            <input autocomplete="off" type="text" name="tool_maintenance_information[${lastRowIndex + 1}]" class="form-control" placeholder="Information" id="tool_maintenance_information_${lastRowIndex + 1}">
                         </div>
                     </td>
                     <td class="text-center">
                         <div class="d-flex justify-content-center">
-                            <input type="radio" name="status[${lastRowIndex + 1}]" class="form-check" value="Yes">
+                            <input type="radio" name="tool_maintenance_status[${lastRowIndex + 1}]" class="form-check" value="Yes">
                         </div>
                     </td>
                     <td class="text-center">
                         <div class="d-flex justify-content-center">
-                            <input type="radio" name="status[${lastRowIndex + 1}]" class="form-check" value="No">
+                            <input type="radio" name="tool_maintenance_status[${lastRowIndex + 1}]" class="form-check" value="No">
                         </div>
                     </td>
                     <td class="text-center">
                         <div class="d-flex justify-content-center">
-                            <input type="radio" name="status[${lastRowIndex + 1}]" class="form-check" value="NA">
+                            <input type="radio" name="tool_maintenance_status[${lastRowIndex + 1}]" class="form-check" value="NA">
                         </div>
                     </td>
                 </tr>
@@ -296,7 +296,7 @@
                 `
                 <tr data-index="${lastRowIndex + 1}">
                     <td>
-                        <button class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
                     </td>
                     <td>
                         <div class="form-group">
@@ -310,17 +310,17 @@
                     </td>
                     <td>
                         <div class="form-group">
-                            <input type="text" name="price[${lastRowIndex + 1}]" placeholder="Price" class="form-control text-right" id="price${lastRowIndex + 1}">
+                            <input autocomplete="off" type="text" name="price[${lastRowIndex + 1}]" placeholder="Price" class="form-control text-right" id="price${lastRowIndex + 1}">
                         </div>
                     </td>
                     <td>
                         <div class="form-group">
-                            <input type="text" name="stock[${lastRowIndex + 1}]" placeholder="Stock" class="form-control text-right" id="stock${lastRowIndex + 1}" readonly="">
+                            <input autocomplete="off" type="text" name="stock[${lastRowIndex + 1}]" placeholder="Stock" class="form-control text-right" id="stock${lastRowIndex + 1}" readonly="">
                         </div>
                     </td>
                     <td>
                         <div class="form-group">
-                            <input type="text" name="amount[${lastRowIndex + 1}]" placeholder="Amount" class="form-control text-right" id="amount${lastRowIndex + 1}">
+                            <input autocomplete="off" type="text" name="amount[${lastRowIndex + 1}]" placeholder="Amount" class="form-control text-right" id="amount${lastRowIndex + 1}">
                         </div>
                     </td>
                 </tr>
@@ -335,7 +335,7 @@
                 `
                 <tr data-index="${lastRowIndex + 1}">
                     <td>
-                        <button class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
                     </td>
                     <td>
                         <div class="form-group">

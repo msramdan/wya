@@ -20,9 +20,9 @@
                 <label for="serial_number">Serial Number</label>
                 <input type="text" name="serial_number" id="serial_number" readonly value="{{ $workOrder->equipment->serial_number }}" class="form-control">
             </div>
-            <div class="form-group mb-3 d-none">
+            <div class="form-group mb-3">
                 <label for="type">Type</label>
-                <input type="text" name="type" id="type" value="IRL" readonly class="form-control">
+                <input type="text" name="type" id="type" value="{{ $workOrder->type_wo }}" readonly class="form-control">
             </div>
         </div>
     </div>

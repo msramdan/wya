@@ -9,5 +9,5 @@ class WorkOrderProcessHasPhysicalCheck extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['physical_check', 'physical_health', 'physical_cleanliness'];
+    protected $fillable = ['work_order_process_id', 'physical_check', 'physical_health', 'physical_cleanliness'];
 }

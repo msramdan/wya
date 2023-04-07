@@ -1,3 +1,6 @@
+@php
+    use App\Models\User;
+@endphp
 <div class="col-12">
     <div class="card">
         <div class="card-header">
@@ -72,7 +75,13 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="work_date">Work Date</label>
-                        <input type="date" name="work_date" id="work_date" class="form-control" value="{{ old('work_date') ? old('work_date') : ($workOrder->work_date ? $workOrder->work_date : date('Y-m-d')) }}">
+                        <input type="date" name="work_date" id="work_date" class="form-control @error('work_date') is-invalid @enderror" value="{{ old('work_date') ? old('work_date') : ($workOrderProcesess->work_date ? $workOrderProcesess->work_date : date('Y-m-d')) }}">
+
+                        @error('work_date')
+                            <span class="invalid-feedback">
+                                {{ $message }}
+                            </span>
+                        @enderror
                     </div>
                 </div>
             </div>
