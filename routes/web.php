@@ -56,4 +56,5 @@ Route::prefix('panel')->group(function () {
 
     Route::resource('work-order-approvals', App\Http\Controllers\WorkOrderApprovalController::class)->middleware('auth');
     Route::resource('work-order-processes', App\Http\Controllers\WorkOrderProcessController::class)->middleware('auth');
+    Route::get('work-order-processes/{workOrderId}/{workOrderProcessId}', [App\Http\Controllers\WorkOrderProcessController::class, 'woProcessEdit'])->middleware('auth');
 });

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Work Order Processes'))
+@section('title', __('Work Order Procesess'))
 
 @section('content')
     <div class="page-content">

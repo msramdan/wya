@@ -14,7 +14,7 @@ class WorkOrder extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['equipment_id', 'type_wo', 'filed_date', 'category_wo', 'schedule_date', 'note', 'created_by', 'status_wo', 'wo_number', 'approval_users_id', 'start_date', 'end_date', 'schedule_wo'];
+    protected $fillable = ['equipment_id', 'type_wo', 'filed_date', 'category_wo', 'schedule_date', 'note', 'created_by', 'status_wo', 'wo_number', 'approval_users_id', 'start_date', 'end_date', 'schedule_wo', 'approved_at', 'tools_can_be_used_well', 'tool_cannot_be_used', 'tool_need_repair', 'tool_can_be_used_need_replacement_accessories', 'tool_need_calibration', 'tool_need_bleaching'];
 
     /**
      * The attributes that should be cast.
@@ -38,5 +38,10 @@ class WorkOrder extends Model
         return WorkOrderProcess::where('work_order_id', $this->id)->when($status, function ($query, $status) {
             $query->where('status', $status);
         })->count();
+    }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 }

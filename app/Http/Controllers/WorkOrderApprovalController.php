@@ -114,7 +114,8 @@ class WorkOrderApprovalController extends Controller
 
         $workOrder->update([
             'approval_users_id' => json_encode($workOrderApprovalUsers),
-            'status_wo' => $request->status == 'rejected' ? 'rejected' : ($existsPendingStatus ? 'pending' : $request->status)
+            'status_wo' => $request->status == 'rejected' ? 'rejected' : ($existsPendingStatus ? 'pending' : $request->status),
+            'approved_at' => $request->status == 'rejected' ? null : ($existsPendingStatus ? null : date('Y-m-d H:i:s')),
         ]);
 
         if ($workOrder->status_wo == 'accepted') {
