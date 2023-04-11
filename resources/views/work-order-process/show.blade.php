@@ -119,10 +119,9 @@
                     data: 'status',
                     render: function(datum, type, row) {
                         if (row.status != 'finished') {
-
                             return `<a href="/panel/work-order-processes/${row.work_order_id}/${row.id}" class="btn btn-sm btn-primary d-flex align-items-center" style="width: fit-content"><span class="material-symbols-outlined"> electric_bolt</span> Process </a>`;
                         } else {
-                            return '';
+                            return '<button type="button" class="btn btn-success btn-sm d-flex align-items-center w-fit"><span class="material-symbols-outlined"> print </span> Print</button > ';
                         }
                     }
                 },

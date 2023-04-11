@@ -77,7 +77,7 @@ class UpdateWorkOrderProcesessRequest extends FormRequest
             }],
             'function_check_status.*' => ['nullable', 'in:Yes,No,NA'],
             'equipment_inspect_information.*' => [function ($attribute, $value, $fail) {
-                if (!(request()->physical_check[0] == null && count(request()->equipment_inspect_information) == 1)) {
+                if (!(request()->equipment_inspect_information[0] == null && count(request()->equipment_inspect_information) == 1)) {
                     if (count(request()->equipment_inspect_information) > 1) {
                         if (request()->equipment_inspect_information[0] == null && explode('.', $attribute)[count(explode('.', $attribute)) - 1] == 0) {
                             $fail('Form Information is required');
@@ -89,7 +89,7 @@ class UpdateWorkOrderProcesessRequest extends FormRequest
             }],
             'equipment_inspect_status.*' => ['nullable', 'in:Yes,No,NA'],
             'tool_maintenance_information.*' => [function ($attribute, $value, $fail) {
-                if (!(request()->physical_check[0] == null && count(request()->tool_maintenance_information) == 1)) {
+                if (!(request()->tool_maintenance_information[0] == null && count(request()->tool_maintenance_information) == 1)) {
                     if (count(request()->tool_maintenance_information) > 1) {
                         if (request()->tool_maintenance_information[0] == null && explode('.', $attribute)[count(explode('.', $attribute)) - 1] == 0) {
                             $fail('Form Information is required');
@@ -100,6 +100,49 @@ class UpdateWorkOrderProcesessRequest extends FormRequest
                 }
             }],
             'tool_maintenance_status.*' => ['nullable', 'in:Yes,No,NA'],
+            'replacement_sparepart_id.*' => [function ($attribute, $value, $fail) {
+                if (!(request()->replacement_sparepart_id[0] == null && count(request()->replacement_sparepart_id) == 1)) {
+                    if (count(request()->replacement_sparepart_id) > 1) {
+                        if (request()->replacement_sparepart_id[0] == null && explode('.', $attribute)[count(explode('.', $attribute)) - 1] == 0) {
+                            $fail('Form Sparepart is required');
+                        } else if (explode('.', $attribute)[count(explode('.', $attribute)) - 1] > 0 && $value == '') {
+                            $fail('Form Sparepart is required');
+                        }
+                    }
+                }
+            }],
+            'replacement_price.*' => [function ($attribute, $value, $fail) {
+                if (!request()->$attribute && request()->replacement_sparepart_id[explode('.', $attribute)[count(explode('.', $attribute)) - 1]]) {
+                    $fail('Form Replacement Price is required');
+                }
+            }],
+            'replacement_amount.*' => [function ($attribute, $value, $fail) {
+                if (!request()->$attribute && request()->replacement_sparepart_id[explode('.', $attribute)[count(explode('.', $attribute)) - 1]]) {
+                    $fail('Form Replacement Amount is required');
+                }
+            }],
+            'replacement_of_part_service_price' => ['required', new AllowIntegerOrDouble],
+            'wo_doc_document_name.*' => [function ($attribute, $value, $fail) {
+                if (!(request()->wo_doc_document_name[0] == null && count(request()->wo_doc_document_name) == 1)) {
+                    if (count(request()->wo_doc_document_name) > 1) {
+                        if (request()->wo_doc_document_name[0] == null && explode('.', $attribute)[count(explode('.', $attribute)) - 1] == 0) {
+                            $fail('Form Document Name is required');
+                        } else if (explode('.', $attribute)[count(explode('.', $attribute)) - 1] > 0 && $value == '') {
+                            $fail('Form Document Name is required');
+                        }
+                    }
+                }
+
+                if (request()->$attribute && isset(request()->old_wo_doc_file[explode('.', $attribute)[count(explode('.', $attribute)) - 1]])) {
+                } else if (!isset(request()->wo_doc_file[explode('.', $attribute)[count(explode('.', $attribute)) - 1]]) && request()->$attribute) {
+                    $fail('Form Document File is required');
+                } else if (isset(request()->wo_doc_file[explode('.', $attribute)[count(explode('.', $attribute)) - 1]]) && request()->$attribute) {
+                    if (!request()->file('wo_doc_file')[explode('.', $attribute)[count(explode('.', $attribute)) - 1]]) {
+                        $fail('Form Document File must be file');
+                    }
+                }
+            }],
+            'wo_doc_description.*' => ['nullable', 'string'],
         ];
     }
 }

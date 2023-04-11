@@ -236,7 +236,7 @@
                     <div class="col-12">
                         <div class="border rounded p-2">
                             <div class="col-4">
-                                <div class="form-group">
+                                <div class="form-group d-none" id="group-viewmode">
                                     <label for="view_mode">View Mode</label>
                                     <select name="view_mode" id="view_mode" class="form-control js-example-basic-multiple">
                                         <option value="Day">Day</option>
@@ -247,6 +247,18 @@
                             </div>
                             <div class="col-12">
                                 <div id="gantt"></div>
+                                <div id="table-container" class="d-none">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Start Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

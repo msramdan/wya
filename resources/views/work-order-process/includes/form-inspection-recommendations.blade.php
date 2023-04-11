@@ -7,17 +7,23 @@
             <div class="row">
                 <div class="col-md-6 col-xs-12">
                     <div class="form-check">
-                        <input name="tools_can_be_used_well" class="form-check-input" type="checkbox" value="1" {{ $workOrderProcesess->tools_can_be_used_well == 1 ? 'checked' : '' }} id="tools_can_be_used_well">
+                        <input name="tools_can_be_used_well" class="form-check-input" type="checkbox" value="1" id="tools_can_be_used_well" @if (old('tools_can_be_used_well')) {{ old('tools_can_be_used_well') == 1 ? 'checked' : '' }}
+                            @else
+                            {{ $workOrderProcesess->tools_can_be_used_well == 1 ? 'checked' : '' }} @endif>
                         <label class="form-check-label" for="tools_can_be_used_well">Tools Can Be Used Well</label>
                     </div>
                     <div class="form-check">
-                        <input name="tool_cannot_be_used" class="form-check-input" type="checkbox" value="1" {{ $workOrderProcesess->tool_cannot_be_used == 1 ? 'checked' : '' }} id="tool_cannot_be_used">
+                        <input name="tool_cannot_be_used" class="form-check-input" type="checkbox" value="1" id="tool_cannot_be_used" @if (old('tool_cannot_be_used')) {{ old('tool_cannot_be_used') == 1 ? 'checked' : '' }}
+                            @else
+                            {{ $workOrderProcesess->tool_cannot_be_used == 1 ? 'checked' : '' }} @endif>
                         <label class="form-check-label" for="tool_cannot_be_used" style="color: red">
                             Tool Cannot Be Used
                         </label>
                     </div>
                     <div class="form-check">
-                        <input name="tool_need_repair" class="form-check-input" type="checkbox" value="1" {{ $workOrderProcesess->tool_need_repair == 1 ? 'checked' : '' }} id="tool_need_repair">
+                        <input name="tool_need_repair" class="form-check-input" type="checkbox" value="1" id="tool_need_repair" @if (old('tool_need_repair')) {{ old('tool_need_repair') == 1 ? 'checked' : '' }}
+                            @else
+                            {{ $workOrderProcesess->tool_need_repair == 1 ? 'checked' : '' }} @endif>
                         <label class="form-check-label" for="tool_need_repair" style="color: red">
                             Tool Needs Repair
                         </label>
@@ -26,19 +32,25 @@
 
                 <div class="col-md-6 col-xs-12">
                     <div class="form-check">
-                        <input name="tool_can_be_used_need_replacement_accessories" class="form-check-input" {{ $workOrderProcesess->tool_can_be_used_need_replacement_accessories == 1 ? 'checked' : '' }} type="checkbox" value="1" id="tool_can_be_used_need_replacement_accessories">
+                        <input name="tool_can_be_used_need_replacement_accessories" class="form-check-input" type="checkbox" value="1" id="tool_can_be_used_need_replacement_accessories" @if (old('tool_can_be_used_need_replacement_accessories')) {{ old('tool_can_be_used_need_replacement_accessories') == 1 ? 'checked' : '' }}
+                            @else
+                            {{ $workOrderProcesess->tool_can_be_used_need_replacement_accessories == 1 ? 'checked' : '' }} @endif>
                         <label class="form-check-label" for="tool_can_be_used_need_replacement_accessories">
                             Tools Can Be Used Need Replacement Accessories
                         </label>
                     </div>
                     <div class="form-check">
-                        <input name="tool_need_calibration" class="form-check-input" type="checkbox" value="1" {{ $workOrderProcesess->tool_need_calibration == 1 ? 'checked' : '' }} id="tool_need_calibration">
+                        <input name="tool_need_calibration" class="form-check-input" type="checkbox" value="1" id="tool_need_calibration" @if (old('tool_need_calibration')) {{ old('tool_need_calibration') == 1 ? 'checked' : '' }}
+                            @else
+                            {{ $workOrderProcesess->tool_need_calibration == 1 ? 'checked' : '' }} @endif>
                         <label class="form-check-label" for="tool_need_calibration" style="color: red">
                             Tool Needs Calibration
                         </label>
                     </div>
                     <div class="form-check">
-                        <input name="tool_need_bleaching" class="form-check-input" type="checkbox" value="1" {{ $workOrderProcesess->tool_need_bleaching == 1 ? 'checked' : '' }} id="tool_need_bleaching">
+                        <input name="tool_need_bleaching" class="form-check-input" type="checkbox" value="1" id="tool_need_bleaching" @if (old('tool_need_bleaching')) {{ old('tool_need_bleaching') == 1 ? 'checked' : '' }}
+                            @else
+                            {{ $workOrderProcesess->tool_need_bleaching == 1 ? 'checked' : '' }} @endif>
                         <label class="form-check-label" for="tool_need_bleaching" style="color: red">
                             Tools Need Bleaching
                         </label>
