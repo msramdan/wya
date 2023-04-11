@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ModelFileUploadHelper;
 use App\Http\Requests\UpdateWorkOrderProcesessRequest;
 use App\Models\Sparepart;
 use App\Models\User;
@@ -12,7 +13,9 @@ use App\Models\WorkOrderProcessHasCalibrationPerformance;
 use App\Models\WorkOrderProcessHasEquipmentInspectionCheck;
 use App\Models\WorkOrderProcessHasFunctionCheck;
 use App\Models\WorkOrderProcessHasPhysicalCheck;
+use App\Models\WorkOrderProcessHasReplacementOfPart;
 use App\Models\WorkOrderProcessHasToolMaintenance;
+use App\Models\WorkOrderProcessHasWoDocument;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
@@ -91,6 +94,13 @@ class WorkOrderProcessController extends Controller
             'electrical_safety_note' => $request->electrical_safety_note,
             'calibration_performance_is_feasible_to_use' => $request->calibration_performance_is_feasible_to_use,
             'calibration_performance_calibration_price' => $request->calibration_performance_calibration_price,
+            'replacement_of_part_service_price' => $request->replacement_of_part_service_price,
+            'tools_can_be_used_well' => $request->tools_can_be_used_well ? true : false,
+            'tool_cannot_be_used' => $request->tool_cannot_be_used ? true : false,
+            'tool_need_repair' => $request->tool_need_repair ? true : false,
+            'tool_can_be_used_need_replacement_accessories' => $request->tool_can_be_used_need_replacement_accessories ? true : false,
+            'tool_need_calibration' => $request->tool_need_calibration ? true : false,
+            'tool_need_bleaching' => $request->tool_need_bleaching ? true : false
         ]);
 
         WorkOrderProcessHasCalibrationPerformance::where('work_order_process_id', $workOrderProcess->id)->delete();
@@ -152,6 +162,36 @@ class WorkOrderProcessController extends Controller
             }
         }
 
+        WorkOrderProcessHasReplacementOfPart::where('work_order_process_id', $workOrderProcess->id)->delete();
+        foreach ($request->replacement_sparepart_id as $indexReplacementSparepartId => $replacementSparepartId) {
+            if ($replacementSparepartId) {
+                WorkOrderProcessHasReplacementOfPart::create([
+                    'work_order_process_id' => $workOrderProcess->id,
+                    'sparepart_id' => $replacementSparepartId,
+                    'price' => $request->replacement_price[$indexReplacementSparepartId],
+                    'amount' => $request->replacement_amount[$indexReplacementSparepartId],
+                ]);
+            }
+        }
+
+        foreach (WorkOrderProcessHasWoDocument::where('work_order_process_id', $workOrderProcess->id)->get() as $delWoProcWoDoc) {
+            if (!in_array($delWoProcWoDoc->id, $request->old_id)) {
+                ModelFileUploadHelper::modelFileDelete($delWoProcWoDoc, 'file');
+            }
+            $delWoProcWoDoc->delete();
+        }
+
+        foreach ($request->wo_doc_document_name as $indexWoDocDocumentName => $woDocDocumentName) {
+            if ($woDocDocumentName) {
+                WorkOrderProcessHasWoDocument::create([
+                    'work_order_process_id' => $workOrderProcess->id,
+                    'document_name' => $woDocDocumentName,
+                    'description' => $request->wo_doc_description[$indexWoDocDocumentName],
+                    'file' => isset(request()->old_wo_doc_file[$indexWoDocDocumentName]) ? explode('/', request()->old_wo_doc_file[$indexWoDocDocumentName])[count(explode('/', request()->old_wo_doc_file[$indexWoDocDocumentName])) - 1] : ModelFileUploadHelper::modelFileStore('work_order_process_has_wo_documents', 'file', $request->file('wo_doc_file')[$indexWoDocDocumentName])
+                ]);
+            }
+        }
+
         if ($request->status == 'Doing') {
             $workOrder->update([
                 'status_wo' => 'on-going'
@@ -175,7 +215,7 @@ class WorkOrderProcessController extends Controller
         $workOrderProcesess = WorkOrderProcess::find($workOrderProcesessId);
         $workOrder = WorkOrder::find($workOrderId);
         $vendors = Vendor::select('id', 'name_vendor')->get();
-        $spareparts = Sparepart::select('id', 'sparepart_name')->get();
+        $spareparts = Sparepart::get();
 
         return view('work-order-process.wo-process-wo', [
             'workOrder' => $workOrder,

@@ -198,7 +198,7 @@ class WorkOrderController extends Controller
                         if (Carbon::createFromFormat('Y-m-d', $tempEndData)->subDay()->format('Y-m-d') <= $endDateValue) {
                             $workOrderSchedules[] = [
                                 'start_date' => $startDateValue,
-                                'end_date' => Carbon::createFromFormat('Y-m-d', $tempEndData)->subDay()->format('Y-m-d'),
+                                'end_date' => in_array($workOrder->schedule_wo, ['Harian', 'Mingguan']) ? Carbon::createFromFormat('Y-m-d', $tempEndData)->subDay()->format('Y-m-d') : null,
                             ];
                         }
 

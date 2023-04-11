@@ -37,7 +37,7 @@
                 </div>
                 <div class="col-12">
                     <div class="row">
-                        <form action="{{ route('work-order-processes.update', $workOrderProcesess->id) }}" method="POST">
+                        <form action="{{ route('work-order-processes.update', $workOrderProcesess->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
@@ -300,27 +300,27 @@
                     </td>
                     <td>
                         <div class="form-group">
-                            <select name="sparepart_id[${lastRowIndex + 1}]" class="form-control" id="sparepart_id_${lastRowIndex + 1}" onchange="getSparepartInfo(${lastRowIndex + 1})">
+                            <select onchange="loadStockSparepart(this)" name="sparepart_id[${lastRowIndex + 1}]" class="form-control" id="sparepart_id_${lastRowIndex + 1}" onchange="getSparepartInfo(${lastRowIndex + 1})">
                                 <option value="">--Choose Sparepart--</option>
                                 @foreach ($spareparts as $sparepart)
-                                    <option value="{{ $sparepart->id }}">{{ $sparepart->sparepart_name }}</option>
+                                    <option data-price="{{ $sparepart->estimated_price }}" data-stock="{{ $sparepart->stock }}" value="{{ $sparepart->id }}">{{ $sparepart->sparepart_name }}</option>
                                 @endforeach
                             </select>
                         </div>
                     </td>
                     <td>
                         <div class="form-group">
-                            <input autocomplete="off" type="text" name="price[${lastRowIndex + 1}]" placeholder="Price" class="form-control text-right" id="price${lastRowIndex + 1}">
+                            <input autocomplete="off" type="number" step="any" name="price[${lastRowIndex + 1}]" placeholder="Price" class="form-control text-right" readonly id="price${lastRowIndex + 1}">
                         </div>
                     </td>
                     <td>
                         <div class="form-group">
-                            <input autocomplete="off" type="text" name="stock[${lastRowIndex + 1}]" placeholder="Stock" class="form-control text-right" id="stock${lastRowIndex + 1}" readonly="">
+                            <input autocomplete="off" type="number" name="stock[${lastRowIndex + 1}]" placeholder="Stock" class="form-control text-right" id="stock${lastRowIndex + 1}" readonly="">
                         </div>
                     </td>
                     <td>
                         <div class="form-group">
-                            <input autocomplete="off" type="text" name="amount[${lastRowIndex + 1}]" placeholder="Amount" class="form-control text-right" id="amount${lastRowIndex + 1}">
+                            <input autocomplete="off" type="number" name="amount[${lastRowIndex + 1}]" placeholder="Amount" class="form-control text-right" id="amount${lastRowIndex + 1}">
                         </div>
                     </td>
                 </tr>
@@ -339,22 +339,35 @@
                     </td>
                     <td>
                         <div class="form-group">
-                            <input placeholder="Document Name" type="text" name="document_name[${lastRowIndex + 1}]" class="form-control" id="document_name_${lastRowIndex + 1}">
+                            <input placeholder="Document Name" type="text" name="wo_doc_document_name[${lastRowIndex + 1}]" class="form-control" id="document_name_${lastRowIndex + 1}">
                         </div>
                     </td>
                     <td>
                         <div class="form-group">
-                            <input placeholder="Description" type="text" name="description[${lastRowIndex + 1}]" class="form-control" id="description_${lastRowIndex + 1}">
+                            <input placeholder="Description" type="text" name="wo_doc_description[${lastRowIndex + 1}]" class="form-control" id="description_${lastRowIndex + 1}">
                         </div>
                     </td>
                     <td>
                         <div class="form-group">
-                            <input type="file" name="file[${lastRowIndex + 1}]" class="form-control" id="file_${lastRowIndex + 1}">
+                            <input type="file" name="wo_doc_file[${lastRowIndex + 1}]" class="form-control" id="file_${lastRowIndex + 1}">
                         </div>
                     </td>
                 </tr>
                 `
             );
+        }
+
+        function loadStockSparepart(selectElement) {
+            if (selectElement.value) {
+                const stock = selectElement.children[selectElement.selectedIndex].dataset.stock;
+                const price = selectElement.children[selectElement.selectedIndex].dataset.price;
+
+                selectElement.parentElement.parentElement.nextElementSibling.querySelector('input').value = price;
+                selectElement.parentElement.parentElement.nextElementSibling.nextElementSibling.querySelector('input').value = stock;
+            } else {
+                selectElement.parentElement.parentElement.nextElementSibling.querySelector('input').value = null;
+                selectElement.parentElement.parentElement.nextElementSibling.nextElementSibling.querySelector('input').value = null;
+            }
         }
     </script>
 @endpush

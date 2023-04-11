@@ -125,7 +125,7 @@
                     $("#equipment-id").html('<option value="" selected disabled>-- Select equipment --</option>');
 
                     response.data.forEach((equipment) => {
-                        $("#equipment-id").append(`<option value="${equipment.id}" ${valueEquipmentId == equipment.id ? 'selected' : ''}>${equipment.serial_number}</option>`);
+                        $("#equipment-id").append(`<option value="${equipment.id}" ${valueEquipmentId == equipment.id ? 'selected' : ''}>${equipment.serial_number} | ${equipment.type} | ${equipment.manufacturer}</option>`);
                     });
                     $('#equipment-id').select2();
                     !$('#container-equipment-detail').hasClass('d-none') ? $('#container-equipment-detail').addClass('d-none') : '';
@@ -287,77 +287,157 @@
                     let stepModeAmount = 1;
                     let counter = 1;
 
-                    switch (scheduleWoValue) {
-                        case 'Harian':
-                            scheduleWoFormatted = 'days';
-                            viewMode = 'Day';
-                            break;
-                        case 'Mingguan':
-                            scheduleWoFormatted = 'weeks';
-                            viewMode = 'Week';
-                            break;
-                        case 'Bulanan':
-                            scheduleWoFormatted = 'months';
-                            viewMode = 'Month';
-                            break;
-                        case '2 Bulanan':
-                            stepModeAmount = 2;
-                            scheduleWoFormatted = 'months';
-                            viewMode = 'Month';
-                            break;
-                        case '3 Bulanan':
-                            stepModeAmount = 3;
-                            scheduleWoFormatted = 'months';
-                            viewMode = 'Month';
-                            break;
-                        case '4 Bulanan':
-                            stepModeAmount = 4;
-                            scheduleWoFormatted = 'months';
-                            viewMode = 'Month';
-                            break;
-                        case '6 Bulanan':
-                            stepModeAmount = 6;
-                            scheduleWoFormatted = 'months';
-                            viewMode = 'Month';
-                            break;
-                        case 'Tahunan':
-                            scheduleWoFormatted = 'years';
-                            break;
-                    }
+                    if (['Harian', 'Mingguan'].includes($('#schedule-wo').val())) {
 
-                    while (startDateValue <= endDateValue) {
-                        let tempEndData = moment(startDateValue).add(stepModeAmount, scheduleWoFormatted).format("YYYY-MM-DD");
-
-                        if (moment(tempEndData).subtract(1, 'days').format("YYYY-MM-DD") <= endDateValue) {
-                            workOrderSchedules.push({
-                                id: 'Schedule ' + counter,
-                                name: 'Schedule Rutin ' + counter,
-                                start: startDateValue,
-                                end: moment(tempEndData).subtract(1, 'days').format("YYYY-MM-DD"),
-                                progress: 100,
-                            });
+                        switch (scheduleWoValue) {
+                            case 'Harian':
+                                scheduleWoFormatted = 'days';
+                                viewMode = 'Day';
+                                break;
+                            case 'Mingguan':
+                                scheduleWoFormatted = 'weeks';
+                                viewMode = 'Week';
+                                break;
+                            case 'Bulanan':
+                                scheduleWoFormatted = 'months';
+                                viewMode = 'Month';
+                                break;
+                            case '2 Bulanan':
+                                stepModeAmount = 2;
+                                scheduleWoFormatted = 'months';
+                                viewMode = 'Month';
+                                break;
+                            case '3 Bulanan':
+                                stepModeAmount = 3;
+                                scheduleWoFormatted = 'months';
+                                viewMode = 'Month';
+                                break;
+                            case '4 Bulanan':
+                                stepModeAmount = 4;
+                                scheduleWoFormatted = 'months';
+                                viewMode = 'Month';
+                                break;
+                            case '6 Bulanan':
+                                stepModeAmount = 6;
+                                scheduleWoFormatted = 'months';
+                                viewMode = 'Month';
+                                break;
+                            case 'Tahunan':
+                                scheduleWoFormatted = 'years';
+                                break;
                         }
 
-                        startDateValue = tempEndData;
-                        counter++;
+                        while (startDateValue <= endDateValue) {
+                            let tempEndData = moment(startDateValue).add(stepModeAmount, scheduleWoFormatted).format("YYYY-MM-DD");
+
+                            if (moment(tempEndData).subtract(1, 'days').format("YYYY-MM-DD") <= endDateValue) {
+                                workOrderSchedules.push({
+                                    id: 'Schedule ' + counter,
+                                    name: 'Schedule Rutin ' + counter,
+                                    start: startDateValue,
+                                    end: moment(tempEndData).subtract(1, 'days').format("YYYY-MM-DD"),
+                                    progress: 100,
+                                });
+                            }
+
+                            startDateValue = tempEndData;
+                            counter++;
+                        }
+                    } else {
+                        switch (scheduleWoValue) {
+                            case 'Harian':
+                                scheduleWoFormatted = 'days';
+                                viewMode = 'Day';
+                                break;
+                            case 'Mingguan':
+                                scheduleWoFormatted = 'weeks';
+                                viewMode = 'Week';
+                                break;
+                            case 'Bulanan':
+                                scheduleWoFormatted = 'months';
+                                viewMode = 'Month';
+                                break;
+                            case '2 Bulanan':
+                                stepModeAmount = 2;
+                                scheduleWoFormatted = 'months';
+                                viewMode = 'Month';
+                                break;
+                            case '3 Bulanan':
+                                stepModeAmount = 3;
+                                scheduleWoFormatted = 'months';
+                                viewMode = 'Month';
+                                break;
+                            case '4 Bulanan':
+                                stepModeAmount = 4;
+                                scheduleWoFormatted = 'months';
+                                viewMode = 'Month';
+                                break;
+                            case '6 Bulanan':
+                                stepModeAmount = 6;
+                                scheduleWoFormatted = 'months';
+                                viewMode = 'Month';
+                                break;
+                            case 'Tahunan':
+                                scheduleWoFormatted = 'years';
+                                break;
+                        }
+
+                        while (startDateValue <= endDateValue) {
+                            let tempEndData = moment(startDateValue).add(stepModeAmount, scheduleWoFormatted).format("YYYY-MM-DD");
+
+                            if (moment(tempEndData).subtract(1, 'days').format("YYYY-MM-DD") <= endDateValue) {
+                                workOrderSchedules.push({
+                                    id: 'Schedule ' + counter,
+                                    name: 'Schedule Rutin ' + counter,
+                                    start: startDateValue,
+                                    end: moment(tempEndData).subtract(1, 'days').format("YYYY-MM-DD"),
+                                    progress: 100,
+                                });
+                            }
+
+                            startDateValue = tempEndData;
+                            counter++;
+                        }
                     }
                 }
             }
 
             if (workOrderSchedules.length > 0) {
-                if (!viewModeParram) {
-                    $('#view_mode').val(viewMode).trigger('change');
-                }
+                if (['Harian', 'Mingguan'].includes($('#schedule-wo').val())) {
+                    !$('#table-container').hasClass('d-none') ? $('#table-container').addClass('d-none') : '';
+                    $('#gantt').hasClass('d-none') ? $('#gantt').removeClass('d-none') : '';
+                    $('#group-viewmode').hasClass('d-none') ? $('#group-viewmode').removeClass('d-none') : '';
 
-                $('#gantt').hasClass('d-none') ? $('#gantt').removeClass('d-none') : '';
-                this.gantt = new Gantt("#gantt", workOrderSchedules, {
-                    step: 1,
-                    view_mode: viewModeParram ? viewModeParram : viewMode,
-                    view_modes: ['Day', 'Week', 'Month'],
-                });
-                $('.gantt .bar-wrapper').css('pointer-events', 'none');
+                    if (!viewModeParram) {
+                        $('#view_mode').val(viewMode).trigger('change');
+                    }
+
+                    $('#gantt').hasClass('d-none') ? $('#gantt').removeClass('d-none') : '';
+                    this.gantt = new Gantt("#gantt", workOrderSchedules, {
+                        step: 1,
+                        view_mode: viewModeParram ? viewModeParram : viewMode,
+                        view_modes: ['Day', 'Week', 'Month'],
+                    });
+                    $('.gantt .bar-wrapper').css('pointer-events', 'none');
+                } else {
+                    !$('#gantt').hasClass('d-none') ? $('#gantt').addClass('d-none') : '';
+                    $('#table-container').hasClass('d-none') ? $('#table-container').removeClass('d-none') : '';
+                    !$('#group-viewmode').hasClass('d-none') ? $('#group-viewmode').addClass('d-none') : '';
+
+                    $('#table-container tbody').html('');
+                    workOrderSchedules.forEach((e, i) => {
+                        $('#table-container tbody').append(`
+                            <tr>
+                                <td>${i + 1}</td>
+                                <td>${e.start}</td>
+                            </tr>
+                        `);
+                    });
+                }
             } else {
                 !$('#gantt').hasClass('d-none') ? $('#gantt').addClass('d-none') : '';
+                !$('#group-viewmode').hasClass('d-none') ? $('#group-viewmode').addClass('d-none') : '';
+                !$('#table-container').hasClass('d-none') ? $('#table-container').addClass('d-none') : '';
             }
         }
     </script>

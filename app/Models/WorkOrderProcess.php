@@ -9,7 +9,7 @@ class WorkOrderProcess extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['work_order_id', 'schedule_date', 'start_date', 'end_date', 'schedule_wo', 'status', 'work_date', 'executor', 'work_executor_vendor_id', 'initial_temperature', 'initial_humidity', 'final_temperature', 'final_humidity', 'mesh_voltage', 'ups', 'grounding', 'leakage_electric', 'electrical_safety_note', 'calibration_performance_is_feasible_to_use', 'calibration_performance_calibration_price', 'replacement_of_part_service_price'];
+    protected $fillable = ['work_order_id', 'schedule_date', 'start_date', 'end_date', 'schedule_wo', 'status', 'work_date', 'executor', 'work_executor_vendor_id', 'initial_temperature', 'initial_humidity', 'final_temperature', 'final_humidity', 'mesh_voltage', 'ups', 'grounding', 'leakage_electric', 'electrical_safety_note', 'calibration_performance_is_feasible_to_use', 'calibration_performance_calibration_price', 'replacement_of_part_service_price', 'tools_can_be_used_well',  'tool_cannot_be_used', 'tool_need_repair', 'tool_can_be_used_need_replacement_accessories', 'tool_need_calibration', 'tool_need_bleaching'];
 
     public function calibrationPerformance()
     {
