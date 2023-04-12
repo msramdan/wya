@@ -27,6 +27,10 @@
                                 <a href="{{ route('spareparts.create') }}" class="btn btn-md btn-primary"> <i
                                         class="mdi mdi-plus"></i> {{ __('Create a new sparepart') }}</a>
                             @endcan
+                            <button id="btnExport" class="btn btn-success">
+                                <i class='fas fa-file-excel'></i>
+                                {{ __('Export') }}
+                            </button>
                         </div>
 
                         <div class="card-body">

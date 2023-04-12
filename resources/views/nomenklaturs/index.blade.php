@@ -23,8 +23,11 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header">
+                            <button id="btnExport" class="btn btn-success">
+                                <i class='fas fa-file-excel'></i>
+                                {{ __('Export') }}
+                            </button>
                         </div>
-
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="data-table">
