@@ -10,7 +10,7 @@
                 <div class="row">
                     <div class="col-md-6 mb-2">
                         <label for="equipment-id">{{ __('WO Number') }}</label>
-                        <input type="text" name="wo_number" id="wo_number" readonly class="form-control @error('wo_number') is-invalid @enderror" value="WO-20230329-0001" placeholder="" required />
+                        <input type="text" name="wo_number" id="wo_number" readonly class="form-control @error('wo_number') is-invalid @enderror" value="{{ isset($workOrder) ? $workOrder->wo_number : $woNumber }}" placeholder="" required />
                         @error('wo_number')
                             <span class="text-danger">
                                 {{ $message }}
@@ -100,16 +100,17 @@
                     </div>
                     <div class="col-md-8 mb-2">
                         <label for="location_id">{{ __('Search by Location') }}</label>
-                        <select class="form-control js-example-basic-multiple  @error('location_id') is-invalid @enderror" name="equipment_id" id="location_id" required>
+                        <select class="form-control js-example-basic-multiple  @error('location_id') is-invalid @enderror" name="location_id" id="location_id" required>
                             <option value="" selected disabled>-- {{ __('Select location') }} --</option>
-
                             @foreach ($equipmentLocations as $equipmentLocation)
-                                <option value="{{ $equipmentLocation->id }}">
+                                <option value="{{ $equipmentLocation->id }}" @if (old('location_id')) {{ old('location_id') == $equipmentLocation->id ? 'selected' : '' }}
+                                    @elseif(isset($workOrder))
+                                    {{ $workOrderObj->equipment->equipment_location_id == $equipmentLocation->id ? 'selected' : '' }} @endif>
                                     {{ $equipmentLocation->location_name }}
                                 </option>
                             @endforeach
                         </select>
-                        @error('equipment_id')
+                        @error('location_id')
                             <span class="text-danger">
                                 {{ $message }}
                             </span>
@@ -118,19 +119,12 @@
                         <label for="equipment-id">{{ __('Equipment') }}</label>
                         <select class="form-control js-example-basic-multiple @error('equipment_id') is-invalid @enderror" name="equipment_id" id="equipment-id" required>
                             <option value="" selected disabled>-- {{ __('Select equipment') }} --</option>
-                            {{-- @foreach ($equipments as $equipment)
-                                <option value="{{ $equipment->id }}"
-                                    {{ isset($workOrder) && $workOrder->equipment_id == $equipment->id ? 'selected' : (old('equipment_id') == $equipment->id ? 'selected' : '') }}>
-                                    {{ $equipment->barcode }}
-                                </option>
-                            @endforeach --}}
                         </select>
                         @error('equipment_id')
                             <span class="text-danger">
                                 {{ $message }}
                             </span>
                         @enderror
-
                     </div>
                 </div>
             </div>
@@ -147,7 +141,7 @@
 
     </div>
 
-    <div class="col-md-6 d-none" id="schedule-information-container">
+    <div class="col-md-6 {{ old('category_wo') ? '' : (isset($workOrder) ? '' : 'd-none') }}" id="schedule-information-container">
         <div class="card">
             <div class="card-body">
                 <div class="alert alert-secondary" role="alert">
@@ -156,9 +150,14 @@
                 <hr>
 
                 <div class="row">
-                    <div class="col-md-6 mb-2">
+                    <div class="col-md-6 mb-2
+                    @if (old('category_wo')) {{ old('category_wo') == 'Rutin' ? 'd-none' : '' }}
+                    @elseif(isset($workOrder))
+                    {{ $workOrder->category_wo == 'Rutin' ? 'd-none' : '' }} @endif
+                    
+                    ">
                         <label for="schedule-date">{{ __('Schedule Date') }}</label>
-                        <input type="date" name="schedule_date" id="schedule-date" class="form-control @error('schedule_date') is-invalid @enderror" value="{{ isset($workOrder) && $workOrder->schedule_date ? $workOrder->schedule_date->format('Y-m-d') : old('schedule_date') }}" placeholder="{{ __('Schedule Date') }}" required />
+                        <input type="date" name="schedule_date" id="schedule-date" class="form-control @error('schedule_date') is-invalid @enderror" value="{{ isset($workOrder) && $workOrder->schedule_date ? $workOrder->schedule_date->format('Y-m-d') : old('schedule_date') }}" placeholder="{{ __('Schedule Date') }}" />
                         @error('schedule_date')
                             <span class="text-danger">
                                 {{ $message }}
@@ -166,9 +165,15 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-6 mb-2">
+                    <div class="col-md-6 mb-2 
+                    
+                    @if (old('category_wo')) {{ old('category_wo') == 'Non Rutin' ? 'd-none' : '' }}
+                    @elseif(isset($workOrder))
+                    {{ $workOrder->category_wo == 'Non Rutin' ? 'd-none' : '' }} @endif
+                    
+                    ">
                         <label for="schedule-wo">{{ __('Schedule Wo') }}</label>
-                        <select class="form-control js-example-basic-multiple @error('schedule_wo') is-invalid @enderror" name="schedule_wo" id="schedule-wo" required>
+                        <select class="form-control js-example-basic-multiple @error('schedule_wo') is-invalid @enderror" name="schedule_wo" id="schedule-wo">
                             <option value="" selected disabled>-- {{ __('Select schedule wo') }} --</option>
                             <option value="Harian" {{ isset($workOrder) && $workOrder->schedule_wo == 'Harian' ? 'selected' : (old('schedule_wo') == 'Harian' ? 'selected' : '') }}>
                                 {{ __('Harian') }}</option>
@@ -187,25 +192,37 @@
                             <option value="Tahunan" {{ isset($workOrder) && $workOrder->schedule_wo == 'Tahunan' ? 'selected' : (old('schedule_wo') == 'Tahunan' ? 'selected' : '') }}>
                                 {{ __('Tahunan') }}</option>
                         </select>
-                        @error('schedule_date')
+                        @error('schedule_wo')
                             <span class="text-danger">
                                 {{ $message }}
                             </span>
                         @enderror
                     </div>
 
-                    <div class="col-md-6 mb-2">
+                    <div class="col-md-6 mb-2 
+                    
+                    @if (old('category_wo')) {{ old('category_wo') == 'Non Rutin' ? 'd-none' : '' }}
+                    @elseif(isset($workOrder))
+                    {{ $workOrder->category_wo == 'Non Rutin' ? 'd-none' : '' }} @endif
+                    
+                    ">
                         <label for="start-date">{{ __('Start Date') }}</label>
-                        <input type="date" name="start_date" id="start-date" class="form-control @error('start_date') is-invalid @enderror" value="{{ isset($workOrder) && $workOrder->start_date ? $workOrder->start_date->format('Y-m-d') : old('start_date') }}" placeholder="{{ __('Schedule Date') }}" required />
+                        <input type="date" name="start_date" id="start-date" class="form-control @error('start_date') is-invalid @enderror" value="{{ isset($workOrder) && $workOrder->start_date ? $workOrder->start_date : old('start_date') }}" placeholder="{{ __('Schedule Date') }}" />
                         @error('start_date')
                             <span class="text-danger">
                                 {{ $message }}
                             </span>
                         @enderror
                     </div>
-                    <div class="col-md-6 mb-2">
+                    <div class="col-md-6 mb-2 
+                    
+                    @if (old('category_wo')) {{ old('category_wo') == 'Non Rutin' ? 'd-none' : '' }}
+                    @elseif(isset($workOrder))
+                    {{ $workOrder->category_wo == 'Non Rutin' ? 'd-none' : '' }} @endif
+                    
+                    ">
                         <label for="end-date">{{ __('End Date') }}</label>
-                        <input type="date" name="end_date" id="end-date" class="form-control @error('end_date') is-invalid @enderror" value="{{ isset($workOrder) && $workOrder->end_date ? $workOrder->end_date->format('Y-m-d') : old('end_date') }}" placeholder="{{ __('Schedule Date') }}" required />
+                        <input type="date" name="end_date" id="end-date" class="form-control @error('end_date') is-invalid @enderror" value="{{ isset($workOrder) && $workOrder->end_date ? $workOrder->end_date : old('end_date') }}" placeholder="{{ __('Schedule Date') }}" />
                         @error('end_date')
                             <span class="text-danger">
                                 {{ $message }}
@@ -213,6 +230,38 @@
                         @enderror
                     </div>
 
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="border rounded p-2">
+                            <div class="col-4">
+                                <div class="form-group d-none" id="group-viewmode">
+                                    <label for="view_mode">View Mode</label>
+                                    <select name="view_mode" id="view_mode" class="form-control js-example-basic-multiple">
+                                        <option value="Day">Day</option>
+                                        <option value="Week">Week</option>
+                                        <option value="Month">Month</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div id="gantt"></div>
+                                <div id="table-container" class="d-none">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Start Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

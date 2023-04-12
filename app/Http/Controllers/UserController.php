@@ -85,10 +85,14 @@ class UserController extends Controller
                 mkdir($folder, 0777, true);
             }
 
-            Image::make($request->file('avatar')->getRealPath())->resize(500, 500, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            })->save($this->avatarPath . $filename);
+            try {
+                Image::make($request->file('avatar')->getRealPath())->resize(500, 500, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })->save($this->avatarPath . $filename);
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
 
             $attr['avatar'] = $filename;
         }

@@ -2,6 +2,7 @@
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none">
 {{-- head --}}
 @include('layouts.header')
+@stack('css-libs')
 @stack('css-styles')
 
 <body>

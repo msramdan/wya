@@ -57,7 +57,7 @@
                 <select data-placeholder="Select Users" name="work_order_has_access_approval_users_id[]" multiple="multiple" id="work-order-has-access-approval-users" class="form-control js-example-basic-multiple @error('work_order_has_access_approval_users_id') is-invalid @enderror">
                     <option value="" disabled>-- {{ __('Select Users') }} --</option>
                     @foreach ($users as $user)
-                        <option value="{{ $user->id }}" @if ($settingApp) {{ in_array($user->id, json_decode($settingApp->work_order_has_access_approval_users_id, true)) ? 'selected' : '' }} @endif>{{ $user->name }}</option>
+                        <option value="{{ $user->id }}" @if ($settingApp) {{ in_array($user->id, json_decode($settingApp->work_order_has_access_approval_users_id, true) ? json_decode($settingApp->work_order_has_access_approval_users_id, true) : []) ? 'selected' : '' }} @endif>{{ $user->name }}</option>
                     @endforeach
                 </select>
                 @error('work_order_has_access_approval_users_id')
