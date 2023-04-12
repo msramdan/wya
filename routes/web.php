@@ -5,11 +5,18 @@ use App\Http\Controllers\{
     UserController,
     ProfileController,
     RoleAndPermissionController,
+    TelegramBotController,
     WilayahController
 };
 use App\Http\Controllers\LandingWeb\LandingWebController;
 
 
+
+
+Route::controller(TelegramBotController::class)->group(function () {
+    Route::get('/updated-activity', 'updatedActivity');
+    Route::get('/storeMessage', 'storeMessage');
+});
 
 Route::get('/web', function () {
     return redirect()->route('web');

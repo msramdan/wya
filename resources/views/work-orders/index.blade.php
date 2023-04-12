@@ -24,7 +24,8 @@
                     <div class="card">
                         <div class="card-header">
                             @can('work order create')
-                                <a href="{{ route('work-orders.create') }}" class="btn btn-md btn-primary"> <i class="mdi mdi-plus"></i> {{ __('Create a new work order') }}</a>
+                                <a href="{{ route('work-orders.create') }}" class="btn btn-md btn-primary"> <i
+                                        class="mdi mdi-plus"></i> {{ __('Create a new work order') }}</a>
                             @endcan
                         </div>
 
@@ -47,8 +48,6 @@
                                             <th style="white-space: nowrap">{{ __('Approval Users') }}</th>
                                             <th style="white-space: nowrap">{{ __('Status Wo') }}</th>
                                             <th style="white-space: nowrap">{{ __('Filed Date') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Created At') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Updated At') }}</th>
                                             <th style="white-space: nowrap">{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
@@ -140,7 +139,8 @@
                                     break;
                             }
 
-                            htmlEl += `<li style="white-space: nowrap">${e.user_name}: <span class="badge bg-${rowStatus}">${e.status}</span></li>`;
+                            htmlEl +=
+                                `<li style="white-space: nowrap">${e.user_name}: <span class="badge bg-${rowStatus}">${e.status}</span></li>`;
                         })
 
                         htmlEl += '</ul>';
@@ -169,14 +169,6 @@
                 {
                     data: 'filed_date',
                     name: 'filed_date',
-                },
-                {
-                    data: 'created_at',
-                    name: 'created_at'
-                },
-                {
-                    data: 'updated_at',
-                    name: 'updated_at'
                 },
                 {
                     data: 'action',
