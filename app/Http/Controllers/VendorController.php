@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\VendorsExport;
 use App\Models\Vendor;
 use App\Http\Requests\{StoreVendorRequest, UpdateVendorRequest};
 use Yajra\DataTables\Facades\DataTables;
@@ -10,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class VendorController extends Controller
 {
@@ -29,7 +32,7 @@ class VendorController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $vendors = Vendor::with('category_vendor:id,name_category_vendors', 'province:id,provinsi', 'kabkot:id,provinsi_id', 'kecamatan:id,kabkot_id', 'kelurahan:id,kecamatan_id',);
+            $vendors = Vendor::with('category_vendor:id,name_category_vendors', 'province:id,provinsi', 'kabkot:id,provinsi_id', 'kecamatan:id,kabkot_id', 'kelurahan:id,kecamatan_id');
 
             return DataTables::of($vendors)
                 ->addIndexColumn()
@@ -365,5 +368,12 @@ class VendorController extends Controller
         if ($no == 1) {
             return "active";
         }
+    }
+
+    public function export()
+    {
+        $date = date('d-m-Y');
+        $nameFile = 'Daftar-Vendors' . $date;
+        return Excel::download(new VendorsExport(), $nameFile . '.xlsx');
     }
 }

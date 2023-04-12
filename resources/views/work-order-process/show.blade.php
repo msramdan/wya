@@ -33,8 +33,6 @@
                                             <th style="white-space: nowrap">{{ __('End Date') }}</th>
                                             <th style="white-space: nowrap">{{ __('Schedule Wo') }}</th>
                                             <th style="white-space: nowrap">{{ __('Status') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Created At') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Updated At') }}</th>
                                             <th style="white-space: nowrap">{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
@@ -49,7 +47,8 @@
 @endsection
 
 @push('css-libs')
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 @endpush
 
 @push('js')
@@ -106,14 +105,6 @@
 
                         return `<span class="badge bg-${rowStatus}">${row.status}</span>`;
                     }
-                },
-                {
-                    data: 'created_at',
-                    name: 'created_at'
-                },
-                {
-                    data: 'updated_at',
-                    name: 'updated_at'
                 },
                 {
                     data: 'status',

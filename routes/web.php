@@ -44,6 +44,7 @@ Route::prefix('panel')->group(function () {
     Route::resource('employees', App\Http\Controllers\EmployeeController::class)->middleware('auth');
     Route::resource('category-vendors', App\Http\Controllers\CategoryVendorController::class)->middleware('auth');
     Route::resource('vendors', App\Http\Controllers\VendorController::class)->middleware('auth');
+    Route::get('export-data-vendors', [App\Http\Controllers\VendorController::class, 'export'])->name('export-data-vendors')->middleware('auth');
     Route::get('/GetFileVendor/{id}', [App\Http\Controllers\VendorController::class, 'GetFileVendor'])->middleware('auth');
     Route::resource('spareparts', App\Http\Controllers\SparepartController::class)->middleware('auth');
     Route::post('stok_in', [App\Http\Controllers\SparepartController::class, 'stok_in'])->name('stok_in')->middleware('auth');
@@ -53,7 +54,6 @@ Route::prefix('panel')->group(function () {
     Route::resource('nomenklaturs', App\Http\Controllers\NomenklaturController::class)->middleware('auth');
     Route::resource('equipment', App\Http\Controllers\EquipmentController::class)->middleware('auth');
     Route::resource('work-orders', App\Http\Controllers\WorkOrderController::class)->middleware('auth');
-
     Route::resource('work-order-approvals', App\Http\Controllers\WorkOrderApprovalController::class)->middleware('auth');
     Route::resource('work-order-processes', App\Http\Controllers\WorkOrderProcessController::class)->middleware('auth');
     Route::get('work-order-processes/{workOrderId}/{workOrderProcessId}', [App\Http\Controllers\WorkOrderProcessController::class, 'woProcessEdit'])->middleware('auth');
