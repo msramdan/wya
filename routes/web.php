@@ -42,6 +42,7 @@ Route::prefix('panel')->group(function () {
     Route::resource('kelurahans', App\Http\Controllers\KelurahanController::class)->middleware('auth');
     Route::resource('employee-types', App\Http\Controllers\EmployeeTypeController::class)->middleware('auth');
     Route::resource('employees', App\Http\Controllers\EmployeeController::class)->middleware('auth');
+    Route::get('export-data-employees', [App\Http\Controllers\EmployeeController::class, 'export'])->name('export-data-employees')->middleware('auth');
     Route::resource('category-vendors', App\Http\Controllers\CategoryVendorController::class)->middleware('auth');
     Route::resource('vendors', App\Http\Controllers\VendorController::class)->middleware('auth');
     Route::get('export-data-vendors', [App\Http\Controllers\VendorController::class, 'export'])->name('export-data-vendors')->middleware('auth');

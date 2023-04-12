@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\EmployeeExport;
 use App\Models\Employee;
 use App\Http\Requests\{StoreEmployeeRequest, UpdateEmployeeRequest};
 use Yajra\DataTables\Facades\DataTables;
@@ -10,6 +11,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class EmployeeController extends Controller
 {
@@ -262,5 +265,13 @@ class EmployeeController extends Controller
             Alert::toast('The employee cant be deleted because its related to another table.', 'error');
             return redirect()->route('employees.index');
         }
+    }
+
+
+    public function export()
+    {
+        $date = date('d-m-Y');
+        $nameFile = 'Daftar-Employee' . $date;
+        return Excel::download(new EmployeeExport(), $nameFile . '.xlsx');
     }
 }
