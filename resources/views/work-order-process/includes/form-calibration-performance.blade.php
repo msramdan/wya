@@ -175,7 +175,7 @@
                             @else
                                 {{ $workOrderProcesess->calibration_performance_is_feasible_to_use == 1 ? 'checked' : '' }} @endif>
                             <label class="form-check-label" for="calibration_performance_is_feasible_to_use_1">
-                                Feasible to Use
+                                Laik Pakai
                             </label>
                         </div>
                         <div class="form-check mt-2">
@@ -183,7 +183,7 @@
                             @else
                                 {{ $workOrderProcesess->calibration_performance_is_feasible_to_use == 0 ? 'checked' : '' }} @endif>
                             <label class="form-check-label" for="calibration_performance_is_feasible_to_use_0">
-                                Not Worth to Use
+                                Tidak Laik Pakai
                             </label>
                         </div>
                         @error('calibration_performance_is_feasible_to_use')

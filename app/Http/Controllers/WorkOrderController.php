@@ -32,7 +32,7 @@ class WorkOrderController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $workOrders = WorkOrder::with('equipment:id,barcode', 'user:id,name',);
+            $workOrders = WorkOrder::with('equipment:id,barcode', 'user:id,name')->orderBy('work_orders.id', 'DESC');
 
             return DataTables::of($workOrders)
                 ->addIndexColumn()
@@ -228,6 +228,9 @@ class WorkOrderController extends Controller
             }
         }
 
+        if ($settingApp->bot_telegram == 1) {
+            notifTele($request, 'create_wo');
+        }
         Alert::toast('The workOrder was created successfully.', 'success');
         return redirect()->route('work-orders.index');
     }
@@ -286,6 +289,9 @@ class WorkOrderController extends Controller
     {
         try {
             $workOrder->delete();
+            if (setting_web()->bot_telegram == 1) {
+                notifTele($workOrder, 'delete_wo');
+            }
             Alert::toast('The workOrder was deleted successfully.', 'success');
             return redirect()->route('work-orders.index');
         } catch (\Throwable $th) {

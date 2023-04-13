@@ -50,6 +50,10 @@
                                 <a href="{{ route('vendors.create') }}" class="btn btn-md btn-primary"> <i
                                         class="mdi mdi-plus"></i> {{ __('Create a new vendor') }}</a>
                             @endcan
+                            <button id="btnExport" class="btn btn-success">
+                                <i class='fas fa-file-excel'></i>
+                                {{ __('Export') }}
+                            </button>
                         </div>
 
                         <div class="card-body">
@@ -62,15 +66,6 @@
                                             <th>{{ __('Name Vendor') }}</th>
                                             <th>{{ __('Category Vendor') }}</th>
                                             <th>{{ __('Email') }}</th>
-                                            {{-- <th>{{ __('Province') }}</th>
-                                            <th>{{ __('Kabkot') }}</th>
-                                            <th>{{ __('Kecamatan') }}</th>
-                                            <th>{{ __('Kelurahan') }}</th>
-                                            <th>{{ __('Zip Kode') }}</th>
-                                            <th>{{ __('Longitude') }}</th>
-                                            <th>{{ __('Latitude') }}</th>
-                                            <th>{{ __('Created At') }}</th>
-                                            <th>{{ __('Updated At') }}</th> --}}
                                             <th>{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
@@ -87,6 +82,8 @@
 
 
 @push('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.5.1/sweetalert2.all.min.js"></script>
+
     <script type="text/javascript">
         $(document).on('click', '#view_gambar', function() {
             var id = $(this).data('id');
@@ -134,42 +131,6 @@
                     data: 'email',
                     name: 'email',
                 },
-                // {
-                //     data: 'province',
-                //     name: 'province.provinsi'
-                // },
-                // {
-                //     data: 'kabkot',
-                //     name: 'kabkot.provinsi_id'
-                // },
-                // {
-                //     data: 'kecamatan',
-                //     name: 'kecamatan.kabkot_id'
-                // },
-                // {
-                //     data: 'kelurahan',
-                //     name: 'kelurahan.kecamatan_id'
-                // },
-                // {
-                //     data: 'zip_kode',
-                //     name: 'zip_kode',
-                // },
-                // {
-                //     data: 'longitude',
-                //     name: 'longitude',
-                // },
-                // {
-                //     data: 'latitude',
-                //     name: 'latitude',
-                // },
-                // {
-                //     data: 'created_at',
-                //     name: 'created_at'
-                // },
-                // {
-                //     data: 'updated_at',
-                //     name: 'updated_at'
-                // },
                 {
                     data: 'action',
                     name: 'action',
@@ -178,5 +139,81 @@
                 }
             ],
         });
+    </script>
+
+    <script>
+        const showLoading = function() {
+            swal({
+                title: 'Now loading',
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                timer: 2000,
+                onOpen: () => {
+                    swal.showLoading();
+                }
+            }).then(
+                () => {},
+                (dismiss) => {
+                    if (dismiss === 'timer') {
+                        console.log('closed by timer!!!!');
+                        swal({
+                            title: 'Finished!',
+                            type: 'success',
+                            timer: 2000,
+                            showConfirmButton: false
+                        })
+                    }
+                }
+            )
+        };
+
+        $(document).on('click', '#btnExport', function(event) {
+            event.preventDefault();
+            exportData();
+
+        });
+        var exportData = function() {
+            var url = '../panel/export-data-vendors';
+            $.ajax({
+                url: url,
+                type: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+                data: {},
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                beforeSend: function() {
+                    Swal.fire({
+                        title: 'Please Wait !',
+                        html: 'Sedang melakukan proses export data', // add html attribute if you want or remove
+                        allowOutsideClick: false,
+                        onBeforeOpen: () => {
+                            Swal.showLoading()
+                        },
+                    });
+
+                },
+                success: function(data) {
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(data);
+                    var nameFile = 'Daftar-Vendors.xlsx'
+                    console.log(nameFile)
+                    link.download = nameFile;
+                    link.click();
+                    swal.close()
+                },
+                error: function(data) {
+                    console.log(data)
+                    Swal.fire({
+                        icon: 'error',
+                        title: "Data export failed",
+                        text: "Please check",
+                        allowOutsideClick: false,
+                    })
+                }
+            });
+        }
     </script>
 @endpush

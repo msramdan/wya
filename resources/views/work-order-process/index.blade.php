@@ -41,8 +41,6 @@
                                             <th style="white-space: nowrap">{{ __('Finished Processes') }}</th>
                                             <th style="white-space: nowrap">{{ __('Status Wo') }}</th>
                                             <th style="white-space: nowrap">{{ __('Filed Date') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Created At') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Updated At') }}</th>
                                             <th style="white-space: nowrap">{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
@@ -141,14 +139,6 @@
                 {
                     data: 'filed_date',
                     name: 'filed_date',
-                },
-                {
-                    data: 'created_at',
-                    name: 'created_at'
-                },
-                {
-                    data: 'updated_at',
-                    name: 'updated_at'
                 },
                 {
                     data: 'status_wo',
