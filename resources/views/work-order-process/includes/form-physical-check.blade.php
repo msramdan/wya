@@ -69,74 +69,74 @@
                                 @forelse ($workOrderProcesess->physicalChecks as $index => $physicalCheck)
                                     <tr data-index="{{ $index }}">
                                         <td>
-                                            <button type="button" class="btn btn-sm btn-{{ $index == 0 ? 'primary' : 'danger' }}" @if ($index == 0) onclick="addRowPhysicalCheck(this.parentElement.parentElement)"
+                                            <button {{ $readonly ? 'disabled' : '' }} type="button" class="btn btn-sm btn-{{ $index == 0 ? 'primary' : 'danger' }}" @if ($index == 0) onclick="addRowPhysicalCheck(this.parentElement.parentElement)"
                                             @else
                                             onclick="this.parentElement.parentElement.remove()" @endif><i class="fa fa-{{ $index == 0 ? 'plus' : 'trash' }}"></i></button>
                                         </td>
                                         <td>
                                             <div class="form-group">
-                                                <input autocomplete="off" type="text" placeholder="Physical Check" name="physical_check[{{ $index }}]" class="form-control" value="{{ $physicalCheck->physical_check }}">
+                                                <input {{ $readonly ? 'disabled' : '' }} autocomplete="off" type="text" placeholder="Physical Check" name="physical_check[{{ $index }}]" class="form-control" value="{{ $physicalCheck->physical_check }}">
                                             </div>
                                         </td>
                                         <td class="text-center">
                                             <div class="d-flex justify-content-center">
-                                                <input type="radio" name="physical_health[{{ $index }}]" class="form-check" value="good" {{ $physicalCheck->physical_health == 'good' ? 'checked' : '' }}>
+                                                <input {{ $readonly ? 'disabled' : '' }} type="radio" name="physical_health[{{ $index }}]" class="form-check" value="good" {{ $physicalCheck->physical_health == 'good' ? 'checked' : '' }}>
                                             </div>
                                         </td>
                                         <td class="text-center">
                                             <div class="d-flex justify-content-center">
-                                                <input type="radio" name="physical_health[{{ $index }}]" class="form-check" value="minor damage" {{ $physicalCheck->physical_health == 'minor damage' ? 'checked' : '' }}>
+                                                <input {{ $readonly ? 'disabled' : '' }} type="radio" name="physical_health[{{ $index }}]" class="form-check" value="minor damage" {{ $physicalCheck->physical_health == 'minor damage' ? 'checked' : '' }}>
                                             </div>
                                         </td>
                                         <td class="text-center">
                                             <div class="d-flex justify-content-center">
-                                                <input type="radio" name="physical_health[{{ $index }}]" class="form-check" value="major damage" {{ $physicalCheck->physical_health == 'major damage' ? 'checked' : '' }}>
+                                                <input {{ $readonly ? 'disabled' : '' }} type="radio" name="physical_health[{{ $index }}]" class="form-check" value="major damage" {{ $physicalCheck->physical_health == 'major damage' ? 'checked' : '' }}>
                                             </div>
                                         </td>
                                         <td class="text-center">
                                             <div class="d-flex justify-content-center">
-                                                <input type="radio" name="physical_cleanliness[{{ $index }}]" class="form-check" value="clean" {{ $physicalCheck->physical_cleanliness == 'clean' ? 'checked' : '' }}>
+                                                <input {{ $readonly ? 'disabled' : '' }} type="radio" name="physical_cleanliness[{{ $index }}]" class="form-check" value="clean" {{ $physicalCheck->physical_cleanliness == 'clean' ? 'checked' : '' }}>
                                             </div>
                                         </td>
                                         <td class="text-center">
                                             <div class="d-flex justify-content-center">
-                                                <input type="radio" name="physical_cleanliness[{{ $index }}]" class="form-check" value="dirty" {{ $physicalCheck->physical_cleanliness == 'dirty' ? 'checked' : '' }}>
+                                                <input {{ $readonly ? 'disabled' : '' }} type="radio" name="physical_cleanliness[{{ $index }}]" class="form-check" value="dirty" {{ $physicalCheck->physical_cleanliness == 'dirty' ? 'checked' : '' }}>
                                             </div>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr data-index="0">
                                         <td>
-                                            <button type="button" class="btn btn-sm btn-primary" onclick="addRowPhysicalCheck(this.parentElement.parentElement)"><i class="fa fa-plus"></i></button>
+                                            <button {{ $readonly ? 'disabled' : '' }} type="button" class="btn btn-sm btn-primary" onclick="addRowPhysicalCheck(this.parentElement.parentElement)"><i class="fa fa-plus"></i></button>
                                         </td>
                                         <td>
                                             <div class="form-group">
-                                                <input autocomplete="off" type="text" placeholder="Physical Check" name="physical_check[0]" class="form-control">
+                                                <input {{ $readonly ? 'disabled' : '' }} autocomplete="off" type="text" placeholder="Physical Check" name="physical_check[0]" class="form-control">
                                             </div>
                                         </td>
                                         <td class="text-center">
                                             <div class="d-flex justify-content-center">
-                                                <input type="radio" name="physical_health[0]" class="form-check" value="good">
+                                                <input {{ $readonly ? 'disabled' : '' }} type="radio" name="physical_health[0]" class="form-check" value="good">
                                             </div>
                                         </td>
                                         <td class="text-center">
                                             <div class="d-flex justify-content-center">
-                                                <input type="radio" name="physical_health[0]" class="form-check" value="minor damage">
+                                                <input {{ $readonly ? 'disabled' : '' }} type="radio" name="physical_health[0]" class="form-check" value="minor damage">
                                             </div>
                                         </td>
                                         <td class="text-center">
                                             <div class="d-flex justify-content-center">
-                                                <input type="radio" name="physical_health[0]" class="form-check" value="major damage">
+                                                <input {{ $readonly ? 'disabled' : '' }} type="radio" name="physical_health[0]" class="form-check" value="major damage">
                                             </div>
                                         </td>
                                         <td class="text-center">
                                             <div class="d-flex justify-content-center">
-                                                <input type="radio" name="physical_cleanliness[0]" class="form-check" value="clean">
+                                                <input {{ $readonly ? 'disabled' : '' }} type="radio" name="physical_cleanliness[0]" class="form-check" value="clean">
                                             </div>
                                         </td>
                                         <td class="text-center">
                                             <div class="d-flex justify-content-center">
-                                                <input type="radio" name="physical_cleanliness[0]" class="form-check" value="dirty">
+                                                <input {{ $readonly ? 'disabled' : '' }} type="radio" name="physical_cleanliness[0]" class="form-check" value="dirty">
                                             </div>
                                         </td>
                                     </tr>

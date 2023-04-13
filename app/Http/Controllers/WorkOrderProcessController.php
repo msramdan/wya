@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ModelFileUploadHelper;
 use App\Http\Requests\UpdateWorkOrderProcesessRequest;
+use App\Models\Employee;
 use App\Models\Sparepart;
 use App\Models\User;
 use App\Models\Vendor;
@@ -64,7 +65,7 @@ class WorkOrderProcessController extends Controller
     public function show($workOrderId)
     {
         if (request()->ajax()) {
-            $workOrderProcesses = WorkOrderProcess::where('work_order_id', $workOrderId)->orderBy('start_date', 'ASC');
+            $workOrderProcesses = WorkOrderProcess::where('work_order_id', $workOrderId)->orderBy('schedule_date', 'ASC');
 
             return DataTables::of($workOrderProcesses)
                 ->addIndexColumn()
@@ -87,6 +88,9 @@ class WorkOrderProcessController extends Controller
             'final_temperature' => $request->final_temperature,
             'final_humidity' => $request->final_humidity,
             'work_date' => $request->work_date,
+            'executor' => $request->executor,
+            'work_executor_technician_id' => $request->executor == 'technician' ? $request->work_executor_technician_id : null,
+            'work_executor_vendor_id' => $request->executor == 'vendor_or_supplier' ? $request->work_executor_vendor_id : null,
             'mesh_voltage' => $request->mesh_voltage,
             'ups' => $request->ups,
             'grounding' => $request->grounding,
@@ -100,7 +104,9 @@ class WorkOrderProcessController extends Controller
             'tool_need_repair' => $request->tool_need_repair ? true : false,
             'tool_can_be_used_need_replacement_accessories' => $request->tool_can_be_used_need_replacement_accessories ? true : false,
             'tool_need_calibration' => $request->tool_need_calibration ? true : false,
-            'tool_need_bleaching' => $request->tool_need_bleaching ? true : false
+            'tool_need_bleaching' => $request->tool_need_bleaching ? true : false,
+            'start_date' => $request->start_date == null ? $request->work_date : $workOrder->start_date,
+            'end_date' => $request->status != 'Doing' ? date('Y-m-d') : null
         ]);
 
         WorkOrderProcessHasCalibrationPerformance::where('work_order_process_id', $workOrderProcess->id)->delete();
@@ -200,7 +206,8 @@ class WorkOrderProcessController extends Controller
             if ($workOrder->countWoProcess('ready-to-start') == 0) {
                 if ($workOrder->countWoProcess('on-progress') == 0) {
                     $workOrder->update([
-                        'status_wo' => 'finished'
+                        'status_wo' => 'finished',
+                        'end_date' => date('Y-m-d')
                     ]);
                 }
             }
@@ -222,6 +229,25 @@ class WorkOrderProcessController extends Controller
             'workOrderProcesess' => $workOrderProcesess,
             'vendors' => $vendors,
             'spareparts' => $spareparts,
+            'employees' => Employee::get(),
+            'readonly' => false
+        ]);
+    }
+
+    public function woProcessInfo($workOrderId, $workOrderProcesessId)
+    {
+        $workOrderProcesess = WorkOrderProcess::find($workOrderProcesessId);
+        $workOrder = WorkOrder::find($workOrderId);
+        $vendors = Vendor::select('id', 'name_vendor')->get();
+        $spareparts = Sparepart::get();
+
+        return view('work-order-process.wo-process-wo', [
+            'workOrder' => $workOrder,
+            'workOrderProcesess' => $workOrderProcesess,
+            'vendors' => $vendors,
+            'spareparts' => $spareparts,
+            'employees' => Employee::get(),
+            'readonly' => true
         ]);
     }
 }

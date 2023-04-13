@@ -15,7 +15,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="executor">Executor</label>
-                        <select name="executor" class="form-control js-example-basic-multiple" id="executor">
+                        <select name="executor" class="form-control js-example-basic-multiple" id="executor" {{ $readonly ? 'disabled' : '' }}>
                             <option value="" @if (!old('executor')) {{ !$workOrderProcesess->executor ? 'selected' : '' }} @endif disabled>-- Choose Executor --</option>
 
                             <option value="vendor_or_supplier" @if (old('executor')) {{ old('executor') == 'vendor_or_supplier' ? 'selected' : '' }}
@@ -26,17 +26,20 @@
                             {{ $workOrderProcesess->executor == 'technician' ? 'selected' : '' }} @endif>Teknisi</option>
                         </select>
                     </div>
-                    <div class="form-group mb-3 d-none">
+                    <div class="form-group mb-3 {{ old('executor') ? (old('executor') == 'technician' ? '' : 'd-none') : ($workOrderProcesess->executor == 'technician' ? '' : 'd-none') }}">
                         <label for="work_executor_technician_id">Technician</label>
-                        <select name="work_executor_technician_id" class="form-control js-example-basic-multiple" id="work_executor_technician_id">
+                        <select name="work_executor_technician_id" class="form-control js-example-basic-multiple" id="work_executor_technician_id" {{ $readonly ? 'disabled' : '' }}>
                             <option value="" selected disabled>-- Choose Work Executor --</option>
-                            <option value="demo">Demo</option>
-                            <option value="marju">Marju</option>
+                            @foreach ($employees as $employee)
+                                <option value="{{ $employee->id }}" @if (old('work_executor_technician_id')) {{ old('work_executor_technician_id') == $vendor->id ? 'selected' : '' }}
+                                @else
+                                    {{ $workOrderProcesess->work_executor_technician_id == $employee->id ? 'selected' : '' }} @endif>{{ $employee->name }}</option>
+                            @endforeach
                         </select>
                     </div>
-                    <div class="form-group mb-3 d-none">
+                    <div class="form-group mb-3 {{ old('executor') ? (old('executor') == 'vendor_or_supplier' ? '' : 'd-none') : ($workOrderProcesess->executor == 'vendor_or_supplier' ? '' : 'd-none') }}">
                         <label for="work_executor_vendor_id">Vendor</label>
-                        <select name="work_executor_vendor_id" class="form-control js-example-basic-multiple" id="work_executor_vendor_id">
+                        <select name="work_executor_vendor_id" class="form-control js-example-basic-multiple" id="work_executor_vendor_id" {{ $readonly ? 'disabled' : '' }}>
                             <option value="" {{ !$workOrderProcesess->work_executor_vendor_id ? 'selected' : '' }} disabled>-- Choose Vendor --</option>
                             @foreach ($vendors as $vendor)
                                 <option value="{{ $vendor->id }}" @if (old('work_executor_vendor_id')) {{ old('work_executor_vendor_id') == $vendor->id ? 'selected' : '' }}
@@ -75,7 +78,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="work_date">Work Date</label>
-                        <input type="date" name="work_date" id="work_date" class="form-control @error('work_date') is-invalid @enderror" value="{{ old('work_date') ? old('work_date') : ($workOrderProcesess->work_date ? $workOrderProcesess->work_date : date('Y-m-d')) }}">
+                        <input type="date" name="work_date" id="work_date" class="form-control @error('work_date') is-invalid @enderror" value="{{ old('work_date') ? old('work_date') : ($workOrderProcesess->work_date ? $workOrderProcesess->work_date : date('Y-m-d')) }}" {{ $readonly ? 'disabled' : '' }}>
 
                         @error('work_date')
                             <span class="invalid-feedback">

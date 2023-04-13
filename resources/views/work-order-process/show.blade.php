@@ -29,8 +29,8 @@
                                         <tr>
                                             <th>#</th>
                                             <th style="white-space: nowrap">{{ __('Schedule Date') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Start Date') }}</th>
-                                            <th style="white-space: nowrap">{{ __('End Date') }}</th>
+                                            <th style="white-space: nowrap">{{ __('Actual Start Date') }}</th>
+                                            <th style="white-space: nowrap">{{ __('Actual End Date') }}</th>
                                             <th style="white-space: nowrap">{{ __('Schedule Wo') }}</th>
                                             <th style="white-space: nowrap">{{ __('Status') }}</th>
                                             <th style="white-space: nowrap">{{ __('Created At') }}</th>
@@ -119,9 +119,14 @@
                     data: 'status',
                     render: function(datum, type, row) {
                         if (row.status != 'finished') {
-                            return `<a href="/panel/work-order-processes/${row.work_order_id}/${row.id}" class="btn btn-sm btn-primary d-flex align-items-center" style="width: fit-content"><span class="material-symbols-outlined"> electric_bolt</span> Process </a>`;
+                            return `<div class="d-flex align-items-center justify-content-center"><a href="/panel/work-order-processes/${row.work_order_id}/${row.id}" class="btn btn-sm btn-primary d-flex align-items-center" style="width: fit-content"><span class="material-symbols-outlined"> electric_bolt</span> Process </a> </div>`;
                         } else {
-                            return '<button type="button" class="btn btn-success btn-sm d-flex align-items-center w-fit"><span class="material-symbols-outlined"> print </span> Print</button > ';
+                            $htmlEl = '<div class="d-flex align-items-center justify-content-center" style="gap: 5px">';
+                            $htmlEl += `<a href="/panel/work-order-processes/${row.work_order_id}/${row.id}/info" class="btn btn-info btn-sm d-flex align-items-center w-fit"><span class="material-symbols-outlined"> description </span> Detail</a>`;
+                            $htmlEl += '<button type="button" class="btn btn-dark btn-sm d-flex align-items-center w-fit"><span class="material-symbols-outlined"> print </span> Print</button > ';
+                            $htmlEl += '</div>';
+
+                            return $htmlEl;
                         }
                     }
                 },

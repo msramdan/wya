@@ -23,6 +23,9 @@ class UpdateWorkOrderProcesessRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'executor' => 'required|in:vendor_or_supplier,technician',
+            'work_executor_technician_id' => 'required_if:executor,technician|exists:employees,id',
+            'work_executor_vendor_id' => 'required_if:executor,vendor_or_supplier|exists:vendors,id',
             'initial_temperature' => ['required', new AllowIntegerOrDouble],
             'initial_humidity' => ['required', new AllowIntegerOrDouble],
             'final_temperature' => ['required', new AllowIntegerOrDouble],

@@ -165,8 +165,7 @@ class WorkOrderApprovalController extends Controller
 
                         if (Carbon::createFromFormat('Y-m-d', $tempEndData)->subDay()->format('Y-m-d') <= $endDateValue) {
                             $workOrderSchedules[] = [
-                                'start_date' => $startDateValue,
-                                'end_date' => Carbon::createFromFormat('Y-m-d', $tempEndData)->subDay()->format('Y-m-d'),
+                                'schedule_date' => $startDateValue,
                             ];
                         }
 
@@ -178,9 +177,9 @@ class WorkOrderApprovalController extends Controller
                 foreach ($workOrderSchedules as $workOrderSchedule) {
                     WorkOrderProcess::create([
                         'work_order_id' => $workOrder->id,
-                        'schedule_date' => null,
-                        'start_date' => $workOrderSchedule['start_date'],
-                        'end_date' => $workOrderSchedule['end_date'],
+                        'schedule_date' => $workOrderSchedule['schedule_date'],
+                        'start_date' => null,
+                        'end_date' => null,
                         'schedule_wo' => $workOrder->schedule_wo,
                         'status' => 'ready-to-start'
                     ]);

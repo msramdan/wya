@@ -61,7 +61,7 @@ class WorkOrderController extends Controller
                     return $row->user ? $row->user->name : '';
                 })->addColumn('action', function ($row) {
                     $displayAction = true;
-                    if ($row->status_wo == 'accepted' || $row->status_wo == 'rejected') {
+                    if ($row->status_wo == 'accepted' || $row->status_wo == 'rejected' || $row->status_wo == 'on-going' || $row->status_wo == 'finished') {
                         $displayAction = false;
                     } else {
                         foreach (json_decode($row->approval_users_id, true) as $rowApproval) {
@@ -197,8 +197,7 @@ class WorkOrderController extends Controller
 
                         if (Carbon::createFromFormat('Y-m-d', $tempEndData)->subDay()->format('Y-m-d') <= $endDateValue) {
                             $workOrderSchedules[] = [
-                                'start_date' => $startDateValue,
-                                'end_date' => in_array($workOrder->schedule_wo, ['Harian', 'Mingguan']) ? Carbon::createFromFormat('Y-m-d', $tempEndData)->subDay()->format('Y-m-d') : null,
+                                'schedule_date' => $startDateValue,
                             ];
                         }
 
@@ -210,9 +209,9 @@ class WorkOrderController extends Controller
                 foreach ($workOrderSchedules as $workOrderSchedule) {
                     WorkOrderProcess::create([
                         'work_order_id' => $workOrder->id,
-                        'schedule_date' => null,
-                        'start_date' => $workOrderSchedule['start_date'],
-                        'end_date' => $workOrderSchedule['end_date'],
+                        'schedule_date' => $workOrderSchedule['schedule_date'],
+                        'start_date' => null,
+                        'end_date' => null,
                         'schedule_wo' => $workOrder->schedule_wo,
                         'status' => 'ready-to-start'
                     ]);

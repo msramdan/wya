@@ -33,8 +33,8 @@
                                             <th style="white-space: nowrap">{{ __('Type Wo') }}</th>
                                             <th style="white-space: nowrap">{{ __('Category Wo') }}</th>
                                             <th style="white-space: nowrap">{{ __('Schedule Date') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Start Date') }}</th>
-                                            <th style="white-space: nowrap">{{ __('End Date') }}</th>
+                                            <th style="white-space: nowrap">{{ __('Requested Start Date') }}</th>
+                                            <th style="white-space: nowrap">{{ __('Requested End Date') }}</th>
                                             <th style="white-space: nowrap">{{ __('Schedule Wo') }}</th>
                                             <th style="white-space: nowrap">{{ __('Note') }}</th>
                                             <th style="white-space: nowrap">{{ __('User') }}</th>
@@ -87,7 +87,7 @@
                 {
                     data: 'schedule_date',
                     render: function(datum, type, row) {
-                        return row.schedule_date ? row.schedule_date : '-';
+                        return row.schedule_date ? row.schedule_date : row.start_date;
                     }
                 },
                 {

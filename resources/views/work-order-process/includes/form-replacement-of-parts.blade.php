@@ -79,13 +79,13 @@
                             @forelse ($workOrderProcesess->replacementOfParts as $index => $replacementOfPart)
                                 <tr data-index="{{ $index }}">
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-{{ $index == 0 ? 'primary' : 'danger' }}" @if ($index == 0) onclick="addRowReplacementOfPart(this.parentElement.parentElement)"
+                                        <button {{ $readonly ? 'disabled' : '' }} type="button" class="btn btn-sm btn-{{ $index == 0 ? 'primary' : 'danger' }}" @if ($index == 0) onclick="addRowReplacementOfPart(this.parentElement.parentElement)"
                                 @else
                                 onclick="this.parentElement.parentElement.remove()" @endif><i class="fa fa-{{ $index == 0 ? 'plus' : 'trash' }}"></i></button>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <select onchange="loadStockSparepart(this)" name="replacement_sparepart_id[{{ $index }}]" class="form-control" id="replacement_sparepart_id_{{ $index }}">
+                                            <select {{ $readonly ? 'disabled' : '' }} onchange="loadStockSparepart(this)" name="replacement_sparepart_id[{{ $index }}]" class="form-control" id="replacement_sparepart_id_{{ $index }}">
                                                 <option value="">--Choose Sparepart--</option>
                                                 @php
                                                     $selectedSparepart = null;
@@ -104,30 +104,30 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text" name="replacement_price[{{ $index }}]" placeholder="Price" class="form-control text-right" id="replacement_price_{{ $index }}" readonly value="{{ $replacementOfPart->price }}">
+                                            <input {{ $readonly ? 'disabled' : '' }} type="text" name="replacement_price[{{ $index }}]" placeholder="Price" class="form-control text-right" id="replacement_price_{{ $index }}" readonly value="{{ $replacementOfPart->price }}">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text" name="replacement_stock[{{ $index }}]" placeholder="Stock" class="form-control text-right" id="replacement_stock_{{ $index }}" readonly="" value="{{ $selectedSparepart->stock }}">
+                                            <input {{ $readonly ? 'disabled' : '' }} type="text" name="replacement_stock[{{ $index }}]" placeholder="Stock" class="form-control text-right" id="replacement_stock_{{ $index }}" readonly="" value="{{ $selectedSparepart->stock }}">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text" name="replacement_amount[{{ $index }}]" placeholder="Amount" class="form-control text-right" id="replacement_amount_{{ $index }}" value="{{ $replacementOfPart->amount }}">
+                                            <input {{ $readonly ? 'disabled' : '' }} type="text" name="replacement_amount[{{ $index }}]" placeholder="Amount" class="form-control text-right" id="replacement_amount_{{ $index }}" value="{{ $replacementOfPart->amount }}">
                                         </div>
                                     </td>
                                 </tr>
                             @empty
                                 <tr data-index="0">
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-primary" onclick="addRowReplacementOfPart(this.parentElement.parentElement)"><i class="fa fa-plus"></i></button>
+                                        <button {{ $readonly ? 'disabled' : '' }} type="button" class="btn btn-sm btn-primary" onclick="addRowReplacementOfPart(this.parentElement.parentElement)"><i class="fa fa-plus"></i></button>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <select onchange="loadStockSparepart(this)" name="replacement_sparepart_id[0]" class="form-control" id="replacement_sparepart_id_0" onchange="getSparepartInfo(0)">
+                                            <select {{ $readonly ? 'disabled' : '' }} onchange="loadStockSparepart(this)" name="replacement_sparepart_id[0]" class="form-control" id="replacement_sparepart_id_0" onchange="getSparepartInfo(0)">
                                                 <option value="">--Choose Sparepart--</option>
-                                                Z @foreach ($spareparts as $sparepart)
+                                                @foreach ($spareparts as $sparepart)
                                                     <option data-price="{{ $sparepart->estimated_price }}" data-stock="{{ $sparepart->stock }}" value="{{ $sparepart->id }}">{{ $sparepart->sparepart_name }}</option>
                                                 @endforeach
                                             </select>
@@ -135,17 +135,17 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text" name="replacement_price[0]" placeholder="Price" class="form-control text-right" id="replacement_price0" readonly>
+                                            <input {{ $readonly ? 'disabled' : '' }} type="text" name="replacement_price[0]" placeholder="Price" class="form-control text-right" id="replacement_price0" readonly>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text" name="replacement_stock[0]" placeholder="Stock" class="form-control text-right" id="replacement_stock0" readonly="">
+                                            <input {{ $readonly ? 'disabled' : '' }} type="text" name="replacement_stock[0]" placeholder="Stock" class="form-control text-right" id="replacement_stock0" readonly="">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text" name="replacement_amount[0]" placeholder="Amount" class="form-control text-right" id="replacement_amount0">
+                                            <input {{ $readonly ? 'disabled' : '' }} type="text" name="replacement_amount[0]" placeholder="Amount" class="form-control text-right" id="replacement_amount0">
                                         </div>
                                     </td>
                                 </tr>
@@ -157,7 +157,7 @@
                 <div class="col-md-6 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="replacement_of_part_service_price" class="control-label">Service Price</label>
-                        <input type="number" step="any" name="replacement_of_part_service_price" class="form-control @error('replacement_of_part_service_price') is-invalid @enderror" placeholder="Service Price" id="replacement_of_part_service_price" value="{{ old('replacement_of_part_service_price') ? old('replacement_of_part_service_price') : $workOrderProcesess->replacement_of_part_service_price }}">
+                        <input type="number" {{ $readonly ? 'disabled' : '' }} step="any" name="replacement_of_part_service_price" class="form-control @error('replacement_of_part_service_price') is-invalid @enderror" placeholder="Service Price" id="replacement_of_part_service_price" value="{{ old('replacement_of_part_service_price') ? old('replacement_of_part_service_price') : $workOrderProcesess->replacement_of_part_service_price }}">
 
                         @error('replacement_of_part_service_price')
                             <div class="invalid-feedback">
