@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SparepartExport;
 use App\Models\Sparepart;
 use App\Http\Requests\{StoreSparepartRequest, UpdateSparepartRequest};
 use Yajra\DataTables\Facades\DataTables;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
 use Auth;
 use PDF;
 
@@ -33,7 +35,7 @@ class SparepartController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $spareparts = Sparepart::with('unit_item:id,code_unit',);
+            $spareparts = Sparepart::with('unit_item:id,code_unit');
 
             return DataTables::of($spareparts)
                 ->addIndexColumn()
@@ -289,5 +291,13 @@ class SparepartController extends Controller
             ->setPaper([0, 0, $hightPaper, setting_web()->paper_qr_code], 'landscape');
         return $pdf->stream();
         // return $pdf->download('qr.pdf');
+    }
+
+
+    public function export()
+    {
+        $date = date('d-m-Y');
+        $nameFile = 'Daftar-Sparepart' . $date;
+        return Excel::download(new SparepartExport(), $nameFile . '.xlsx');
     }
 }

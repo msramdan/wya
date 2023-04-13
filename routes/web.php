@@ -55,11 +55,13 @@ Route::prefix('panel')->group(function () {
     Route::get('export-data-vendors', [App\Http\Controllers\VendorController::class, 'export'])->name('export-data-vendors')->middleware('auth');
     Route::get('/GetFileVendor/{id}', [App\Http\Controllers\VendorController::class, 'GetFileVendor'])->middleware('auth');
     Route::resource('spareparts', App\Http\Controllers\SparepartController::class)->middleware('auth');
+    Route::get('export-data-spareparts', [App\Http\Controllers\SparepartController::class, 'export'])->name('export-data-spareparts')->middleware('auth');
     Route::post('stok_in', [App\Http\Controllers\SparepartController::class, 'stok_in'])->name('stok_in')->middleware('auth');
     Route::post('stok_out', [App\Http\Controllers\SparepartController::class, 'stok_out'])->name('stok_out')->middleware('auth');
     Route::delete('delete_history/{id}', [App\Http\Controllers\SparepartController::class, 'delete_history'])->name('delete_history')->middleware('auth');
     Route::get('print_qr/{id}', [App\Http\Controllers\SparepartController::class, 'print_qr'])->name('print_qr')->middleware('auth');
     Route::resource('nomenklaturs', App\Http\Controllers\NomenklaturController::class)->middleware('auth');
+    Route::get('export-data-nomenklatur', [App\Http\Controllers\NomenklaturController::class, 'export'])->name('export-data-nomenklatur')->middleware('auth');
     Route::resource('equipment', App\Http\Controllers\EquipmentController::class)->middleware('auth');
     Route::resource('work-orders', App\Http\Controllers\WorkOrderController::class)->middleware('auth');
     Route::resource('work-order-approvals', App\Http\Controllers\WorkOrderApprovalController::class)->middleware('auth');

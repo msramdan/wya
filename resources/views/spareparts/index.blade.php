@@ -43,12 +43,9 @@
                                             <th>{{ __('Sparepart Name') }}</th>
                                             <th>{{ __('Merk') }}</th>
                                             <th>{{ __('Sparepart Type') }}</th>
-
                                             <th>{{ __('Estimated Price') }}</th>
                                             <th>{{ __('Stock') }}</th>
                                             <th>{{ __('Unit Item') }}</th>
-                                            {{-- <th>{{ __('Created At') }}</th>
-                                            <th>{{ __('Updated At') }}</th> --}}
                                             <th>{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
@@ -64,6 +61,7 @@
 
 
 @push('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.5.1/sweetalert2.all.min.js"></script>
     <script>
         $('#data-table').DataTable({
             processing: true,
@@ -104,14 +102,6 @@
                     data: 'unit_item',
                     name: 'unit_item.code_unit'
                 },
-                // {
-                //     data: 'created_at',
-                //     name: 'created_at'
-                // },
-                // {
-                //     data: 'updated_at',
-                //     name: 'updated_at'
-                // },
                 {
                     data: 'action',
                     name: 'action',
@@ -120,5 +110,80 @@
                 }
             ],
         });
+    </script>
+    <script>
+        const showLoading = function() {
+            swal({
+                title: 'Now loading',
+                allowEscapeKey: false,
+                allowOutsideClick: false,
+                timer: 2000,
+                onOpen: () => {
+                    swal.showLoading();
+                }
+            }).then(
+                () => {},
+                (dismiss) => {
+                    if (dismiss === 'timer') {
+                        console.log('closed by timer!!!!');
+                        swal({
+                            title: 'Finished!',
+                            type: 'success',
+                            timer: 2000,
+                            showConfirmButton: false
+                        })
+                    }
+                }
+            )
+        };
+
+        $(document).on('click', '#btnExport', function(event) {
+            event.preventDefault();
+            exportData();
+
+        });
+        var exportData = function() {
+            var url = '../panel/export-data-spareparts';
+            $.ajax({
+                url: url,
+                type: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+                data: {},
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                beforeSend: function() {
+                    Swal.fire({
+                        title: 'Please Wait !',
+                        html: 'Sedang melakukan proses export data', // add html attribute if you want or remove
+                        allowOutsideClick: false,
+                        onBeforeOpen: () => {
+                            Swal.showLoading()
+                        },
+                    });
+
+                },
+                success: function(data) {
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(data);
+                    var nameFile = 'Daftar-Sparepart.xlsx'
+                    console.log(nameFile)
+                    link.download = nameFile;
+                    link.click();
+                    swal.close()
+                },
+                error: function(data) {
+                    console.log(data)
+                    Swal.fire({
+                        icon: 'error',
+                        title: "Data export failed",
+                        text: "Please check",
+                        allowOutsideClick: false,
+                    })
+                }
+            });
+        }
     </script>
 @endpush
