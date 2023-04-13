@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\EquiptmentExport;
 use App\Models\Equipment;
 use App\Http\Requests\{StoreEquipmentRequest, UpdateEquipmentRequest};
 use Yajra\DataTables\Facades\DataTables;
@@ -9,6 +10,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 
 class EquipmentController extends Controller
@@ -29,7 +31,7 @@ class EquipmentController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $equipments = Equipment::with('nomenklatur:id,name_nomenklatur', 'equipment_category:id,category_name', 'vendor:id,name_vendor', 'equipment_location:id,location_name',);
+            $equipments = Equipment::with('nomenklatur:id,name_nomenklatur', 'equipment_category:id,category_name', 'vendor:id,name_vendor', 'equipment_location:id,location_name');
 
             return DataTables::of($equipments)
                 ->addIndexColumn()
@@ -366,5 +368,13 @@ class EquipmentController extends Controller
             Alert::toast('The equipment cant be deleted because its related to another table.', 'error');
             return redirect()->route('equipment.index');
         }
+    }
+
+
+    public function export()
+    {
+        $date = date('d-m-Y');
+        $nameFile = 'Daftar-Equipment' . $date;
+        return Excel::download(new EquiptmentExport(), $nameFile . '.xlsx');
     }
 }
