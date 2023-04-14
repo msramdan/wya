@@ -19,7 +19,7 @@ class SettingAppSeeder extends Seeder
             'address' => 'Graha Mas Fatmawati Blok A 36 Jl RS Fatmawati Gedung Informa Fatmawati , Samping ITC Fatmawati',
             'notif_wa' => 1,
             'paper_qr_code' => '68.0315',
-            'url_wa_gateway' => '',
+            'url_wa_gateway' => 'http://103.176.79.206:40000',
             'session_wa_gateway' => 'apps_marsweb',
             'bot_telegram' => 1,
         ]);

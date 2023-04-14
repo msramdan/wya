@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\WorkOrder;
 use App\Http\Requests\{StoreWorkOrderRequest, UpdateWorkOrderRequest};
+use App\Marsweb\Notifications\NotifWhatsappWorkOrderCreated;
+use App\Marsweb\Notifications\NotifWhatsappWorkOrderDeleted;
 use App\Models\EquipmentLocation;
 use App\Models\SettingApp;
 use App\Models\User;
@@ -231,6 +233,27 @@ class WorkOrderController extends Controller
         if ($settingApp->bot_telegram == 1) {
             notifTele($request, 'create_wo');
         }
+
+        if ($settingApp->notif_wa) {
+            $receiverUsers = json_decode($workOrder->approval_users_id, true);
+
+            foreach ($receiverUsers as $receiverUserId) {
+                $receiverUser = User::find($receiverUserId);
+
+                if ($receiverUser) {
+                    try {
+                        if ($receiverUser->no_hp) {
+                            new NotifWhatsappWorkOrderCreated($receiverUser->no_hp, $workOrder);
+                        }
+                    } catch (\Throwable $th) {
+                        if ($receiverUser[0]->no_hp) {
+                            new NotifWhatsappWorkOrderCreated($receiverUser[0]->no_hp, $workOrder);
+                        }
+                    }
+                }
+            }
+        }
+
         Alert::toast('The workOrder was created successfully.', 'success');
         return redirect()->route('work-orders.index');
     }
@@ -292,6 +315,27 @@ class WorkOrderController extends Controller
             if (setting_web()->bot_telegram == 1) {
                 notifTele($workOrder, 'delete_wo');
             }
+
+            if (setting_web()->notif_wa) {
+                $receiverUsers = json_decode($workOrder->approval_users_id, true);
+
+                foreach ($receiverUsers as $receiverUserId) {
+                    $receiverUser = User::find($receiverUserId);
+
+                    if ($receiverUser) {
+                        try {
+                            if ($receiverUser->no_hp) {
+                                new NotifWhatsappWorkOrderDeleted($receiverUser->no_hp, $workOrder);
+                            }
+                        } catch (\Throwable $th) {
+                            if ($receiverUser[0]->no_hp) {
+                                new NotifWhatsappWorkOrderDeleted($receiverUser[0]->no_hp, $workOrder);
+                            }
+                        }
+                    }
+                }
+            }
+
             Alert::toast('The workOrder was deleted successfully.', 'success');
             return redirect()->route('work-orders.index');
         } catch (\Throwable $th) {
