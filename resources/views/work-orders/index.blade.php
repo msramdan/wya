@@ -40,8 +40,8 @@
                                             <th style="white-space: nowrap">{{ __('Type Wo') }}</th>
                                             <th style="white-space: nowrap">{{ __('Category Wo') }}</th>
                                             <th style="white-space: nowrap">{{ __('Schedule Date') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Start Date') }}</th>
-                                            <th style="white-space: nowrap">{{ __('End Date') }}</th>
+                                            <th style="white-space: nowrap">{{ __('Requested Start Date') }}</th>
+                                            <th style="white-space: nowrap">{{ __('Requested End Date') }}</th>
                                             <th style="white-space: nowrap">{{ __('Schedule Wo') }}</th>
                                             <th style="white-space: nowrap">{{ __('Note') }}</th>
                                             <th style="white-space: nowrap">{{ __('User') }}</th>
@@ -137,6 +137,9 @@
                                 case 'accepted':
                                     rowStatus = 'success';
                                     break;
+                                default:
+                                    rowStatus = 'success';
+                                    break;
                             }
 
                             htmlEl +=
@@ -161,9 +164,12 @@
                             case 'accepted':
                                 rowStatus = 'success';
                                 break;
+                            default:
+                                rowStatus = 'success';
+                                break;
                         }
 
-                        return `<span class="badge bg-${rowStatus}">${row.status_wo}</span>`;
+                        return `<span class="badge bg-${rowStatus}">${['on-going', 'finished'].includes(row.status_wo) ? 'accepted' : row.status_wo}</span>`;
                     }
                 },
                 {
