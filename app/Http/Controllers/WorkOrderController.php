@@ -234,7 +234,7 @@ class WorkOrderController extends Controller
             notifTele($request, 'create_wo');
         }
 
-        if ($settingApp->notif_wa) {
+        if ($settingApp->notif_wa == 1) {
             $receiverUsers = json_decode($workOrder->approval_users_id, true);
 
             foreach ($receiverUsers as $receiverUserId) {
@@ -316,7 +316,7 @@ class WorkOrderController extends Controller
                 notifTele($workOrder, 'delete_wo');
             }
 
-            if (setting_web()->notif_wa) {
+            if (setting_web()->notif_wa == 1) {
                 $receiverUsers = json_decode($workOrder->approval_users_id, true);
 
                 foreach ($receiverUsers as $receiverUserId) {
