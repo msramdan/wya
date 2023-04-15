@@ -56,54 +56,54 @@
                             @forelse ($workOrderProcesess->functionChecks as $index => $item)
                                 <tr data-index="{{ $index }}">
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-{{ $index == 0 ? 'primary' : 'danger' }}" @if ($index == 0) onclick="addRowFunctionCheck(this.parentElement.parentElement)"
+                                        <button {{ $readonly ? 'disabled' : '' }} type="button" class="btn btn-sm btn-{{ $index == 0 ? 'primary' : 'danger' }}" @if ($index == 0) onclick="addRowFunctionCheck(this.parentElement.parentElement)"
                                     @else
                                     onclick="this.parentElement.parentElement.remove()" @endif><i class="fa fa-{{ $index == 0 ? 'plus' : 'trash' }}"></i></button>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text" autocomplete="off" name="function_check_information[{{ $index }}]" class="form-control" placeholder="Information" id="function_check_information_{{ $index }}" value="{{ $item->information }}">
+                                            <input {{ $readonly ? 'disabled' : '' }} type="text" autocomplete="off" name="function_check_information[{{ $index }}]" class="form-control" placeholder="Information" id="function_check_information_{{ $index }}" value="{{ $item->information }}">
                                         </div>
                                     </td>
                                     <td class="text-center">
                                         <div class="d-flex justify-content-center">
-                                            <input type="radio" name="function_check_status[{{ $index }}]" class="form-check" value="Yes" {{ $item->status == 'Yes' ? 'checked' : '' }}>
+                                            <input {{ $readonly ? 'disabled' : '' }} type="radio" name="function_check_status[{{ $index }}]" class="form-check" value="Yes" {{ $item->status == 'Yes' ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
                                         <div class="d-flex justify-content-center">
-                                            <input type="radio" name="function_check_status[{{ $index }}]" class="form-check" value="No" {{ $item->status == 'No' ? 'checked' : '' }}>
+                                            <input {{ $readonly ? 'disabled' : '' }} type="radio" name="function_check_status[{{ $index }}]" class="form-check" value="No" {{ $item->status == 'No' ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
                                         <div class="d-flex justify-content-center">
-                                            <input type="radio" name="function_check_status[{{ $index }}]" class="form-check" value="NA" {{ $item->status == 'NA' ? 'checked' : '' }}>
+                                            <input {{ $readonly ? 'disabled' : '' }} type="radio" name="function_check_status[{{ $index }}]" class="form-check" value="NA" {{ $item->status == 'NA' ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                 </tr>
                             @empty
                                 <tr data-index="0">
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-primary" onclick="addRowFunctionCheck(this.parentElement.parentElement)"><i class="fa fa-plus"></i></button>
+                                        <button {{ $readonly ? 'disabled' : '' }} type="button" class="btn btn-sm btn-primary" onclick="addRowFunctionCheck(this.parentElement.parentElement)"><i class="fa fa-plus"></i></button>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text" autocomplete="off" name="function_check_information[0]" class="form-control" placeholder="Information" id="function_check_information_0">
+                                            <input {{ $readonly ? 'disabled' : '' }} type="text" autocomplete="off" name="function_check_information[0]" class="form-control" placeholder="Information" id="function_check_information_0">
                                         </div>
                                     </td>
                                     <td class="text-center">
                                         <div class="d-flex justify-content-center">
-                                            <input type="radio" name="function_check_status[0]" class="form-check" value="Yes">
+                                            <input {{ $readonly ? 'disabled' : '' }} type="radio" name="function_check_status[0]" class="form-check" value="Yes">
                                         </div>
                                     </td>
                                     <td class="text-center">
                                         <div class="d-flex justify-content-center">
-                                            <input type="radio" name="function_check_status[0]" class="form-check" value="No">
+                                            <input {{ $readonly ? 'disabled' : '' }} type="radio" name="function_check_status[0]" class="form-check" value="No">
                                         </div>
                                     </td>
                                     <td class="text-center">
                                         <div class="d-flex justify-content-center">
-                                            <input type="radio" name="function_check_status[0]" class="form-check" value="NA">
+                                            <input {{ $readonly ? 'disabled' : '' }} type="radio" name="function_check_status[0]" class="form-check" value="NA">
                                         </div>
                                     </td>
                                 </tr>

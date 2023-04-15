@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\WorkOrder;
 use App\Http\Requests\{StoreWorkOrderRequest, UpdateWorkOrderRequest};
+use App\Marsweb\Notifications\NotifWhatsappWorkOrderCreated;
+use App\Marsweb\Notifications\NotifWhatsappWorkOrderDeleted;
 use App\Models\EquipmentLocation;
 use App\Models\SettingApp;
 use App\Models\User;
@@ -61,7 +63,7 @@ class WorkOrderController extends Controller
                     return $row->user ? $row->user->name : '';
                 })->addColumn('action', function ($row) {
                     $displayAction = true;
-                    if ($row->status_wo == 'accepted' || $row->status_wo == 'rejected') {
+                    if ($row->status_wo == 'accepted' || $row->status_wo == 'rejected' || $row->status_wo == 'on-going' || $row->status_wo == 'finished') {
                         $displayAction = false;
                     } else {
                         foreach (json_decode($row->approval_users_id, true) as $rowApproval) {
@@ -197,8 +199,7 @@ class WorkOrderController extends Controller
 
                         if (Carbon::createFromFormat('Y-m-d', $tempEndData)->subDay()->format('Y-m-d') <= $endDateValue) {
                             $workOrderSchedules[] = [
-                                'start_date' => $startDateValue,
-                                'end_date' => in_array($workOrder->schedule_wo, ['Harian', 'Mingguan']) ? Carbon::createFromFormat('Y-m-d', $tempEndData)->subDay()->format('Y-m-d') : null,
+                                'schedule_date' => $startDateValue,
                             ];
                         }
 
@@ -210,9 +211,9 @@ class WorkOrderController extends Controller
                 foreach ($workOrderSchedules as $workOrderSchedule) {
                     WorkOrderProcess::create([
                         'work_order_id' => $workOrder->id,
-                        'schedule_date' => null,
-                        'start_date' => $workOrderSchedule['start_date'],
-                        'end_date' => $workOrderSchedule['end_date'],
+                        'schedule_date' => $workOrderSchedule['schedule_date'],
+                        'start_date' => null,
+                        'end_date' => null,
                         'schedule_wo' => $workOrder->schedule_wo,
                         'status' => 'ready-to-start'
                     ]);
@@ -232,6 +233,27 @@ class WorkOrderController extends Controller
         if ($settingApp->bot_telegram == 1) {
             notifTele($request, 'create_wo');
         }
+
+        if ($settingApp->notif_wa) {
+            $receiverUsers = json_decode($workOrder->approval_users_id, true);
+
+            foreach ($receiverUsers as $receiverUserId) {
+                $receiverUser = User::find($receiverUserId);
+
+                if ($receiverUser) {
+                    try {
+                        if ($receiverUser->no_hp) {
+                            new NotifWhatsappWorkOrderCreated($receiverUser->no_hp, $workOrder);
+                        }
+                    } catch (\Throwable $th) {
+                        if ($receiverUser[0]->no_hp) {
+                            new NotifWhatsappWorkOrderCreated($receiverUser[0]->no_hp, $workOrder);
+                        }
+                    }
+                }
+            }
+        }
+
         Alert::toast('The workOrder was created successfully.', 'success');
         return redirect()->route('work-orders.index');
     }
@@ -293,6 +315,27 @@ class WorkOrderController extends Controller
             if (setting_web()->bot_telegram == 1) {
                 notifTele($workOrder, 'delete_wo');
             }
+
+            if (setting_web()->notif_wa) {
+                $receiverUsers = json_decode($workOrder->approval_users_id, true);
+
+                foreach ($receiverUsers as $receiverUserId) {
+                    $receiverUser = User::find($receiverUserId);
+
+                    if ($receiverUser) {
+                        try {
+                            if ($receiverUser->no_hp) {
+                                new NotifWhatsappWorkOrderDeleted($receiverUser->no_hp, $workOrder);
+                            }
+                        } catch (\Throwable $th) {
+                            if ($receiverUser[0]->no_hp) {
+                                new NotifWhatsappWorkOrderDeleted($receiverUser[0]->no_hp, $workOrder);
+                            }
+                        }
+                    }
+                }
+            }
+
             Alert::toast('The workOrder was deleted successfully.', 'success');
             return redirect()->route('work-orders.index');
         } catch (\Throwable $th) {

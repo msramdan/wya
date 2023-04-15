@@ -56,54 +56,54 @@
                             @forelse ($workOrderProcesess->toolMaintenances as $index => $item)
                                 <tr data-index="{{ $index }}">
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-{{ $index == 0 ? 'primary' : 'danger' }}" @if ($index == 0) onclick="addRowToolMaintenance(this.parentElement.parentElement)"
+                                        <button type="button" {{ $readonly ? 'disabled' : '' }} class="btn btn-sm btn-{{ $index == 0 ? 'primary' : 'danger' }}" @if ($index == 0) onclick="addRowToolMaintenance(this.parentElement.parentElement)"
                                 @else
                                 onclick="this.parentElement.parentElement.remove()" @endif><i class="fa fa-{{ $index == 0 ? 'plus' : 'trash' }}"></i></button>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text" autocomplete="off" name="tool_maintenance_information[{{ $index }}]" class="form-control" placeholder="Information" id="tool_maintenance_information{{ $index }}" value="{{ $item->information }}">
+                                            <input type="text" {{ $readonly ? 'disabled' : '' }} autocomplete="off" name="tool_maintenance_information[{{ $index }}]" class="form-control" placeholder="Information" id="tool_maintenance_information{{ $index }}" value="{{ $item->information }}">
                                         </div>
                                     </td>
                                     <td class="text-center">
                                         <div class="d-flex justify-content-center">
-                                            <input type="radio" name="tool_maintenance_status[{{ $index }}]" class="form-check" value="Yes" {{ $item->status == 'Yes' ? 'checked' : '' }}>
+                                            <input type="radio" {{ $readonly ? 'disabled' : '' }} name="tool_maintenance_status[{{ $index }}]" class="form-check" value="Yes" {{ $item->status == 'Yes' ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
                                         <div class="d-flex justify-content-center">
-                                            <input type="radio" name="tool_maintenance_status[{{ $index }}]" class="form-check" value="No" {{ $item->status == 'No' ? 'checked' : '' }}>
+                                            <input type="radio" {{ $readonly ? 'disabled' : '' }} name="tool_maintenance_status[{{ $index }}]" class="form-check" value="No" {{ $item->status == 'No' ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                     <td class="text-center">
                                         <div class="d-flex justify-content-center">
-                                            <input type="radio" name="tool_maintenance_status[{{ $index }}]" class="form-check" value="NA" {{ $item->status == 'NA' ? 'checked' : '' }}>
+                                            <input type="radio" {{ $readonly ? 'disabled' : '' }} name="tool_maintenance_status[{{ $index }}]" class="form-check" value="NA" {{ $item->status == 'NA' ? 'checked' : '' }}>
                                         </div>
                                     </td>
                                 </tr>
                             @empty
                                 <tr data-index="0">
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-primary" onclick="addRowToolMaintenance(this.parentElement.parentElement)"><i class="fa fa-plus"></i></button>
+                                        <button type="button" {{ $readonly ? 'disabled' : '' }} class="btn btn-sm btn-primary" onclick="addRowToolMaintenance(this.parentElement.parentElement)"><i class="fa fa-plus"></i></button>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text" autocomplete="off" name="tool_maintenance_information[0]" class="form-control" placeholder="Information" id="tool_maintenance_information_0">
+                                            <input type="text" {{ $readonly ? 'disabled' : '' }} autocomplete="off" name="tool_maintenance_information[0]" class="form-control" placeholder="Information" id="tool_maintenance_information_0">
                                         </div>
                                     </td>
                                     <td class="text-center">
                                         <div class="d-flex justify-content-center">
-                                            <input type="radio" name="tool_maintenance_status[0]" class="form-check" value="Yes">
+                                            <input type="radio" {{ $readonly ? 'disabled' : '' }} name="tool_maintenance_status[0]" class="form-check" value="Yes">
                                         </div>
                                     </td>
                                     <td class="text-center">
                                         <div class="d-flex justify-content-center">
-                                            <input type="radio" name="tool_maintenance_status[0]" class="form-check" value="No">
+                                            <input type="radio" {{ $readonly ? 'disabled' : '' }} name="tool_maintenance_status[0]" class="form-check" value="No">
                                         </div>
                                     </td>
                                     <td class="text-center">
                                         <div class="d-flex justify-content-center">
-                                            <input type="radio" name="tool_maintenance_status[0]" class="form-check" value="NA">
+                                            <input type="radio" {{ $readonly ? 'disabled' : '' }} name="tool_maintenance_status[0]" class="form-check" value="NA">
                                         </div>
                                     </td>
                                 </tr>

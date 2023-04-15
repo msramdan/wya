@@ -29,6 +29,7 @@ class StoreWorkOrderRequest extends FormRequest
             'type_wo' => 'required|in:Calibration,Service,Training,Inspection and Preventive Maintenance',
             'filed_date' => 'required|date',
             'category_wo' => 'required|in:Rutin,Non Rutin',
+            'wo_number' => 'required|string',
             'note' => 'required|string',
             'schedule_date' => 'required_if:category_wo,Non Rutin|nullable',
             'start_date' => 'required_if:category_wo,Rutin|date|nullable|before_or_equal:end_date',

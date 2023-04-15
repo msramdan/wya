@@ -73,8 +73,10 @@
                             <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <input type="submit" class="w-100 btn btn-primary" name="status" value="Doing"> <br>
-                                        <input type="submit" class="w-100 mt-3 btn btn-success" name="status" value="Finish"><br>
+                                        @if (!$readonly)
+                                            <input type="submit" class="w-100 btn btn-primary" name="status" value="Doing"> <br>
+                                            <input type="submit" class="w-100 mt-3 btn btn-success" name="status" value="Finish"><br>
+                                        @endif
                                         <a href="{{ url('/panel/work-order-processes/' . $workOrder->id) }}"><button type="button" class="btn mt-4 btn-warning"><i class="fa fa-arrow-left"></i> Back To List WO</button></a>
                                     </div>
                                 </div>
