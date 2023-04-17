@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
+    DashboardController,
     UserController,
     ProfileController,
     RoleAndPermissionController,
@@ -26,8 +27,10 @@ Route::get('/', [LandingWebController::class, 'index'])->name('web');
 
 Route::prefix('panel')->group(function () {
     Route::middleware(['auth', 'web'])->group(function () {
-        Route::get('/', fn () => view('dashboard'));
-        Route::get('/dashboard', fn () => view('dashboard'));
+        Route::get('/dashboard', function () {
+            return redirect()->route('dashboard');
+        });
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/profile', ProfileController::class)->name('profile');
         Route::resource('users', UserController::class);
         Route::resource('roles', RoleAndPermissionController::class);

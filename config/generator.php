@@ -235,7 +235,7 @@ return [
             'menus' => [
                 [
                     'title' => 'Vendor Data',
-                    'icon' => '<i class="mdi mdi-contacts"></i>',
+                    'icon' => '<i class="fa fa-address-book" fa-xs></i>',
                     'route' => null,
                     'permission' => null,
                     'permissions' => [
