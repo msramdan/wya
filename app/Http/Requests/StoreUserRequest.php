@@ -27,6 +27,11 @@ class StoreUserRequest extends FormRequest
         return [
             'name' => ['required', 'min:3', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email'],
+            'no_hp' => ['required', 'numeric', function ($attribute, $value, $fail) {
+                if (substr($value, 0, 2) != '62') {
+                    $fail('No HP Must be start with 62');
+                }
+            }],
             'avatar' => ['nullable', 'image', 'max:1024'],
             'role' => ['required', 'exists:roles,id'],
             'password' =>  [

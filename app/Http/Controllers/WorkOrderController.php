@@ -209,8 +209,15 @@ class WorkOrderController extends Controller
                 }
 
                 foreach ($workOrderSchedules as $workOrderSchedule) {
+                    $workOrderProcessCode = mt_rand(100000, 999999);
+
+                    while (WorkOrderProcess::where('code', $workOrderProcessCode)->count() > 0) {
+                        $workOrderProcessCode = mt_rand(100000, 999999);
+                    }
+
                     WorkOrderProcess::create([
                         'work_order_id' => $workOrder->id,
+                        'code' => $workOrderProcessCode,
                         'schedule_date' => $workOrderSchedule['schedule_date'],
                         'start_date' => null,
                         'end_date' => null,
@@ -219,8 +226,15 @@ class WorkOrderController extends Controller
                     ]);
                 }
             } elseif ($workOrder->category_wo == 'Non Rutin') {
+                $workOrderProcessCode = mt_rand(100000, 999999);
+
+                while (WorkOrderProcess::where('code', $workOrderProcessCode)->count() > 0) {
+                    $workOrderProcessCode = mt_rand(100000, 999999);
+                }
+
                 WorkOrderProcess::create([
                     'work_order_id' => $workOrder->id,
+                    'code' => $workOrderProcessCode,
                     'schedule_date' => $workOrder->schedule_date,
                     'start_date' => null,
                     'end_date' => null,

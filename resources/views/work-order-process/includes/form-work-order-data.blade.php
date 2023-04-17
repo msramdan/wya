@@ -31,7 +31,7 @@
                         <select name="work_executor_technician_id" class="form-control js-example-basic-multiple" id="work_executor_technician_id" {{ $readonly ? 'disabled' : '' }}>
                             <option value="" selected disabled>-- Choose Work Executor --</option>
                             @foreach ($employees as $employee)
-                                <option value="{{ $employee->id }}" @if (old('work_executor_technician_id')) {{ old('work_executor_technician_id') == $vendor->id ? 'selected' : '' }}
+                                <option value="{{ $employee->id }}" @if (old('work_executor_technician_id')) {{ old('work_executor_technician_id') == $employee->id ? 'selected' : '' }}
                                 @else
                                     {{ $workOrderProcesess->work_executor_technician_id == $employee->id ? 'selected' : '' }} @endif>{{ $employee->name }}</option>
                             @endforeach
