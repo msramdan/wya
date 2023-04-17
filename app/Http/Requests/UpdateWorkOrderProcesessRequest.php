@@ -113,6 +113,14 @@ class UpdateWorkOrderProcesessRequest extends FormRequest
                         }
                     }
                 }
+
+                $arrSelectedSpareparts = [];
+
+                foreach (request()->replacement_sparepart_id as $replacementSparepartId) {
+                    if (in_array($replacementSparepartId, $arrSelectedSpareparts)) {
+                        $fail('Form Sparepart must be unique');
+                    }
+                }
             }],
             'replacement_price.*' => [function ($attribute, $value, $fail) {
                 if (!request()->$attribute && request()->replacement_sparepart_id[explode('.', $attribute)[count(explode('.', $attribute)) - 1]]) {

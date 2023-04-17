@@ -1,4 +1,4 @@
-<div class="col-12">
+<div class="col-12" id="col-replacement-of-parts">
     <div class="card">
         <div class="card-header">
             <h3>Replacement of Parts/Consumables</h3>
@@ -22,7 +22,7 @@
                                     <td>
                                         <button type="button" class="btn btn-sm btn-{{ $oldIndex == 0 ? 'primary' : 'danger' }}" @if ($oldIndex == 0) onclick="addRowReplacementOfPart(this.parentElement.parentElement)"
                             @else
-                            onclick="this.parentElement.parentElement.remove()" @endif><i class="fa fa-{{ $oldIndex == 0 ? 'plus' : 'trash' }}"></i></button>
+                            onclick="removeWoProcWo(this)" @endif><i class="fa fa-{{ $oldIndex == 0 ? 'plus' : 'trash' }}"></i></button>
                                     </td>
                                     <td>
                                         <div class="form-group">
@@ -81,7 +81,7 @@
                                     <td>
                                         <button {{ $readonly ? 'disabled' : '' }} type="button" class="btn btn-sm btn-{{ $index == 0 ? 'primary' : 'danger' }}" @if ($index == 0) onclick="addRowReplacementOfPart(this.parentElement.parentElement)"
                                 @else
-                                onclick="this.parentElement.parentElement.remove()" @endif><i class="fa fa-{{ $index == 0 ? 'plus' : 'trash' }}"></i></button>
+                                onclick="removeWoProcWo(this)" @endif><i class="fa fa-{{ $index == 0 ? 'plus' : 'trash' }}"></i></button>
                                     </td>
                                     <td>
                                         <div class="form-group">
