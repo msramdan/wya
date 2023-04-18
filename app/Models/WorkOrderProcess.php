@@ -53,6 +53,6 @@ class WorkOrderProcess extends Model
 
     public function workExecutorVendor()
     {
-        return $this->belongsTo(Employee::class, 'work_executor_vendor_id', 'id');
+        return $this->belongsTo(Vendor::class, 'work_executor_vendor_id', 'id');
     }
 }
