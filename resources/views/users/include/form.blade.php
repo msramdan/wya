@@ -56,7 +56,7 @@
     <div class="col-md-6 mb-2">
         <div class="form-group  mb-3">
             <label for="no_hp">{{ __('Number Phone') }}</label>
-            <input type="text" name="no_hp" class="form-control  @error('no_hp') is-invalid @enderror" id="no_hp" placeholder="{{ __('Number Phone') }}" value="{{ old('no_hp') ?? auth()->user()->no_hp }}" required>
+            <input type="text" name="no_hp" class="form-control  @error('no_hp') is-invalid @enderror" id="no_hp" placeholder="{{ __('Number Phone') }}" value="{{ old('no_hp') ? old('no_hp') : (isset($user) ? $user->no_hp : '') }}" required>
             @error('no_hp')
                 <span class="text-danger">
                     {{ $message }}

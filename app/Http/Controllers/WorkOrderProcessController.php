@@ -174,6 +174,7 @@ class WorkOrderProcessController extends Controller
         $posibbleWoProcessHasReplacements = WorkOrderProcessHasReplacementOfPart::where('work_order_process_id', $workOrderProcess->id)->pluck('id');
         $updatedWoProcessHasReplacements = request()->replacement_id;
 
+
         foreach ($posibbleWoProcessHasReplacements as $posibbleWoProcessHasReplacement) {
             if (!in_array($posibbleWoProcessHasReplacement, $updatedWoProcessHasReplacements)) {
                 WorkOrderProcessHasReplacementOfPart::where('id', $posibbleWoProcessHasReplacement)->delete();
@@ -181,10 +182,11 @@ class WorkOrderProcessController extends Controller
         }
 
         foreach ($request->replacement_sparepart_id as $indexReplacementSparepartId => $replacementSparepartId) {
-            if ($replacementSparepartId) {
+            if ($replacementSparepartId && !isset(request()->replacement_id[$indexReplacementSparepartId])) {
+
                 $sparepart = Sparepart::find($replacementSparepartId);
                 $sparepart->update([
-                    'stock' => (int) $sparepart - $request->replacement_qty[$indexReplacementSparepartId]
+                    'stock' => (int) $sparepart->stock - $request->replacement_qty[$indexReplacementSparepartId]
                 ]);
 
                 WorkOrderProcessHasReplacementOfPart::create([
@@ -196,7 +198,7 @@ class WorkOrderProcessController extends Controller
                 ]);
 
                 DB::table('sparepart_trace')->insert([
-                    'qty' => $request->qty,
+                    'qty' => $request->replacement_qty[$indexReplacementSparepartId],
                     'sparepart_id' => $replacementSparepartId,
                     'note' => 'Work Order Process',
                     'no_referensi' => $workOrderProcess->code,

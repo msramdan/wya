@@ -22,6 +22,9 @@
                             @foreach (old('replacement_sparepart_id') as $oldIndex => $replacementSparepartId)
                                 <tr data-index="{{ $oldIndex }}">
                                     <td>
+                                        @if (isset(old('replacement_id')[$oldIndex]))
+                                            <input type="hidden" name="replacement_id[{{ $oldIndex }}]" value="{{ old('replacement_id')[$oldIndex] }}">
+                                        @endif
                                         <button type="button" class="btn btn-sm btn-{{ $oldIndex == 0 ? 'primary' : 'danger' }}" @if ($oldIndex == 0) onclick="addRowReplacementOfPart(this.parentElement.parentElement)"
                             @else
                             onclick="removeWoProcWo(this)" @endif><i class="fa fa-{{ $oldIndex == 0 ? 'plus' : 'trash' }}"></i></button>
