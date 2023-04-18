@@ -2,9 +2,7 @@
     <div class="col-md-6 mb-2">
         <div class="form-group">
             <label for="name">{{ __('Name') }}</label>
-            <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror"
-                placeholder="{{ __('Name') }}" value="{{ isset($user) ? $user->name : old('name') }}" required
-                autofocus>
+            <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror" placeholder="{{ __('Name') }}" value="{{ isset($user) ? $user->name : old('name') }}" required autofocus>
             @error('name')
                 <span class="text-danger">
                     {{ $message }}
@@ -16,9 +14,7 @@
     <div class="col-md-6 mb-2">
         <div class="form-group">
             <label for="email">{{ __('Email') }}</label>
-            <input type="email" name="email" id="email"
-                class="form-control @error('email') is-invalid @enderror" placeholder="{{ __('Email') }}"
-                value="{{ isset($user) ? $user->email : old('email') }}" required>
+            <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror" placeholder="{{ __('Email') }}" value="{{ isset($user) ? $user->email : old('email') }}" required>
             @error('email')
                 <span class="text-danger">
                     {{ $message }}
@@ -31,13 +27,9 @@
         <div class="form-group">
             <label for="password">{{ __('Password') }}</label>
             <div class="input-group">
-                <input type="password" name="password" id="password"
-                    class="form-control @error('password') is-invalid @enderror" placeholder="{{ __('Password') }}"
-                    {{ empty($user) ? 'required' : '' }}> &nbsp;
-                <button class="btn btn-success" type="button" onclick="generatePassword()"
-                    id="">Generate</button> &nbsp;
-                <button class="btn btn-primary" type="button" onclick="toggleShowPassword()" id=""><i
-                        class="fa fa-eye"></i></button>
+                <input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror" placeholder="{{ __('Password') }}" {{ empty($user) ? 'required' : '' }}> &nbsp;
+                <button class="btn btn-success" type="button" onclick="generatePassword()" id="">Generate</button> &nbsp;
+                <button class="btn btn-primary" type="button" onclick="toggleShowPassword()" id=""><i class="fa fa-eye"></i></button>
             </div>
             <span style="color:red; font-size:10px">Password should contain at least 8 characters, 1 uppercase, 1
                 lowercase, 1 number, and 1 symbol</span>
@@ -57,8 +49,19 @@
     <div class="col-md-6 mb-2">
         <div class="form-group">
             <label for="password-confirmation">{{ __('Password Confirmation') }}</label>
-            <input type="password" name="password_confirmation" id="password-confirmation" class="form-control"
-                placeholder="{{ __('Password Confirmation') }}" {{ empty($user) ? 'required' : '' }}>
+            <input type="password" name="password_confirmation" id="password-confirmation" class="form-control" placeholder="{{ __('Password Confirmation') }}" {{ empty($user) ? 'required' : '' }}>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-2">
+        <div class="form-group  mb-3">
+            <label for="no_hp">{{ __('Number Phone') }}</label>
+            <input type="text" name="no_hp" class="form-control  @error('no_hp') is-invalid @enderror" id="no_hp" placeholder="{{ __('Number Phone') }}" value="{{ old('no_hp') ?? auth()->user()->no_hp }}" required>
+            @error('no_hp')
+                <span class="text-danger">
+                    {{ $message }}
+                </span>
+            @enderror
         </div>
     </div>
 
@@ -66,8 +69,7 @@
         <div class="col-md-6 mb-2">
             <div class="form-group">
                 <label for="role">{{ __('Role') }}</label>
-                <select class="form-select js-example-basic-multiple" name="role" id="role" class="form-control"
-                    required>
+                <select class="form-select js-example-basic-multiple" name="role" id="role" class="form-control" required>
                     <option value="" selected disabled>-- Select role --</option>
                     @foreach ($roles as $role)
                         <option value="{{ $role->id }}">{{ $role->name }}</option>
@@ -84,8 +86,7 @@
         <div class="col-md-6 mb-2">
             <div class="form-group">
                 <label for="avatar">{{ __('Avatar') }}</label>
-                <input type="file" name="avatar" id="avatar"
-                    class="form-control @error('avatar') is-invalid @enderror">
+                <input type="file" name="avatar" id="avatar" class="form-control @error('avatar') is-invalid @enderror">
                 @error('avatar')
                     <span class="text-danger">
                         {{ $message }}
@@ -100,12 +101,10 @@
             <div class="col-md-6 mb-2">
                 <div class="form-group">
                     <label for="role">{{ __('Role') }}</label>
-                    <select class="form-select js-example-basic-multiple" name="role" id="role" class="form-control"
-                        required>
+                    <select class="form-select js-example-basic-multiple" name="role" id="role" class="form-control" required>
                         <option value="" selected disabled>{{ __('-- Select role --') }}</option>
                         @foreach ($roles as $role)
-                            <option value="{{ $role->id }}"
-                                {{ $user->getRoleNames()->toArray() !== [] && $user->getRoleNames()[0] == $role->name ? 'selected' : '-' }}>
+                            <option value="{{ $role->id }}" {{ $user->getRoleNames()->toArray() !== [] && $user->getRoleNames()[0] == $role->name ? 'selected' : '-' }}>
                                 {{ $role->name }}</option>
                         @endforeach
                     </select>
@@ -120,8 +119,7 @@
             <div class="col-md-1 text-center">
                 <div class="avatar avatar-xl">
                     @if ($user->avatar == null)
-                        <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($user->email))) }}&s=500"
-                            alt="avatar">
+                        <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($user->email))) }}&s=500" alt="avatar">
                     @else
                         <img src="{{ asset("uploads/images/avatars/$user->avatar") }}" alt="avatar">
                     @endif
@@ -131,8 +129,7 @@
             <div class="col-md-5 me-0 pe-0">
                 <div class="form-group">
                     <label for="avatar">{{ __('Avatar') }}</label>
-                    <input type="file" name="avatar" class="form-control @error('avatar') is-invalid @enderror"
-                        id="avatar">
+                    <input type="file" name="avatar" class="form-control @error('avatar') is-invalid @enderror" id="avatar">
                     @error('avatar')
                         <span class="text-danger">
                             {{ $message }}

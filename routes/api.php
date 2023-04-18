@@ -28,5 +28,6 @@ Route::group([
     ], function () {
         Route::get('/', [EquipmentController::class, 'index'])->name('index');
         Route::get('/{id}', [EquipmentController::class, 'show'])->name('show');
+        Route::get('/{barcode}/barcode', [EquipmentController::class, 'barcode'])->name('barcode');
     });
 });

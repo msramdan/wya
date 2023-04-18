@@ -47,8 +47,7 @@
 @endsection
 
 @push('css-libs')
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 @endpush
 
 @push('js')
@@ -114,7 +113,7 @@
                         } else {
                             $htmlEl = '<div class="d-flex align-items-center justify-content-center" style="gap: 5px">';
                             $htmlEl += `<a href="/panel/work-order-processes/${row.work_order_id}/${row.id}/info" class="btn btn-info btn-sm d-flex align-items-center w-fit"><span class="material-symbols-outlined"> description </span> Detail</a>`;
-                            $htmlEl += '<button type="button" class="btn btn-dark btn-sm d-flex align-items-center w-fit"><span class="material-symbols-outlined"> print </span> Print</button > ';
+                            $htmlEl += `<a href="/panel/work-order-processes/${row.work_order_id}/${row.id}/print" target="_blank" class="btn btn-dark btn-sm d-flex align-items-center w-fit"><span class="material-symbols-outlined"> print </span> Print</a> `;
                             $htmlEl += '</div>';
 
                             return $htmlEl;

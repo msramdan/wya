@@ -17,7 +17,10 @@ use App\Models\WorkOrderProcessHasPhysicalCheck;
 use App\Models\WorkOrderProcessHasReplacementOfPart;
 use App\Models\WorkOrderProcessHasToolMaintenance;
 use App\Models\WorkOrderProcessHasWoDocument;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -168,14 +171,38 @@ class WorkOrderProcessController extends Controller
             }
         }
 
-        WorkOrderProcessHasReplacementOfPart::where('work_order_process_id', $workOrderProcess->id)->delete();
+        $posibbleWoProcessHasReplacements = WorkOrderProcessHasReplacementOfPart::where('work_order_process_id', $workOrderProcess->id)->pluck('id');
+        $updatedWoProcessHasReplacements = request()->replacement_id;
+
+        foreach ($posibbleWoProcessHasReplacements as $posibbleWoProcessHasReplacement) {
+            if (!in_array($posibbleWoProcessHasReplacement, $updatedWoProcessHasReplacements)) {
+                WorkOrderProcessHasReplacementOfPart::where('id', $posibbleWoProcessHasReplacement)->delete();
+            }
+        }
+
         foreach ($request->replacement_sparepart_id as $indexReplacementSparepartId => $replacementSparepartId) {
             if ($replacementSparepartId) {
+                $sparepart = Sparepart::find($replacementSparepartId);
+                $sparepart->update([
+                    'stock' => (int) $sparepart - $request->replacement_qty[$indexReplacementSparepartId]
+                ]);
+
                 WorkOrderProcessHasReplacementOfPart::create([
                     'work_order_process_id' => $workOrderProcess->id,
                     'sparepart_id' => $replacementSparepartId,
                     'price' => $request->replacement_price[$indexReplacementSparepartId],
                     'amount' => $request->replacement_amount[$indexReplacementSparepartId],
+                    'qty' => $request->replacement_qty[$indexReplacementSparepartId],
+                ]);
+
+                DB::table('sparepart_trace')->insert([
+                    'qty' => $request->qty,
+                    'sparepart_id' => $replacementSparepartId,
+                    'note' => 'Work Order Process',
+                    'no_referensi' => $workOrderProcess->code,
+                    'type' => 'Out',
+                    'user_id' => Auth::user()->id,
+                    'created_at' => date("Y-m-d H:i:s"),
                 ]);
             }
         }
@@ -222,7 +249,7 @@ class WorkOrderProcessController extends Controller
         $workOrderProcesess = WorkOrderProcess::find($workOrderProcesessId);
         $workOrder = WorkOrder::find($workOrderId);
         $vendors = Vendor::select('id', 'name_vendor')->get();
-        $spareparts = Sparepart::get();
+        $spareparts = Sparepart::where('stock', '>', 0)->get();
 
         return view('work-order-process.wo-process-wo', [
             'workOrder' => $workOrder,
@@ -249,5 +276,24 @@ class WorkOrderProcessController extends Controller
             'employees' => Employee::get(),
             'readonly' => true
         ]);
+    }
+
+    public function woProcessPrint($workOrderId, $workOrderProcesessId)
+    {
+        $workOrderProcesess = WorkOrderProcess::find($workOrderProcesessId);
+        $workOrder = WorkOrder::find($workOrderId);
+        $vendors = Vendor::select('id', 'name_vendor')->get();
+        $spareparts = Sparepart::get();
+
+        $pdf = Pdf::loadView('work-order-process.wo-process-wo-print', [
+            'workOrder' => $workOrder,
+            'workOrderProcesess' => $workOrderProcesess,
+            'vendors' => $vendors,
+            'spareparts' => $spareparts,
+            'employees' => Employee::get(),
+            'readonly' => true
+        ]);
+
+        return $pdf->stream();
     }
 }

@@ -29,4 +29,17 @@ class EquipmentController extends Controller
                 ->first()
         ]);
     }
+
+    public function barcode(string $barcode)
+    {
+        return response()->json([
+            'data' => Equipment::with('nomenklatur')
+                ->with('equipment_category')
+                ->with('vendor')
+                ->with('equipment_location')
+                ->whereIn('barcode', [$barcode])
+                ->get()
+                ->first()
+        ]);
+    }
 }
