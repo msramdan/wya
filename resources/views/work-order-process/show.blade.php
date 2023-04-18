@@ -44,6 +44,34 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modalHistoryWoProcess" tabindex="-1" aria-labelledby="modalHistoryWoProcessLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalHistoryWoProcessLabel">History Wo Process</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Status WO</th>
+                                <th>Updated By</th>
+                                <th>Date Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyHistoryProcess">
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('css-libs')
@@ -109,11 +137,17 @@
                     data: 'status',
                     render: function(datum, type, row) {
                         if (row.status != 'finished') {
-                            return `<div class="d-flex align-items-center justify-content-center"><a href="/panel/work-order-processes/${row.work_order_id}/${row.id}" class="btn btn-sm btn-primary d-flex align-items-center" style="width: fit-content"><span class="material-symbols-outlined"> electric_bolt</span> Process </a> </div>`;
+                            $htmlEl = '<div class="d-flex align-items-center justify-content-center" style="gap: 5px">';
+                            $htmlEl += `<div class="d-flex align-items-center justify-content-center"><a href="/panel/work-order-processes/${row.work_order_id}/${row.id}" class="btn btn-sm btn-primary d-flex align-items-center" style="width: fit-content"><span class="material-symbols-outlined"> electric_bolt</span> Process </a> </div>`;
+                            $htmlEl += `<a href="#" onclick="showModalHistory(${row.id})" class="btn btn-sm btn-secondary d-flex align-items-center w-fit"><span class="material-symbols-outlined">view_timeline</span> History</a>`;
+                            $htmlEl += '</div>';
+
+                            return $htmlEl;
                         } else {
                             $htmlEl = '<div class="d-flex align-items-center justify-content-center" style="gap: 5px">';
                             $htmlEl += `<a href="/panel/work-order-processes/${row.work_order_id}/${row.id}/info" class="btn btn-info btn-sm d-flex align-items-center w-fit"><span class="material-symbols-outlined"> description </span> Detail</a>`;
                             $htmlEl += `<a href="/panel/work-order-processes/${row.work_order_id}/${row.id}/print" target="_blank" class="btn btn-dark btn-sm d-flex align-items-center w-fit"><span class="material-symbols-outlined"> print </span> Print</a> `;
+                            $htmlEl += `<a href="#" onclick="showModalHistory(${row.id})" class="btn btn-sm btn-secondary d-flex align-items-center w-fit"><span class="material-symbols-outlined">view_timeline</span> History</a>`;
                             $htmlEl += '</div>';
 
                             return $htmlEl;
@@ -122,5 +156,40 @@
                 },
             ],
         });
+    </script>
+    <script>
+        function showModalHistory(woProcessId) {
+            const modalHistory = new bootstrap.Modal(document.getElementById('modalHistoryWoProcess'));
+            modalHistory.show();
+
+            fetch(`/api/wo-process/${woProcessId}/history`)
+                .then((res) => res.json())
+                .then((response) => {
+                    const tbodyHistoryProcessElement = document.getElementById('tbodyHistoryProcess');
+                    tbodyHistoryProcessElement.innerHTML = '';
+
+                    if (response.data.length > 0) {
+                        response.data.forEach((data) => {
+                            tbodyHistoryProcessElement.insertAdjacentHTML('beforeend',
+                                `
+                                    <tr>
+                                        <td><span class="badge bg-${data.status_wo_process == 'finished' ? 'success' : 'info'}">${data.status_wo_process}</span></td>
+                                        <td>${data.updated_by.name}</td>
+                                        <td>${data.date_time}</td>
+                                    </tr>
+                                `
+                            );
+                        });
+                    } else {
+                        tbodyHistoryProcessElement.insertAdjacentHTML('beforeend',
+                            `
+                                <tr>
+                                    <td colspan="3" style="text-align: center">No Data</td>
+                                </tr>
+                            `
+                        );
+                    }
+                });
+        }
     </script>
 @endpush

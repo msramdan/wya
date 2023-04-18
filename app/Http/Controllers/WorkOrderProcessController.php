@@ -8,6 +8,7 @@ use App\Models\Employee;
 use App\Models\Sparepart;
 use App\Models\User;
 use App\Models\Vendor;
+use App\Models\WoProcessHistory;
 use App\Models\WorkOrder;
 use App\Models\WorkOrderProcess;
 use App\Models\WorkOrderProcessHasCalibrationPerformance;
@@ -241,6 +242,13 @@ class WorkOrderProcessController extends Controller
                 }
             }
         }
+
+        WoProcessHistory::create([
+            'wo_process_id' => $workOrderProcess->id,
+            'status_wo_process' => $workOrderProcess->status,
+            'date_time' => date('Y-m-d H:i:s'),
+            'updated_by' => Auth::user()->id
+        ]);
 
         Alert::toast('The Work Order Process status was updated successfully.', 'success');
         return redirect('/panel/work-order-processes/' . $workOrder->id);
