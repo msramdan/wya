@@ -45,4 +45,14 @@ class WorkOrderProcess extends Model
     {
         return $this->hasMany(WorkOrderProcessHasWoDocument::class, 'work_order_process_id', 'id');
     }
+
+    public function workExecutorTechnician()
+    {
+        return $this->belongsTo(Employee::class, 'work_executor_technician_id', 'id');
+    }
+
+    public function workExecutorVendor()
+    {
+        return $this->belongsTo(Employee::class, 'work_executor_vendor_id', 'id');
+    }
 }

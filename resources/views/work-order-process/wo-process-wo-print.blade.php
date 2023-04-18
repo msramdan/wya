@@ -1,434 +1,568 @@
-@extends('layouts.app')
+<style>
+    @page {
+        margin: 37.5px;
+    }
 
-@section('title', __('Work Order Procesess'))
+    body {
+        margin: 0px;
+    }
 
-@section('content')
-    <div class="page-content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">{{ __('Work Order Procesess') }}</h4>
-                        <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="index.html">{{ __('Dashboard') }}</a></li>
-                                <li class="breadcrumb-item active">{{ __('Work Order Procesess') }}</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    @if ($errors->any())
-                        <div class="card">
-                            <div class="card-header bg-danger">
-                                <h3 class="text-white">Error Validation</h3>
-                            </div>
-                            <div class="card-body">
-                                <ul style="list-style: circle;">
-                                    @foreach ($errors->all() as $error)
-                                        <li class="text-danger" style="font-size: 1rem">{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
+    * {
+        font-family: DejaVu Sans !important;
+    }
+
+    table {
+        width: 100%;
+        table-layout: fixed;
+        border-collapse: collapse;
+    }
+
+    td {
+        border: 1px solid #000;
+        height: 15px;
+        font-size: .7rem;
+        padding-left: 6px;
+        padding-right: 6px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+    }
+
+    td.cell-head {
+        height: 30px;
+        color: #FFF;
+        text-align: center;
+        font-size: .8rem;
+    }
+
+    .bg-primary {
+        background: #84A3CF;
+    }
+
+    .bold {
+        font-weight: bold;
+    }
+
+    .check {
+        font-size: 1rem;
+        margin-left: 2px;
+        color: #000 !important;
+    }
+</style>
+
+<table>
+    <tr>
+        <td style="max-width: 25%" colspan="3" rowspan="4">Lembar Kerja</td>
+        <td class="bold" style="max-width: 25%;" colspan="3">Inspection Preventive Maintenance
+
+            @if ($workOrder->type_wo == 'Inspection and Preventive Maintenance')
+                <span class="check">&#10004;</span>
+            @endif
+        </td>
+        <td style="max-width: 25%" colspan="3" rowspan="4">{{ $workOrder->equipment->serial_number }} | {{ $workOrder->equipment->manufacturer }} | {{ $workOrder->equipment->type }}</td>
+        <td style="max-width: 25%" colspan="3">Tanggal: {{ $workOrderProcesess->work_date }}</td>
+    </tr>
+    <tr>
+        <td class="bold" colspan="3">Kalibrasi
+
+            @if ($workOrder->type_wo == 'Calibration')
+                <span class="check">&#10004;</span>
+            @endif
+
+        </td>
+        <td colspan="3" rowspan="3">
+        </td>
+    </tr>
+    <tr>
+        <td class="bold" colspan="3">Service & Repair
+
+            @if ($workOrder->type_wo == 'Service')
+                <span class="check">&#10004;</span>
+            @endif
+
+        </td>
+    </tr>
+    <tr>
+        <td class="bold" colspan="3">Training
+
+            @if ($workOrder->type_wo == 'Training')
+                <span class="check">&#10004;</span>
+            @endif
+
+        </td>
+    </tr>
+    <tr>
+        <td colspan="6">Nama Institusi :
+
+            @if ($workOrderProcesess->executor == 'technician')
+                {{ $workOrderProcesess->workExecutorTechnician->name }}
+            @else
+                {{ $workOrderProcesess->workExecutorVendor->name_vendor }}
+            @endif
+        </td>
+        <td colspan="6">Merk : {{ $workOrder->equipment->manufacturer }}</td>
+    </tr>
+    <tr>
+        <td colspan="6">Lokasi Peralatan : {{ $workOrder->equipment->equipment_location->location_name }}</td>
+        <td colspan="6">Type : {{ $workOrder->equipment->type }}</td>
+    </tr>
+    <tr>
+        <td colspan="6">Merk/Type : {{ $workOrder->equipment->manufacturer }}/{{ $workOrder->equipment->type }}</td>
+        <td colspan="6">SN Peralatan : {{ $workOrder->equipment->serial_number }}</td>
+    </tr>
+    <tr>
+        <td colspan="6">No. Inventory : {{ $workOrder->equipment->serial_number }}</td>
+        <td colspan="6">Barcode : {{ $workOrder->equipment->barcode }}</td>
+    </tr>
+    <tr>
+        <td class="cell-head bg-primary" colspan="12">Keluhan</td>
+    </tr>
+    <tr>
+        <td colspan="12" style="height: 75px; vertical-align: text-top">{{ $workOrder->note }}</td>
+    </tr>
+    <tr>
+        <td class="cell-head bg-primary" colspan="6">Kondisi Lingkungan</td>
+        <td class="cell-head bg-primary" colspan="6">Kondisi Kelistrikan</td>
+    </tr>
+    <tr>
+        <td colspan="6">Suhu Ruangan : {{ $workOrderProcesess->final_temperature }} °C</td>
+        <td colspan="6">Tegangan Jala-Jala : {{ $workOrderProcesess->mesh_voltage }} V</td>
+    </tr>
+    <tr>
+        <td colspan="6">Kelembaban : {{ $workOrderProcesess->final_humidity }} %</td>
+        <td colspan="6">UPS : {{ $workOrderProcesess->ups }} V</td>
+    </tr>
+    <tr>
+        <td colspan="6">Lain-Lain :</td>
+        <td colspan="6"></td>
+    </tr>
+    <tr>
+        <td class="cell-head bg-primary" colspan="6">Pemeriksaan Keamanan Listrik</td>
+        <td class="cell-head bg-primary" colspan="6">Pemeriksaan Keamanan Lain</td>
+    </tr>
+    <tr>
+        <td colspan="6">Grounding Resistence : {{ $workOrderProcesess->grounding }} Ω </td>
+        <td colspan="6">Penempatan Alat :</td>
+    </tr>
+    <tr>
+        <td colspan="6">Arus Bocor : {{ $workOrderProcesess->leakage_electric }} uA </td>
+        <td colspan="6">Kondisi Roda/Trolly :</td>
+    </tr>
+    <tr>
+        <td class="cell-head bg-primary" colspan="4">Pemeriksaan Kinerja Alat</td>
+        <td class="cell-head bg-primary" colspan="2">Setting</td>
+        <td class="cell-head bg-primary" colspan="3">Terukur</td>
+        <td class="cell-head bg-primary" colspan="1">Nilai Acuan</td>
+        <td class="cell-head bg-primary" colspan="1">Baik</td>
+        <td class="cell-head bg-primary" colspan="1">Tidak</td>
+    </tr>
+    @forelse ($workOrderProcesess->calibrationPerformance as $calibrationPerformance)
+        <tr>
+            <td colspan="4">{{ $calibrationPerformance->tool_performance_check }}</td>
+            <td colspan="2">{{ $calibrationPerformance->setting }}</td>
+            <td colspan="3">{{ $calibrationPerformance->measurable }}</td>
+            <td colspan="1">{{ $calibrationPerformance->reference_value }}</td>
+            <td colspan="1" style="vertical-align: middle; text-align: center">
+                @if ($calibrationPerformance->is_good)
+                    <span class="check">&#10004;</span>
+                @endif
+            </td>
+            <td colspan="1" style="vertical-align: middle; text-align: center">
+                @if (!$calibrationPerformance->is_good)
+                    <span class="check">&#10004;</span>
+                @endif
+            </td>
+        </tr>
+    @empty
+        <tr>
+            <td colspan="4"></td>
+            <td colspan="2"></td>
+            <td colspan="3"></td>
+            <td colspan="1"></td>
+            <td colspan="1"></td>
+            <td colspan="1"></td>
+        </tr>
+    @endforelse
+    <tr>
+        <td class="cell-head bg-primary" colspan="6">Hasil Pemeriksaan Kinerja :</td>
+        <td class="cell-head bg-primary" colspan="4">Layak Pakai</td>
+        <td class="cell-head bg-primary" colspan="2">Tidak Layak Pakai</td>
+    </tr>
+    <tr>
+        <td colspan="6"></td>
+        <td colspan="4" style="vertical-align: middle; text-align: center">
+            @if ($workOrderProcesess->calibration_performance_is_feasible_to_use)
+                <span class="check">&#10004;</span>
+            @endif
+        </td>
+        <td colspan="2" style="vertical-align: middle; text-align: center">
+            @if (!$workOrderProcesess->calibration_performance_is_feasible_to_use)
+                <span class="check">&#10004;</span>
+            @endif
+        </td>
+    </tr>
+    <tr>
+        <td class="cell-head bg-primary" style="text-align: right" colspan="6">Harga Kalibrasi</td>
+        <td class="cell-head bg-primary" style="text-align: right" colspan="6">Harga Service</td>
+    </tr>
+    <tr>
+        <td colspan="6" style="text-align: right">{{ number_format($workOrderProcesess->calibration_performance_calibration_price, 0, '.', '.') }}</td>
+        <td colspan="6" style="text-align: right">{{ number_format($workOrderProcesess->replacement_of_part_service_price, 0, '.', '.') }}</td>
+    </tr>
+    <tr>
+        <td class="cell-head bg-primary" colspan="8">Pemeriksaan Fisik</td>
+        <td class="cell-head bg-primary" colspan="4">Kebersihan</td>
+    </tr>
+    <tr>
+        <td class="cell-head bg-primary" colspan="5"></td>
+        <td class="cell-head bg-primary" colspan="1">Baik</td>
+        <td class="cell-head bg-primary" colspan="3">Rusak Ringan</td>
+        <td class="cell-head bg-primary" colspan="1">Rusak Berat</td>
+        <td class="cell-head bg-primary" colspan="1">Bersih</td>
+        <td class="cell-head bg-primary" colspan="1">Kotor</td>
+    </tr>
+
+    @forelse ($workOrderProcesess->physicalChecks as $physicalCheck)
+        <tr>
+            <td colspan="5">{{ $physicalCheck->physical_check }}</td>
+            <td colspan="1" style="vertical-align: middle; text-align: center">
+                @if ($physicalCheck->physical_health == 'good')
+                    <span class="check">&#10004;</span>
+                @endif
+            </td>
+            <td colspan="3" style="vertical-align: middle; text-align: center">
+                @if ($physicalCheck->physical_health == 'minor damage')
+                    <span class="check">&#10004;</span>
+                @endif
+            </td>
+            <td colspan="1" style="vertical-align: middle; text-align: center">
+                @if ($physicalCheck->physical_health == 'major damage')
+                    <span class="check">&#10004;</span>
+                @endif
+            </td>
+            <td colspan="1" style="vertical-align: middle; text-align: center">
+                @if ($physicalCheck->physical_cleanliness == 'clean')
+                    <span class="check">&#10004;</span>
+                @endif
+            </td>
+            <td colspan="1" style="vertical-align: middle; text-align: center">
+                @if ($physicalCheck->physical_cleanliness == 'dirty')
+                    <span class="check">&#10004;</span>
+                @endif
+            </td>
+        </tr>
+    @empty
+        <tr>
+            <td colspan="5"></td>
+            <td colspan="1"></td>
+            <td colspan="3"></td>
+            <td colspan="1"></td>
+            <td colspan="1"></td>
+            <td colspan="1"></td>
+        </tr>
+    @endforelse
+    <tr>
+        <td class="cell-head bg-primary" colspan="6">Pemeriksaan Fungsi Alat</td>
+        <td class="cell-head bg-primary" colspan="6">Pemeriksaan Kelengkapan Alat</td>
+    </tr>
+    <tr>
+        <td class="cell-head bg-primary" colspan="3"></td>
+        <td class="cell-head bg-primary" colspan="1">Baik</td>
+        <td class="cell-head bg-primary" colspan="1">Tidak</td>
+        <td class="cell-head bg-primary" colspan="1">N/A</td>
+        <td class="cell-head bg-primary" colspan="3"></td>
+        <td class="cell-head bg-primary" colspan="1">Baik</td>
+        <td class="cell-head bg-primary" colspan="1">Tidak</td>
+        <td class="cell-head bg-primary" colspan="1">N/A</td>
+    </tr>
+
+    @if (count($workOrderProcesess->functionChecks) > count($workOrderProcesess->equipmentInspectionChecks))
+        @forelse ($workOrderProcesess->functionChecks as $indexFuncCheck => $functionCheck)
+            <tr>
+                <td colspan="3">{{ $functionCheck->information }}</td>
+                <td colspan="1" style="vertical-align: middle; text-align: center">
+                    @if ($functionCheck->status == 'Yes')
+                        <span class="check">&#10004;</span>
                     @endif
-                </div>
-                <div class="col-12">
-                    <div class="row">
-                        <form action="{{ route('work-order-processes.update', $workOrderProcesess->id) }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            @method('PUT')
+                </td>
+                <td colspan="1" style="vertical-align: middle; text-align: center">
+                    @if ($functionCheck->status == 'No')
+                        <span class="check">&#10004;</span>
+                    @endif
+                </td>
+                <td colspan="1" style="vertical-align: middle; text-align: center">
+                    @if ($functionCheck->status == 'NA')
+                        <span class="check">&#10004;</span>
+                    @endif
+                </td>
+                <td colspan="3">
+                    @if (isset($workOrderProcesess->equipmentInspectionChecks[$indexFuncCheck]))
+                        {{ $workOrderProcesess->equipmentInspectionChecks[$indexFuncCheck]->information }}
+                    @endif
+                </td>
+                <td colspan="1" style="vertical-align: middle; text-align: center">
+                    @if (isset($workOrderProcesess->equipmentInspectionChecks[$indexFuncCheck]))
+                        @if ($workOrderProcesess->equipmentInspectionChecks[$indexFuncCheck]->status == 'Yes')
+                            <span class="check">&#10004;</span>
+                        @endif
+                    @endif
+                </td>
+                <td colspan="1" style="vertical-align: middle; text-align: center">
+                    @if (isset($workOrderProcesess->equipmentInspectionChecks[$indexFuncCheck]))
+                        @if ($workOrderProcesess->equipmentInspectionChecks[$indexFuncCheck]->status == 'No')
+                            <span class="check">&#10004;</span>
+                        @endif
+                    @endif
+                </td>
+                <td colspan="1" style="vertical-align: middle; text-align: center">
+                    @if (isset($workOrderProcesess->equipmentInspectionChecks[$indexFuncCheck]))
+                        @if ($workOrderProcesess->equipmentInspectionChecks[$indexFuncCheck]->status == 'NA')
+                            <span class="check">&#10004;</span>
+                        @endif
+                    @endif
+                </td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="3"></td>
+                <td colspan="1"></td>
+                <td colspan="1"></td>
+                <td colspan="1"></td>
+                <td colspan="3"></td>
+                <td colspan="1"></td>
+                <td colspan="1"></td>
+                <td colspan="1"></td>
+            </tr>
+        @endforelse
+    @else
+        @forelse ($workOrderProcesess->equipmentInspectionChecks as $indexEquipmentCheck => $equipmentCheck)
+            <tr>
+                <td colspan="3">
+                    @if (isset($workOrderProcesess->functionChecks[$indexEquipmentCheck]))
+                        {{ $workOrderProcesess->functionChecks[$indexEquipmentCheck]->information }}
+                    @endif
+                </td>
+                <td colspan="1" style="vertical-align: middle; text-align: center">
+                    @if (isset($workOrderProcesess->functionChecks[$indexEquipmentCheck]))
+                        @if ($workOrderProcesess->functionChecks[$indexEquipmentCheck]->status == 'Yes')
+                            <span class="check">&#10004;</span>
+                        @endif
+                    @endif
+                </td>
+                <td colspan="1" style="vertical-align: middle; text-align: center">
+                    @if (isset($workOrderProcesess->functionChecks[$indexEquipmentCheck]))
+                        @if ($workOrderProcesess->functionChecks[$indexEquipmentCheck]->status == 'No')
+                            <span class="check">&#10004;</span>
+                        @endif
+                    @endif
+                </td>
+                <td colspan="1" style="vertical-align: middle; text-align: center">
+                    @if (isset($workOrderProcesess->functionChecks[$indexEquipmentCheck]))
+                        @if ($workOrderProcesess->functionChecks[$indexEquipmentCheck]->status == 'NA')
+                            <span class="check">&#10004;</span>
+                        @endif
+                    @endif
+                </td>
+                <td colspan="3">{{ $equipmentCheck->information }}</td>
+                <td colspan="1" style="vertical-align: middle; text-align: center">
+                    @if ($equipmentCheck->status == 'Yes')
+                        <span class="check">&#10004;</span>
+                    @endif
+                </td>
+                <td colspan="1" style="vertical-align: middle; text-align: center">
+                    @if ($equipmentCheck->status == 'No')
+                        <span class="check">&#10004;</span>
+                    @endif
+                </td>
+                <td colspan="1" style="vertical-align: middle; text-align: center">
+                    @if ($equipmentCheck->status == 'NA')
+                        <span class="check">&#10004;</span>
+                    @endif
+                </td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="3"></td>
+                <td colspan="1"></td>
+                <td colspan="1"></td>
+                <td colspan="1"></td>
+                <td colspan="3"></td>
+                <td colspan="1"></td>
+                <td colspan="1"></td>
+                <td colspan="1"></td>
+            </tr>
+        @endforelse
+    @endif
 
-                            @include('work-order-process.includes.form-work-order-data')
 
-                            <div class="col-12">
-                                <div class="row">
-                                    @include('work-order-process.includes.form-equipment')
-                                    @include('work-order-process.includes.form-location')
-                                </div>
-                            </div>
+    <tr>
+        <td class="cell-head bg-primary" colspan="6">Pemeliharaan Alat</td>
+        <td class="cell-head bg-primary" colspan="6">Pergantian Sparepart & Konsumable</td>
+    </tr>
+    <tr>
+        <td class="cell-head bg-primary" colspan="3"></td>
+        <td class="cell-head bg-primary" colspan="1">Baik</td>
+        <td class="cell-head bg-primary" colspan="1">Tidak</td>
+        <td class="cell-head bg-primary" colspan="1">NA</td>
+        <td class="cell-head bg-primary" colspan="3"></td>
+        <td class="cell-head bg-primary" colspan="1">Qty</td>
+        <td class="cell-head bg-primary" colspan="1">Harga</td>
+        <td class="cell-head bg-primary" colspan="1">Total</td>
+    </tr>
 
-                            @include('work-order-process.includes.form-electrical-safety')
+    @if (count($workOrderProcesess->toolMaintenances) > count($workOrderProcesess->replacementOfParts))
+        @forelse ($workOrderProcesess->toolMaintenances as $indexToolMaintenance => $toolMaintenance)
+            <tr>
+                <td colspan="3">{{ $toolMaintenance->information }}</td>
+                <td colspan="1" style="vertical-align: middle; text-align: center">
+                    @if ($toolMaintenance->status == 'Yes')
+                        <span class="check">&#10004;</span>
+                    @endif
+                </td>
+                <td colspan="1" style="vertical-align: middle; text-align: center">
+                    @if ($toolMaintenance->status == 'No')
+                        <span class="check">&#10004;</span>
+                    @endif
+                </td>
+                <td colspan="1" style="vertical-align: middle; text-align: center">
+                    @if ($toolMaintenance->status == 'NA')
+                        <span class="check">&#10004;</span>
+                    @endif
+                </td>
+                <td colspan="3">
+                    @if (isset($workOrderProcesess->replacementOfParts[$indexToolMaintenance]))
+                        {{ $workOrderProcesess->replacementOfParts[$indexToolMaintenance]->sparepart->sparepart_name }}
+                    @endif
+                </td>
+                <td colspan="1" style="vertical-align: middle; text-align: center">
+                    @if (isset($workOrderProcesess->replacementOfParts[$indexToolMaintenance]))
+                        {{ number_format($workOrderProcesess->replacementOfParts[$indexToolMaintenance]->qty, 0, '.', '.') }}
+                    @endif
+                </td>
+                <td colspan="1" style="vertical-align: middle; text-align: center">
+                    @if (isset($workOrderProcesess->replacementOfParts[$indexToolMaintenance]))
+                        {{ number_format($workOrderProcesess->replacementOfParts[$indexToolMaintenance]->price, 0, '.', '.') }}
+                    @endif
+                </td>
+                <td colspan="1" style="vertical-align: middle; text-align: center">
+                    @if (isset($workOrderProcesess->replacementOfParts[$indexToolMaintenance]))
+                        {{ number_format($workOrderProcesess->replacementOfParts[$indexToolMaintenance]->amount, 0, '.', '.') }}
+                    @endif
+                </td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="3"></td>
+                <td colspan="1"></td>
+                <td colspan="1"></td>
+                <td colspan="3"></td>
+                <td colspan="1"></td>
+                <td colspan="1"></td>
+                <td colspan="1"></td>
+            </tr>
+        @endforelse
+    @else
+        @forelse ($workOrderProcesess->replacementOfParts as $indexReplacementOfPart => $replacementOfPart)
+            <tr>
+                <td colspan="3">
+                    @if (isset($workOrderProcesess->toolMaintenances[$indexReplacementOfPart]))
+                        {{ $workOrderProcesess->toolMaintenances[$indexReplacementOfPart]->information }}
+                    @endif
+                </td>
+                <td colspan="1" style="vertical-align: middle; text-align: center">
+                    @if (isset($workOrderProcesess->toolMaintenances[$indexReplacementOfPart]))
+                        @if ($workOrderProcesess->toolMaintenances[$indexReplacementOfPart]->status == 'Yes')
+                            <span class="check">&#10004;</span>
+                        @endif
+                    @endif
+                </td>
+                <td colspan="1" style="vertical-align: middle; text-align: center">
+                    @if (isset($workOrderProcesess->toolMaintenances[$indexReplacementOfPart]))
+                        @if ($workOrderProcesess->toolMaintenances[$indexReplacementOfPart]->status == 'No')
+                            <span class="check">&#10004;</span>
+                        @endif
+                    @endif
+                </td>
+                <td colspan="1" style="vertical-align: middle; text-align: center">
+                    @if (isset($workOrderProcesess->toolMaintenances[$indexReplacementOfPart]))
+                        @if ($workOrderProcesess->toolMaintenances[$indexReplacementOfPart]->status == 'NA')
+                            <span class="check">&#10004;</span>
+                        @endif
+                    @endif
+                </td>
+                <td colspan="3">{{ $replacementOfPart->sparepart->sparepart_name }}</td>
+                <td colspan="1" style="vertical-align: middle; text-align: center">
+                    {{ number_format($replacementOfPart->qty, 0, '.', '.') }}
+                </td>
+                <td colspan="1" style="vertical-align: middle; text-align: center">
+                    {{ number_format($replacementOfPart->price, 0, '.', '.') }}
+                </td>
+                <td colspan="1" style="vertical-align: middle; text-align: center">
+                    {{ number_format($replacementOfPart->amount, 0, '.', '.') }}
+                </td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="3"></td>
+                <td colspan="1"></td>
+                <td colspan="1"></td>
+                <td colspan="3"></td>
+                <td colspan="1"></td>
+                <td colspan="1"></td>
+                <td colspan="1"></td>
+            </tr>
+        @endforelse
+    @endif
 
-                            @include('work-order-process.includes.form-calibration-performance')
 
-                            @include('work-order-process.includes.form-physical-check')
+    <tr>
+        <td class="cell-head bg-primary" colspan="4">Hasil Pemeriksaan</td>
+        <td class="cell-head bg-primary" colspan="5">Alat Berfungsi Dengan Baik</td>
+        <td class="cell-head bg-primary" colspan="3">Alat Tidak Dapat Digunakan</td>
+    </tr>
+    <tr>
+        <td class="cell-head bg-primary" colspan="4">Hasil Maintenance</td>
+        <td class="cell-head bg-primary" colspan="5">Alat Berfungsi Dengan Baik</td>
+        <td class="cell-head bg-primary" colspan="3">Alat Tidak Dapat Digunakan</td>
+    </tr>
+    <tr>
+        <td class="cell-head bg-primary" rowspan="3" colspan="4">Rekomendasi Hasil Pekerjaan</td>
+        <td colspan="5">Alat Dapat Dipergunakan Dengan Baik
+            @if ($workOrderProcesess->tools_can_be_used_well)
+                <span class="check">&#10004;</span>
+            @endif
+        </td>
+        <td colspan="3" style="color: red">Alat Tidak Dapat Digunakan
 
-                            @include('work-order-process.includes.form-function-check')
-
-                            @include('work-order-process.includes.form-equipment-inspection-check')
-
-                            @include('work-order-process.includes.form-tool-maintenance')
-
-                            @include('work-order-process.includes.form-replacement-of-parts')
-
-                            @include('work-order-process.includes.form-work-order-documents')
-
-                            @include('work-order-process.includes.form-inspection-recommendations')
-
-                            @include('work-order-process.includes.form-status')
-
-                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        @if (!$readonly)
-                                            <input type="submit" class="w-100 btn btn-primary" name="status" value="Doing"> <br>
-                                            <input type="submit" class="w-100 mt-3 btn btn-success" name="status" value="Finish"><br>
-                                        @endif
-                                        <a href="{{ url('/panel/work-order-processes/' . $workOrder->id) }}"><button type="button" class="btn mt-4 btn-warning"><i class="fa fa-arrow-left"></i> Back To List WO</button></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-@endsection
-
-@push('js-scripts')
-    <script>
-        $('#executor').on("select2:select", function(e) {
-            if ($('#executor').select2('val') == 'vendor_or_supplier') {
-                $('#work_executor_vendor_id').parent().hasClass('d-none') ? $('#work_executor_vendor_id').parent().removeClass('d-none') : '';
-                !$('#work_executor_technician_id').parent().hasClass('d-none') ? $('#work_executor_technician_id').parent().addClass('d-none') : '';
-            } else if ($('#executor').select2('val') == 'technician') {
-                $('#work_executor_technician_id').parent().hasClass('d-none') ? $('#work_executor_technician_id').parent().removeClass('d-none') : '';
-                !$('#work_executor_vendor_id').parent().hasClass('d-none') ? $('#work_executor_vendor_id').parent().addClass('d-none') : '';
-            }
-        });
-
-        function addRowPerformanceCalibration(currentRowHtml) {
-            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length - 1].dataset.index);
-
-            currentRowHtml.parentElement.insertAdjacentHTML('beforeend',
-                `
-                <tr data-index="${lastRowIndex + 1}">
-                        <td>
-                            <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                <input autocomplete="off" type="text" autocomplete="off" placeholder="Tool Performance Check" name="calibration_performance_tool_performance_check[${lastRowIndex + 1}]" class="form-control" id="tool_performance_check_${lastRowIndex + 1}">
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                <input autocomplete="off" type="text" autocomplete="off" placeholder="Setting" name="calibration_performance_setting[${lastRowIndex + 1}]" class="form-control" id="setting_${lastRowIndex + 1}">
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                <input autocomplete="off" type="text" autocomplete="off" placeholder="Measurable" name="calibration_performance_measurable[${lastRowIndex + 1}]" class="form-control" id="measurable_${lastRowIndex + 1}">
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                <input autocomplete="off" type="text" autocomplete="off" placeholder="Reference Value" name="calibration_performance_reference_value[${lastRowIndex + 1}]" class="form-control" id="reference_value_${lastRowIndex + 1}">
-                            </div>
-                        </td>
-                        <td class="text-center">
-                            <div class="d-flex justify-content-center">
-                                <input type="radio" name="calibration_performance_is_good[${lastRowIndex + 1}]" class="form-check" value="1">
-                            </div>
-                        </td>
-                        <td class="text-center">
-                            <div class="d-flex justify-content-center">
-                                <input type="radio" name="calibration_performance_is_good[${lastRowIndex + 1}]" class="form-check" value="0">
-                            </div>
-                        </td>
-                    </tr>
-                `
-            );
-        }
-
-        function addRowPhysicalCheck(currentRowHtml) {
-            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length - 1].dataset.index);
-
-            currentRowHtml.parentElement.insertAdjacentHTML('beforeend',
-                `
-                <tr data-index="${lastRowIndex + 1}">
-                    <td>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
-                    </td>
-                    <td>
-                        <div class="form-group">
-                            <input autocomplete="off" type="text" placeholder="Physical Check" name="physical_check[${lastRowIndex + 1}]" class="form-control">
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        <div class="d-flex justify-content-center">
-                            <input type="radio" name="physical_health[${lastRowIndex + 1}]" class="form-check" value="good">
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        <div class="d-flex justify-content-center">
-                            <input type="radio" name="physical_health[${lastRowIndex + 1}]" class="form-check" value="minor damage">
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        <div class="d-flex justify-content-center">
-                            <input type="radio" name="physical_health[${lastRowIndex + 1}]" class="form-check" value="major damage">
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        <div class="d-flex justify-content-center">
-                            <input type="radio" name="physical_cleanliness[${lastRowIndex + 1}]" class="form-check" value="clean">
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        <div class="d-flex justify-content-center">
-                            <input type="radio" name="physical_cleanliness[${lastRowIndex + 1}]" class="form-check" value="dirty">
-                        </div>
-                    </td>
-                </tr>
-                `
-            );
-        }
-
-        function addRowFunctionCheck(currentRowHtml) {
-            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length - 1].dataset.index);
-
-            currentRowHtml.parentElement.insertAdjacentHTML('beforeend',
-                `
-                <tr data-index="${lastRowIndex + 1}">
-                    <td>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
-                    </td>
-                    <td>
-                        <div class="form-group">
-                            <input autocomplete="off" type="text" name="function_check_information[${lastRowIndex + 1}]" class="form-control" placeholder="Information" id="information_${lastRowIndex + 1}">
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        <div class="d-flex justify-content-center">
-                            <input type="radio" name="function_check_status[${lastRowIndex + 1}]" class="form-check" value="Yes">
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        <div class="d-flex justify-content-center">
-                            <input type="radio" name="function_check_status[${lastRowIndex + 1}]" class="form-check" value="No">
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        <div class="d-flex justify-content-center">
-                            <input type="radio" name="function_check_status[${lastRowIndex + 1}]" class="form-check" value="NA">
-                        </div>
-                    </td>
-                </tr>
-                `
-            );
-        }
-
-        function addRowEquipmentInspectionCheck(currentRowHtml) {
-            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length - 1].dataset.index);
-
-            currentRowHtml.parentElement.insertAdjacentHTML('beforeend',
-                `
-                <tr data-index="${lastRowIndex + 1}">
-                    <td>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
-                    </td>
-                    <td>
-                        <div class="form-group">
-                            <input autocomplete="off" type="text" name="equipment_inspect_information[${lastRowIndex + 1}]" class="form-control" placeholder="Information" id="equipment_inspect_information_${lastRowIndex + 1}">
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        <div class="d-flex justify-content-center">
-                            <input type="radio" name="equipment_inspect_status[${lastRowIndex + 1}]" class="form-check" value="Yes">
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        <div class="d-flex justify-content-center">
-                            <input type="radio" name="equipment_inspect_status[${lastRowIndex + 1}]" class="form-check" value="No">
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        <div class="d-flex justify-content-center">
-                            <input type="radio" name="equipment_inspect_status[${lastRowIndex + 1}]" class="form-check" value="NA">
-                        </div>
-                    </td>
-                </tr>
-                `
-            );
-        }
-
-        function addRowToolMaintenance(currentRowHtml) {
-            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length - 1].dataset.index);
-
-            currentRowHtml.parentElement.insertAdjacentHTML('beforeend',
-                `
-                <tr data-index="${lastRowIndex + 1}">
-                    <td>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
-                    </td>
-                    <td>
-                        <div class="form-group">
-                            <input autocomplete="off" type="text" name="tool_maintenance_information[${lastRowIndex + 1}]" class="form-control" placeholder="Information" id="tool_maintenance_information_${lastRowIndex + 1}">
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        <div class="d-flex justify-content-center">
-                            <input type="radio" name="tool_maintenance_status[${lastRowIndex + 1}]" class="form-check" value="Yes">
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        <div class="d-flex justify-content-center">
-                            <input type="radio" name="tool_maintenance_status[${lastRowIndex + 1}]" class="form-check" value="No">
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        <div class="d-flex justify-content-center">
-                            <input type="radio" name="tool_maintenance_status[${lastRowIndex + 1}]" class="form-check" value="NA">
-                        </div>
-                    </td>
-                </tr>
-                `
-            );
-        }
-
-        function addRowReplacementOfPart(currentRowHtml) {
-            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length - 1].dataset.index);
-            let existsNotSelectedRow = false;
-            let selectedSpareparts = Array.from(document.querySelectorAll('#col-replacement-of-parts select')).map((e) => {
-                if (!e.value) {
-                    alert('Please choose sparepart before adding new row');
-                    throw 'exit';
-                }
-
-                return e.value;
-            });
-
-            makeUniqueSelectSparepart();
-
-            currentRowHtml.parentElement.insertAdjacentHTML('beforeend',
-                `
-                <tr data-index="${lastRowIndex + 1}">
-                    <td>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="removeWoProcWo(this)"><i class="fa fa-trash"></i></button>
-                    </td>
-                    <td>
-                        <div class="form-group">
-                            <select onchange="loadStockSparepart(this)" name="replacement_sparepart_id[${lastRowIndex + 1}]" class="form-control" id="replacement_sparepart_id_${lastRowIndex + 1}" onchange="getSparepartInfo(${lastRowIndex + 1})">
-                                <option value="">--Choose Sparepart--</option>
-                                @foreach ($spareparts as $sparepart)
-                                    ${
-                                        !selectedSpareparts.includes('{{ $sparepart->id }}') ? 
-                                            '<option data-unit="{{ $sparepart->unit_item->code_unit }}" data-price="{{ $sparepart->estimated_price }}" data-stock="{{ $sparepart->stock }}" value="{{ $sparepart->id }}">{{ $sparepart->sparepart_name }}</option>'
-                                        :   ''
-                                    }
-                                @endforeach
-                            </select>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="form-group">
-                            <input autocomplete="off" type="number" step="any" name="replacement_price[${lastRowIndex + 1}]" placeholder="Price" class="form-control text-right" readonly id="replacement_price${lastRowIndex + 1}">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="form-group">
-                            <input autocomplete="off" type="number" name="replacement_stock[${lastRowIndex + 1}]" placeholder="Stock" class="form-control text-right" id="replacement_stock${lastRowIndex + 1}" readonly="">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="form-group">
-                            <input autocomplete="off" type="text" name="unit_stock[${lastRowIndex + 1}]" placeholder="Unit" class="form-control text-right" id="unit_stock${lastRowIndex + 1}" readonly="">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="form-group">
-                            <input autocomplete="off" onkeyup="generateAmountReplacementOfPart(this)" type="number" name="replacement_qty[${lastRowIndex + 1}]" placeholder="Qty" class="form-control text-right" id="replacement_qty${lastRowIndex + 1}">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="form-group">
-                            <input autocomplete="off" type="number" name="replacement_amount[${lastRowIndex + 1}]" placeholder="Amount" class="form-control text-right" id="replacement_amount${lastRowIndex + 1}" readonly>
-                        </div>
-                    </td>
-                </tr>
-                `
-            );
-        }
-
-        function generateAmountReplacementOfPart(qtyElement) {
-            const amountElement = qtyElement.parentElement.parentElement.nextElementSibling.querySelector('input');
-            const priceElement = qtyElement.parentElement.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.querySelector('input');
-
-            if (qtyElement.value && priceElement.value) {
-                amountElement.value = parseInt(priceElement.value) * parseInt(qtyElement.value);
-            }
-        }
-
-        function makeUniqueSelectSparepart() {
-            Array.from(document.querySelectorAll('#col-replacement-of-parts select')).forEach((currentSelectEl, index) => {
-                if (index != 0) {
-                    Array.from(currentSelectEl.children).forEach((optionCurrentSelectEl) => {
-                        Array.from(document.querySelectorAll('#col-replacement-of-parts select')).forEach((conditionalSelectEl) => {
-                            if (optionCurrentSelectEl.getAttribute('value') == conditionalSelectEl.value && optionCurrentSelectEl.getAttribute('value') != currentSelectEl.value) {
-                                optionCurrentSelectEl.remove();
-                            }
-                        });
-                    });
-                }
-            });
-        }
-
-        function addRowWoDocument(currentRowHtml) {
-            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length - 1].dataset.index);
-
-            currentRowHtml.parentElement.insertAdjacentHTML('beforeend',
-                `
-                <tr data-index="${lastRowIndex + 1}">
-                    <td>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
-                    </td>
-                    <td>
-                        <div class="form-group">
-                            <input placeholder="Document Name" type="text" name="wo_doc_document_name[${lastRowIndex + 1}]" class="form-control" id="document_name_${lastRowIndex + 1}">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="form-group">
-                            <input placeholder="Description" type="text" name="wo_doc_description[${lastRowIndex + 1}]" class="form-control" id="description_${lastRowIndex + 1}">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="form-group">
-                            <input type="file" name="wo_doc_file[${lastRowIndex + 1}]" class="form-control" id="file_${lastRowIndex + 1}">
-                        </div>
-                    </td>
-                </tr>
-                `
-            );
-        }
-
-        function loadStockSparepart(selectElement) {
-            makeUniqueSelectSparepart();
-
-            if (selectElement.value) {
-                const stock = selectElement.children[selectElement.selectedIndex].dataset.stock;
-                const price = selectElement.children[selectElement.selectedIndex].dataset.price;
-                const unit = selectElement.children[selectElement.selectedIndex].dataset.unit;
-
-                selectElement.parentElement.parentElement.nextElementSibling.querySelector('input').value = price;
-                selectElement.parentElement.parentElement.nextElementSibling.nextElementSibling.querySelector('input').value = stock;
-                selectElement.parentElement.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.querySelector('input').value = unit;
-            } else {
-                selectElement.parentElement.parentElement.nextElementSibling.querySelector('input').value = null;
-                selectElement.parentElement.parentElement.nextElementSibling.nextElementSibling.querySelector('input').value = null;
-                selectElement.parentElement.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.querySelector('input').value = null;
-            }
-
-            generateAmountReplacementOfPart(selectElement.parentElement.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.querySelector('input'));
-        }
-
-        function removeWoProcWo(el) {
-            el.parentElement.parentElement.remove();
-        }
-    </script>
-@endpush
+            @if ($workOrderProcesess->tool_cannot_be_used)
+                <span class="check">&#10004;</span>
+            @endif
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5" style="color: red">Alat Perlu Perbaikan
+            @if ($workOrderProcesess->tool_need_repair)
+                <span class="check">&#10004;</span>
+            @endif
+        </td>
+        <td colspan="3">Alat Dapat Dipergunakan Perlu Pergantian Asesoris
+            @if ($workOrderProcesess->tool_can_be_used_need_replacement_accessories)
+                <span class="check">&#10004;</span>
+            @endif
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5" style="color: red">Alat Perlu Kalibrasi
+            @if ($workOrderProcesess->tool_need_calibration)
+                <span class="check">&#10004;</span>
+            @endif
+        </td>
+        <td colspan="3" style="color: red">Alat Perlu Pemutihan
+            @if ($workOrderProcesess->tool_need_bleaching)
+                <span class="check">&#10004;</span>
+            @endif
+        </td>
+    </tr>
+    <tr>
+        <td colspan="12" style="height: 100px; vertical-align: text-top">Catatan</td>
+    </tr>
+</table>
