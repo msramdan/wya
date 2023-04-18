@@ -8,6 +8,7 @@ use App\Models\Employee;
 use App\Models\Sparepart;
 use App\Models\User;
 use App\Models\Vendor;
+use App\Models\WoProcessHistory;
 use App\Models\WorkOrder;
 use App\Models\WorkOrderProcess;
 use App\Models\WorkOrderProcessHasCalibrationPerformance;
@@ -174,6 +175,7 @@ class WorkOrderProcessController extends Controller
         $posibbleWoProcessHasReplacements = WorkOrderProcessHasReplacementOfPart::where('work_order_process_id', $workOrderProcess->id)->pluck('id');
         $updatedWoProcessHasReplacements = request()->replacement_id;
 
+
         foreach ($posibbleWoProcessHasReplacements as $posibbleWoProcessHasReplacement) {
             if (!in_array($posibbleWoProcessHasReplacement, $updatedWoProcessHasReplacements)) {
                 WorkOrderProcessHasReplacementOfPart::where('id', $posibbleWoProcessHasReplacement)->delete();
@@ -181,10 +183,11 @@ class WorkOrderProcessController extends Controller
         }
 
         foreach ($request->replacement_sparepart_id as $indexReplacementSparepartId => $replacementSparepartId) {
-            if ($replacementSparepartId) {
+            if ($replacementSparepartId && !isset(request()->replacement_id[$indexReplacementSparepartId])) {
+
                 $sparepart = Sparepart::find($replacementSparepartId);
                 $sparepart->update([
-                    'stock' => (int) $sparepart - $request->replacement_qty[$indexReplacementSparepartId]
+                    'stock' => (int) $sparepart->stock - $request->replacement_qty[$indexReplacementSparepartId]
                 ]);
 
                 WorkOrderProcessHasReplacementOfPart::create([
@@ -196,7 +199,7 @@ class WorkOrderProcessController extends Controller
                 ]);
 
                 DB::table('sparepart_trace')->insert([
-                    'qty' => $request->qty,
+                    'qty' => $request->replacement_qty[$indexReplacementSparepartId],
                     'sparepart_id' => $replacementSparepartId,
                     'note' => 'Work Order Process',
                     'no_referensi' => $workOrderProcess->code,
@@ -239,6 +242,13 @@ class WorkOrderProcessController extends Controller
                 }
             }
         }
+
+        WoProcessHistory::create([
+            'wo_process_id' => $workOrderProcess->id,
+            'status_wo_process' => $workOrderProcess->status,
+            'date_time' => date('Y-m-d H:i:s'),
+            'updated_by' => Auth::user()->id
+        ]);
 
         Alert::toast('The Work Order Process status was updated successfully.', 'success');
         return redirect('/panel/work-order-processes/' . $workOrder->id);
