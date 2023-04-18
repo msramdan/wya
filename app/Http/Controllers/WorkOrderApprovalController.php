@@ -73,11 +73,13 @@ class WorkOrderApprovalController extends Controller
                         }
                     }
 
-                    if ($displayAction) {
-                        return view('work-order-approvals.include.action', ['model' => $row]);
-                    } else {
-                        return '-';
-                    }
+                    $arrApprovalUsers = collect(json_decode($row->approval_users_id))->map(function ($row) {
+                        $row->user_name = User::find($row->user_id)->name;
+
+                        return $row;
+                    });
+
+                    return view('work-order-approvals.include.action', ['model' => $row, 'arrApprovalUsers' => $arrApprovalUsers, 'displayAction' => $displayAction]);
                 })
                 ->toJson();
         }
@@ -175,20 +177,34 @@ class WorkOrderApprovalController extends Controller
                 }
 
                 foreach ($workOrderSchedules as $workOrderSchedule) {
+                    $workOrderProcessCode = mt_rand(100000, 999999);
+
+                    while (WorkOrderProcess::where('code', $workOrderProcessCode)->count() > 0) {
+                        $workOrderProcessCode = mt_rand(100000, 999999);
+                    }
+
                     WorkOrderProcess::create([
                         'work_order_id' => $workOrder->id,
                         'schedule_date' => $workOrderSchedule['schedule_date'],
                         'start_date' => null,
+                        'code' => $workOrderProcessCode,
                         'end_date' => null,
                         'schedule_wo' => $workOrder->schedule_wo,
                         'status' => 'ready-to-start'
                     ]);
                 }
             } else if ($workOrder->category_wo == 'Non Rutin') {
+                $workOrderProcessCode = mt_rand(100000, 999999);
+
+                while (WorkOrderProcess::where('code', $workOrderProcessCode)->count() > 0) {
+                    $workOrderProcessCode = mt_rand(100000, 999999);
+                }
+
                 WorkOrderProcess::create([
                     'work_order_id' => $workOrder->id,
                     'schedule_date' => $workOrder->schedule_date,
                     'start_date' => null,
+                    'code' => $workOrderProcessCode,
                     'end_date' => null,
                     'schedule_wo' => null,
                     'status' => 'ready-to-start'
