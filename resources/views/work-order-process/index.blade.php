@@ -15,7 +15,6 @@
                                 <li class="breadcrumb-item active">{{ __('Work Order Procesess') }}</li>
                             </ol>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -33,8 +32,6 @@
                                             <th style="white-space: nowrap">{{ __('Type Wo') }}</th>
                                             <th style="white-space: nowrap">{{ __('Category Wo') }}</th>
                                             <th style="white-space: nowrap">{{ __('Schedule Date') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Actual Start Date') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Actual Finished Date') }}</th>
                                             <th style="white-space: nowrap">{{ __('Schedule Wo') }}</th>
                                             <th style="white-space: nowrap">{{ __('Note') }}</th>
                                             <th style="white-space: nowrap">{{ __('User') }}</th>
@@ -86,18 +83,6 @@
                     data: 'schedule_date',
                     render: function(datum, type, row) {
                         return row.schedule_date ? row.schedule_date : row.start_date;
-                    }
-                },
-                {
-                    data: 'actual_start_date',
-                    render: function(datum, type, row) {
-                        return row.actual_start_date ? row.actual_start_date : '-';
-                    }
-                },
-                {
-                    data: 'actual_end_date',
-                    render: function(datum, type, row) {
-                        return row.actual_end_date ? row.actual_end_date : '-';
                     }
                 },
                 {
