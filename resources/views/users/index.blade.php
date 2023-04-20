@@ -25,8 +25,7 @@
                     <div class="card">
                         <div class="card-header">
                             @can('department create')
-                                <a href="{{ route('users.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ __('Create a new user') }}</a>
+                                <a href="{{ route('users.create') }}" class="btn btn-md btn-primary"> <i class="mdi mdi-plus"></i> {{ __('Create a new user') }}</a>
                             @endcan
                         </div>
 
@@ -39,6 +38,7 @@
                                             <th>{{ __('Avatar') }}</th>
                                             <th>{{ __('Name') }}</th>
                                             <th>{{ __('Email') }}</th>
+                                            <th>{{ __('No HP') }}</th>
                                             <th>{{ __('Role') }}</th>
                                             <th>{{ __('Created At') }}</th>
                                             <th>{{ __('Updated At') }}</th>
@@ -86,6 +86,10 @@
                 {
                     data: 'email',
                     name: 'email'
+                },
+                {
+                    data: 'no_hp',
+                    name: 'no_hp'
                 },
                 {
                     data: 'role',

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\EquipmentController;
+use App\Http\Controllers\Api\WorkOrderProcessController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,5 +29,13 @@ Route::group([
     ], function () {
         Route::get('/', [EquipmentController::class, 'index'])->name('index');
         Route::get('/{id}', [EquipmentController::class, 'show'])->name('show');
+        Route::get('/{barcode}/barcode', [EquipmentController::class, 'barcode'])->name('barcode');
+    });
+
+    Route::group([
+        'prefix' => 'wo-process',
+        'as' => 'wo-process.',
+    ], function () {
+        Route::get('/{id}/history', [WorkOrderProcessController::class, 'history'])->name('history');
     });
 });

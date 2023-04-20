@@ -293,41 +293,89 @@
 
         function addRowReplacementOfPart(currentRowHtml) {
             let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length - 1].dataset.index);
+            let existsNotSelectedRow = false;
+            let selectedSpareparts = Array.from(document.querySelectorAll('#col-replacement-of-parts select')).map((e) => {
+                if (!e.value) {
+                    alert('Please choose sparepart before adding new row');
+                    throw 'exit';
+                }
+
+                return e.value;
+            });
+
+            makeUniqueSelectSparepart();
 
             currentRowHtml.parentElement.insertAdjacentHTML('beforeend',
                 `
                 <tr data-index="${lastRowIndex + 1}">
                     <td>
-                        <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="removeWoProcWo(this)"><i class="fa fa-trash"></i></button>
                     </td>
                     <td>
                         <div class="form-group">
-                            <select onchange="loadStockSparepart(this)" name="sparepart_id[${lastRowIndex + 1}]" class="form-control" id="sparepart_id_${lastRowIndex + 1}" onchange="getSparepartInfo(${lastRowIndex + 1})">
+                            <select onchange="loadStockSparepart(this)" name="replacement_sparepart_id[${lastRowIndex + 1}]" class="form-control" id="replacement_sparepart_id_${lastRowIndex + 1}" onchange="getSparepartInfo(${lastRowIndex + 1})">
                                 <option value="">--Choose Sparepart--</option>
                                 @foreach ($spareparts as $sparepart)
-                                    <option data-price="{{ $sparepart->estimated_price }}" data-stock="{{ $sparepart->stock }}" value="{{ $sparepart->id }}">{{ $sparepart->sparepart_name }}</option>
+                                    ${
+                                        !selectedSpareparts.includes('{{ $sparepart->id }}') ? 
+                                            '<option data-unit="{{ $sparepart->unit_item->code_unit }}" data-price="{{ $sparepart->estimated_price }}" data-stock="{{ $sparepart->stock }}" value="{{ $sparepart->id }}">{{ $sparepart->sparepart_name }}</option>'
+                                        :   ''
+                                    }
                                 @endforeach
                             </select>
                         </div>
                     </td>
                     <td>
                         <div class="form-group">
-                            <input autocomplete="off" type="number" step="any" name="price[${lastRowIndex + 1}]" placeholder="Price" class="form-control text-right" readonly id="price${lastRowIndex + 1}">
+                            <input autocomplete="off" type="number" step="any" name="replacement_price[${lastRowIndex + 1}]" placeholder="Price" class="form-control text-right" readonly id="replacement_price${lastRowIndex + 1}">
                         </div>
                     </td>
                     <td>
                         <div class="form-group">
-                            <input autocomplete="off" type="number" name="stock[${lastRowIndex + 1}]" placeholder="Stock" class="form-control text-right" id="stock${lastRowIndex + 1}" readonly="">
+                            <input autocomplete="off" type="number" name="replacement_stock[${lastRowIndex + 1}]" placeholder="Stock" class="form-control text-right" id="replacement_stock${lastRowIndex + 1}" readonly="">
                         </div>
                     </td>
                     <td>
                         <div class="form-group">
-                            <input autocomplete="off" type="number" name="amount[${lastRowIndex + 1}]" placeholder="Amount" class="form-control text-right" id="amount${lastRowIndex + 1}">
+                            <input autocomplete="off" type="text" name="unit_stock[${lastRowIndex + 1}]" placeholder="Unit" class="form-control text-right" id="unit_stock${lastRowIndex + 1}" readonly="">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input autocomplete="off" onkeyup="generateAmountReplacementOfPart(this)" type="number" name="replacement_qty[${lastRowIndex + 1}]" placeholder="Qty" class="form-control text-right" id="replacement_qty${lastRowIndex + 1}">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input autocomplete="off" type="number" name="replacement_amount[${lastRowIndex + 1}]" placeholder="Amount" class="form-control text-right" id="replacement_amount${lastRowIndex + 1}" readonly>
                         </div>
                     </td>
                 </tr>
                 `
             );
+        }
+
+        function generateAmountReplacementOfPart(qtyElement) {
+            const amountElement = qtyElement.parentElement.parentElement.nextElementSibling.querySelector('input');
+            const priceElement = qtyElement.parentElement.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.querySelector('input');
+
+            if (qtyElement.value && priceElement.value) {
+                amountElement.value = parseInt(priceElement.value) * parseInt(qtyElement.value);
+            }
+        }
+
+        function makeUniqueSelectSparepart() {
+            Array.from(document.querySelectorAll('#col-replacement-of-parts select')).forEach((currentSelectEl, index) => {
+                if (index != 0) {
+                    Array.from(currentSelectEl.children).forEach((optionCurrentSelectEl) => {
+                        Array.from(document.querySelectorAll('#col-replacement-of-parts select')).forEach((conditionalSelectEl) => {
+                            if (optionCurrentSelectEl.getAttribute('value') == conditionalSelectEl.value && optionCurrentSelectEl.getAttribute('value') != currentSelectEl.value) {
+                                optionCurrentSelectEl.remove();
+                            }
+                        });
+                    });
+                }
+            });
         }
 
         function addRowWoDocument(currentRowHtml) {
@@ -360,16 +408,27 @@
         }
 
         function loadStockSparepart(selectElement) {
+            makeUniqueSelectSparepart();
+
             if (selectElement.value) {
                 const stock = selectElement.children[selectElement.selectedIndex].dataset.stock;
                 const price = selectElement.children[selectElement.selectedIndex].dataset.price;
+                const unit = selectElement.children[selectElement.selectedIndex].dataset.unit;
 
                 selectElement.parentElement.parentElement.nextElementSibling.querySelector('input').value = price;
                 selectElement.parentElement.parentElement.nextElementSibling.nextElementSibling.querySelector('input').value = stock;
+                selectElement.parentElement.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.querySelector('input').value = unit;
             } else {
                 selectElement.parentElement.parentElement.nextElementSibling.querySelector('input').value = null;
                 selectElement.parentElement.parentElement.nextElementSibling.nextElementSibling.querySelector('input').value = null;
+                selectElement.parentElement.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.querySelector('input').value = null;
             }
+
+            generateAmountReplacementOfPart(selectElement.parentElement.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.querySelector('input'));
+        }
+
+        function removeWoProcWo(el) {
+            el.parentElement.parentElement.remove();
         }
     </script>
 @endpush

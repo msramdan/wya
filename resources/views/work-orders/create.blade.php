@@ -47,6 +47,24 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalScanner" tabindex="-1" aria-labelledby="modalScannerLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalScannerLabel">Modal Scanner</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="camera-scanner"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('css-libs')
@@ -56,6 +74,7 @@
 @push('js-libs')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js" integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/frappe-gantt/0.6.1/frappe-gantt.min.js" integrity="sha512-HyGTvFEibBWxuZkDsE2wmy0VQ0JRirYgGieHp0pUmmwyrcFkAbn55kZrSXzCgKga04SIti5jZQVjbTSzFpzMlg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js" integrity="sha512-r6rDA7W6ZeQhvl8S7yRVQUKVHdexq+GAlNkNNqVC7YyIV+NwqCTJe2hDWCiffTyRNOeGEzRRJ9ifvRm/HCzGYg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 @endpush
 
 @push('js-scripts')
@@ -439,6 +458,36 @@
                 !$('#group-viewmode').hasClass('d-none') ? $('#group-viewmode').addClass('d-none') : '';
                 !$('#table-container').hasClass('d-none') ? $('#table-container').addClass('d-none') : '';
             }
+        }
+
+        /**
+         * Show QR Scanner
+         * 
+         */
+        function showQrScanner() {
+            const modalScanner = new bootstrap.Modal(document.getElementById('modalScanner'));
+            modalScanner.show()
+
+            let html5QrcodeScanner = new Html5QrcodeScanner(
+                "camera-scanner", {
+                    fps: 10,
+                    qrbox: 250
+                }
+            );
+            html5QrcodeScanner.render((decodedText, decodedResult) => {
+                fetch('{{ url('/') }}/api/equipments/' + decodedText + '/barcode')
+                    .then((res) => res.json())
+                    .then((response) => {
+                        const data = response.data;
+                        $('#location_id').val(data.equipment_location_id).trigger('change');
+                        eventChangeLocationId(() => {
+                            $('#equipment-id').val(data.id).trigger('change');
+                            eventChangeEquipmentId();
+                            modalScanner.hide();
+                            html5QrcodeScanner.clear();
+                        });
+                    });
+            });
         }
     </script>
 @endpush

@@ -13,6 +13,12 @@ class WorkOrderProcessHasReplacementOfPart extends Model
         'work_order_process_id',
         'sparepart_id',
         'price',
-        'amount'
+        'amount',
+        'qty'
     ];
+
+    public function sparepart()
+    {
+        return $this->belongsTo(Sparepart::class, 'sparepart_id', 'id');
+    }
 }

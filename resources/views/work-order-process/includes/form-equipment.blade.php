@@ -22,7 +22,7 @@
             </div>
             <div class="form-group mb-3">
                 <label for="type">Type</label>
-                <input type="text" name="type" id="type" value="{{ $workOrder->type_wo }}" readonly class="form-control">
+                <input type="text" name="type" id="type" value="{{ $workOrder->equipment->type }}" readonly class="form-control">
             </div>
         </div>
     </div>

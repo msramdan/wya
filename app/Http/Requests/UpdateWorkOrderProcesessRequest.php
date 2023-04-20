@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Sparepart;
 use App\Rules\AllowIntegerOrDouble;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -107,9 +108,29 @@ class UpdateWorkOrderProcesessRequest extends FormRequest
                 if (!(request()->replacement_sparepart_id[0] == null && count(request()->replacement_sparepart_id) == 1)) {
                     if (count(request()->replacement_sparepart_id) > 1) {
                         if (request()->replacement_sparepart_id[0] == null && explode('.', $attribute)[count(explode('.', $attribute)) - 1] == 0) {
-                            $fail('Form Sparepart is required');
+                            return $fail('Form Sparepart is required');
                         } else if (explode('.', $attribute)[count(explode('.', $attribute)) - 1] > 0 && $value == '') {
-                            $fail('Form Sparepart is required');
+                            return $fail('Form Sparepart is required');
+                        }
+                    }
+                }
+                $arrSelectedSpareparts = [];
+
+                foreach (request()->replacement_sparepart_id as $replacementSparepartId) {
+                    if (in_array($replacementSparepartId, $arrSelectedSpareparts)) {
+                        return $fail('Form Sparepart must be unique');
+                    }
+                    $arrSelectedSpareparts[] = $replacementSparepartId;
+                }
+
+                if (!(request()->replacement_sparepart_id[0] == null && count(request()->replacement_sparepart_id) == 1)) {
+                    foreach (request()->replacement_sparepart_id as $indexReplacementSparepart => $replacementSparepartId) {
+                        if ($replacementSparepartId == $value && !isset(request()->replacement_id[$indexReplacementSparepart])) {
+                            $sparepart = Sparepart::find($replacementSparepartId);
+
+                            if ((int) request()->replacement_qty[$indexReplacementSparepart] > (int) $sparepart->stock) {
+                                return $fail('Qty must not grater than stock');
+                            }
                         }
                     }
                 }
@@ -117,6 +138,11 @@ class UpdateWorkOrderProcesessRequest extends FormRequest
             'replacement_price.*' => [function ($attribute, $value, $fail) {
                 if (!request()->$attribute && request()->replacement_sparepart_id[explode('.', $attribute)[count(explode('.', $attribute)) - 1]]) {
                     $fail('Form Replacement Price is required');
+                }
+            }],
+            'replacement_qty.*' => [function ($attribute, $value, $fail) {
+                if (!request()->$attribute && request()->replacement_sparepart_id[explode('.', $attribute)[count(explode('.', $attribute)) - 1]]) {
+                    $fail('Form Replacement Qty is required');
                 }
             }],
             'replacement_amount.*' => [function ($attribute, $value, $fail) {

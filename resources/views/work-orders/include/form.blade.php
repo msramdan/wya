@@ -91,7 +91,7 @@
 
                 <div class="row">
                     <div class="col-md-4 mb-2">
-                        <center>
+                        <center onclick="showQrScanner()">
                             <label for="equipment-id">{{ __('Search by Qrcode') }}</label> <br>
                             <img src="{{ asset('material/qr.png') }}" alt="" style="width: 50%">
 
