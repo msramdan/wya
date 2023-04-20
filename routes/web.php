@@ -69,6 +69,7 @@ Route::prefix('panel')->group(function () {
     Route::get('download-format-nomenklatur', [App\Http\Controllers\NomenklaturController::class, 'formatImport'])->name('download-format-nomenklatur')->middleware('auth');
     Route::resource('equipment', App\Http\Controllers\EquipmentController::class)->middleware('auth');
     Route::get('export-data-equipment', [App\Http\Controllers\EquipmentController::class, 'export'])->name('export-data-equipment')->middleware('auth');
+    Route::get('download-format-equipment', [App\Http\Controllers\EquipmentController::class, 'formatImport'])->name('download-format-equipment')->middleware('auth');
     Route::resource('work-orders', App\Http\Controllers\WorkOrderController::class)->middleware('auth');
     Route::resource('work-order-approvals', App\Http\Controllers\WorkOrderApprovalController::class)->middleware('auth');
     Route::resource('work-order-processes', App\Http\Controllers\WorkOrderProcessController::class)->middleware('auth');

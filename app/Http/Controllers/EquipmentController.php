@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\EquiptmentExport;
+use App\FormatImport\GenerateEquipmentFormat;
 use App\Models\Equipment;
 use App\Http\Requests\{StoreEquipmentRequest, UpdateEquipmentRequest};
 use Yajra\DataTables\Facades\DataTables;
@@ -376,5 +377,12 @@ class EquipmentController extends Controller
         $date = date('d-m-Y');
         $nameFile = 'Daftar-Equipment' . $date;
         return Excel::download(new EquiptmentExport(), $nameFile . '.xlsx');
+    }
+
+    public function formatImport()
+    {
+        $date = date('d-m-Y');
+        $nameFile = 'import_equipment' . $date;
+        return Excel::download(new GenerateEquipmentFormat(), $nameFile . '.xlsx');
     }
 }
