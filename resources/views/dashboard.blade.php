@@ -376,10 +376,10 @@
                                                 </thead>
 
                                                 <tbody>
-                                                    <tr>
-                                                        <td>Sep 20, 2021</td>
-                                                        <td>Sep 20, 2021</td>
-                                                    </tr>
+                                                    {{-- <tr>
+                                                        <td>{{ $row->no_referensi }}</td>
+                                                        <td>{{ $row->no_referensi }}</td>
+                                                    </tr> --}}
                                                 </tbody>
                                             </table>
                                         </div>
@@ -400,16 +400,18 @@
                                                 class="table table-borderless table-hover table-nowrap align-middle mb-0 table-sm">
                                                 <thead class="table-light">
                                                     <tr>
-                                                        <th>Sparepart Name</th>
+                                                        <th>No Referensi</th>
                                                         <th>Qty In</th>
                                                     </tr>
                                                 </thead>
 
                                                 <tbody>
-                                                    <tr>
-                                                        <td>Sep 20, 2021</td>
-                                                        <td>Sep 20, 2021</td>
-                                                    </tr>
+                                                    @foreach ($in as $in)
+                                                        <tr>
+                                                            <td>{{ $in->no_referensi }}</td>
+                                                            <td>{{ $in->qty }}</td>
+                                                        </tr>
+                                                    @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
@@ -430,16 +432,17 @@
                                                 class="table table-borderless table-hover table-nowrap align-middle mb-0 table-sm">
                                                 <thead class="table-light">
                                                     <tr>
-                                                        <th>Sparepart Name</th>
+                                                        <th>No Referensi</th>
                                                         <th>Qty Out</th>
                                                     </tr>
                                                 </thead>
-
                                                 <tbody>
-                                                    <tr>
-                                                        <td>Sep 20, 2021</td>
-                                                        <td>Sep 20, 2021</td>
-                                                    </tr>
+                                                    @foreach ($out as $out)
+                                                        <tr>
+                                                            <td>{{ $out->no_referensi }}</td>
+                                                            <td>{{ $out->qty }}</td>
+                                                        </tr>
+                                                    @endforeach
                                                 </tbody>
                                             </table>
                                         </div>

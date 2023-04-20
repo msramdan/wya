@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\FormatImport\GenerateSparepartFormat;
 use App\Exports\SparepartExport;
 use App\Models\Sparepart;
 use App\Http\Requests\{StoreSparepartRequest, UpdateSparepartRequest};
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 use Auth;
 use PDF;
+
 
 class SparepartController extends Controller
 {
@@ -293,11 +295,17 @@ class SparepartController extends Controller
         // return $pdf->download('qr.pdf');
     }
 
-
     public function export()
     {
         $date = date('d-m-Y');
         $nameFile = 'Daftar-Sparepart' . $date;
         return Excel::download(new SparepartExport(), $nameFile . '.xlsx');
+    }
+
+    public function formatImport()
+    {
+        $date = date('d-m-Y');
+        $nameFile = 'import_sparepart' . $date;
+        return Excel::download(new GenerateSparepartFormat(), $nameFile . '.xlsx');
     }
 }

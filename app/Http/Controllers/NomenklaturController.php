@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Exports\NomenklaturExport;
+use App\FormatImport\GenerateNomenklaturFormat;
 use App\Models\Nomenklatur;
 use App\Http\Requests\{StoreNomenklaturRequest, UpdateNomenklaturRequest};
 use Yajra\DataTables\Facades\DataTables;
 use Maatwebsite\Excel\Facades\Excel;
-
 
 class NomenklaturController extends Controller
 {
@@ -35,5 +35,12 @@ class NomenklaturController extends Controller
         $date = date('d-m-Y');
         $nameFile = 'Daftar-Nomenklature' . $date;
         return Excel::download(new NomenklaturExport(), $nameFile . '.xlsx');
+    }
+
+    public function formatImport()
+    {
+        $date = date('d-m-Y');
+        $nameFile = 'import_nomenklatur' . $date;
+        return Excel::download(new GenerateNomenklaturFormat(), $nameFile . '.xlsx');
     }
 }
