@@ -29,8 +29,6 @@
                                         <tr>
                                             <th>#</th>
                                             <th style="white-space: nowrap">{{ __('Schedule Date') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Actual Start Date') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Actual End Date') }}</th>
                                             <th style="white-space: nowrap">{{ __('Schedule Wo') }}</th>
                                             <th style="white-space: nowrap">{{ __('Status') }}</th>
                                             <th style="white-space: nowrap">{{ __('Action') }}</th>
@@ -94,18 +92,6 @@
                     data: 'schedule_date',
                     render: function(datum, type, row) {
                         return row.schedule_date ? row.schedule_date : '-';
-                    }
-                },
-                {
-                    data: 'start_date',
-                    render: function(datum, type, row) {
-                        return row.start_date ? row.start_date : '-';
-                    }
-                },
-                {
-                    data: 'end_date',
-                    render: function(datum, type, row) {
-                        return row.end_date ? row.end_date : '-';
                     }
                 },
                 {
