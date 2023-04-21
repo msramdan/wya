@@ -626,7 +626,7 @@
             @endforeach
 
             function getToLoc(lat, lng, getLocationMap, id, name, type) {
-                const zoom = 17;
+                const zoom = 1;
                 var url_edit = "";
                 $.ajax({
                     url: `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`,

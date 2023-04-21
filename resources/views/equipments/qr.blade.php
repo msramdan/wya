@@ -15,8 +15,7 @@
 
 <body>
     <center>
-        {{-- <img style="width: {{ $widthQR }}px;" src="{{ public_path('qr/qr_sparepart/mollit-aut-corporis.svg') }}"> --}}
-        {!! QrCode::size(150)->generate('jkjk') !!}
+        <img style="width: {{ $widthQR }}px;" src="data:image/png;base64, {!! base64_encode(QrCode::generate($barcode)) !!} ">
         <img style="width: 90%;" src="{{ public_path('logo.png') }}">
     </center>
 </body>
