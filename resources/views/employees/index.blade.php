@@ -3,6 +3,32 @@
 @section('title', __('Employees'))
 
 @section('content')
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Import Employee</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="POST" action="">
+                    <div class="modal-body">
+                        @csrf
+                        <div class="mb-3">
+                            <input type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                                required>
+                            <div id="downloadFormat" class="form-text"> <a href="#"><i class="fa fa-download"
+                                        aria-hidden="true"></i> Download Format</a> </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="page-content">
         <div class="container-fluid">
             <div class="row">
@@ -30,6 +56,10 @@
                             <button id="btnExport" class="btn btn-success">
                                 <i class='fas fa-file-excel'></i>
                                 {{ __('Export') }}
+                            </button>
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
+                                {{ __('Import') }}
                             </button>
                         </div>
 
@@ -178,6 +208,57 @@
                     Swal.fire({
                         icon: 'error',
                         title: "Data export failed",
+                        text: "Please check",
+                        allowOutsideClick: false,
+                    })
+                }
+            });
+        }
+    </script>
+    <script>
+        $(document).on('click', '#downloadFormat', function(event) {
+            event.preventDefault();
+            downloadFormat();
+
+        });
+
+        var downloadFormat = function() {
+            var url = '../panel/download-format-sparepart';
+            $.ajax({
+                url: url,
+                type: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+                data: {},
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                beforeSend: function() {
+                    Swal.fire({
+                        title: 'Please Wait !',
+                        html: 'Sedang melakukan download format import',
+                        allowOutsideClick: false,
+                        onBeforeOpen: () => {
+                            Swal.showLoading()
+                        },
+                    });
+
+                },
+                success: function(data) {
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(data);
+                    var nameFile = 'import_sparepart.xlsx'
+                    console.log(nameFile)
+                    link.download = nameFile;
+                    link.click();
+                    swal.close()
+                },
+                error: function(data) {
+                    console.log(data)
+                    Swal.fire({
+                        icon: 'error',
+                        title: "Download Format Import failed",
                         text: "Please check",
                         allowOutsideClick: false,
                     })

@@ -5,10 +5,6 @@
     @page {
         margin: 5px 0px 0px 0px
     }
-
-    /* body {
-        margin: 1px 1px 2px 2px
-    } */
 </style>
 
 <head>
@@ -18,9 +14,9 @@
 </head>
 
 <body>
-
     <center>
-        <img style="width: {{ $widthQR }}px;" src="{{ public_path('qr/qr_sparepart/' . $sparepart->image_qr) }}">
+        {{-- <img style="width: {{ $widthQR }}px;" src="{{ public_path('qr/qr_sparepart/mollit-aut-corporis.svg') }}"> --}}
+        {!! QrCode::size(150)->generate('jkjk') !!}
         <img style="width: 90%;" src="{{ public_path('logo.png') }}">
     </center>
 </body>

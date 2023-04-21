@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
+use PDF;
 
 class EquipmentController extends Controller
 {
@@ -384,5 +385,23 @@ class EquipmentController extends Controller
         $date = date('d-m-Y');
         $nameFile = 'import_equipment' . $date;
         return Excel::download(new GenerateEquipmentFormat(), $nameFile . '.xlsx');
+    }
+
+    public function print_qr(Request $request, $barcode)
+    {
+        if (setting_web()->paper_qr_code == '68.0315') {
+            $widthQR = 80;
+            $hightPaper = 88;
+        } else {
+            $widthQR = 114;
+            $hightPaper = 120;
+        }
+        $pdf = PDF::loadview('equipments.qr', [
+            'barcode' => $barcode,
+            'widthQR' => $widthQR
+        ])
+            ->setPaper([0, 0, $hightPaper, setting_web()->paper_qr_code], 'landscape');
+        return $pdf->stream();
+        // return $pdf->download('qr.pdf');
     }
 }

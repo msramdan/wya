@@ -71,21 +71,29 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div>
-                        @php
-                            $sparepart = DB::table('spareparts')
-                                ->where('id', '=', $model->id)
-                                ->first();
-                        @endphp
+                    @php
+                        $sparepart = DB::table('spareparts')
+                            ->where('id', '=', $model->id)
+                            ->first();
+                    @endphp
+                    <center>
+                        <table style="padding: 5px">
+                            <thead>
+                                <tr>
+                                    <td style="padding: 5px"><img
+                                            src="{{ asset('qr/qr_sparepart/' . $sparepart->image_qr) }}" alt=""
+                                            style="width:150px"></td>
+                                </tr>
+                            </thead>
+                        </table>
+                        @if (setting_web()->logo != null)
+                            <img style="width: 30%"
+                                src="{{ Storage::url('public/img/setting_app/') . setting_web()->logo }}"
+                                alt="">
+                        @endif
+                    </center>
 
-                        <center>
-                            <img src="{{ asset('qr/qr_sparepart/' . $sparepart->image_qr) }}" alt=""
-                                style="width:150px"> <br> <br>
-                            <h6>Barcode : {{ $sparepart->barcode }} </h6>
-                            <h6>Sparepart Name : {{ $sparepart->sparepart_name }} </h6>
-                        </center>
 
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

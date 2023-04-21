@@ -283,7 +283,7 @@ class SparepartController extends Controller
             $hightPaper = 88;
         } else {
             $widthQR = 114;
-            $hightPaper = 115;
+            $hightPaper = 120;
         }
         $sparepart = Sparepart::findOrFail($id);
         $pdf = PDF::loadview('spareparts.qr', [
