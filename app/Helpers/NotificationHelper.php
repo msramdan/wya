@@ -19,4 +19,19 @@ class NotificationHelper
             ]
         ]);
     }
+
+    function storeMessage($dataTiket, $devEUI, $instanceName, $time, $clusterName)
+    {
+
+        $text = "Alert from device 374ebd9100360047\n"
+            . "<b>Description: </b>\n\n"
+            . "dsadad\n\n"
+            . "<b>Date: </b>\n";
+
+        Telegram::sendMessage([
+            'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
+            'parse_mode' => 'HTML',
+            'text' => $text
+        ]);
+    }
 }
