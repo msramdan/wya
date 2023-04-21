@@ -77,5 +77,17 @@
             </span>
         @enderror
     </div>
+    <div class="col-md-6 mb-2">
+        <label for="opanme">{{ __('Stock Opname') }}</label>
+        <input type="number" name="opname" id="opanme" class="form-control @error('opname') is-invalid @enderror"
+            value="{{ isset($sparepart) ? $sparepart->opname : old('opname') }}"
+            placeholder="{{ __('Stock Opname') }}" required />
+
+        @error('opname')
+            <span class="text-danger">
+                {{ $message }}
+            </span>
+        @enderror
+    </div>
     <input type="hidden" name="stock" value="{{ isset($sparepart) ? $sparepart->stock : old('stock') }}">
 </div>

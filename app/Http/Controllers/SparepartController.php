@@ -37,7 +37,7 @@ class SparepartController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $spareparts = Sparepart::with('unit_item:id,code_unit');
+            $spareparts = Sparepart::with('unit_item:id,code_unit')->orderBy('spareparts.id', 'DESC');
 
             return DataTables::of($spareparts)
                 ->addIndexColumn()
@@ -86,6 +86,7 @@ class SparepartController extends Controller
                 'sparepart_type' => 'required|string|min:1|max:200',
                 'unit_id' => 'required|exists:App\Models\UnitItem,id',
                 'estimated_price' => 'required|numeric',
+                'opname' => 'required|numeric',
                 'stock' => 'nullable',
                 'image_qr' => 'nullable',
             ],
@@ -107,6 +108,7 @@ class SparepartController extends Controller
                 'sparepart_type' => $request->sparepart_type,
                 'unit_id' => $request->unit_id,
                 'estimated_price' => $request->estimated_price,
+                'opname' => $request->opname,
                 'stock' => $request->stock,
                 'image_qr' => $image_qr,
             ]);
@@ -160,6 +162,7 @@ class SparepartController extends Controller
                 'sparepart_type' => 'required|string|min:1|max:200',
                 'unit_id' => 'required|exists:App\Models\UnitItem,id',
                 'estimated_price' => 'required|numeric',
+                'opname' => 'required|numeric',
                 'stock' => 'nullable',
                 'image_qr' => 'nullable',
             ],
@@ -186,6 +189,7 @@ class SparepartController extends Controller
             'sparepart_type' => $request->sparepart_type,
             'unit_id' => $request->unit_id,
             'estimated_price' => $request->estimated_price,
+            'opname' => $request->opname,
             'stock' => $request->stock,
             'image_qr' => $image_qr,
         ]);

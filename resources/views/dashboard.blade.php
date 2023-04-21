@@ -356,41 +356,48 @@
                         </div>
                         <div class="row">
                             <div class="col-xl-4 col-md-4">
-                                <div class="card" style="height: 450px">
+                                <div class="card" style="height: 400px">
                                     <div class="card-header align-items-center d-flex">
-                                        <h4 class="card-title mb-0 flex-grow-1"><i
-                                                class="fa fa-cube text-success fs-3"></i>
+                                        <h4 class="card-title mb-0 flex-grow-1">
+                                            <i class="fa fa-exclamation-triangle text-danger fs-3" aria-hidden="true"></i>
                                             Opname Sparepart
                                         </h4>
                                     </div>
 
                                     <div class="card-body">
-                                        <div class="table-responsive table-card">
-                                            <table
-                                                class="table table-borderless table-hover table-nowrap align-middle mb-0 table-sm">
-                                                <thead class="table-light">
-                                                    <tr>
-                                                        <th>Sparepart Name</th>
-                                                        <th>Stock</th>
-                                                    </tr>
-                                                </thead>
+                                        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                                            <div class="table-responsive table-card">
+                                                <table
+                                                    class="table table-borderless table-hover table-nowrap align-middle table-sm">
+                                                    <thead class="table-light">
+                                                        <tr>
+                                                            <th>Sparepart Name</th>
+                                                            <th>Opname</th>
+                                                            <th>Stock</th>
+                                                        </tr>
+                                                    </thead>
 
-                                                <tbody>
-                                                    {{-- <tr>
-                                                        <td>{{ $row->no_referensi }}</td>
-                                                        <td>{{ $row->no_referensi }}</td>
-                                                    </tr> --}}
-                                                </tbody>
-                                            </table>
+                                                    <tbody>
+                                                        @foreach ($dataOpname as $row)
+                                                            <tr>
+                                                                <td>{{ $row->sparepart_name }}</td>
+                                                                <td>{{ $row->opname }}</td>
+                                                                <td style="color: red">{{ $row->stock }}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-4 col-md-4">
-                                <div class="card" style="height: 450px">
+                                <div class="card" style="height: 400px">
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1"><i class="fa fa-sign-in text-success fs-3"
-                                                aria-hidden="true"></i> Stock In
+                                                aria-hidden="true"></i> Stock
+                                            In
                                             Sparepart</h4>
                                     </div>
 
@@ -409,7 +416,7 @@
                                                     @foreach ($in as $in)
                                                         <tr>
                                                             <td>{{ $in->no_referensi }}</td>
-                                                            <td>{{ $in->qty }}</td>
+                                                            <td class="text-success">{{ $in->qty }}</td>
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
@@ -419,10 +426,11 @@
                                 </div>
                             </div>
                             <div class="col-xl-4 col-md-4">
-                                <div class="card" style="height: 450px">
+                                <div class="card" style="height: 400px">
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1"><i
-                                                class="fa fa-sign-out text-success fs-3" aria-hidden="true"></i> Stock Out
+                                                class="fa fa-sign-out text-warning fs-3" aria-hidden="true"></i> Stock
+                                            Out
                                             Sparepart</h4>
                                     </div>
 
@@ -440,7 +448,7 @@
                                                     @foreach ($out as $out)
                                                         <tr>
                                                             <td>{{ $out->no_referensi }}</td>
-                                                            <td>{{ $out->qty }}</td>
+                                                            <td class="text-warning">{{ $out->qty }}</td>
                                                         </tr>
                                                     @endforeach
                                                 </tbody>

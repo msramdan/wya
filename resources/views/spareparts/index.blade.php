@@ -76,6 +76,7 @@
                                             <th>{{ __('Merk') }}</th>
                                             <th>{{ __('Sparepart Type') }}</th>
                                             <th>{{ __('Estimated Price') }}</th>
+                                            <th>{{ __('Opname') }}</th>
                                             <th>{{ __('Stock') }}</th>
                                             <th>{{ __('Unit Item') }}</th>
                                             <th>{{ __('Action') }}</th>
@@ -125,6 +126,10 @@
                 {
                     data: 'estimated_price',
                     name: 'estimated_price',
+                },
+                {
+                    data: 'opname',
+                    name: 'opname',
                 },
                 {
                     data: 'stock',

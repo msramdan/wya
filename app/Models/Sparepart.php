@@ -14,16 +14,7 @@ class Sparepart extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['barcode', 'sparepart_name', 'merk', 'sparepart_type', 'unit_id', 'estimated_price', 'stock', 'image_qr'];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var string[]
-     */
-    protected $casts = ['barcode' => 'string', 'sparepart_name' => 'string', 'merk' => 'string', 'sparepart_type' => 'string', 'estimated_price' => 'integer', 'stock' => 'integer', 'created_at' => 'datetime:d/m/Y H:i', 'updated_at' => 'datetime:d/m/Y H:i'];
-
-
+    protected $fillable = ['barcode', 'sparepart_name', 'merk', 'sparepart_type', 'unit_id', 'estimated_price', 'opname', 'stock', 'image_qr'];
 
     public function unit_item()
     {
