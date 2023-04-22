@@ -465,7 +465,6 @@
         </div>
     </div>
 @endsection
-
 @push('js')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{{ asset('material/assets/jqvmap/dist/jquery.vmap.js') }}"></script>
@@ -477,14 +476,17 @@
     <script src="../dist/leaflet.awesome-markers.js"></script>
     <script>
         const ctx = document.getElementById('myChart1');;
-        // var arrayValueGrafikByStatus = @json($arrayValueGrafikByStatus);
+        // var totalPEnding = @json($arrayValueGrafikByStatus);
         new Chart(ctx, {
             type: 'pie',
             data: {
                 labels: ['pending', 'rejected', 'accepted', 'on-going', 'finished', ],
                 datasets: [{
                     label: '# Total',
-                    data: [5, 1, 2, 3, 4],
+                    data: [{{ totalWoByStatus('pending') }}, {{ totalWoByStatus('rejected') }},
+                        {{ totalWoByStatus('accepted') }}, {{ totalWoByStatus('on-going') }},
+                        {{ totalWoByStatus('finished') }}
+                    ],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -520,7 +522,7 @@
                 labels: ['Rutin', 'Non Rutin'],
                 datasets: [{
                     label: '# of Votes',
-                    data: [12, 19],
+                    data: [{{ totalWoByCategory('Rutin') }}, {{ totalWoByCategory('Non Rutin') }}],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)'
@@ -547,10 +549,13 @@
         new Chart(ctx3, {
             type: 'pie',
             data: {
-                labels: ['Calibration', 'Service', 'Training', 'Inspection & Preventive Maintenance'],
+                labels: ['Calibration', 'Service', 'Training', 'Inspection and Preventive Maintenance'],
                 datasets: [{
                     label: '# Total',
-                    data: [12, 19, 3, 23],
+                    data: [{{ totalWoByType('Calibration') }}, {{ totalWoByType('Service') }},
+                        {{ totalWoByType('Training') }},
+                        {{ totalWoByType('Inspection and Preventive Maintenance') }}
+                    ],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',

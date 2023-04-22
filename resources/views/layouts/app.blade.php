@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none">
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg"
+    data-sidebar-image="none">
 {{-- head --}}
 @include('layouts.header')
 @stack('css-libs')
@@ -12,7 +13,7 @@
                 <div class="navbar-header">
                     <div class="d-flex">
                         {{-- <div class="navbar-brand-box horizontal-logo">
-                            <a href="index.html" class="logo logo-dark">
+                            <a href="#" class="logo logo-dark">
                                 <span class="logo-sm">
                                     <img src=" {{ asset('material/assets/images/logo-sm.png') }} " alt=""
                                         height="22">
@@ -23,7 +24,7 @@
                                 </span>
                             </a>
 
-                            <a href="index.html" class="logo logo-light">
+                            <a href="#" class="logo logo-light">
                                 <span class="logo-sm">
                                     <img src="{{ asset('material/assets/images/logo-sm.png') }}" alt=""
                                         height="22">
@@ -35,7 +36,9 @@
                             </a>
                         </div> --}}
 
-                        <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger shadow-none" id="topnav-hamburger-icon">
+                        <button type="button"
+                            class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger shadow-none"
+                            id="topnav-hamburger-icon">
                             <span class="hamburger-icon">
                                 <span></span>
                                 <span></span>
@@ -46,13 +49,16 @@
 
                     <div class="d-flex align-items-center">
                         <div class="ms-1 header-item d-none d-sm-flex">
-                            <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none" data-toggle="fullscreen">
+                            <button type="button"
+                                class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none"
+                                data-toggle="fullscreen">
                                 <i class='bx bx-fullscreen fs-22'></i>
                             </button>
                         </div>
 
                         <div class="ms-1 header-item d-none d-sm-flex">
-                            <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle light-dark-mode shadow-none">
+                            <button type="button"
+                                class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle light-dark-mode shadow-none">
                                 <i class='bx bx-moon fs-22'></i>
                             </button>
                         </div>
@@ -388,26 +394,36 @@
                         </div> --}}
 
                         <div class="dropdown ms-sm-3 header-item topbar-user">
-                            <button type="button" class="btn shadow-none" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button type="button" class="btn shadow-none" id="page-header-user-dropdown"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="d-flex align-items-center">
                                     @if (auth()->user()->avatar == null)
-                                        <img class="rounded-circle header-profile-user" src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim(auth()->user()->email))) }}&s=30" alt="Header Avatar">
+                                        <img class="rounded-circle header-profile-user"
+                                            src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim(auth()->user()->email))) }}&s=30"
+                                            alt="Header Avatar">
                                     @else
-                                        <img class="rounded-circle header-profile-user" src="{{ asset('uploads/images/avatars/' . auth()->user()->avatar) }}" alt="">
+                                        <img class="rounded-circle header-profile-user"
+                                            src="{{ asset('uploads/images/avatars/' . auth()->user()->avatar) }}"
+                                            alt="">
                                     @endif
 
 
                                     <span class="text-start ms-xl-2">
-                                        <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ Auth::user()->name }}</span>
-                                        <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">{{ Auth::user()->roles->first()->name }}</span>
+                                        <span
+                                            class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ Auth::user()->name }}</span>
+                                        <span
+                                            class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">{{ Auth::user()->roles->first()->name }}</span>
                                     </span>
                                 </span>
                             </button>
                             <div class="dropdown-menu dropdown-menu-end">
-                                <a class="dropdown-item" href="{{ route('profile') }}"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
+                                <a class="dropdown-item" href="{{ route('profile') }}"><i
+                                        class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span
+                                        class="align-middle">Profile</span></a>
 
 
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
                                     <span class="align-middle" data-key="t-logout">{{ __('Logout') }}</span>
                                 </a>
@@ -424,31 +440,36 @@
         <!-- ========== App Menu ========== -->
         <div class="app-menu navbar-menu">
             <div class="navbar-brand-box">
-                <a href="index.html" class="logo logo-dark">
+                <a href="#" class="logo logo-dark">
                     <span class="logo-sm">
                         @if (setting_web()->favicon != null)
-                            <img src="{{ Storage::url('public/img/setting_app/') . setting_web()->favicon }}" alt="" height="30">
+                            <img src="{{ Storage::url('public/img/setting_app/') . setting_web()->favicon }}"
+                                alt="" height="30">
                         @endif
                     </span>
                     <span class="logo-lg">
                         @if (setting_web()->logo != null)
-                            <img src="{{ Storage::url('public/img/setting_app/') . setting_web()->logo }}" alt="">
+                            <img src="{{ Storage::url('public/img/setting_app/') . setting_web()->logo }}"
+                                alt="">
                         @endif
                     </span>
                 </a>
-                <a href="index.html" class="logo logo-light">
+                <a href="#" class="logo logo-light">
                     <span class="logo-sm">
                         @if (setting_web()->favicon != null)
-                            <img src="{{ Storage::url('public/img/setting_app/') . setting_web()->favicon }}" alt="" height="30">
+                            <img src="{{ Storage::url('public/img/setting_app/') . setting_web()->favicon }}"
+                                alt="" height="30">
                         @endif
                     </span>
                     <span class="logo-lg">
                         @if (setting_web()->logo != null)
-                            <img src="{{ Storage::url('public/img/setting_app/') . setting_web()->logo }}" alt="">
+                            <img src="{{ Storage::url('public/img/setting_app/') . setting_web()->logo }}"
+                                alt="">
                         @endif
                     </span>
                 </a>
-                <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
+                <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
+                    id="vertical-hover">
                     <i class="ri-record-circle-line"></i>
                 </button>
             </div>
