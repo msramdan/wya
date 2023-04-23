@@ -36,18 +36,19 @@
                                         <tr>
                                             <th>#</th>
                                             <th style="white-space: nowrap">{{ __('Wo Number') }}</th>
+                                            <th style="white-space: nowrap">{{ __('Filed Date') }}</th>
                                             <th style="white-space: nowrap">{{ __('Equipment') }}</th>
                                             <th style="white-space: nowrap">{{ __('Type Wo') }}</th>
                                             <th style="white-space: nowrap">{{ __('Category Wo') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Schedule Date') }}</th>
+                                            {{-- <th style="white-space: nowrap">{{ __('Schedule Date') }}</th>
                                             <th style="white-space: nowrap">{{ __('Requested Start Date') }}</th>
                                             <th style="white-space: nowrap">{{ __('Requested End Date') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Schedule Wo') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Note') }}</th>
+                                            <th style="white-space: nowrap">{{ __('Schedule Wo') }}</th> --}}
+                                            {{-- <th style="white-space: nowrap">{{ __('Note') }}</th> --}}
                                             <th style="white-space: nowrap">{{ __('User') }}</th>
                                             <th style="white-space: nowrap">{{ __('Approval Users') }}</th>
                                             <th style="white-space: nowrap">{{ __('Status Wo') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Filed Date') }}</th>
+
                                             <th style="white-space: nowrap">{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
@@ -79,6 +80,10 @@
                     name: 'wo_number'
                 },
                 {
+                    data: 'filed_date',
+                    name: 'filed_date',
+                },
+                {
                     data: 'equipment',
                     name: 'equipment.id'
                 },
@@ -90,34 +95,34 @@
                     data: 'category_wo',
                     name: 'category_wo',
                 },
-                {
-                    data: 'schedule_date',
-                    render: function(datum, type, row) {
-                        return row.schedule_date ? row.schedule_date : '-';
-                    }
-                },
-                {
-                    data: 'start_date',
-                    render: function(datum, type, row) {
-                        return row.start_date ? row.start_date : '-';
-                    }
-                },
-                {
-                    data: 'end_date',
-                    render: function(datum, type, row) {
-                        return row.end_date ? row.end_date : '-';
-                    }
-                },
-                {
-                    data: 'schedule_wo',
-                    render: function(datum, type, row) {
-                        return row.schedule_wo ? row.schedule_wo : '-';
-                    }
-                },
-                {
-                    data: 'note',
-                    name: 'note',
-                },
+                // {
+                //     data: 'schedule_date',
+                //     render: function(datum, type, row) {
+                //         return row.schedule_date ? row.schedule_date : '-';
+                //     }
+                // },
+                // {
+                //     data: 'start_date',
+                //     render: function(datum, type, row) {
+                //         return row.start_date ? row.start_date : '-';
+                //     }
+                // },
+                // {
+                //     data: 'end_date',
+                //     render: function(datum, type, row) {
+                //         return row.end_date ? row.end_date : '-';
+                //     }
+                // },
+                // {
+                //     data: 'schedule_wo',
+                //     render: function(datum, type, row) {
+                //         return row.schedule_wo ? row.schedule_wo : '-';
+                //     }
+                // },
+                // {
+                //     data: 'note',
+                //     name: 'note',
+                // },
                 {
                     data: 'user',
                     name: 'user.name'
@@ -172,10 +177,7 @@
                         return `<span class="badge bg-${rowStatus}">${['on-going', 'finished'].includes(row.status_wo) ? 'accepted' : row.status_wo}</span>`;
                     }
                 },
-                {
-                    data: 'filed_date',
-                    name: 'filed_date',
-                },
+
                 {
                     data: 'action',
                     name: 'action',
