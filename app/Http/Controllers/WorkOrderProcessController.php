@@ -24,21 +24,67 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
+use App\Models\Equipment;
 
 class WorkOrderProcessController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         if (request()->ajax()) {
             $workOrders = WorkOrder::whereIn('work_orders.status_wo', ['accepted', 'on-going', 'finished'])
 
                 ->with('equipment:id,barcode', 'user:id,name')->orderByRaw(
-                    'CASE 
+                    'CASE
                         WHEN `status_wo` = "accepted" then 1
                         WHEN `status_wo` = "on-going" then 2
                         ELSE 23
                     END'
                 )->orderBy('updated_at', 'DESC');
+            $start_date = intval($request->query('start_date'));
+            $end_date = intval($request->query('end_date'));
+            $equipment_id = intval($request->query('equipment_id'));
+            $type_wo = $request->query('type_wo');
+            $category_wo = $request->query('category_wo');
+            $created_by = intval($request->query('created_by'));
+
+            if (isset($start_date) && !empty($start_date)) {
+                $from = date("Y-m-d H:i:s", substr($request->query('start_date'), 0, 10));
+                $workOrders = $workOrders->where('filed_date', '>=', $from);
+            } else {
+                $from = date('Y-m-d') . " 00:00:00";
+                $workOrders = $workOrders->where('filed_date', '>=', $from);
+            }
+            if (isset($end_date) && !empty($end_date)) {
+                $to = date("Y-m-d H:i:s", substr($request->query('end_date'), 0, 10));
+                $workOrders = $workOrders->where('filed_date', '<=', $to);
+            } else {
+                $to = date('Y-m-d') . " 23:59:59";
+                $workOrders = $workOrders->where('filed_date', '<=', $to);
+            }
+
+            if (isset($equipment_id) && !empty($equipment_id)) {
+                if ($equipment_id != 'All') {
+                    $workOrders = $workOrders->where('equipment_id', $equipment_id);
+                }
+            }
+
+            if (isset($type_wo) && !empty($type_wo)) {
+                if ($type_wo != 'All') {
+                    $workOrders = $workOrders->where('type_wo', $type_wo);
+                }
+            }
+
+            if (isset($category_wo) && !empty($category_wo)) {
+                if ($category_wo != 'All') {
+                    $workOrders = $workOrders->where('category_wo', $category_wo);
+                }
+            }
+
+            if (isset($created_by) && !empty($created_by)) {
+                if ($created_by != 'All') {
+                    $workOrders = $workOrders->where('created_by', $created_by);
+                }
+            }
 
             return DataTables::of($workOrders)
                 ->addIndexColumn()
@@ -63,7 +109,17 @@ class WorkOrderProcessController extends Controller
                 ->toJson();
         }
 
-        return view('work-order-process.index');
+        $from = date('Y-m-d') . " 00:00:00";
+        $to = date('Y-m-d') . " 23:59:59";
+        $microFrom = strtotime($from) * 1000;
+        $microTo = strtotime($to) * 1000;
+
+        return view('work-order-process.index', [
+            'microFrom' => $microFrom,
+            'microTo' => $microTo,
+            'user' => User::all(),
+            'equipment' => Equipment::all(),
+        ]);
     }
 
     public function show($workOrderId)

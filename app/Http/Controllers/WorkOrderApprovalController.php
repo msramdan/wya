@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateWorkOrderApprovalRequest;
 use App\Models\User;
+use App\Models\Equipment;
 use App\Models\WorkOrder;
 use App\Models\WorkOrderProcess;
 use Carbon\Carbon;
@@ -23,19 +24,61 @@ class WorkOrderApprovalController extends Controller
     {
         if (request()->ajax()) {
             $workOrders = WorkOrder::with('equipment:id,barcode', 'user:id,name',)->orderByRaw(
-                'CASE 
+                'CASE
                     WHEN `status_wo` = "pending" then 1
-                    ELSE 2 
+                    ELSE 2
                 END'
             )->orderBy('updated_at', 'DESC');
 
+            $start_date = intval($request->query('start_date'));
+            $end_date = intval($request->query('end_date'));
+            $equipment_id = intval($request->query('equipment_id'));
+            $type_wo = $request->query('type_wo');
+            $category_wo = $request->query('category_wo');
+            $created_by = intval($request->query('created_by'));
+
+            if (isset($start_date) && !empty($start_date)) {
+                $from = date("Y-m-d H:i:s", substr($request->query('start_date'), 0, 10));
+                $workOrders = $workOrders->where('filed_date', '>=', $from);
+            } else {
+                $from = date('Y-m-d') . " 00:00:00";
+                $workOrders = $workOrders->where('filed_date', '>=', $from);
+            }
+            if (isset($end_date) && !empty($end_date)) {
+                $to = date("Y-m-d H:i:s", substr($request->query('end_date'), 0, 10));
+                $workOrders = $workOrders->where('filed_date', '<=', $to);
+            } else {
+                $to = date('Y-m-d') . " 23:59:59";
+                $workOrders = $workOrders->where('filed_date', '<=', $to);
+            }
+
+            if (isset($equipment_id) && !empty($equipment_id)) {
+                if ($equipment_id != 'All') {
+                    $workOrders = $workOrders->where('equipment_id', $equipment_id);
+                }
+            }
+
+            if (isset($type_wo) && !empty($type_wo)) {
+                if ($type_wo != 'All') {
+                    $workOrders = $workOrders->where('type_wo', $type_wo);
+                }
+            }
+
+            if (isset($category_wo) && !empty($category_wo)) {
+                if ($category_wo != 'All') {
+                    $workOrders = $workOrders->where('category_wo', $category_wo);
+                }
+            }
+
+            if (isset($created_by) && !empty($created_by)) {
+                if ($created_by != 'All') {
+                    $workOrders = $workOrders->where('created_by', $created_by);
+                }
+            }
+
             return DataTables::of($workOrders)
                 ->addIndexColumn()
-                ->addColumn('created_at', function ($row) {
-                    return $row->created_at->format('d M Y H:i:s');
-                })->addColumn('updated_at', function ($row) {
-                    return $row->updated_at->format('d M Y H:i:s');
-                })->addColumn('wo_number', function ($row) {
+                ->addColumn('wo_number', function ($row) {
                     return $row->wo_number;
                 })
                 ->addColumn('approval_users_id', function ($row) {
@@ -46,9 +89,6 @@ class WorkOrderApprovalController extends Controller
                     });
 
                     return json_decode($arrApprovalUsers);
-                })
-                ->addColumn('note', function ($row) {
-                    return str($row->note)->limit(100);
                 })
                 ->addColumn('equipment', function ($row) {
                     return $row->equipment ? $row->equipment->barcode : '';
@@ -83,8 +123,16 @@ class WorkOrderApprovalController extends Controller
                 })
                 ->toJson();
         }
-
-        return view('work-order-approvals.index');
+        $from = date('Y-m-d') . " 00:00:00";
+        $to = date('Y-m-d') . " 23:59:59";
+        $microFrom = strtotime($from) * 1000;
+        $microTo = strtotime($to) * 1000;
+        return view('work-order-approvals.index', [
+            'microFrom' => $microFrom,
+            'microTo' => $microTo,
+            'user' => User::all(),
+            'equipment' => Equipment::all(),
+        ]);
     }
 
     public function update(UpdateWorkOrderApprovalRequest $request, $id)
