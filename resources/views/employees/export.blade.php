@@ -24,9 +24,13 @@
                 <td>{{ $dt->name }}</td>
                 <td>{{ $dt->nid_employee }}</td>
                 <td>{{ $dt->name_employee_type }}</td>
+                @if ($dt->employee_status)
+                    <td>Aktif</td>
+                @else
+                    <td>Non Aktif</td>
+                @endif
                 <td>{{ $dt->name_department }}</td>
                 <td>{{ $dt->name_position }}</td>
-                <td>{{ $dt->employee_status }}</td>
                 <td>{{ $dt->email }}</td>
                 <td>{{ $dt->phone }}</td>
                 <td>{{ $dt->join_date }}</td>

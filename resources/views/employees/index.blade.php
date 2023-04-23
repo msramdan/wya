@@ -223,7 +223,7 @@
         });
 
         var downloadFormat = function() {
-            var url = '../panel/download-format-sparepart';
+            var url = '../panel/download-format-employee';
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -248,7 +248,7 @@
                 success: function(data) {
                     var link = document.createElement('a');
                     link.href = window.URL.createObjectURL(data);
-                    var nameFile = 'import_sparepart.xlsx'
+                    var nameFile = 'import_employee.xlsx'
                     console.log(nameFile)
                     link.download = nameFile;
                     link.click();

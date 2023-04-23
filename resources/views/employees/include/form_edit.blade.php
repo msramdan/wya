@@ -64,10 +64,10 @@
                             <option value="" selected disabled>-- {{ __('Select employee status') }} --</option>
                             <option value="1"
                                 {{ isset($employee) && $employee->employee_status == '1' ? 'selected' : (old('employee_status') == '1' ? 'selected' : '') }}>
-                                {{ __('True') }}</option>
+                                {{ __('Aktif') }}</option>
                             <option value="0"
                                 {{ isset($employee) && $employee->employee_status == '0' ? 'selected' : (old('employee_status') == '0' ? 'selected' : '') }}>
-                                {{ __('False') }}</option>
+                                {{ __('Non Aktif') }}</option>
                         </select>
                         @error('employee_status')
                             <span class="text-danger">

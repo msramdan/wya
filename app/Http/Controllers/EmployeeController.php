@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\EmployeeExport;
+use App\FormatImport\GenerateEmployeeFormat;
 use App\Models\Employee;
 use App\Http\Requests\{StoreEmployeeRequest, UpdateEmployeeRequest};
 use Yajra\DataTables\Facades\DataTables;
@@ -12,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
+
 
 
 class EmployeeController extends Controller
@@ -36,14 +38,15 @@ class EmployeeController extends Controller
 
             return DataTables::of($employees)
                 ->addIndexColumn()
-                ->addColumn('created_at', function ($row) {
-                    return $row->created_at->format('d M Y H:i:s');
-                })->addColumn('updated_at', function ($row) {
-                    return $row->updated_at->format('d M Y H:i:s');
-                })
-
                 ->addColumn('address', function ($row) {
                     return str($row->address)->limit(100);
+                })
+                ->addColumn('employee_status', function ($row) {
+                    if ($row->employee_status) {
+                        return 'Aktif';
+                    } else {
+                        return 'Non Aktif';
+                    }
                 })
                 ->addColumn('employee_type', function ($row) {
                     return $row->employee_type ? $row->employee_type->name_employee_type : '';
@@ -273,5 +276,11 @@ class EmployeeController extends Controller
         $date = date('d-m-Y');
         $nameFile = 'Daftar-Employee' . $date;
         return Excel::download(new EmployeeExport(), $nameFile . '.xlsx');
+    }
+    public function formatImport()
+    {
+        $date = date('d-m-Y');
+        $nameFile = 'import_employee' . $date;
+        return Excel::download(new GenerateEmployeeFormat(), $nameFile . '.xlsx');
     }
 }

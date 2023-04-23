@@ -52,9 +52,11 @@ Route::prefix('panel')->group(function () {
     Route::resource('kelurahans', App\Http\Controllers\KelurahanController::class)->middleware('auth');
     Route::resource('employee-types', App\Http\Controllers\EmployeeTypeController::class)->middleware('auth');
     Route::resource('employees', App\Http\Controllers\EmployeeController::class)->middleware('auth');
+    Route::get('download-format-employee', [App\Http\Controllers\EmployeeController::class, 'formatImport'])->name('download-format-employee')->middleware('auth');
     Route::get('export-data-employees', [App\Http\Controllers\EmployeeController::class, 'export'])->name('export-data-employees')->middleware('auth');
     Route::resource('category-vendors', App\Http\Controllers\CategoryVendorController::class)->middleware('auth');
     Route::resource('vendors', App\Http\Controllers\VendorController::class)->middleware('auth');
+    Route::get('download-format-vendor', [App\Http\Controllers\VendorController::class, 'formatImport'])->name('download-format-vendor')->middleware('auth');
     Route::get('export-data-vendors', [App\Http\Controllers\VendorController::class, 'export'])->name('export-data-vendors')->middleware('auth');
     Route::get('/GetFileVendor/{id}', [App\Http\Controllers\VendorController::class, 'GetFileVendor'])->middleware('auth');
     Route::resource('spareparts', App\Http\Controllers\SparepartController::class)->middleware('auth');

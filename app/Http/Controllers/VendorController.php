@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\VendorsExport;
+use App\FormatImport\GenerateVendorFormat;
 use App\Models\Vendor;
 use App\Http\Requests\{StoreVendorRequest, UpdateVendorRequest};
 use Yajra\DataTables\Facades\DataTables;
@@ -375,5 +376,12 @@ class VendorController extends Controller
         $date = date('d-m-Y');
         $nameFile = 'Daftar-Vendors' . $date;
         return Excel::download(new VendorsExport(), $nameFile . '.xlsx');
+    }
+
+    public function formatImport()
+    {
+        $date = date('d-m-Y');
+        $nameFile = 'import_vendor' . $date;
+        return Excel::download(new GenerateVendorFormat(), $nameFile . '.xlsx');
     }
 }
