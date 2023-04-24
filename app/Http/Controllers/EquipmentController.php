@@ -33,7 +33,7 @@ class EquipmentController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $equipments = Equipment::with('nomenklatur:id,name_nomenklatur', 'equipment_category:id,category_name', 'vendor:id,name_vendor', 'equipment_location:id,location_name');
+            $equipments = Equipment::with('nomenklatur:id,name_nomenklatur', 'equipment_category:id,category_name', 'vendor:id,name_vendor', 'equipment_location:id,location_name')->orderBy('equipment.id', 'DESC');;
 
             return DataTables::of($equipments)
                 ->addIndexColumn()
