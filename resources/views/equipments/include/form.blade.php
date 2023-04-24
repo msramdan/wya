@@ -229,9 +229,76 @@
                     <b> <i class="fa-solid fa-money-bill"></i> Price Reduction</b>
                 </div>
                 <hr>
+                <div class="row">
+                    <div class="col-md-6 mb-2">
+                        <label for="tgl_pembeian">{{ __('Tanggal Pembelian') }}</label>
+                        <input type="date" name="tgl_pembeian" id="tgl_pembeian"
+                            class="form-control @error('tgl_pembeian') is-invalid @enderror"
+                            value="{{ isset($equipment) ? $equipment->tgl_pembeian : old('tgl_pembeian') }}"
+                            placeholder="{{ __('tgl_pembeian') }}" required />
+                        @error('tgl_pembeian')
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <label for="tgl_pembeian">{{ __('Metode') }}</label>
+                        <select class="form-control js-example-basic-multiple @error('metode') is-invalid @enderror"
+                            name="metode" id="risk-level" required>
+                            <option value="" selected disabled>-- {{ __('Select metode') }} --</option>
+                            <option value="Garis Lurus"
+                                {{ isset($equipment) && $equipment->metode == 'Garis Lurus' ? 'selected' : (old('metode') == 'Garis Lurus' ? 'selected' : '') }}>
+                                {{ __('Garis Lurus') }}</option>
+                            <option value="Saldo Menurun"
+                                {{ isset($equipment) && $equipment->metode == 'Saldo Menurun' ? 'selected' : (old('metode') == 'Saldo Menurun' ? 'selected' : '') }}>
+                                {{ __('Saldo Menurun') }}</option>
+                        </select>
+                        @error('metode')
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <label for="tgl_pembeian">{{ __('Nilai Perolehan') }}</label>
+                        <input type="number" name="tgl_pembeian" id="tgl_pembeian"
+                            class="form-control @error('tgl_pembeian') is-invalid @enderror"
+                            value="{{ isset($equipment) ? $equipment->tgl_pembeian : old('tgl_pembeian') }}"
+                            placeholder="{{ __('Nilai Perolehan') }}" required />
+                        @error('tgl_pembeian')
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <label for="tgl_pembeian">{{ __('Nilai Residu') }}</label>
+                        <input type="number" name="tgl_pembeian" id="tgl_pembeian"
+                            class="form-control @error('tgl_pembeian') is-invalid @enderror"
+                            value="{{ isset($equipment) ? $equipment->tgl_pembeian : old('tgl_pembeian') }}"
+                            placeholder="{{ __('Nilai Residu') }}" required />
+                        @error('tgl_pembeian')
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <label for="tgl_pembeian">{{ __('Masa Manfaat') }} (Tahun)</label>
+                        <input type="number" name="tgl_pembeian" id="tgl_pembeian"
+                            class="form-control @error('tgl_pembeian') is-invalid @enderror"
+                            value="{{ isset($equipment) ? $equipment->tgl_pembeian : old('tgl_pembeian') }}"
+                            placeholder="{{ __('Masa Manfaat') }}" required />
+                        @error('tgl_pembeian')
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                </div>
             </div>
         </div>
-
     </div>
 
 
