@@ -13,12 +13,13 @@
                     <h5 class="modal-title" id="exampleModalLabel">Import Nomenklaturs</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" action="">
+                <form method="POST" role="form" action="{{ route('import-data-nomenklatur') }}"
+                    enctype="multipart/form-data">
                     <div class="modal-body">
-                        @csrf
+                        {{ csrf_field() }}
                         <div class="mb-3">
-                            <input type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                                required>
+                            <input type="file" class="form-control" name="file" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" required>
                             <div id="downloadFormat" class="form-text"> <a href="#"><i class="fa fa-download"
                                         aria-hidden="true"></i> Download Format</a> </div>
                         </div>

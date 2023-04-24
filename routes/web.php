@@ -11,9 +11,6 @@ use App\Http\Controllers\{
 };
 use App\Http\Controllers\LandingWeb\LandingWebController;
 
-
-
-
 Route::controller(TelegramBotController::class)->group(function () {
     Route::get('/updated-activity', 'updatedActivity');
     Route::get('/storeMessage', 'storeMessage');
@@ -59,6 +56,7 @@ Route::prefix('panel')->group(function () {
     Route::get('download-format-vendor', [App\Http\Controllers\VendorController::class, 'formatImport'])->name('download-format-vendor')->middleware('auth');
     Route::get('export-data-vendors', [App\Http\Controllers\VendorController::class, 'export'])->name('export-data-vendors')->middleware('auth');
     Route::get('/GetFileVendor/{id}', [App\Http\Controllers\VendorController::class, 'GetFileVendor'])->middleware('auth');
+    // Sparepart
     Route::resource('spareparts', App\Http\Controllers\SparepartController::class)->middleware('auth');
     Route::get('export-data-spareparts', [App\Http\Controllers\SparepartController::class, 'export'])->name('export-data-spareparts')->middleware('auth');
     Route::get('download-format-sparepart', [App\Http\Controllers\SparepartController::class, 'formatImport'])->name('download-format-sparepart')->middleware('auth');
@@ -66,13 +64,17 @@ Route::prefix('panel')->group(function () {
     Route::post('stok_out', [App\Http\Controllers\SparepartController::class, 'stok_out'])->name('stok_out')->middleware('auth');
     Route::delete('delete_history/{id}', [App\Http\Controllers\SparepartController::class, 'delete_history'])->name('delete_history')->middleware('auth');
     Route::get('print_qr/{id}', [App\Http\Controllers\SparepartController::class, 'print_qr'])->name('print_qr')->middleware('auth');
+    // Nomenklatur
     Route::resource('nomenklaturs', App\Http\Controllers\NomenklaturController::class)->middleware('auth');
     Route::get('export-data-nomenklatur', [App\Http\Controllers\NomenklaturController::class, 'export'])->name('export-data-nomenklatur')->middleware('auth');
     Route::get('download-format-nomenklatur', [App\Http\Controllers\NomenklaturController::class, 'formatImport'])->name('download-format-nomenklatur')->middleware('auth');
+    Route::post('import-data-nomenklatur', [App\Http\Controllers\NomenklaturController::class, 'import_excel'])->name('import-data-nomenklatur')->middleware('auth');
+    // Equipment
     Route::resource('equipment', App\Http\Controllers\EquipmentController::class)->middleware('auth');
     Route::get('print_qr_equipment/{id}', [App\Http\Controllers\EquipmentController::class, 'print_qr'])->name('print_qr_equipment')->middleware('auth');
     Route::get('export-data-equipment', [App\Http\Controllers\EquipmentController::class, 'export'])->name('export-data-equipment')->middleware('auth');
     Route::get('download-format-equipment', [App\Http\Controllers\EquipmentController::class, 'formatImport'])->name('download-format-equipment')->middleware('auth');
+    // Workorder
     Route::resource('work-orders', App\Http\Controllers\WorkOrderController::class)->middleware('auth');
     Route::resource('work-order-approvals', App\Http\Controllers\WorkOrderApprovalController::class)->middleware('auth');
     Route::resource('work-order-processes', App\Http\Controllers\WorkOrderProcessController::class)->middleware('auth');

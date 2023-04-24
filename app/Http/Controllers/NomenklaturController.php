@@ -6,8 +6,10 @@ use App\Exports\NomenklaturExport;
 use App\FormatImport\GenerateNomenklaturFormat;
 use App\Models\Nomenklatur;
 use App\Http\Requests\{StoreNomenklaturRequest, UpdateNomenklaturRequest};
+use App\Imports\NomenklaturImport;
 use Yajra\DataTables\Facades\DataTables;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Http\Request;
 
 class NomenklaturController extends Controller
 {
@@ -42,5 +44,11 @@ class NomenklaturController extends Controller
         $date = date('d-m-Y');
         $nameFile = 'import_nomenklatur' . $date;
         return Excel::download(new GenerateNomenklaturFormat(), $nameFile . '.xlsx');
+    }
+
+    public function import_excel(Request $request)
+    {
+        Excel::import(new NomenklaturImport, $request->file('file'));
+        return redirect()->back();
     }
 }
