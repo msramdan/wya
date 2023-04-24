@@ -26,7 +26,7 @@ class GenerateEquipmentFormat implements FromView, ShouldAutoSize, WithEvents, W
     {
         return [
             AfterSheet::class    => function (AfterSheet $event) {
-                $cellRange = 'A1:K1'; // All headers
+                $cellRange = 'A1:P1'; // All headers
                 $event->sheet->getStyle($cellRange)->applyFromArray([
                     'borders' => [
                         'allBorders' => [
@@ -42,8 +42,7 @@ class GenerateEquipmentFormat implements FromView, ShouldAutoSize, WithEvents, W
                 $column_h = 'H';
                 $column_i = 'I';
                 $column_j = 'J';
-
-
+                $column_m = 'M';
                 // kolom C category
                 $kolomC = [];
                 $EquipmentCategory = EquipmentCategory::get();
@@ -140,12 +139,32 @@ class GenerateEquipmentFormat implements FromView, ShouldAutoSize, WithEvents, W
                 $validationJ->setPrompt('Please pick a value from the drop-down list.');
                 $validationJ->setFormula1(sprintf('"%s"', implode(',', $kolomJ)));
 
+
+                // Kolom M Metode
+                $m = [
+                    'Garis Lurus',
+                    'Saldo Menurun',
+                ];
+                $validationM = $event->sheet->getCell("{$column_m}2")->getDataValidation();
+                $validationM->setType(DataValidation::TYPE_LIST);
+                $validationM->setErrorStyle(DataValidation::STYLE_INFORMATION);
+                $validationM->setAllowBlank(false);
+                $validationM->setShowInputMessage(true);
+                $validationM->setShowErrorMessage(true);
+                $validationM->setShowDropDown(true);
+                $validationM->setErrorTitle('Input error');
+                $validationM->setError('Value is not in list.');
+                $validationM->setPromptTitle('Pick from list');
+                $validationM->setPrompt('Please pick a value from the drop-down list.');
+                $validationM->setFormula1(sprintf('"%s"', implode(',', $m)));
+
                 for ($i = 3; $i <= 1000; $i++) {
                     $event->sheet->getCell("{$column_c}{$i}")->setDataValidation(clone $validation);
                     $event->sheet->getCell("{$column_g}{$i}")->setDataValidation(clone $validationG);
                     $event->sheet->getCell("{$column_h}{$i}")->setDataValidation(clone $validationH);
                     $event->sheet->getCell("{$column_i}{$i}")->setDataValidation(clone $validationI);
                     $event->sheet->getCell("{$column_j}{$i}")->setDataValidation(clone $validationJ);
+                    $event->sheet->getCell("{$column_m}{$i}")->setDataValidation(clone $validationM);
                 }
             },
         ];
