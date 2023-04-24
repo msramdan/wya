@@ -121,7 +121,7 @@
             // var name_file = $(this).data('name_file');
             // $('#largeModal #name_file').text(name_file);
             $.ajax({
-                url: '/GetFileVendor/' + id,
+                url: 'GetFileVendor/' + id,
                 type: 'GET',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',

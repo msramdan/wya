@@ -1,8 +1,4 @@
 <td>
-    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" title="View PIC"
-        data-bs-target="#exampleModalPic{{ $model->id }}">
-        <i class="mdi mdi-phone-classic"></i>
-    </button>
     <div class="modal fade" id="exampleModalPic{{ $model->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -46,11 +42,6 @@
             </div>
         </div>
     </div>
-
-
-    <a href="#" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-id="{{ $model->id }}"
-        id="view_gambar" data-bs-target="#largeModal" title="View  File Vendor"><i class="mdi mdi-file"></i>
-    </a>
     <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal"
         aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -102,6 +93,33 @@
             </button>
         </form>
     @endcan
+    <div class="btn-group">
+        <button class="btn btn-md btn-warning btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1"
+            data-bs-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-cog"></i>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li>
+                <a href="#" type="button" class="dropdown-item" data-bs-toggle="modal"
+                    data-bs-target="#detailEquipment{{ $model->id }}">
+                    Detail
+                </a>
+            </li>
+            <li>
+                <a href="#" type="button" class="dropdown-item" data-bs-toggle="modal"
+                    data-bs-target="#exampleModalPic{{ $model->id }}">
+                    PIC Vendor
+                </a>
+            </li>
+            <li>
+                <a href="#" type="button" class="dropdown-item" data-bs-toggle="modal"
+                    data-bs-target="#largeModal" data-id="{{ $model->id }}" id="view_gambar">
+                    File Vendor
+                </a>
+            </li>
+        </ul>
+    </div>
+
+
 
 </td>
 

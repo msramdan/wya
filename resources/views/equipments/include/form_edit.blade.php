@@ -43,11 +43,11 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-2">
-                        <label for="equipment-category-id">{{ __('Equipment Category') }}</label>
+                        <label for="equipment-category-id">{{ __('Category') }}</label>
                         <select
                             class="form-control js-example-basic-multiple @error('equipment_category_id') is-invalid @enderror"
                             name="equipment_category_id" id="equipment-category-id" required>
-                            <option value="" selected disabled>-- {{ __('Select equipment category') }} --
+                            <option value="" selected disabled>-- {{ __('Select category') }} --
                             </option>
 
                             @foreach ($equipmentCategories as $equipmentCategory)
@@ -172,11 +172,11 @@
                     </div>
 
                     <div class="col-md-6 mb-2">
-                        <label for="equipment-location-id">{{ __('Equipment Location') }}</label>
+                        <label for="equipment-location-id">{{ __('Location') }}</label>
                         <select
                             class="form-control js-example-basic-multiple @error('equipment_location_id') is-invalid @enderror"
                             name="equipment_location_id" id="equipment-location-id" required>
-                            <option value="" selected disabled>-- {{ __('Select equipment location') }} --
+                            <option value="" selected disabled>-- {{ __('Select location') }} --
                             </option>
 
                             @foreach ($equipmentLocations as $equipmentLocation)

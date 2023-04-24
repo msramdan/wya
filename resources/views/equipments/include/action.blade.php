@@ -1,7 +1,7 @@
 <td>
-    <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#qrcode-equipment"><i
+    {{-- <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#qrcode-equipment"><i
             class='fa fa-qrcode'></i>
-    </button>
+    </button> --}}
     @can('equipment edit')
         <a href="{{ route('equipment.edit', $model->id) }}" class="btn btn-success btn-sm">
             <i class="mdi mdi-pencil"></i>
@@ -19,10 +19,47 @@
             </button>
         </form>
     @endcan
+
+    {{-- @canany(['download qr', 'sparepart stock in', 'sparepart stock out', 'sparepart history']) --}}
+    <div class="btn-group">
+        <button class="btn btn-md btn-warning btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1"
+            data-bs-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-cog"></i>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li>
+                <a href="#" type="button" class="dropdown-item" data-bs-toggle="modal"
+                    data-bs-target="#detailEquipment{{ $model->id }}">
+                    Detail
+                </a>
+            </li>
+            <li>
+                <a href="#" type="button" class="dropdown-item" data-bs-toggle="modal"
+                    data-bs-target="#detailEquipment{{ $model->id }}">
+                    Cetak
+                </a>
+            </li>
+            <li>
+                <a href="#" type="button" class="dropdown-item" data-bs-toggle="modal"
+                    data-bs-target="#qrcode-equipment{{ $model->id }}">
+                    QR Code
+                </a>
+            </li>
+            <li>
+                <a href="#" type="button" class="dropdown-item" data-bs-toggle="modal"
+                    data-bs-target="#penyusutanEquipment{{ $model->id }}">
+                    Tabel Penyusutan
+                </a>
+            </li>
+        </ul>
+    </div>
+    {{-- @endcanany --}}
+
+
 </td>
 
 <!-- Modal -->
-<div class="modal fade" id="qrcode-equipment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="qrcode-equipment{{ $model->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
