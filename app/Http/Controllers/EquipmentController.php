@@ -92,6 +92,11 @@ class EquipmentController extends Controller
                 'equipment_location_id' => 'required|exists:App\Models\EquipmentLocation,id',
                 'financing_code' => 'required|string|min:1|max:255',
                 'photo'     => 'required|image|mimes:png,jpg,jpeg',
+                'tgl_pembelian' => 'required',
+                'metode' => 'required',
+                'nilai_perolehan' => 'required',
+                'nilai_residu' => 'required',
+                'masa_manfaat' => 'required',
             ],
         );
         if ($validator->fails()) {
@@ -117,6 +122,11 @@ class EquipmentController extends Controller
                 'equipment_location_id' => $request->equipment_location_id,
                 'financing_code' => $request->financing_code,
                 'photo'     => $photo->hashName(),
+                'tgl_pembelian' => $request->tgl_pembelian,
+                'metode' => $request->metode,
+                'nilai_perolehan' => $request->nilai_perolehan,
+                'nilai_residu' => $request->nilai_residu,
+                'masa_manfaat' => $request->masa_manfaat,
             ]);
             $insertedId = $equipment->id;
             if ($equipment) {
@@ -188,7 +198,7 @@ class EquipmentController extends Controller
      */
     public function edit(Equipment $equipment)
     {
-        $equipment->load('nomenklatur:id,code_nomenklatur', 'equipment_category:id,code_categoty', 'vendor:id,code_vendor', 'equipment_location:id,code_location',);
+        $equipment->load('nomenklatur:id,code_nomenklatur', 'equipment_category:id,code_categoty', 'vendor:id,code_vendor', 'equipment_location:id,code_location');
         $file = DB::table('equipment_files')->where('equipment_id', $equipment->id)->get();
         $fittings  = DB::table('equipment_fittings')->where('equipment_id', $equipment->id)->get();
         return view('equipments.edit', compact('equipment', 'file', 'fittings'));
@@ -219,6 +229,11 @@ class EquipmentController extends Controller
                 'equipment_location_id' => 'required|exists:App\Models\EquipmentLocation,id',
                 'financing_code' => 'required|string|min:1|max:255',
                 'photo'     => 'image|mimes:png,jpg,jpeg',
+                'tgl_pembelian' => 'required',
+                'metode' => 'required',
+                'nilai_perolehan' => 'required',
+                'nilai_residu' => 'required',
+                'masa_manfaat' => 'required',
             ],
         );
         if ($validator->fails()) {
@@ -248,6 +263,11 @@ class EquipmentController extends Controller
             'risk_level' => $request->risk_level,
             'equipment_location_id' => $request->equipment_location_id,
             'financing_code' => $request->financing_code,
+            'tgl_pembelian' => $request->tgl_pembelian,
+            'metode' => $request->metode,
+            'nilai_perolehan' => $request->nilai_perolehan,
+            'nilai_residu' => $request->nilai_residu,
+            'masa_manfaat' => $request->masa_manfaat,
         ]);
 
         // hapus file

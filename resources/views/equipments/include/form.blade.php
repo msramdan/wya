@@ -231,28 +231,28 @@
                 <hr>
                 <div class="row">
                     <div class="col-md-6 mb-2">
-                        <label for="tgl_pembeian">{{ __('Tanggal Pembelian') }}</label>
-                        <input type="date" name="tgl_pembeian" id="tgl_pembeian"
-                            class="form-control @error('tgl_pembeian') is-invalid @enderror"
-                            value="{{ isset($equipment) ? $equipment->tgl_pembeian : old('tgl_pembeian') }}"
-                            placeholder="{{ __('tgl_pembeian') }}" required />
-                        @error('tgl_pembeian')
+                        <label for="tgl_pembelian">{{ __('Tanggal Pembelian') }}</label>
+                        <input type="date" name="tgl_pembelian" id="tgl_pembelian"
+                            class="form-control @error('tgl_pembelian') is-invalid @enderror"
+                            value="{{ isset($equipment) ? $equipment->tgl_pembelian : old('tgl_pembelian') }}"
+                            placeholder="{{ __('tgl_pembelian') }}" required />
+                        @error('tgl_pembelian')
                             <span class="text-danger">
                                 {{ $message }}
                             </span>
                         @enderror
                     </div>
                     <div class="col-md-6 mb-2">
-                        <label for="tgl_pembeian">{{ __('Metode') }}</label>
+                        <label for="metode">{{ __('Metode') }}</label>
                         <select class="form-control js-example-basic-multiple @error('metode') is-invalid @enderror"
-                            name="metode" id="risk-level" required>
+                            name="metode" id="metode" required>
                             <option value="" selected disabled>-- {{ __('Select metode') }} --</option>
                             <option value="Garis Lurus"
                                 {{ isset($equipment) && $equipment->metode == 'Garis Lurus' ? 'selected' : (old('metode') == 'Garis Lurus' ? 'selected' : '') }}>
                                 {{ __('Garis Lurus') }}</option>
-                            <option value="Saldo Menurun"
+                            {{-- <option value="Saldo Menurun"
                                 {{ isset($equipment) && $equipment->metode == 'Saldo Menurun' ? 'selected' : (old('metode') == 'Saldo Menurun' ? 'selected' : '') }}>
-                                {{ __('Saldo Menurun') }}</option>
+                                {{ __('Saldo Menurun') }}</option> --}}
                         </select>
                         @error('metode')
                             <span class="text-danger">
@@ -261,36 +261,36 @@
                         @enderror
                     </div>
                     <div class="col-md-6 mb-2">
-                        <label for="tgl_pembeian">{{ __('Nilai Perolehan') }}</label>
-                        <input type="number" name="tgl_pembeian" id="tgl_pembeian"
-                            class="form-control @error('tgl_pembeian') is-invalid @enderror"
-                            value="{{ isset($equipment) ? $equipment->tgl_pembeian : old('tgl_pembeian') }}"
+                        <label for="nilai_perolehan">{{ __('Nilai Perolehan') }}</label>
+                        <input type="number" name="nilai_perolehan" id="nilai_perolehan"
+                            class="form-control @error('nilai_perolehan') is-invalid @enderror"
+                            value="{{ isset($equipment) ? $equipment->nilai_perolehan : old('nilai_perolehan') }}"
                             placeholder="{{ __('Nilai Perolehan') }}" required />
-                        @error('tgl_pembeian')
+                        @error('nilai_perolehan')
                             <span class="text-danger">
                                 {{ $message }}
                             </span>
                         @enderror
                     </div>
                     <div class="col-md-6 mb-2">
-                        <label for="tgl_pembeian">{{ __('Nilai Residu') }}</label>
-                        <input type="number" name="tgl_pembeian" id="tgl_pembeian"
-                            class="form-control @error('tgl_pembeian') is-invalid @enderror"
-                            value="{{ isset($equipment) ? $equipment->tgl_pembeian : old('tgl_pembeian') }}"
+                        <label for="nilai_residu">{{ __('Nilai Residu') }}</label>
+                        <input type="number" name="nilai_residu" id="nilai_residu"
+                            class="form-control @error('nilai_residu') is-invalid @enderror"
+                            value="{{ isset($equipment) ? $equipment->nilai_residu : old('nilai_residu') }}"
                             placeholder="{{ __('Nilai Residu') }}" required />
-                        @error('tgl_pembeian')
+                        @error('nilai_residu')
                             <span class="text-danger">
                                 {{ $message }}
                             </span>
                         @enderror
                     </div>
                     <div class="col-md-6 mb-2">
-                        <label for="tgl_pembeian">{{ __('Masa Manfaat') }} (Tahun)</label>
-                        <input type="number" name="tgl_pembeian" id="tgl_pembeian"
-                            class="form-control @error('tgl_pembeian') is-invalid @enderror"
-                            value="{{ isset($equipment) ? $equipment->tgl_pembeian : old('tgl_pembeian') }}"
+                        <label for="masa_manfaat">{{ __('Masa Manfaat') }} (Tahun)</label>
+                        <input type="number" name="masa_manfaat" id="masa_manfaat"
+                            class="form-control @error('masa_manfaat') is-invalid @enderror"
+                            value="{{ isset($equipment) ? $equipment->masa_manfaat : old('masa_manfaat') }}"
                             placeholder="{{ __('Masa Manfaat') }}" required />
-                        @error('tgl_pembeian')
+                        @error('masa_manfaat')
                             <span class="text-danger">
                                 {{ $message }}
                             </span>
