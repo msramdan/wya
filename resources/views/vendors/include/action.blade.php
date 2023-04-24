@@ -98,12 +98,12 @@
             data-bs-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-cog"></i>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li>
+            {{-- <li>
                 <a href="#" type="button" class="dropdown-item" data-bs-toggle="modal"
                     data-bs-target="#detailEquipment{{ $model->id }}">
                     Detail
                 </a>
-            </li>
+            </li> --}}
             <li>
                 <a href="#" type="button" class="dropdown-item" data-bs-toggle="modal"
                     data-bs-target="#exampleModalPic{{ $model->id }}">

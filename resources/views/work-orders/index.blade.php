@@ -86,13 +86,13 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-1">
+                                {{-- <div class="col-md-1">
                                     <div class="input-group mb-4">
                                         <button id="btnExport" class="btn btn-success">
                                             {{ __('Export') }}
                                         </button>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
 
                             <div class="table-responsive">
