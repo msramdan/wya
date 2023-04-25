@@ -61,6 +61,8 @@ Route::prefix('panel')->group(function () {
     Route::get('download-format-vendor', [App\Http\Controllers\VendorController::class, 'formatImport'])->name('download-format-vendor')->middleware('auth');
     Route::get('export-data-vendors', [App\Http\Controllers\VendorController::class, 'export'])->name('export-data-vendors')->middleware('auth');
     Route::get('/GetFileVendor/{id}', [App\Http\Controllers\VendorController::class, 'GetFileVendor'])->middleware('auth');
+    Route::post('import-vendor', [App\Http\Controllers\VendorController::class, 'import'])->name('action-import-vendor')->middleware('auth');
+
     Route::resource('spareparts', App\Http\Controllers\SparepartController::class)->middleware('auth');
     Route::get('export-data-spareparts', [App\Http\Controllers\SparepartController::class, 'export'])->name('export-data-spareparts')->middleware('auth');
     Route::get('download-format-sparepart', [App\Http\Controllers\SparepartController::class, 'formatImport'])->name('download-format-sparepart')->middleware('auth');

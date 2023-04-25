@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Exports\VendorsExport;
 use App\FormatImport\GenerateVendorFormat;
 use App\Models\Vendor;
-use App\Http\Requests\{StoreVendorRequest, UpdateVendorRequest};
+use App\Http\Requests\{ImportVendorRequest, StoreVendorRequest, UpdateVendorRequest};
+use App\Imports\VendorImport;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
@@ -383,5 +384,13 @@ class VendorController extends Controller
         $date = date('d-m-Y');
         $nameFile = 'import_vendor' . $date;
         return Excel::download(new GenerateVendorFormat(), $nameFile . '.xlsx');
+    }
+
+    public function import(ImportVendorRequest $request)
+    {
+        Excel::import(new VendorImport, $request->file('import_vendor'));
+
+        Alert::toast('Vendors has been successfully imported.', 'success');
+        return back();
     }
 }
