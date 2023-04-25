@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
-class ImportSparepartRequest extends FormRequest
+class ImportNomenklaturRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class ImportSparepartRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'import_sparepart' => 'required|mimes:xlsx'
+            'import_nomenklatur' => 'required|mimes:xlsx'
         ];
     }
 
@@ -38,7 +38,7 @@ class ImportSparepartRequest extends FormRequest
      */
     protected function failedValidation(Validator $validator)
     {
-        session()->flash('error_import_sparepart', 'File Import is required and xlsx format');
+        session()->flash('error_import_nomenklatur', 'File Import is required and xlsx format');
 
         throw (new ValidationException($validator))
             ->errorBag($this->errorBag)
