@@ -62,6 +62,8 @@ Route::prefix('panel')->group(function () {
     Route::resource('spareparts', App\Http\Controllers\SparepartController::class)->middleware('auth');
     Route::get('export-data-spareparts', [App\Http\Controllers\SparepartController::class, 'export'])->name('export-data-spareparts')->middleware('auth');
     Route::get('download-format-sparepart', [App\Http\Controllers\SparepartController::class, 'formatImport'])->name('download-format-sparepart')->middleware('auth');
+    Route::post('import-sparepart', [App\Http\Controllers\SparepartController::class, 'import'])->name('action-import-sparepart')->middleware('auth');
+
     Route::post('stok_in', [App\Http\Controllers\SparepartController::class, 'stok_in'])->name('stok_in')->middleware('auth');
     Route::post('stok_out', [App\Http\Controllers\SparepartController::class, 'stok_out'])->name('stok_out')->middleware('auth');
     Route::delete('delete_history/{id}', [App\Http\Controllers\SparepartController::class, 'delete_history'])->name('delete_history')->middleware('auth');
