@@ -121,11 +121,13 @@ class WorkOrderController extends Controller
                         }
                     }
 
-                    if ($displayAction) {
-                        return view('work-orders.include.action', ['model' => $row]);
-                    } else {
-                        return '-';
-                    }
+                    $arrApprovalUsers = collect(json_decode($row->approval_users_id))->map(function ($row) {
+                        $row->user_name = User::find($row->user_id)->name;
+
+                        return $row;
+                    });
+
+                    return view('work-orders.include.action', ['model' => $row, 'displayAction' => $displayAction, 'arrApprovalUsers' => $arrApprovalUsers]);
                 })
                 ->toJson();
         }

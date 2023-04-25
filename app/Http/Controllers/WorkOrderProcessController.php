@@ -106,6 +106,9 @@ class WorkOrderProcessController extends Controller
                 })->addColumn('user', function ($row) {
                     return $row->user ? $row->user->name : '';
                 })
+                ->addColumn('action', function ($row) {
+                    return view('work-order-process.includes.index-action', ['model' => $row]);
+                })
                 ->toJson();
         }
 
