@@ -11,6 +11,7 @@
             <th style="background-color:#D3D3D3 ">{{ __('Phone') }}</th>
             <th style="background-color:#D3D3D3 ">{{ __('Join Date') }}</th>
             <th style="background-color:#D3D3D3 ">{{ __('Address') }}</th>
+            <th style="background-color:#D3D3D3 ">{{ __('Zip Kode') }}</th>
         </tr>
     </thead>
     <tbody>

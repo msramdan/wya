@@ -54,6 +54,8 @@ Route::prefix('panel')->group(function () {
     Route::resource('employees', App\Http\Controllers\EmployeeController::class)->middleware('auth');
     Route::get('download-format-employee', [App\Http\Controllers\EmployeeController::class, 'formatImport'])->name('download-format-employee')->middleware('auth');
     Route::get('export-data-employees', [App\Http\Controllers\EmployeeController::class, 'export'])->name('export-data-employees')->middleware('auth');
+    Route::post('import-employees', [App\Http\Controllers\EmployeeController::class, 'import'])->name('action-import-employees')->middleware('auth');
+
     Route::resource('category-vendors', App\Http\Controllers\CategoryVendorController::class)->middleware('auth');
     Route::resource('vendors', App\Http\Controllers\VendorController::class)->middleware('auth');
     Route::get('download-format-vendor', [App\Http\Controllers\VendorController::class, 'formatImport'])->name('download-format-vendor')->middleware('auth');
