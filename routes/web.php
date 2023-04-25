@@ -73,6 +73,8 @@ Route::prefix('panel')->group(function () {
     Route::get('print_qr_equipment/{id}', [App\Http\Controllers\EquipmentController::class, 'print_qr'])->name('print_qr_equipment')->middleware('auth');
     Route::get('export-data-equipment', [App\Http\Controllers\EquipmentController::class, 'export'])->name('export-data-equipment')->middleware('auth');
     Route::get('download-format-equipment', [App\Http\Controllers\EquipmentController::class, 'formatImport'])->name('download-format-equipment')->middleware('auth');
+    Route::post('import-equipment', [App\Http\Controllers\EquipmentController::class, 'import'])->name('action-import-equipment')->middleware('auth');
+
     Route::resource('work-orders', App\Http\Controllers\WorkOrderController::class)->middleware('auth');
     Route::resource('work-order-approvals', App\Http\Controllers\WorkOrderApprovalController::class)->middleware('auth');
     Route::resource('work-order-processes', App\Http\Controllers\WorkOrderProcessController::class)->middleware('auth');
