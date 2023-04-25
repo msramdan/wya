@@ -54,13 +54,6 @@
                 </div>
             @endif
 
-            @if (Session::get('error_import_employees'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Failed!</strong> {{ Session::get('error_import_employees') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card">
