@@ -24,8 +24,7 @@
                     <div class="card">
                         <div class="card-header">
                             @can('work order create')
-                                <a href="{{ route('work-orders.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ __('Create a new work order') }}</a>
+                                <a href="{{ route('work-orders.create') }}" class="btn btn-md btn-primary"> <i class="mdi mdi-plus"></i> {{ __('Create a new work order') }}</a>
                             @endcan
                         </div>
 
@@ -33,10 +32,8 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="input-group mb-4">
-                                        <span class="input-group-text" id="addon-wrapping"><i
-                                                class="fa fa-calendar"></i></span>
-                                        <input type="text" class="form-control" aria-describedby="addon-wrapping"
-                                            id="daterange-btn" value="">
+                                        <span class="input-group-text" id="addon-wrapping"><i class="fa fa-calendar"></i></span>
+                                        <input type="text" class="form-control" aria-describedby="addon-wrapping" id="daterange-btn" value="">
                                         <input type="hidden" name="start_date" id="start_date" value="{{ $microFrom }}">
                                         <input type="hidden" name="end_date" id="end_date" value="{{ $microTo }}">
                                     </div>
@@ -212,7 +209,7 @@
                             break;
                     }
 
-                    return `<span class="badge bg-${rowStatus}">${['on-going', 'finished'].includes(row.status_wo) ? 'accepted' : row.status_wo}</span>`;
+                    return `<span class="badge bg-${rowStatus}">${row.status_wo}</span>`;
                 }
             },
 
