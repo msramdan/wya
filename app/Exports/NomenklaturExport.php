@@ -8,9 +8,15 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 use App\Models\Nomenklatur;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class NomenklaturExport implements FromView, ShouldAutoSize, WithEvents
+class NomenklaturExport implements FromView, ShouldAutoSize, WithEvents, WithTitle
 {
+    public function title(): string
+    {
+        return 'Nomenklatur';
+    }
+
     public function view(): View
     {
         $data = Nomenklatur::orderBy('id', 'desc')->get();
