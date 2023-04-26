@@ -15,8 +15,10 @@
                     <div class="modal-body">
                         @csrf
                         <div class="mb-3">
-                            <input type="file" class="form-control" id="import_sparepart" name="import_sparepart" aria-describedby="import_sparepart" accept=".xlsx" required>
-                            <div id="downloadFormat" class="form-text"> <a href="#"><i class="fa fa-download" aria-hidden="true"></i> Download Format</a> </div>
+                            <input type="file" class="form-control" id="import_sparepart" name="import_sparepart"
+                                aria-describedby="import_sparepart" accept=".xlsx" required>
+                            <div id="downloadFormat" class="form-text"> <a href="#"><i class="fa fa-download"
+                                        aria-hidden="true"></i> Download Format</a> </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -60,13 +62,15 @@
                     <div class="card">
                         <div class="card-header">
                             @can('sparepart create')
-                                <a href="{{ route('spareparts.create') }}" class="btn btn-md btn-primary"> <i class="mdi mdi-plus"></i> {{ __('Create a new sparepart') }}</a>
+                                <a href="{{ route('spareparts.create') }}" class="btn btn-md btn-primary"> <i
+                                        class="mdi mdi-plus"></i> {{ __('Create a new sparepart') }}</a>
                             @endcan
                             <button id="btnExport" class="btn btn-success">
                                 <i class='fas fa-file-excel'></i>
                                 {{ __('Export') }}
                             </button>
-                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
                                 {{ __('Import') }}
                             </button>
                         </div>
@@ -160,7 +164,7 @@
                 title: 'Now loading',
                 allowEscapeKey: false,
                 allowOutsideClick: false,
-                timer: 2000,
+                timer: 10000,
                 onOpen: () => {
                     swal.showLoading();
                 }
@@ -172,7 +176,7 @@
                         swal({
                             title: 'Finished!',
                             type: 'success',
-                            timer: 2000,
+                            timer: 10000,
                             showConfirmButton: false
                         })
                     }
@@ -264,7 +268,6 @@
                     var link = document.createElement('a');
                     link.href = window.URL.createObjectURL(data);
                     var nameFile = 'import_sparepart.xlsx'
-                    console.log(nameFile)
                     link.download = nameFile;
                     link.click();
                     swal.close()

@@ -10,10 +10,11 @@ use Maatwebsite\Excel\Events\AfterSheet;
 use App\Models\UnitItem;
 use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 
 
 
-class GenerateSparepartFormat implements FromView, ShouldAutoSize, WithEvents, WithStrictNullComparison
+class GenerateSparepartFormat implements FromView, ShouldAutoSize, WithEvents, WithStrictNullComparison, WithChunkReading
 {
     public function view(): View
     {
@@ -59,5 +60,10 @@ class GenerateSparepartFormat implements FromView, ShouldAutoSize, WithEvents, W
                 }
             },
         ];
+    }
+
+    public function chunkSize(): int
+    {
+        return 50;
     }
 }
