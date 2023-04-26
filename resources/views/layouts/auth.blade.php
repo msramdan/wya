@@ -11,7 +11,6 @@
     <link rel="icon"
         @if (setting_web()->favicon != null) href="{{ Storage::url('public/img/setting_app/') . setting_web()->favicon }}" @endif
         type="image/x-icon">
-    <script src="assets/js/layout.js"></script>
     <link href="{{ asset('material/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('material/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('material/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
