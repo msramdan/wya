@@ -7,6 +7,7 @@ use App\Models\EquipmentCategory;
 use App\Models\EquipmentLocation;
 use App\Models\Nomenklatur;
 use App\Models\Vendor;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Concerns\Importable;
@@ -36,7 +37,7 @@ class EquipmentImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
             '*.risk_level' => 'required',
             '*.equipment_location' => 'required|exists:App\Models\EquipmentLocation,location_name',
             '*.financing_code' => 'required|min:1|max:255',
-            '*.tanggal_pembelian' => 'required|date',
+            '*.tanggal_pembelian' => 'required|date_format:d/m/Y',
             '*.metode_penyusutan' => 'required|in:Garis Lurus,Saldo Menurun',
             '*.nilai_perolehan' => 'required|numeric',
             '*.nilai_residu' => 'required|numeric',
@@ -56,7 +57,7 @@ class EquipmentImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
                 'equipment_location_id' => EquipmentLocation::where('location_name', $row['equipment_location'])->first()->id,
                 'financing_code' => $row['financing_code'],
                 'serial_number' => $row['serial_number'],
-                'tgl_pembelian' => date('Y-m-d', strtotime($row['tanggal_pembelian'])),
+                'tgl_pembelian' => Carbon::createFromFormat('d/m/Y', $row['tanggal_pembelian'])->format('Y-m-d'),
                 'metode' => $row['metode_penyusutan'],
                 'nilai_perolehan' => $row['nilai_perolehan'],
                 'nilai_residu' => $row['nilai_residu'],

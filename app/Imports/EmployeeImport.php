@@ -6,6 +6,7 @@ use App\Models\Department;
 use App\Models\Employee;
 use App\Models\EmployeeType;
 use App\Models\Position;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Concerns\Importable;
@@ -32,9 +33,10 @@ class EmployeeImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
             '*.email' => 'required|min:1|max:100',
             '*.phone' => 'required|min:1|max:15',
             '*.address' => 'required',
-            '*.join_date' => 'required|date',
+            '*.join_date' => 'required|date_format:d/m/Y',
             '*.zip_kode' => 'required|min:1|max:10',
         ])->validate();
+
 
         foreach ($collection as $row) {
             Employee::create([
@@ -46,7 +48,7 @@ class EmployeeImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
                 'position_id' => Position::where('name_position', $row['position'])->first()->id,
                 'email' => $row['email'],
                 'phone' => $row['phone'],
-                'join_date' => date('Y-m-d', strtotime($row['join_date'])),
+                'join_date' => Carbon::createFromFormat('d/m/Y', $row['join_date'])->format('Y-m-d'),
                 'address' => $row['address'],
                 'zip_kode' => $row['zip_kode'],
             ]);
