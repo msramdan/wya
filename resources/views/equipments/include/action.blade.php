@@ -156,6 +156,10 @@
                             <tr>
                                 <td style="padding: 5px">{!! QrCode::size(150)->generate($model->barcode) !!}</td>
                             </tr>
+                            <tr>
+                                <td style="text-align: center;"> <b>{{ $model->equipment_location->location_name }}</b>
+                                </td>
+                            </tr>
                         </thead>
                     </table>
                     @if (setting_web()->logo != null)
