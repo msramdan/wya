@@ -35,6 +35,11 @@ class EquipmentImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
             '*.risk_level' => 'required',
             '*.equipment_location' => 'required|exists:App\Models\EquipmentLocation,location_name',
             '*.financing_code' => 'required|min:1|max:255',
+            '*.tanggal_pembelian' => 'required|date',
+            '*.metode_penyusutan' => 'required|in:Garis Lurus,Saldo Menurun',
+            '*.nilai_perolehan' => 'required|numeric',
+            '*.nilai_residu' => 'required|numeric',
+            '*.masa_manfaat' => 'required|numeric'
         ])->validate();
 
         foreach ($collection as $row) {
@@ -49,7 +54,12 @@ class EquipmentImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
                 'risk_level' => $row['risk_level'],
                 'equipment_location_id' => EquipmentLocation::where('location_name', $row['equipment_location'])->first()->id,
                 'financing_code' => $row['financing_code'],
-                'serial_number' => $row['serial_number']
+                'serial_number' => $row['serial_number'],
+                'tgl_pembelian' => date('Y-m-d', strtotime($row['tanggal_pembelian'])),
+                'metode' => $row['metode_penyusutan'],
+                'nilai_perolehan' => $row['nilai_perolehan'],
+                'nilai_residu' => $row['nilai_residu'],
+                'masa_manfaat' => $row['masa_manfaat'],
             ]);
         }
     }
