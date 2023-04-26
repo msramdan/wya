@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Exports\NomenklaturExport;
 use App\FormatImport\GenerateNomenklaturFormat;
 use App\Models\Nomenklatur;
-use App\Http\Requests\{StoreNomenklaturRequest, UpdateNomenklaturRequest};
+use App\Http\Requests\{ImportNomenklaturRequest, StoreNomenklaturRequest, UpdateNomenklaturRequest};
 use App\Imports\NomenklaturImport;
 use Yajra\DataTables\Facades\DataTables;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class NomenklaturController extends Controller
 {
@@ -45,10 +45,11 @@ class NomenklaturController extends Controller
         $nameFile = 'import_nomenklatur' . $date;
         return Excel::download(new GenerateNomenklaturFormat(), $nameFile . '.xlsx');
     }
-
-    public function import_excel(Request $request)
+    public function import(ImportNomenklaturRequest $request)
     {
-        Excel::import(new NomenklaturImport, $request->file('file'));
-        return redirect()->back();
+        Excel::import(new NomenklaturImport, $request->file('import_nomenklatur'));
+
+        Alert::toast('Nomenklatur has been successfully imported.', 'success');
+        return back();
     }
 }

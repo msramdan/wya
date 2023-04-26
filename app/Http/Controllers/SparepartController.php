@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\FormatImport\GenerateSparepartFormat;
 use App\Exports\SparepartExport;
 use App\Models\Sparepart;
-use App\Http\Requests\{StoreSparepartRequest, UpdateSparepartRequest};
+use App\Http\Requests\{ImportSparepartRequest, StoreSparepartRequest, UpdateSparepartRequest};
+use App\Imports\SparepartImport;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -311,5 +312,13 @@ class SparepartController extends Controller
         $date = date('d-m-Y');
         $nameFile = 'import_sparepart' . $date;
         return Excel::download(new GenerateSparepartFormat(), $nameFile . '.xlsx');
+    }
+
+    public function import(ImportSparepartRequest $request)
+    {
+        Excel::import(new SparepartImport, $request->file('import_sparepart'));
+
+        Alert::toast('Sparepart has been successfully imported.', 'success');
+        return back();
     }
 }

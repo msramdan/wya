@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Exports\EmployeeExport;
 use App\FormatImport\GenerateEmployeeFormat;
 use App\Models\Employee;
-use App\Http\Requests\{StoreEmployeeRequest, UpdateEmployeeRequest};
+use App\Http\Requests\{ImportEmployeeRequest, StoreEmployeeRequest, UpdateEmployeeRequest};
+use App\Imports\EmployeeImport;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Storage;
@@ -282,5 +283,13 @@ class EmployeeController extends Controller
         $date = date('d-m-Y');
         $nameFile = 'import_employee' . $date;
         return Excel::download(new GenerateEmployeeFormat(), $nameFile . '.xlsx');
+    }
+
+    public function import(ImportEmployeeRequest $request)
+    {
+        Excel::import(new EmployeeImport, $request->file('import_employees'));
+
+        Alert::toast('Employees has been successfully imported.', 'success');
+        return back();
     }
 }

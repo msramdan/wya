@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Events\AfterSheet;
 use App\Models\EquipmentCategory;
 use App\Models\Vendor;
 use App\Models\EquipmentLocation;
+use App\Models\Nomenklatur;
 use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
 
@@ -37,11 +38,31 @@ class GenerateEquipmentFormat implements FromView, ShouldAutoSize, WithEvents, W
                 ]);
 
                 // set dropdown column
+                $column_b = 'B';
                 $column_c = 'C';
                 $column_g = 'G';
                 $column_h = 'H';
                 $column_i = 'I';
                 $column_j = 'J';
+                
+                // kolom b category
+                $kolomB = [];
+                $nomenklatur = Nomenklatur::get();
+                foreach ($nomenklatur as $value) {
+                    array_push($kolomB, $value->name_nomenklatur);
+                }
+                $validation = $event->sheet->getCell("{$column_b}2")->getDataValidation();
+                $validation->setType(DataValidation::TYPE_LIST);
+                $validation->setErrorStyle(DataValidation::STYLE_INFORMATION);
+                $validation->setAllowBlank(false);
+                $validation->setShowInputMessage(true);
+                $validation->setShowErrorMessage(true);
+                $validation->setShowDropDown(true);
+                $validation->setErrorTitle('Input error');
+                $validation->setError('Value is not in list.');
+                $validation->setPromptTitle('Pick from list');
+                $validation->setPrompt('Please pick a value from the drop-down list.');
+                $validation->setFormula1(sprintf('"%s"', implode(',', $kolomB)));
                 $column_m = 'M';
                 // kolom C category
                 $kolomC = [];

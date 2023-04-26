@@ -6,6 +6,7 @@
             <th style="background-color:#D3D3D3 ">{{ __('Category Vendor') }}</th>
             <th style="background-color:#D3D3D3 ">{{ __('Email') }}</th>
             <th style="background-color:#D3D3D3 ">{{ __('Address') }}</th>
+            <th style="background-color:#D3D3D3 ">{{ __('Zip Kode') }}</th>
         </tr>
     </thead>
     <tbody>

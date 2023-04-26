@@ -11,16 +11,13 @@
                     <h5 class="modal-title" id="exampleModalLabel">Import Sparepart</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" action="">
+                <form method="POST" action="{{ route('action-import-sparepart') }}" enctype="multipart/form-data">
                     <div class="modal-body">
                         @csrf
                         <div class="mb-3">
-                            <input type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                                required>
-                            <div id="downloadFormat" class="form-text"> <a href="#"><i class="fa fa-download"
-                                        aria-hidden="true"></i> Download Format</a> </div>
+                            <input type="file" class="form-control" id="import_sparepart" name="import_sparepart" aria-describedby="import_sparepart" accept=".xlsx" required>
+                            <div id="downloadFormat" class="form-text"> <a href="#"><i class="fa fa-download" aria-hidden="true"></i> Download Format</a> </div>
                         </div>
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -47,20 +44,29 @@
                     </div>
                 </div>
             </div>
+
+            @if (count($errors) > 0)
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Failed!</strong>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header">
                             @can('sparepart create')
-                                <a href="{{ route('spareparts.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ __('Create a new sparepart') }}</a>
+                                <a href="{{ route('spareparts.create') }}" class="btn btn-md btn-primary"> <i class="mdi mdi-plus"></i> {{ __('Create a new sparepart') }}</a>
                             @endcan
                             <button id="btnExport" class="btn btn-success">
                                 <i class='fas fa-file-excel'></i>
                                 {{ __('Export') }}
                             </button>
-                            <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
                                 {{ __('Import') }}
                             </button>
                         </div>

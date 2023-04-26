@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Exports\EquiptmentExport;
 use App\FormatImport\GenerateEquipmentFormat;
 use App\Models\Equipment;
-use App\Http\Requests\{StoreEquipmentRequest, UpdateEquipmentRequest};
+use App\Http\Requests\{ImportEquipmentRequest, StoreEquipmentRequest, UpdateEquipmentRequest};
+use App\Imports\EquipmentImport;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
@@ -405,6 +406,14 @@ class EquipmentController extends Controller
         $date = date('d-m-Y');
         $nameFile = 'import_equipment' . $date;
         return Excel::download(new GenerateEquipmentFormat(), $nameFile . '.xlsx');
+    }
+
+    public function import(ImportEquipmentRequest $request)
+    {
+        Excel::import(new EquipmentImport, $request->file('import_equipment'));
+
+        Alert::toast('Equipment has been successfully imported.', 'success');
+        return back();
     }
 
     public function print_qr(Request $request, $barcode)

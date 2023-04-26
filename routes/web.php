@@ -51,30 +51,32 @@ Route::prefix('panel')->group(function () {
     Route::resource('employees', App\Http\Controllers\EmployeeController::class)->middleware('auth');
     Route::get('download-format-employee', [App\Http\Controllers\EmployeeController::class, 'formatImport'])->name('download-format-employee')->middleware('auth');
     Route::get('export-data-employees', [App\Http\Controllers\EmployeeController::class, 'export'])->name('export-data-employees')->middleware('auth');
+    Route::post('import-employees', [App\Http\Controllers\EmployeeController::class, 'import'])->name('action-import-employees')->middleware('auth');
+
     Route::resource('category-vendors', App\Http\Controllers\CategoryVendorController::class)->middleware('auth');
     Route::resource('vendors', App\Http\Controllers\VendorController::class)->middleware('auth');
     Route::get('download-format-vendor', [App\Http\Controllers\VendorController::class, 'formatImport'])->name('download-format-vendor')->middleware('auth');
     Route::get('export-data-vendors', [App\Http\Controllers\VendorController::class, 'export'])->name('export-data-vendors')->middleware('auth');
     Route::get('/GetFileVendor/{id}', [App\Http\Controllers\VendorController::class, 'GetFileVendor'])->middleware('auth');
-    // Sparepart
+    Route::post('import-vendor', [App\Http\Controllers\VendorController::class, 'import'])->name('action-import-vendor')->middleware('auth');
     Route::resource('spareparts', App\Http\Controllers\SparepartController::class)->middleware('auth');
     Route::get('export-data-spareparts', [App\Http\Controllers\SparepartController::class, 'export'])->name('export-data-spareparts')->middleware('auth');
     Route::get('download-format-sparepart', [App\Http\Controllers\SparepartController::class, 'formatImport'])->name('download-format-sparepart')->middleware('auth');
+    Route::post('import-sparepart', [App\Http\Controllers\SparepartController::class, 'import'])->name('action-import-sparepart')->middleware('auth');
+
     Route::post('stok_in', [App\Http\Controllers\SparepartController::class, 'stok_in'])->name('stok_in')->middleware('auth');
     Route::post('stok_out', [App\Http\Controllers\SparepartController::class, 'stok_out'])->name('stok_out')->middleware('auth');
     Route::delete('delete_history/{id}', [App\Http\Controllers\SparepartController::class, 'delete_history'])->name('delete_history')->middleware('auth');
     Route::get('print_qr/{id}', [App\Http\Controllers\SparepartController::class, 'print_qr'])->name('print_qr')->middleware('auth');
-    // Nomenklatur
     Route::resource('nomenklaturs', App\Http\Controllers\NomenklaturController::class)->middleware('auth');
     Route::get('export-data-nomenklatur', [App\Http\Controllers\NomenklaturController::class, 'export'])->name('export-data-nomenklatur')->middleware('auth');
     Route::get('download-format-nomenklatur', [App\Http\Controllers\NomenklaturController::class, 'formatImport'])->name('download-format-nomenklatur')->middleware('auth');
-    Route::post('import-data-nomenklatur', [App\Http\Controllers\NomenklaturController::class, 'import_excel'])->name('import-data-nomenklatur')->middleware('auth');
-    // Equipment
+    Route::post('import-nomenklatur', [App\Http\Controllers\NomenklaturController::class, 'import'])->name('action-import-nomenklatur')->middleware('auth');
     Route::resource('equipment', App\Http\Controllers\EquipmentController::class)->middleware('auth');
     Route::get('print_qr_equipment/{id}', [App\Http\Controllers\EquipmentController::class, 'print_qr'])->name('print_qr_equipment')->middleware('auth');
     Route::get('export-data-equipment', [App\Http\Controllers\EquipmentController::class, 'export'])->name('export-data-equipment')->middleware('auth');
     Route::get('download-format-equipment', [App\Http\Controllers\EquipmentController::class, 'formatImport'])->name('download-format-equipment')->middleware('auth');
-    // Workorder
+    Route::post('import-equipment', [App\Http\Controllers\EquipmentController::class, 'import'])->name('action-import-equipment')->middleware('auth');
     Route::resource('work-orders', App\Http\Controllers\WorkOrderController::class)->middleware('auth');
     Route::resource('work-order-approvals', App\Http\Controllers\WorkOrderApprovalController::class)->middleware('auth');
     Route::resource('work-order-processes', App\Http\Controllers\WorkOrderProcessController::class)->middleware('auth');
