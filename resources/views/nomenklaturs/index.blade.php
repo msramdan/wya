@@ -13,15 +13,12 @@
                     <h5 class="modal-title" id="exampleModalLabel">Import Nomenklaturs</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" role="form" action="{{ route('import-data-nomenklatur') }}"
-                    enctype="multipart/form-data">
+                <form method="POST" action="{{ route('action-import-nomenklatur') }}" enctype="multipart/form-data">
                     <div class="modal-body">
                         {{ csrf_field() }}
                         <div class="mb-3">
-                            <input type="file" class="form-control" name="file" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" required>
-                            <div id="downloadFormat" class="form-text"> <a href="#"><i class="fa fa-download"
-                                        aria-hidden="true"></i> Download Format</a> </div>
+                            <input type="file" class="form-control" id="import_nomenklatur" aria-describedby="import_nomenklatur" name="import_nomenklatur" accept=".xlsx" required>
+                            <div id="downloadFormat" class="form-text"> <a href="#"><i class="fa fa-download" aria-hidden="true"></i> Download Format</a> </div>
                         </div>
 
                     </div>
@@ -37,6 +34,18 @@
 
     <div class="page-content">
         <div class="container-fluid">
+
+            @if (count($errors) > 0)
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Failed!</strong>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -59,8 +68,7 @@
                                 <i class='fas fa-file-excel'></i>
                                 {{ __('Export') }}
                             </button>
-                            <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
                                 {{ __('Import') }}
                             </button>
                         </div>

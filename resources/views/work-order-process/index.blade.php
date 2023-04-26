@@ -25,10 +25,8 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="input-group mb-4">
-                                        <span class="input-group-text" id="addon-wrapping"><i
-                                                class="fa fa-calendar"></i></span>
-                                        <input type="text" class="form-control" aria-describedby="addon-wrapping"
-                                            id="daterange-btn" value="">
+                                        <span class="input-group-text" id="addon-wrapping"><i class="fa fa-calendar"></i></span>
+                                        <input type="text" class="form-control" aria-describedby="addon-wrapping" id="daterange-btn" value="">
                                         <input type="hidden" name="start_date" id="start_date" value="{{ $microFrom }}">
                                         <input type="hidden" name="end_date" id="end_date" value="{{ $microTo }}">
                                     </div>
@@ -177,12 +175,9 @@
                     return `<span class="badge bg-${rowStatus}">${row.status_wo == 'accepted' ? 'ready for process' : row.status_wo}</span>`;
                 }
             },
-
             {
-                data: 'status_wo',
-                render: function(datum, type, row) {
-                    return `<a href="{{ route('work-order-processes.index') }}/${row.id}" class="btn btn-sm btn-success"><i class="mdi mdi-table-edit"></i></a>`
-                }
+                data: 'action',
+                name: 'action'
             },
         ];
 
