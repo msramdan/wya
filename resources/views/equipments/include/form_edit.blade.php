@@ -43,11 +43,11 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-2">
-                        <label for="equipment-category-id">{{ __('Equipment Category') }}</label>
+                        <label for="equipment-category-id">{{ __('Category') }}</label>
                         <select
                             class="form-control js-example-basic-multiple @error('equipment_category_id') is-invalid @enderror"
                             name="equipment_category_id" id="equipment-category-id" required>
-                            <option value="" selected disabled>-- {{ __('Select equipment category') }} --
+                            <option value="" selected disabled>-- {{ __('Select category') }} --
                             </option>
 
                             @foreach ($equipmentCategories as $equipmentCategory)
@@ -172,11 +172,11 @@
                     </div>
 
                     <div class="col-md-6 mb-2">
-                        <label for="equipment-location-id">{{ __('Equipment Location') }}</label>
+                        <label for="equipment-location-id">{{ __('Location') }}</label>
                         <select
                             class="form-control js-example-basic-multiple @error('equipment_location_id') is-invalid @enderror"
                             name="equipment_location_id" id="equipment-location-id" required>
-                            <option value="" selected disabled>-- {{ __('Select equipment location') }} --
+                            <option value="" selected disabled>-- {{ __('Select location') }} --
                             </option>
 
                             @foreach ($equipmentLocations as $equipmentLocation)
@@ -244,6 +244,74 @@
                     <b> <i class="fa-solid fa-money-bill"></i> Price Reduction</b>
                 </div>
                 <hr>
+                <div class="row">
+                    <div class="col-md-6 mb-2">
+                        <label for="tgl_pembelian">{{ __('Tanggal Pembelian') }}</label>
+                        <input type="date" name="tgl_pembelian" id="tgl_pembelian"
+                            class="form-control @error('tgl_pembelian') is-invalid @enderror"
+                            value="{{ isset($equipment) ? $equipment->tgl_pembelian : old('tgl_pembelian') }}"
+                            placeholder="{{ __('tgl_pembelian') }}" required />
+                        @error('tgl_pembelian')
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <label for="metode">{{ __('Metode') }}</label>
+                        <select class="form-control js-example-basic-multiple @error('metode') is-invalid @enderror"
+                            name="metode" id="metode" required>
+                            <option value="" selected disabled>-- {{ __('Select metode') }} --</option>
+                            <option value="Garis Lurus"
+                                {{ isset($equipment) && $equipment->metode == 'Garis Lurus' ? 'selected' : (old('metode') == 'Garis Lurus' ? 'selected' : '') }}>
+                                {{ __('Garis Lurus') }}</option>
+                            {{-- <option value="Saldo Menurun"
+                                {{ isset($equipment) && $equipment->metode == 'Saldo Menurun' ? 'selected' : (old('metode') == 'Saldo Menurun' ? 'selected' : '') }}>
+                                {{ __('Saldo Menurun') }}</option> --}}
+                        </select>
+                        @error('metode')
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <label for="nilai_perolehan">{{ __('Nilai Perolehan') }}</label>
+                        <input type="number" name="nilai_perolehan" id="nilai_perolehan"
+                            class="form-control @error('nilai_perolehan') is-invalid @enderror"
+                            value="{{ isset($equipment) ? $equipment->nilai_perolehan : old('nilai_perolehan') }}"
+                            placeholder="{{ __('Nilai Perolehan') }}" required />
+                        @error('nilai_perolehan')
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <label for="nilai_residu">{{ __('Nilai Residu') }}</label>
+                        <input type="number" name="nilai_residu" id="nilai_residu"
+                            class="form-control @error('nilai_residu') is-invalid @enderror"
+                            value="{{ isset($equipment) ? $equipment->nilai_residu : old('nilai_residu') }}"
+                            placeholder="{{ __('Nilai Residu') }}" required />
+                        @error('nilai_residu')
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <label for="masa_manfaat">{{ __('Masa Manfaat') }} (Tahun)</label>
+                        <input type="number" name="masa_manfaat" id="masa_manfaat"
+                            class="form-control @error('masa_manfaat') is-invalid @enderror"
+                            value="{{ isset($equipment) ? $equipment->masa_manfaat : old('masa_manfaat') }}"
+                            placeholder="{{ __('Masa Manfaat') }}" required />
+                        @error('masa_manfaat')
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                </div>
             </div>
         </div>
 

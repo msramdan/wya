@@ -80,11 +80,11 @@
                                             <th>#</th>
                                             <th>{{ __('Barcode') }}</th>
                                             <th>{{ __('Nomenklatur') }}</th>
-                                            <th>{{ __('Serial Number') }}</th>
-                                            <th>{{ __('Equipment Category') }}</th>
+                                            <th>{{ __('SN') }}</th>
+                                            <th>{{ __('Category') }}</th>
                                             <th>{{ __('Manufacturer') }}</th>
                                             <th>{{ __('Type') }}</th>
-                                            <th>{{ __('Equipment Location') }}</th>
+                                            <th>{{ __('Location') }}</th>
                                             <th>{{ __('Action') }}</th>
                                         </tr>
                                     </thead>

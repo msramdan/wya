@@ -29,7 +29,6 @@
                             QR Code
                         </a>
                     </li>
-                    </li>
                 @endcan
                 @can('sparepart stock in')
                     <li>
@@ -45,7 +44,6 @@
                             data-bs-target="#exampleModalStockOut{{ $model->id }}">
                             Stock Out
                         </a>
-
                     </li>
                 @endcan
                 @can('sparepart history')

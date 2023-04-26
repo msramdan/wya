@@ -45,7 +45,6 @@ class NomenklaturController extends Controller
         $nameFile = 'import_nomenklatur' . $date;
         return Excel::download(new GenerateNomenklaturFormat(), $nameFile . '.xlsx');
     }
-
     public function import(ImportNomenklaturRequest $request)
     {
         Excel::import(new NomenklaturImport, $request->file('import_nomenklatur'));

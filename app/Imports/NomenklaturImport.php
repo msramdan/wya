@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Imports;
-
 use App\Models\Nomenklatur;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
@@ -33,5 +32,9 @@ class NomenklaturImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
                 'name_nomenklatur' => $row['name_nomenklatur'],
             ]);
         }
+    }
+    public function chunkSize(): int
+    {
+        return 10;
     }
 }

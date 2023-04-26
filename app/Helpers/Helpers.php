@@ -19,3 +19,10 @@ function totalWoByType($type)
     $totalType = WorkOrder::where('type_wo', $type)->get();
     return  $totalType->count();
 }
+
+function rupiah($angka)
+{
+
+    $hasil_rupiah = "Rp " . number_format($angka, 2, ',', '.');
+    return $hasil_rupiah;
+}

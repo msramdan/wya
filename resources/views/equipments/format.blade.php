@@ -12,6 +12,11 @@
             <th style="background-color:#D3D3D3 ">{{ __('Risk Level') }}</th>
             <th style="background-color:#D3D3D3 ">{{ __('Equipment Location') }}</th>
             <th style="background-color:#D3D3D3 ">{{ __('Financing Code') }}</th>
+            <th style="background-color:#D3D3D3 ">{{ __('Tanggal Pembelian') }}</th>
+            <th style="background-color:#D3D3D3 ">{{ __('Metode Penyusutan') }}</th>
+            <th style="background-color:#D3D3D3 ">{{ __('Nilai Perolehan') }}</th>
+            <th style="background-color:#D3D3D3 ">{{ __('Nilai Residu') }}</th>
+            <th style="background-color:#D3D3D3 ">{{ __('Masa Manfaat') }}</th>
         </tr>
     </thead>
     <tbody>

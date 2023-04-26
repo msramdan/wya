@@ -15,7 +15,7 @@
                 </div>
                 <form method="POST" action="{{ route('action-import-nomenklatur') }}" enctype="multipart/form-data">
                     <div class="modal-body">
-                        @csrf
+                        {{ csrf_field() }}
                         <div class="mb-3">
                             <input type="file" class="form-control" id="import_nomenklatur" aria-describedby="import_nomenklatur" name="import_nomenklatur" accept=".xlsx" required>
                             <div id="downloadFormat" class="form-text"> <a href="#"><i class="fa fa-download" aria-hidden="true"></i> Download Format</a> </div>
