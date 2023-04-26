@@ -18,9 +18,8 @@
 </head>
 
 <body>
-
     <center>
-        <img style="width: {{ $widthQR }}px;" src="{{ public_path('qr/qr_sparepart/' . $sparepart->image_qr) }}">
+        <img style="width: {{ $widthQR }}px;" src="data:image/png;base64, {!! base64_encode(QrCode::generate($barcode)) !!} ">
         <img style="width: 90%;" src="{{ public_path('logo.png') }}">
     </center>
 </body>

@@ -89,7 +89,6 @@ class SparepartController extends Controller
                 'estimated_price' => 'required|numeric',
                 'opname' => 'required|numeric',
                 'stock' => 'nullable',
-                'image_qr' => 'nullable',
             ],
         );
         if ($validator->fails()) {
@@ -99,9 +98,6 @@ class SparepartController extends Controller
         DB::beginTransaction();
         try {
             //upload QR
-            $name = Str::slug($request->barcode, '-');
-            $image_qr = $name . '.svg';
-            $qr = QrCode::size(100)->format('svg')->generate($request->barcode, '../public/qr/qr_sparepart/' . $image_qr);
             Sparepart::create([
                 'barcode' => $request->barcode,
                 'sparepart_name' => $request->sparepart_name,
@@ -111,7 +107,6 @@ class SparepartController extends Controller
                 'estimated_price' => $request->estimated_price,
                 'opname' => $request->opname,
                 'stock' => $request->stock,
-                'image_qr' => $image_qr,
             ]);
             Alert::toast('The sparepart was created successfully.', 'success');
             return redirect()->route('spareparts.index');
@@ -153,7 +148,6 @@ class SparepartController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $validator = Validator::make(
             $request->all(),
             [
@@ -165,24 +159,12 @@ class SparepartController extends Controller
                 'estimated_price' => 'required|numeric',
                 'opname' => 'required|numeric',
                 'stock' => 'nullable',
-                'image_qr' => 'nullable',
             ],
         );
         if ($validator->fails()) {
             return redirect()->back()->withInput($request->all())->withErrors($validator);
         }
         $sparepart = Sparepart::findOrFail($id);
-
-
-        // delete qr lama
-        $file_path = public_path("qr/qr_sparepart/" . $sparepart->image_qr);
-        File::delete($file_path);
-
-        // upload baru
-        $name = Str::slug($request->barcode, '-');
-        $image_qr = $name . '.svg';
-        QrCode::size(100)->format('svg')->generate($request->barcode, '../public/qr/qr_sparepart/' . $image_qr);
-
         $sparepart->update([
             'barcode' => $request->barcode,
             'sparepart_name' => $request->sparepart_name,
@@ -192,7 +174,6 @@ class SparepartController extends Controller
             'estimated_price' => $request->estimated_price,
             'opname' => $request->opname,
             'stock' => $request->stock,
-            'image_qr' => $image_qr,
         ]);
 
         Alert::toast('The sparepart was updated successfully.', 'success');
@@ -209,8 +190,6 @@ class SparepartController extends Controller
     public function destroy(Sparepart $sparepart)
     {
         try {
-            $file_path = public_path("qr/qr_sparepart/" . $sparepart->image_qr);
-            File::delete($file_path);
             $sparepart->delete();
             Alert::toast('The sparepart was deleted successfully.', 'success');
             return redirect()->route('spareparts.index');
@@ -281,7 +260,7 @@ class SparepartController extends Controller
         return redirect()->back();
     }
 
-    public function print_qr(Request $request, $id)
+    public function print_qr(Request $request, $barcode)
     {
         if (setting_web()->paper_qr_code == '68.0315') {
             $widthQR = 80;
@@ -290,9 +269,8 @@ class SparepartController extends Controller
             $widthQR = 114;
             $hightPaper = 120;
         }
-        $sparepart = Sparepart::findOrFail($id);
         $pdf = PDF::loadview('spareparts.qr', [
-            'sparepart' => $sparepart,
+            'barcode' => $barcode,
             'widthQR' => $widthQR
         ])
             ->setPaper([0, 0, $hightPaper, setting_web()->paper_qr_code], 'landscape');

@@ -71,15 +71,16 @@
                     </tr>
                     <tr>
                         <th>Nomenklatur</th>
-                        <td></td>
+                        <td>{{ $model->nomenklatur->name_nomenklatur }}
+                        </td>
                     </tr>
                     <tr>
                         <th>Category</th>
-                        <td></td>
+                        <td>{{ $model->equipment_category->category_name }}</td>
                     </tr>
                     <tr>
                         <th>Manufacturer</th>
-                        <td></td>
+                        <td>{{ $model->manufacturer }}</td>
                     </tr>
                     <tr>
                         <th>Type</th>
@@ -91,7 +92,7 @@
                     </tr>
                     <tr>
                         <th>Vendor</th>
-                        <td></td>
+                        <td>{{ $model->vendor->name_vendor }}</td>
                     </tr>
                     <tr>
                         <th>Condition</th>
@@ -103,7 +104,7 @@
                     </tr>
                     <tr>
                         <th>Location</th>
-                        <td></td>
+                        <td>{{ $model->equipment_location->location_name }}</td>
                     </tr>
                     <tr>
                         <th>Financing Code</th>

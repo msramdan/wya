@@ -78,9 +78,7 @@
                         <table style="padding: 5px">
                             <thead>
                                 <tr>
-                                    <td style="padding: 5px"><img
-                                            src="{{ asset('qr/qr_sparepart/' . $sparepart->image_qr) }}" alt=""
-                                            style="width:150px"></td>
+                                    <td style="padding: 5px">{!! QrCode::size(150)->generate($model->barcode) !!}</td>
                                 </tr>
                             </thead>
                         </table>
@@ -95,7 +93,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <a href="{{ route('print_qr', $model->id) }}" target="_blank" class="btn btn-danger "> <i
+                    <a href="{{ route('print_qr', $model->barcode) }}" target="_blank" class="btn btn-danger "> <i
                             class="fa fa-print" aria-hidden="true"></i>
                         Print</a>
                 </div>

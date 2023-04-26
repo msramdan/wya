@@ -14,7 +14,7 @@ class Sparepart extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['barcode', 'sparepart_name', 'merk', 'sparepart_type', 'unit_id', 'estimated_price', 'opname', 'stock', 'image_qr'];
+    protected $fillable = ['barcode', 'sparepart_name', 'merk', 'sparepart_type', 'unit_id', 'estimated_price', 'opname', 'stock'];
 
     public function unit_item()
     {
