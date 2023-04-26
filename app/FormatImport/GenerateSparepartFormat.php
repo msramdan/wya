@@ -25,7 +25,7 @@ class GenerateSparepartFormat implements FromView, ShouldAutoSize, WithEvents, W
     {
         return [
             AfterSheet::class    => function (AfterSheet $event) {
-                $cellRange = 'A1:F1'; // All headers
+                $cellRange = 'A1:G1'; // All headers
                 $event->sheet->getStyle($cellRange)->applyFromArray([
                     'borders' => [
                         'allBorders' => [

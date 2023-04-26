@@ -44,44 +44,45 @@ class GenerateEquipmentFormat implements FromView, ShouldAutoSize, WithEvents, W
                 $column_h = 'H';
                 $column_i = 'I';
                 $column_j = 'J';
-                
+                $column_m = 'M';
+
                 // kolom b category
                 $kolomB = [];
-                $nomenklatur = Nomenklatur::get();
+                $nomenklatur = Nomenklatur::limit(10)->get();
                 foreach ($nomenklatur as $value) {
                     array_push($kolomB, $value->name_nomenklatur);
                 }
-                $validation = $event->sheet->getCell("{$column_b}2")->getDataValidation();
-                $validation->setType(DataValidation::TYPE_LIST);
-                $validation->setErrorStyle(DataValidation::STYLE_INFORMATION);
-                $validation->setAllowBlank(false);
-                $validation->setShowInputMessage(true);
-                $validation->setShowErrorMessage(true);
-                $validation->setShowDropDown(true);
-                $validation->setErrorTitle('Input error');
-                $validation->setError('Value is not in list.');
-                $validation->setPromptTitle('Pick from list');
-                $validation->setPrompt('Please pick a value from the drop-down list.');
-                $validation->setFormula1(sprintf('"%s"', implode(',', $kolomB)));
-                $column_m = 'M';
+                $validationB = $event->sheet->getCell("{$column_b}2")->getDataValidation();
+                $validationB->setType(DataValidation::TYPE_LIST);
+                $validationB->setErrorStyle(DataValidation::STYLE_INFORMATION);
+                $validationB->setAllowBlank(false);
+                $validationB->setShowInputMessage(true);
+                $validationB->setShowErrorMessage(true);
+                $validationB->setShowDropDown(true);
+                $validationB->setErrorTitle('Input error');
+                $validationB->setError('Value is not in list.');
+                $validationB->setPromptTitle('Pick from list');
+                $validationB->setPrompt('Please pick a value from the drop-down list.');
+                $validationB->setFormula1(sprintf('"%s"', implode(',', $kolomB)));
+
                 // kolom C category
                 $kolomC = [];
                 $EquipmentCategory = EquipmentCategory::get();
                 foreach ($EquipmentCategory as $value) {
                     array_push($kolomC, $value->category_name);
                 }
-                $validation = $event->sheet->getCell("{$column_c}2")->getDataValidation();
-                $validation->setType(DataValidation::TYPE_LIST);
-                $validation->setErrorStyle(DataValidation::STYLE_INFORMATION);
-                $validation->setAllowBlank(false);
-                $validation->setShowInputMessage(true);
-                $validation->setShowErrorMessage(true);
-                $validation->setShowDropDown(true);
-                $validation->setErrorTitle('Input error');
-                $validation->setError('Value is not in list.');
-                $validation->setPromptTitle('Pick from list');
-                $validation->setPrompt('Please pick a value from the drop-down list.');
-                $validation->setFormula1(sprintf('"%s"', implode(',', $kolomC)));
+                $validationC = $event->sheet->getCell("{$column_c}2")->getDataValidation();
+                $validationC->setType(DataValidation::TYPE_LIST);
+                $validationC->setErrorStyle(DataValidation::STYLE_INFORMATION);
+                $validationC->setAllowBlank(false);
+                $validationC->setShowInputMessage(true);
+                $validationC->setShowErrorMessage(true);
+                $validationC->setShowDropDown(true);
+                $validationC->setErrorTitle('Input error');
+                $validationC->setError('Value is not in list.');
+                $validationC->setPromptTitle('Pick from list');
+                $validationC->setPrompt('Please pick a value from the drop-down list.');
+                $validationC->setFormula1(sprintf('"%s"', implode(',', $kolomC)));
 
                 // Kolom G Vendor
                 $kolomG = [];
@@ -103,7 +104,7 @@ class GenerateEquipmentFormat implements FromView, ShouldAutoSize, WithEvents, W
                 $validationG->setFormula1(sprintf('"%s"', implode(',', $kolomG)));
 
                 // Kolom H Condition
-                $h = [
+                $kolomH = [
                     'Baik',
                     'Tidak Baik',
                 ];
@@ -118,7 +119,7 @@ class GenerateEquipmentFormat implements FromView, ShouldAutoSize, WithEvents, W
                 $validationH->setError('Value is not in list.');
                 $validationH->setPromptTitle('Pick from list');
                 $validationH->setPrompt('Please pick a value from the drop-down list.');
-                $validationH->setFormula1(sprintf('"%s"', implode(',', $h)));
+                $validationH->setFormula1(sprintf('"%s"', implode(',', $kolomH)));
 
                 // Kolom I Risk Level
                 $kolomI = [
@@ -162,7 +163,7 @@ class GenerateEquipmentFormat implements FromView, ShouldAutoSize, WithEvents, W
 
 
                 // Kolom M Metode
-                $m = [
+                $kolomM = [
                     'Garis Lurus',
                     'Saldo Menurun',
                 ];
@@ -177,10 +178,11 @@ class GenerateEquipmentFormat implements FromView, ShouldAutoSize, WithEvents, W
                 $validationM->setError('Value is not in list.');
                 $validationM->setPromptTitle('Pick from list');
                 $validationM->setPrompt('Please pick a value from the drop-down list.');
-                $validationM->setFormula1(sprintf('"%s"', implode(',', $m)));
+                $validationM->setFormula1(sprintf('"%s"', implode(',', $kolomM)));
 
                 for ($i = 3; $i <= 1000; $i++) {
-                    $event->sheet->getCell("{$column_c}{$i}")->setDataValidation(clone $validation);
+                    $event->sheet->getCell("{$column_b}{$i}")->setDataValidation(clone $validationB);
+                    $event->sheet->getCell("{$column_c}{$i}")->setDataValidation(clone $validationC);
                     $event->sheet->getCell("{$column_g}{$i}")->setDataValidation(clone $validationG);
                     $event->sheet->getCell("{$column_h}{$i}")->setDataValidation(clone $validationH);
                     $event->sheet->getCell("{$column_i}{$i}")->setDataValidation(clone $validationI);

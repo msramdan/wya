@@ -27,7 +27,7 @@ class GenerateEmployeeFormat implements FromView, ShouldAutoSize, WithEvents, Wi
     {
         return [
             AfterSheet::class    => function (AfterSheet $event) {
-                $cellRange = 'A1:J1'; // All headers
+                $cellRange = 'A1:K1'; // All headers
                 $event->sheet->getStyle($cellRange)->applyFromArray([
                     'borders' => [
                         'allBorders' => [

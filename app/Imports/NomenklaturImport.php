@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Imports;
+
 use App\Models\Nomenklatur;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
@@ -21,7 +22,7 @@ class NomenklaturImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
         Validator::make(
             $collection->toArray(),
             [
-                '*.code_nomenklatur' => 'required|string|min:1|max:50',
+                '*.code_nomenklatur' => 'required|min:1|max:50',
                 '*.name_nomenklatur' => 'required|string|min:1|max:255',
             ],
         )->validate();
@@ -35,6 +36,6 @@ class NomenklaturImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
     }
     public function chunkSize(): int
     {
-        return 10;
+        return 50;
     }
 }

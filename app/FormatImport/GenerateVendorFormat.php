@@ -25,7 +25,7 @@ class GenerateVendorFormat implements FromView, ShouldAutoSize, WithEvents, With
     {
         return [
             AfterSheet::class    => function (AfterSheet $event) {
-                $cellRange = 'A1:E1'; // All headers
+                $cellRange = 'A1:F1'; // All headers
                 $event->sheet->getStyle($cellRange)->applyFromArray([
                     'borders' => [
                         'allBorders' => [
