@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Exports\EquiptmentExport;
+use App\Exports\GenerateEquipmentWithMultipleSheet;
 use App\FormatImport\GenerateEquipmentFormat;
 use App\Models\Equipment;
 use App\Http\Requests\{ImportEquipmentRequest, StoreEquipmentRequest, UpdateEquipmentRequest};
 use App\Imports\EquipmentImport;
+use App\Imports\EquipmentImportMultipleSheet;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
@@ -405,12 +407,12 @@ class EquipmentController extends Controller
     {
         $date = date('d-m-Y');
         $nameFile = 'import_equipment' . $date;
-        return Excel::download(new GenerateEquipmentFormat(), $nameFile . '.xlsx');
+        return Excel::download(new GenerateEquipmentWithMultipleSheet(), $nameFile . '.xlsx');
     }
 
     public function import(ImportEquipmentRequest $request)
     {
-        Excel::import(new EquipmentImport, $request->file('import_equipment'));
+        Excel::import(new EquipmentImportMultipleSheet, $request->file('import_equipment'));
 
         Alert::toast('Equipment has been successfully imported.', 'success');
         return back();

@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th style="background-color:#D3D3D3 ">{{ __('Barcode') }}</th>
-            <th style="background-color:#D3D3D3 ">{{ __('Nomenklatur') }}</th>
+            <th style="background-color:#D3D3D3 ">{{ __('Code Nomenklatur') }}</th>
             <th style="background-color:#D3D3D3 ">{{ __('Equipment Category') }}</th>
             <th style="background-color:#D3D3D3 ">{{ __('Manufacturer') }}</th>
             <th style="background-color:#D3D3D3 ">{{ __('Type') }}</th>

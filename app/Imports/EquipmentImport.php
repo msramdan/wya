@@ -13,6 +13,7 @@ use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
 class EquipmentImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
 {
@@ -25,7 +26,7 @@ class EquipmentImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
     {
         Validator::make($collection->toArray(), [
             '*.barcode' => 'required|min:1|max:100',
-            '*.nomenklatur' => 'required|exists:App\Models\Nomenklatur,name_nomenklatur',
+            '*.code_nomenklatur' => 'required|exists:App\Models\Nomenklatur,code_nomenklatur',
             '*.equipment_category' => 'required|exists:App\Models\EquipmentCategory,category_name',
             '*.manufacturer' => 'required|min:1|max:255',
             '*.type' => 'required|min:1|max:255',
@@ -45,7 +46,7 @@ class EquipmentImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
         foreach ($collection as $row) {
             Equipment::create([
                 'barcode' => $row['barcode'],
-                'nomenklatur_id' => Nomenklatur::where('name_nomenklatur', $row['nomenklatur'])->first()->id,
+                'nomenklatur_id' => Nomenklatur::where('code_nomenklatur', $row['code_nomenklatur'])->first()->id,
                 'equipment_category_id' => EquipmentCategory::where('category_name', $row['equipment_category'])->first()->id,
                 'manufacturer' => $row['manufacturer'],
                 'type' => $row['type'],
