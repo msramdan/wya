@@ -2,6 +2,7 @@
 
 @section('title', __('Dashboard'))
 @push('css')
+    <link href="{{ asset('material/assets/css/daterangepicker.min.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
         integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
         crossorigin="" />
@@ -300,6 +301,27 @@
 
                         </div>
 
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12">
+                                <div class="col-md-3">
+
+                                    <form method="get" action="/panel" id="form-date">
+                                        <div class="input-group mb-4">
+                                            <span class="input-group-text" id="addon-wrapping"><i
+                                                    class="fa fa-calendar"></i></span>
+                                            <input type="text" class="form-control" aria-describedby="addon-wrapping"
+                                                id="daterange-btn" value="">
+                                            <input type="hidden" name="start_date" id="start_date"
+                                                value="{{ $microFrom }}">
+                                            <input type="hidden" name="end_date" id="end_date"
+                                                value="{{ $microTo }}">
+                                        </div>
+                                        <!--end row-->
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
                         {{-- grafik knob --}}
                         <div class="row">
                             <div class="col-xl-4 col-md-4">
@@ -341,19 +363,7 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- map --}}
-                        <div class="row">
-                            <div class="col-xl-12 col-md-12">
-                                <div class="card" style="height: 550px">
-                                    <div class="card-header align-items-center d-flex">
-                                        <h4 class="card-title mb-0 flex-grow-1">Location Employee & Vendor</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="map-embed" id="map" style="height: 100%; z-index: 0;"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="row">
                             <div class="col-xl-4 col-md-4">
                                 <div class="card" style="height: 400px">
@@ -458,6 +468,19 @@
                                 </div>
                             </div>
                         </div>
+                        {{-- map --}}
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12">
+                                <div class="card" style="height: 550px">
+                                    <div class="card-header align-items-center d-flex">
+                                        <h4 class="card-title mb-0 flex-grow-1">Location Employee & Vendor</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="map-embed" id="map" style="height: 100%; z-index: 0;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
@@ -473,45 +496,94 @@
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
         integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
         crossorigin=""></script>
+    <script type="text/javascript" src="{{ asset('material/assets/js/moment.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('material/assets/js/daterangepicker.min.js') }}"></script>
     <script src="../dist/leaflet.awesome-markers.js"></script>
     <script>
-        const ctx = document.getElementById('myChart1');;
-        // var totalPEnding = @json($arrayValueGrafikByStatus);
-        new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: ['pending', 'rejected', 'accepted', 'on-going', 'finished', ],
-                datasets: [{
-                    label: '# Total',
-                    data: [{{ totalWoByStatus('pending') }}, {{ totalWoByStatus('rejected') }},
-                        {{ totalWoByStatus('accepted') }}, {{ totalWoByStatus('on-going') }},
-                        {{ totalWoByStatus('finished') }}
-                    ],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)'
-                    ],
-                    borderWidth: 1
-                }]
+        var start = {{ $microFrom }}
+        var end = {{ $microTo }}
+        var label = '';
+        $('#daterange-btn').daterangepicker({
+                locale: {
+                    format: 'DD MMM YYYY'
+                },
+                startDate: moment(start),
+                endDate: moment(end),
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf(
+                        'month')],
+                }
             },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
+            function(start, end, label) {
+                $('#start_date').val(Date.parse(start));
+                $('#end_date').val(Date.parse(end));
+                if (isDate(start)) {
+                    $('#daterange-btn span').html(start.format('DD MMM YYYY') + ' - ' + end.format('DD MMM YYYY'));
+                }
+            });
+
+        function isDate(val) {
+            var d = Date.parse(val);
+            return Date.parse(val);
+        }
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#daterange-btn').change(function() {
+                $('#form-date').submit();
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            const ctx = document.getElementById('myChart1');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['pending', 'rejected', 'accepted', 'on-going', 'finished', ],
+                    datasets: [{
+                        label: '# Total',
+                        data: [
+                            {{ totalWoByStatus('pending', $microFrom, $microTo) }},
+                            {{ totalWoByStatus('rejected', $microFrom, $microTo) }},
+                            {{ totalWoByStatus('accepted', $microFrom, $microTo) }},
+                            {{ totalWoByStatus('on-going', $microFrom, $microTo) }},
+                            {{ totalWoByStatus('finished', $microFrom, $microTo) }}
+                        ],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
                     }
                 }
-            }
-        });
+            });
+
+
+        })
     </script>
 
     <script>
@@ -522,7 +594,9 @@
                 labels: ['Rutin', 'Non Rutin'],
                 datasets: [{
                     label: '# of Votes',
-                    data: [{{ totalWoByCategory('Rutin') }}, {{ totalWoByCategory('Non Rutin') }}],
+                    data: [{{ totalWoByCategory('Rutin', $microFrom, $microTo) }},
+                        {{ totalWoByCategory('Non Rutin', $microFrom, $microTo) }}
+                    ],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)'
@@ -552,9 +626,10 @@
                 labels: ['Calibration', 'Service', 'Training', 'Inspection and Preventive Maintenance'],
                 datasets: [{
                     label: '# Total',
-                    data: [{{ totalWoByType('Calibration') }}, {{ totalWoByType('Service') }},
-                        {{ totalWoByType('Training') }},
-                        {{ totalWoByType('Inspection and Preventive Maintenance') }}
+                    data: [{{ totalWoByType('Calibration', $microFrom, $microTo) }},
+                        {{ totalWoByType('Service', $microFrom, $microTo) }},
+                        {{ totalWoByType('Training', $microFrom, $microTo) }},
+                        {{ totalWoByType('Inspection and Preventive Maintenance', $microFrom, $microTo) }}
                     ],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
