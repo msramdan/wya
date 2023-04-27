@@ -26,7 +26,7 @@
     <header id="header" class="fixed-top  header-transparent ">
         <div class="container d-flex align-items-center justify-content-between">
             <div class="logo">
-                <a href="index.html"><img src="{{ asset('landing/logo.png') }}" alt=""></a>
+                <a href="#"><img src="{{ asset('landing/logo.png') }}" alt=""></a>
             </div>
 
             <nav id="navbar" class="navbar">
@@ -272,15 +272,12 @@
             </div>
         </section>
     </main>
-    {{-- <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-            class="bi bi-arrow-up-short"></i></a> --}}
     <script src="{{ asset('landing/assets/vendor/aos/aos.js') }} "></script>
     <script src="{{ asset('landing/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('landing/assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
     <script src="{{ asset('landing/assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
     <script src="{{ asset('landing/demo/templates/Appland/assets/js/main.js') }}"></script>
     <script async src='https://www.googletagmanager.com/gtag/js?id=G-P7JSYB1CSP'></script>
-    <!-- GetButton.io widget -->
     <script type="text/javascript">
         (function() {
             var options = {
@@ -305,7 +302,6 @@
             x.parentNode.insertBefore(s, x);
         })();
     </script>
-    <!-- /GetButton.io widget -->
 </body>
 
 </html>
