@@ -25,7 +25,8 @@ class StoreRoleRequest extends FormRequest
     {
         return [
             'name' => 'required|min:2|max:30|unique:roles,name',
-            'permissions' => 'required'
+            'permissions' => 'required',
+            'is_user_mta' => 'required'
         ];
     }
 }

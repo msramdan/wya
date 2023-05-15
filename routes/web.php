@@ -7,9 +7,11 @@ use App\Http\Controllers\{
     ProfileController,
     RoleAndPermissionController,
     TelegramBotController,
-    WilayahController
+    WilayahController,
+    HospitalController
 };
 use App\Http\Controllers\LandingWeb\LandingWebController;
+use App\Models\Hospital;
 
 Route::controller(TelegramBotController::class)->group(function () {
     Route::get('/updated-activity', 'updatedActivity');
@@ -36,6 +38,7 @@ Route::prefix('panel')->group(function () {
     Route::get('kota/{provinsiId}', [WilayahController::class, 'kota'])->name('api.kota');
     Route::get('kecamatan/{kotaId}', [WilayahController::class, 'kecamatan'])->name('api.kecamatan');
     Route::get('kelurahan/{kecamatanId}', [WilayahController::class, 'kelurahan'])->name('api.kelurahan');
+    Route::resource('hospitals', HospitalController::class)->middleware('auth');
     Route::resource('positions', App\Http\Controllers\PositionController::class)->middleware('auth');
     Route::resource('departments', App\Http\Controllers\DepartmentController::class)->middleware('auth');
     Route::resource('positions', App\Http\Controllers\PositionController::class)->middleware('auth');

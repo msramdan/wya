@@ -58,7 +58,7 @@ class RoleAndPermissionController extends Controller
      */
     public function store(StoreRoleRequest $request)
     {
-        $role = Role::create(['name' => $request->name]);
+        $role = Role::create(['name' => $request->name, 'is_user_mta' => $request->is_user_mta]);
 
         $role->givePermissionTo($request->permissions);
 
@@ -104,7 +104,7 @@ class RoleAndPermissionController extends Controller
     {
         $role = Role::findOrFail($id);
 
-        $role->update(['name' => $request->name]);
+        $role->update(['name' => $request->name, 'is_user_mta' => $request->is_user_mta]);
 
         $role->syncPermissions($request->permissions);
 
