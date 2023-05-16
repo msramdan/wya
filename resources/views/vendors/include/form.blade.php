@@ -9,7 +9,7 @@
 
                 <div class="row">
                     @if (!Auth::user()->roles->first()->hospital_id)
-                        <div class="col-md-6 mb-2">
+                        <div class="col-md-12 mb-2">
                             <label for="hospital_id">{{ __('Hispotal') }}</label>
                             <select
                                 class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"

@@ -84,13 +84,7 @@
                     required>
                     <option value="" selected disabled>-- Select role --</option>
                     @foreach ($roles as $role)
-                        @if (!Auth::user()->roles->first()->hospital_id)
-                            <option value="{{ $role->id }}">{{ $role->name }}</option>
-                        @else
-                            @if ($role->hospital_id == Auth::user()->roles->first()->hospital_id)
-                                <option value="{{ $role->id }}">{{ $role->name }}</option>
-                            @endif
-                        @endif
+                        <option value="{{ $role->id }}">{{ $role->name }}</option>
                     @endforeach
                     @error('role')
                         <span class="text-danger">
@@ -114,18 +108,6 @@
             </div>
         </div>
 
-        <div class="col-md-6 mb-2">
-            <div class="form-group">
-                <label for="signature">{{ __('Signature') }}</label>
-                <input type="file" name="signature" id="signature"
-                    class="form-control @error('signature') is-invalid @enderror">
-                @error('signature')
-                    <span class="text-danger">
-                        {{ $message }}
-                    </span>
-                @enderror
-            </div>
-        </div>
     @endempty
 
     @isset($user)
@@ -137,17 +119,7 @@
                         required>
                         <option value="" selected disabled>{{ __('-- Select role --') }}</option>
                         @foreach ($roles as $role)
-                            @if (!Auth::user()->roles->first()->hospital_id)
-                                <option value="{{ $role->id }}"
-                                    {{ $user->getRoleNames()->toArray() !== [] && $user->getRoleNames()[0] == $role->name ? 'selected' : '-' }}>
-                                    {{ $role->name }}</option>
-                            @else
-                                @if ($role->hospital_id == Auth::user()->roles->first()->hospital_id)
-                                    <option value="{{ $role->id }}"
-                                        {{ $user->getRoleNames()->toArray() !== [] && $user->getRoleNames()[0] == $role->name ? 'selected' : '-' }}>
-                                        {{ $role->name }}</option>
-                                @endif
-                            @endif
+                            <option value="{{ $role->id }}">{{ $role->name }}</option>
                         @endforeach
                     </select>
                     @error('role')
@@ -161,7 +133,7 @@
             <div class="col-md-1 text-center">
                 <div class="avatar avatar-xl">
                     @if ($user->avatar == null)
-                        <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($user->email))) }}&s=500"
+                        <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($user->email))) }}&s=450"
                             alt="avatar">
                     @else
                         <img src="{{ asset("uploads/images/avatars/$user->avatar") }}" alt="avatar">
@@ -182,35 +154,6 @@
                     @if ($user->avatar == null)
                         <div id="passwordHelpBlock" class="form-text">
                             {{ __('Leave the avatar blank if you don`t want to change it.') }}
-                        </div>
-                    @endif
-                </div>
-            </div>
-
-            <div class="col-md-1 text-center">
-                <div class="avatar avatar-xl">
-                    @if ($user->avatar == null)
-                        {{-- <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($user->email))) }}&s=500"
-                            alt="signature"> --}}
-                    @else
-                        <img src="{{ asset("uploads/images/signature/$user->signature") }}" alt="signature">
-                    @endif
-                </div>
-            </div>
-
-            <div class="col-md-5 me-0 pe-0">
-                <div class="form-group">
-                    <label for="signature">{{ __('Signature') }}</label>
-                    <input type="file" name="signature" class="form-control @error('signature') is-invalid @enderror"
-                        id="signature">
-                    @error('signature')
-                        <span class="text-danger">
-                            {{ $message }}
-                        </span>
-                    @enderror
-                    @if ($user->signature == null)
-                        <div id="passwordHelpBlock" class="form-text">
-                            {{ __('Leave the signature blank if you don`t want to change it.') }}
                         </div>
                     @endif
                 </div>

@@ -40,6 +40,7 @@
                                                 <select name="hospital_id" id="hospital_id"
                                                     class="form-control js-example-basic-multiple">
                                                     <option value="">-- Filter Hospital --</option>
+                                                    <option value="mta">User MTA</option>
                                                     @foreach ($hispotals as $hispotal)
                                                         <option value="{{ $hispotal->id }}"
                                                             {{ isset($users) && $users->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
@@ -57,8 +58,9 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>{{ __('Hospital') }}</th>
+
                                             <th>{{ __('Avatar') }}</th>
+                                            <th>{{ __('Hospital') }}</th>
                                             <th>{{ __('Name') }}</th>
                                             <th>{{ __('Email') }}</th>
                                             <th>{{ __('No HP') }}</th>
@@ -86,10 +88,7 @@
                 orderable: false,
                 searchable: false
             },
-            {
-                data: 'hospital',
-                name: 'hospital'
-            },
+
             {
                 data: 'avatar',
                 name: 'avatar',
@@ -100,6 +99,10 @@
                             <img src="${data}" alt="avatar">
                         </div>`;
                 }
+            },
+            {
+                data: 'hospital',
+                name: 'hospital'
             },
             {
                 data: 'name',

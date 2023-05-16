@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Permission\Models\Role;
+use Auth;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -26,9 +27,16 @@ class ViewServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer(['users.create', 'users.edit'], function ($view) {
+
+            if (!Auth::user()->roles->first()->hospital_id) {
+                $data = Role::select('id', 'name')->get();
+            } else {
+                $data = Role::select('id', 'name')->where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
+            }
+
             return $view->with(
                 'roles',
-                Role::select('id', 'name')->get()
+                $data
             );
         });
 
@@ -77,9 +85,14 @@ class ViewServiceProvider extends ServiceProvider
 
 
         View::composer(['vendors.create', 'vendors.edit'], function ($view) {
+            if (!Auth::user()->roles->first()->hospital_id) {
+                $data = \App\Models\CategoryVendor::select('id', 'name_category_vendors')->get();
+            } else {
+                $data = \App\Models\CategoryVendor::select('id', 'name_category_vendors')->where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
+            }
             return $view->with(
                 'categoryVendors',
-                \App\Models\CategoryVendor::select('id', 'name_category_vendors')->get()
+                $data
             );
         });
 

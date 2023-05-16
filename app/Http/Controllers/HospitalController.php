@@ -29,17 +29,18 @@ class HospitalController extends Controller
             $hospitals = Hospital::query();
 
             return Datatables::of($hospitals)
-                ->addColumn('address', function($row){
+                ->addIndexColumn()
+                ->addColumn('address', function ($row) {
                     return str($row->address)->limit(100);
                 })
-				->addColumn('work_order_has_access_approval_users_id', function($row){
+                ->addColumn('work_order_has_access_approval_users_id', function ($row) {
                     return str($row->work_order_has_access_approval_users_id)->limit(100);
                 })
-				
+
                 ->addColumn('logo', function ($row) {
                     if ($row->logo == null) {
-                    return 'https://via.placeholder.com/350?text=No+Image+Avaiable';
-                }
+                        return 'https://via.placeholder.com/350?text=No+Image+Avaiable';
+                    }
                     return asset('storage/uploads/logos/' . $row->logo);
                 })
 
@@ -69,7 +70,7 @@ class HospitalController extends Controller
     public function store(StoreHospitalRequest $request)
     {
         $attr = $request->validated();
-        
+
         if ($request->file('logo') && $request->file('logo')->isValid()) {
 
             $path = storage_path('app/public/uploads/logos/');
@@ -81,7 +82,7 @@ class HospitalController extends Controller
 
             Image::make($request->file('logo')->getRealPath())->resize(500, 500, function ($constraint) {
                 $constraint->upsize();
-				$constraint->aspectRatio();
+                $constraint->aspectRatio();
             })->save($path . $filename);
 
             $attr['logo'] = $filename;
@@ -126,7 +127,7 @@ class HospitalController extends Controller
     public function update(UpdateHospitalRequest $request, Hospital $hospital)
     {
         $attr = $request->validated();
-        
+
         if ($request->file('logo') && $request->file('logo')->isValid()) {
 
             $path = storage_path('app/public/uploads/logos/');
@@ -138,7 +139,7 @@ class HospitalController extends Controller
 
             Image::make($request->file('logo')->getRealPath())->resize(500, 500, function ($constraint) {
                 $constraint->upsize();
-				$constraint->aspectRatio();
+                $constraint->aspectRatio();
             })->save($path . $filename);
 
             // delete old logo from storage

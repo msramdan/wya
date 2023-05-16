@@ -40,9 +40,13 @@ class UserController extends Controller
                 ->leftJoin('hospitals', 'roles.hospital_id', '=', 'hospitals.id')
                 ->select('users.*', 'roles.id as role_id', 'roles.name as role_name', 'roles.hospital_id', 'hospitals.id as id_hospital', 'hospitals.name as hospital_name')
                 ->get();
-            // dd($users);
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
-                $users = $users->where('hospital_id', $request->hospital_id);
+                // dd($request->has('hospital_id'));
+                if ($request->hospital_id == 'mta') {
+                    $users = $users->where('hospital_id', '');
+                } else {
+                    $users = $users->where('hospital_id', $request->hospital_id);
+                }
             }
             if (Auth::user()->roles->first()->hospital_id) {
                 $users = $users->where('hospital_id', Auth::user()->roles->first()->hospital_id);
@@ -55,7 +59,7 @@ class UserController extends Controller
                     return $row->updated_at->format('d M Y H:i:s');
                 })
                 ->addColumn('hospital', function ($row) {
-                    return $row->hospital_name ? $row->hospital_name : '';
+                    return $row->hospital_name ? $row->hospital_name : 'User MTA';
                 })
                 ->addColumn('action', 'users.include.action')
                 ->addColumn('role', function ($row) {
