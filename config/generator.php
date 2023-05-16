@@ -110,6 +110,22 @@ return [
      */
     'sidebars' => [
         [
+            'header' => 'Hospitals',
+            'permissions' => [
+                'hospitals view'
+            ],
+            'menus' => [
+                [
+                    'title' => 'Hospitals',
+                    'icon' => '<i class="mdi mdi-hospital-building"></i>',
+                    'route' => '/hospitals',
+                    'permission' => 'hospitals view',
+                    'permissions' => [],
+                    'submenus' => []
+                ]
+            ]
+        ],
+        [
             'header' => 'WorkOrder',
             'permissions' => [
                 'work order view'
