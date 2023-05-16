@@ -14,7 +14,7 @@ class CategoryVendor extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['name_category_vendors'];
+    protected $fillable = ['name_category_vendors', 'hospital_id'];
 
     /**
      * The attributes that should be cast.
@@ -23,6 +23,8 @@ class CategoryVendor extends Model
      */
     protected $casts = ['name_category_vendors' => 'string', 'created_at' => 'datetime:d/m/Y H:i', 'updated_at' => 'datetime:d/m/Y H:i'];
 
-    
-
+    public function hospital()
+    {
+        return $this->belongsTo(\App\Models\Hospital::class);
+    }
 }

@@ -25,8 +25,8 @@ class StoreDepartmentRequest extends FormRequest
     {
         return [
             'code_department' => 'required|string|min:1|max:20',
-			'name_department' => 'required|string|min:1|max:200',
-			'is_active' => 'required|boolean',
+            'name_department' => 'required|string|min:1|max:200',
+            'hospital_id' => 'required|exists:App\Models\Hospital,id',
         ];
     }
 }

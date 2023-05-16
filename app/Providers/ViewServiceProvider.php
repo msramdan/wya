@@ -156,7 +156,10 @@ class ViewServiceProvider extends ServiceProvider
                 'equipment-locations.*',
                 'equipment-categories.*',
                 'category-vendors.*',
-                'vendors.*'
+                'vendors.*',
+                'employee-types.*',
+                'positions.*',
+                'departments.*'
             ],
             function ($view) {
                 return $view->with(

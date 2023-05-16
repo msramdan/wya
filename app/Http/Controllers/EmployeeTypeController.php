@@ -6,6 +6,8 @@ use App\Models\EmployeeType;
 use App\Http\Requests\{StoreEmployeeTypeRequest, UpdateEmployeeTypeRequest};
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Http\Request;
+use Auth;
 
 class EmployeeTypeController extends Controller
 {
@@ -22,10 +24,16 @@ class EmployeeTypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (request()->ajax()) {
-            $employeeTypes = EmployeeType::query();
+            $employeeTypes = EmployeeType::with('hospital:id,name');
+            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
+                $employeeTypes = $employeeTypes->where('hospital_id', $request->hospital_id);
+            }
+            if (Auth::user()->roles->first()->hospital_id) {
+                $employeeTypes = $employeeTypes->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+            }
 
             return DataTables::of($employeeTypes)
                 ->addIndexColumn()
@@ -33,6 +41,8 @@ class EmployeeTypeController extends Controller
                     return $row->created_at->format('d M Y H:i:s');
                 })->addColumn('updated_at', function ($row) {
                     return $row->updated_at->format('d M Y H:i:s');
+                })->addColumn('hospital', function ($row) {
+                    return $row->hospital ? $row->hospital->name : '';
                 })
 
                 ->addColumn('action', 'employee-types.include.action')
@@ -64,7 +74,6 @@ class EmployeeTypeController extends Controller
         EmployeeType::create($request->validated());
         Alert::toast('The employeeType was created successfully.', 'success');
         return redirect()->route('employee-types.index');
-
     }
 
     /**

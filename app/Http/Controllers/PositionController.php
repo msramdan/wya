@@ -6,6 +6,8 @@ use App\Models\Position;
 use App\Http\Requests\{StorePositionRequest, UpdatePositionRequest};
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Http\Request;
+use Auth;
 
 class PositionController extends Controller
 {
@@ -22,10 +24,16 @@ class PositionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (request()->ajax()) {
-            $positions = Position::query();
+            $positions = Position::with('hospital:id,name');
+            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
+                $positions = $positions->where('hospital_id', $request->hospital_id);
+            }
+            if (Auth::user()->roles->first()->hospital_id) {
+                $positions = $positions->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+            }
 
             return DataTables::of($positions)
                 ->addIndexColumn()
@@ -33,7 +41,9 @@ class PositionController extends Controller
                     return $row->created_at->format('d M Y H:i:s');
                 })->addColumn('updated_at', function ($row) {
                     return $row->updated_at->format('d M Y H:i:s');
-                })
+                })->addColumn('hospital', function ($row) {
+                return $row->hospital ? $row->hospital->name : '';
+            })
 
                 ->addColumn('action', 'positions.include.action')
                 ->toJson();
@@ -60,11 +70,10 @@ class PositionController extends Controller
      */
     public function store(StorePositionRequest $request)
     {
-        
+
         Position::create($request->validated());
         Alert::toast('The position was created successfully.', 'success');
         return redirect()->route('positions.index');
-
     }
 
     /**
@@ -98,7 +107,7 @@ class PositionController extends Controller
      */
     public function update(UpdatePositionRequest $request, Position $position)
     {
-        
+
         $position->update($request->validated());
         Alert::toast('The position was updated successfully.', 'success');
         return redirect()

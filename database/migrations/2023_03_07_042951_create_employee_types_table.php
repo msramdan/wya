@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('employee_types', function (Blueprint $table) {
             $table->id();
             $table->string('name_employee_type', 200);
+            $table->boolean('hospital_id')->nullable()->constrained('hospitals')->restrictOnUpdate()->nullOnDelete();
             $table->timestamps();
         });
     }

@@ -25,6 +25,7 @@ class UpdateEmployeeTypeRequest extends FormRequest
     {
         return [
             'name_employee_type' => 'required|string|min:1|max:200',
+            'hospital_id' => 'required|exists:App\Models\Hospital,id',
         ];
     }
 }

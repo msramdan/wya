@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('positions', function (Blueprint $table) {
             $table->id();
             $table->string('code_position', 20);
-			$table->string('name_position', 200);
-			$table->boolean('is_active');
+            $table->string('name_position', 200);
+            $table->boolean('hospital_id')->nullable()->constrained('hospitals')->restrictOnUpdate()->nullOnDelete();
             $table->timestamps();
         });
     }

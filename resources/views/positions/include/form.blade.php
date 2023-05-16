@@ -1,4 +1,29 @@
 <div class="row mb-2">
+    @if (!Auth::user()->roles->first()->hospital_id)
+        <div class="col-md-6 mb-2">
+            <label for="hospital_id">{{ __('Hispotal') }}</label>
+            <select class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
+                name="hospital_id" id="hospital_id" required>
+                <option value="" selected disabled>-- {{ __('Select hispotal') }} --</option>
+
+                @foreach ($hispotals as $hispotal)
+                    <option value="{{ $hispotal->id }}"
+                        {{ isset($position) && $position->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                        {{ $hispotal->name }}
+                    </option>
+                @endforeach
+            </select>
+            @error('hospital_id')
+                <span class="text-danger">
+                    {{ $message }}
+                </span>
+            @enderror
+        </div>
+    @else
+        <input type="hidden" readonly value="{{ Auth::user()->roles->first()->hospital_id }}" id="hospital_id"
+            name="hospital_id">
+    @endif
+
     <div class="col-md-6 mb-3">
         <label for="code-position">{{ __('Code Position') }}</label>
         <input type="text" name="code_position" id="code-position"
@@ -23,22 +48,4 @@
             </span>
         @enderror
     </div>
-    <div class="col-md-6 mb-3">
-        <label for="is-active">{{ __('Is Active') }}</label>
-        <select class="form-control @error('is_active') is-invalid @enderror" name="is_active" id="is-active" required>
-            <option value="" selected disabled>-- {{ __('Select is active') }} --</option>
-            <option value="1"
-                {{ isset($position) && $position->is_active == '1' ? 'selected' : (old('is_active') == '1' ? 'selected' : '') }}>
-                {{ __('True') }}</option>
-            <option value="0"
-                {{ isset($position) && $position->is_active == '0' ? 'selected' : (old('is_active') == '0' ? 'selected' : '') }}>
-                {{ __('False') }}</option>
-        </select>
-        @error('is_active')
-            <span class="text-danger">
-                {{ $message }}
-            </span>
-        @enderror
-    </div>
-
 </div>

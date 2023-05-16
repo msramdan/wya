@@ -14,7 +14,7 @@ class EmployeeType extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['name_employee_type'];
+    protected $fillable = ['name_employee_type', 'hospital_id'];
 
     /**
      * The attributes that should be cast.
@@ -23,6 +23,9 @@ class EmployeeType extends Model
      */
     protected $casts = ['name_employee_type' => 'string', 'created_at' => 'datetime:d/m/Y H:i', 'updated_at' => 'datetime:d/m/Y H:i'];
 
-    
 
+    public function hospital()
+    {
+        return $this->belongsTo(\App\Models\Hospital::class);
+    }
 }

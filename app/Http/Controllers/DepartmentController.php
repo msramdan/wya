@@ -6,6 +6,8 @@ use App\Models\Department;
 use App\Http\Requests\{StoreDepartmentRequest, UpdateDepartmentRequest};
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Http\Request;
+use Auth;
 
 class DepartmentController extends Controller
 {
@@ -22,10 +24,17 @@ class DepartmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (request()->ajax()) {
             $departments = Department::query();
+
+            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
+                $departments = $departments->where('hospital_id', $request->hospital_id);
+            }
+            if (Auth::user()->roles->first()->hospital_id) {
+                $departments = $departments->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+            }
 
             return DataTables::of($departments)
                 ->addIndexColumn()
@@ -33,6 +42,8 @@ class DepartmentController extends Controller
                     return $row->created_at->format('d M Y H:i:s');
                 })->addColumn('updated_at', function ($row) {
                     return $row->updated_at->format('d M Y H:i:s');
+                })->addColumn('hospital', function ($row) {
+                    return $row->hospital ? $row->hospital->name : '';
                 })
 
                 ->addColumn('action', 'departments.include.action')
@@ -60,11 +71,10 @@ class DepartmentController extends Controller
      */
     public function store(StoreDepartmentRequest $request)
     {
-        
+
         Department::create($request->validated());
         Alert::toast('The department was created successfully.', 'success');
         return redirect()->route('departments.index');
-
     }
 
     /**
@@ -98,7 +108,7 @@ class DepartmentController extends Controller
      */
     public function update(UpdateDepartmentRequest $request, Department $department)
     {
-        
+
         $department->update($request->validated());
         Alert::toast('The department was updated successfully.', 'success');
         return redirect()

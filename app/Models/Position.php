@@ -14,7 +14,7 @@ class Position extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['code_position', 'name_position', 'is_active'];
+    protected $fillable = ['code_position', 'name_position', 'hospital_id'];
 
     /**
      * The attributes that should be cast.
@@ -23,6 +23,8 @@ class Position extends Model
      */
     protected $casts = ['code_position' => 'string', 'name_position' => 'string', 'is_active' => 'boolean'];
 
-
-
+    public function hospital()
+    {
+        return $this->belongsTo(\App\Models\Hospital::class);
+    }
 }

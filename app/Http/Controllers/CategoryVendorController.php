@@ -6,6 +6,8 @@ use App\Models\CategoryVendor;
 use App\Http\Requests\{StoreCategoryVendorRequest, UpdateCategoryVendorRequest};
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Http\Request;
+use Auth;
 
 class CategoryVendorController extends Controller
 {
@@ -22,10 +24,17 @@ class CategoryVendorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (request()->ajax()) {
-            $categoryVendors = CategoryVendor::query();
+            $categoryVendors = CategoryVendor::with('hospital:id,name');
+
+            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
+                $categoryVendors = $categoryVendors->where('hospital_id', $request->hospital_id);
+            }
+            if (Auth::user()->roles->first()->hospital_id) {
+                $categoryVendors = $categoryVendors->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+            }
 
             return DataTables::of($categoryVendors)
                 ->addIndexColumn()
@@ -33,6 +42,8 @@ class CategoryVendorController extends Controller
                     return $row->created_at->format('d M Y H:i:s');
                 })->addColumn('updated_at', function ($row) {
                     return $row->updated_at->format('d M Y H:i:s');
+                })->addColumn('hospital', function ($row) {
+                    return $row->hospital ? $row->hospital->name : '';
                 })
 
                 ->addColumn('action', 'category-vendors.include.action')
@@ -60,11 +71,10 @@ class CategoryVendorController extends Controller
      */
     public function store(StoreCategoryVendorRequest $request)
     {
-        
+
         CategoryVendor::create($request->validated());
         Alert::toast('The categoryVendor was created successfully.', 'success');
         return redirect()->route('category-vendors.index');
-
     }
 
     /**
@@ -98,7 +108,7 @@ class CategoryVendorController extends Controller
      */
     public function update(UpdateCategoryVendorRequest $request, CategoryVendor $categoryVendor)
     {
-        
+
         $categoryVendor->update($request->validated());
         Alert::toast('The categoryVendor was updated successfully.', 'success');
         return redirect()
