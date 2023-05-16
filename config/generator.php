@@ -110,6 +110,22 @@ return [
      */
     'sidebars' => [
         [
+            'header' => 'Hospitals',
+            'permissions' => [
+                'hospital view'
+            ],
+            'menus' => [
+                [
+                    'title' => 'Hospitals',
+                    'icon' => '<i class="fa fa-hospital"></i>',
+                    'route' => '/hospitals',
+                    'permission' => 'hospital view',
+                    'permissions' => [],
+                    'submenus' => []
+                ]
+            ]
+        ],
+        [
             'header' => 'WorkOrder',
             'permissions' => [
                 'work order view'
@@ -386,22 +402,6 @@ return [
                             'permission' => 'setting app view'
                         ]
                     ]
-                ]
-            ]
-        ],
-        [
-            'header' => 'Hospitals',
-            'permissions' => [
-                'hospital view'
-            ],
-            'menus' => [
-                [
-                    'title' => 'Hospitals',
-                    'icon' => '<i class="fa fa-bank"></i>',
-                    'route' => '/hospitals',
-                    'permission' => 'hospital view',
-                    'permissions' => [],
-                    'submenus' => []
                 ]
             ]
         ]
