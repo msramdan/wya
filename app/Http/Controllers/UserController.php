@@ -44,6 +44,7 @@ class UserController extends Controller
             }
 
             return Datatables::of($users)
+                ->addIndexColumn()
                 ->addColumn('created_at', function ($row) {
                     return $row->created_at->format('d M Y H:i:s');
                 })->addColumn('updated_at', function ($row) {

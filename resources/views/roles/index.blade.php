@@ -42,7 +42,7 @@
                                                 <option value="">-- Filter Hospital --</option>
                                                 @foreach ($hispotals as $hispotal)
                                                     <option value="{{ $hispotal->id }}"
-                                                        {{ isset($role) && $role->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                                                        {{ isset($users) && $users->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
                                                         {{ $hispotal->name }}
                                                     </option>
                                                 @endforeach
@@ -56,8 +56,8 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>{{ __('Name') }}</th>
                                             <th>{{ __('Hosital') }}</th>
+                                            <th>{{ __('Name') }}</th>
                                             <th>{{ __('Created At') }}</th>
                                             <th>{{ __('Updated At') }}</th>
                                             <th>{{ __('Action') }}</th>
@@ -72,33 +72,23 @@
             </section>
         </div>
     @endsection
-
-    @push('css')
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-            integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-            crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.12.0/datatables.min.css" />
-    @endpush
-
     @push('js')
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-            integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.12.0/datatables.min.js"></script>
         <script>
             let columns = [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
                     orderable: false,
                     searchable: false
-                }, {
-                    data: 'name',
-                    name: 'name'
                 },
                 {
                     data: 'hospital_name',
                     name: 'hospital_name'
                 },
+                {
+                    data: 'name',
+                    name: 'name'
+                },
+
                 {
                     data: 'created_at',
                     name: 'created_at'

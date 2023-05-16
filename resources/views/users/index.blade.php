@@ -54,12 +54,12 @@
                                 <table class="table table-striped" id="data-table" width="100%">
                                     <thead>
                                         <tr>
-                                            {{-- <th>No</th> --}}
+                                            <th>No</th>
+                                            <th>{{ __('Hospital') }}</th>
                                             <th>{{ __('Avatar') }}</th>
                                             <th>{{ __('Name') }}</th>
                                             <th>{{ __('Email') }}</th>
                                             <th>{{ __('No HP') }}</th>
-                                            <th>{{ __('Hospital') }}</th>
                                             <th>{{ __('Role') }}</th>
                                             <th>{{ __('Created At') }}</th>
                                             <th>{{ __('Updated At') }}</th>
@@ -78,13 +78,16 @@
 
 @push('js')
     <script>
-        let columns = [
-            // {
-            //     data: 'DT_RowIndex',
-            //     name: 'DT_RowIndex',
-            //     orderable: false,
-            //     searchable: false
-            // },
+        let columns = [{
+                data: 'DT_RowIndex',
+                name: 'DT_RowIndex',
+                orderable: false,
+                searchable: false
+            },
+            {
+                data: 'hospital',
+                name: 'hospital'
+            },
             {
                 data: 'avatar',
                 name: 'avatar',
@@ -109,10 +112,7 @@
                 name: 'no_hp'
             },
 
-            {
-                data: 'hospital',
-                name: 'hospital'
-            },
+
             {
                 data: 'role',
                 name: 'role'
