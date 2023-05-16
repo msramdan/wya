@@ -27,7 +27,7 @@ class RoleAndPermissionController extends Controller
     {
         if (request()->ajax()) {
             $role = DB::table('roles')
-                ->join('hospitals', 'roles.id', '=', 'hospitals.id')
+                ->leftJoin('hospitals', 'roles.hospital_id', '=', 'hospitals.id')
                 ->select('roles.*', 'hospitals.name as hospital_name')
                 ->get();
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
