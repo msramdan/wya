@@ -19,9 +19,16 @@ class RoleAndPermissionSeeder extends Seeder
 
         $roleAdmin = Role::create(
             [
-                'name' => 'Admin',
+                'name' => 'Super Admin',
                 'hospital_id' => null
-            ],
+            ]
+        );
+
+        $roleAdminRs = Role::create(
+            [
+                'name' => 'Admin Rs Bogor',
+                'hospital_id' => 1
+            ]
         );
 
         foreach (config('permission.permissions') as $permission) {
@@ -31,7 +38,11 @@ class RoleAndPermissionSeeder extends Seeder
         }
 
         $userAdmin = User::first();
-        $userAdmin->assignRole('admin');
+        $userAdmin->assignRole('Super Admin');
         $roleAdmin->givePermissionTo(Permission::all());
+
+        $userAdminRs = User::find(2);
+        $userAdminRs->assignRole('Admin Rs Bogor');
+        $roleAdminRs->givePermissionTo(Permission::all());
     }
 }

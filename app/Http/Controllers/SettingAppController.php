@@ -58,15 +58,6 @@ class SettingAppController extends Controller
 
         $setting_app->update([
             'aplication_name' => $request->aplication_name,
-            'phone' => $request->phone,
-            'email' => $request->email,
-            'address' => $request->address,
-            'notif_wa' => $request->notif_wa,
-            'url_wa_gateway' => $request->url_wa_gateway,
-            'session_wa_gateway' => $request->session_wa_gateway,
-            'paper_qr_code' => $request->paper_qr_code,
-            'bot_telegram' => $request->bot_telegram,
-            'work_order_has_access_approval_users_id' => json_encode($request->work_order_has_access_approval_users_id)
         ]);
 
         Alert::toast('The settingApp was updated successfully.', 'success');
