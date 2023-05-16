@@ -9,12 +9,9 @@ use App\Http\Requests\{ImportSparepartRequest, StoreSparepartRequest, UpdateSpar
 use App\Imports\SparepartImport;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 use Auth;
 use PDF;
@@ -35,11 +32,16 @@ class SparepartController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (request()->ajax()) {
-            $spareparts = Sparepart::with('unit_item:id,code_unit')->orderBy('spareparts.id', 'DESC');
-
+            $spareparts = Sparepart::with('unit_item:id,code_unit', 'hospital:id,name')->orderBy('spareparts.id', 'DESC');
+            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
+                $spareparts = $spareparts->where('hospital_id', $request->hospital_id);
+            }
+            if (Auth::user()->roles->first()->hospital_id) {
+                $spareparts = $spareparts->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+            }
             return DataTables::of($spareparts)
                 ->addIndexColumn()
                 ->addColumn('created_at', function ($row) {
@@ -49,6 +51,8 @@ class SparepartController extends Controller
                 })
                 ->addColumn('estimated_price', function ($row) {
                     return rupiah($row->estimated_price);
+                })->addColumn('hospital', function ($row) {
+                    return $row->hospital ? $row->hospital->name : '';
                 })
                 ->addColumn('unit_item', function ($row) {
                     return $row->unit_item ? $row->unit_item->code_unit : '';
@@ -89,6 +93,7 @@ class SparepartController extends Controller
                 'estimated_price' => 'required|numeric',
                 'opname' => 'required|numeric',
                 'stock' => 'nullable',
+                'hospital_id' => 'required|exists:App\Models\Hospital,id',
             ],
         );
         if ($validator->fails()) {
@@ -107,6 +112,7 @@ class SparepartController extends Controller
                 'estimated_price' => $request->estimated_price,
                 'opname' => $request->opname,
                 'stock' => $request->stock,
+                'hospital_id' => $request->hospital_id,
             ]);
             Alert::toast('The sparepart was created successfully.', 'success');
             return redirect()->route('spareparts.index');
@@ -159,6 +165,7 @@ class SparepartController extends Controller
                 'estimated_price' => 'required|numeric',
                 'opname' => 'required|numeric',
                 'stock' => 'nullable',
+                'hospital_id' => 'required|exists:App\Models\Hospital,id',
             ],
         );
         if ($validator->fails()) {
@@ -174,6 +181,7 @@ class SparepartController extends Controller
             'estimated_price' => $request->estimated_price,
             'opname' => $request->opname,
             'stock' => $request->stock,
+            'hospital_id' => $request->hospital_id,
         ]);
 
         Alert::toast('The sparepart was updated successfully.', 'success');

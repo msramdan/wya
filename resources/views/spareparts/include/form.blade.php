@@ -1,4 +1,28 @@
 <div class="row mb-2">
+    @if (!Auth::user()->roles->first()->hospital_id)
+        <div class="col-md-6 mb-2">
+            <label for="hospital_id">{{ __('Hispotal') }}</label>
+            <select class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
+                name="hospital_id" id="hospital_id" required>
+                <option value="" selected disabled>-- {{ __('Select hispotal') }} --</option>
+
+                @foreach ($hispotals as $hispotal)
+                    <option value="{{ $hispotal->id }}"
+                        {{ isset($sparepart) && $sparepart->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                        {{ $hispotal->name }}
+                    </option>
+                @endforeach
+            </select>
+            @error('hospital_id')
+                <span class="text-danger">
+                    {{ $message }}
+                </span>
+            @enderror
+        </div>
+    @else
+        <input type="hidden" readonly value="{{ Auth::user()->roles->first()->hospital_id }}" id="hospital_id"
+            name="hospital_id">
+    @endif
     <div class="col-md-6 mb-2">
         <label for="barcode">{{ __('Barcode') }}</label>
         <input type="text" name="barcode" id="barcode" class="form-control @error('barcode') is-invalid @enderror"

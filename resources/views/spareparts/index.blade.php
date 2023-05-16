@@ -76,11 +76,33 @@
                         </div>
 
                         <div class="card-body">
+                            @if (!Auth::user()->roles->first()->hospital_id)
+                                <div class="row">
+                                    <div class="col-md-3 mb-2">
+                                        <form class="form-inline" method="get">
+                                            @csrf
+                                            <div class="input-group mb-2 mr-sm-2">
+                                                <select name="hospital_id" id="hospital_id"
+                                                    class="form-control js-example-basic-multiple">
+                                                    <option value="">-- Filter Hospital --</option>
+                                                    @foreach ($hispotals as $hispotal)
+                                                        <option value="{{ $hispotal->id }}"
+                                                            {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                                                            {{ $hispotal->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            @endif
                             <div class="table-responsive">
                                 <table class="table table-bordered table-sm" id="data-table">
                                     <thead>
                                         <tr>
                                             <th>#</th>
+                                            <th>{{ __('Hospital') }}</th>
                                             <th>{{ __('Barcode') }}</th>
                                             <th>{{ __('Sparepart Name') }}</th>
                                             <th>{{ __('Merk') }}</th>
@@ -106,57 +128,72 @@
 @push('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.5.1/sweetalert2.all.min.js"></script>
     <script>
-        $('#data-table').DataTable({
+        let columns = [{
+                data: 'DT_RowIndex',
+                name: 'DT_RowIndex',
+                orderable: false,
+                searchable: false
+            },
+            {
+                data: 'hospital',
+                name: 'hospital',
+            },
+            {
+                data: 'barcode',
+                name: 'barcode',
+            },
+            {
+                data: 'sparepart_name',
+                name: 'sparepart_name',
+            },
+            {
+                data: 'merk',
+                name: 'merk',
+            },
+            {
+                data: 'sparepart_type',
+                name: 'sparepart_type',
+            },
+
+            {
+                data: 'estimated_price',
+                name: 'estimated_price',
+            },
+            {
+                data: 'opname',
+                name: 'opname',
+            },
+            {
+                data: 'stock',
+                name: 'stock',
+            },
+            {
+                data: 'unit_item',
+                name: 'unit_item.code_unit'
+            },
+            {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }
+
+        ]
+        var table = $('#data-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('spareparts.index') }}",
-            columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex',
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    data: 'barcode',
-                    name: 'barcode',
-                },
-                {
-                    data: 'sparepart_name',
-                    name: 'sparepart_name',
-                },
-                {
-                    data: 'merk',
-                    name: 'merk',
-                },
-                {
-                    data: 'sparepart_type',
-                    name: 'sparepart_type',
-                },
-
-                {
-                    data: 'estimated_price',
-                    name: 'estimated_price',
-                },
-                {
-                    data: 'opname',
-                    name: 'opname',
-                },
-                {
-                    data: 'stock',
-                    name: 'stock',
-                },
-                {
-                    data: 'unit_item',
-                    name: 'unit_item.code_unit'
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
+            ajax: {
+                url: "{{ route('spareparts.index') }}",
+                data: function(s) {
+                    s.hospital_id = $('select[name=hospital_id] option').filter(':selected').val()
                 }
-            ],
+            },
+            columns: columns
         });
+
+        $('#hospital_id').change(function() {
+            table.draw();
+        })
     </script>
     <script>
         const showLoading = function() {

@@ -14,10 +14,15 @@ class Sparepart extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['barcode', 'sparepart_name', 'merk', 'sparepart_type', 'unit_id', 'estimated_price', 'opname', 'stock'];
+    protected $fillable = ['barcode', 'sparepart_name', 'merk', 'sparepart_type', 'unit_id', 'estimated_price', 'opname', 'stock', 'hospital_id'];
 
     public function unit_item()
     {
         return $this->belongsTo(\App\Models\UnitItem::class, 'unit_id');
+    }
+
+    public function hospital()
+    {
+        return $this->belongsTo(\App\Models\Hospital::class);
     }
 }

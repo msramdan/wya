@@ -159,7 +159,8 @@ class ViewServiceProvider extends ServiceProvider
                 'vendors.*',
                 'employee-types.*',
                 'positions.*',
-                'departments.*'
+                'departments.*',
+                'spareparts.*'
             ],
             function ($view) {
                 return $view->with(
