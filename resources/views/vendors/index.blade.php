@@ -150,8 +150,6 @@
     <script type="text/javascript">
         $(document).on('click', '#view_gambar', function() {
             var id = $(this).data('id');
-            // var name_file = $(this).data('name_file');
-            // $('#largeModal #name_file').text(name_file);
             $.ajax({
                 url: 'GetFileVendor/' + id,
                 type: 'GET',
@@ -168,44 +166,56 @@
     </script>
 
     <script>
-        $('#data-table').DataTable({
+        let columns = [{
+                data: 'DT_RowIndex',
+                name: 'DT_RowIndex',
+                orderable: false,
+                searchable: false
+            },
+            {
+                data: 'hospital',
+                name: 'hospital',
+            },
+            {
+                data: 'code_vendor',
+                name: 'code_vendor',
+            },
+            {
+                data: 'name_vendor',
+                name: 'name_vendor',
+            },
+            {
+                data: 'category_vendor',
+                name: 'category_vendor.name_category_vendors'
+            },
+            {
+                data: 'email',
+                name: 'email',
+            },
+            {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }
+        ]
+
+
+        var table = $('#data-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('vendors.index') }}",
-            columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex',
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    data: 'hospital',
-                    name: 'hospital',
-                },
-                {
-                    data: 'code_vendor',
-                    name: 'code_vendor',
-                },
-                {
-                    data: 'name_vendor',
-                    name: 'name_vendor',
-                },
-                {
-                    data: 'category_vendor',
-                    name: 'category_vendor.name_category_vendors'
-                },
-                {
-                    data: 'email',
-                    name: 'email',
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
+            ajax: {
+                url: "{{ route('vendors.index') }}",
+                data: function(s) {
+                    s.hospital_id = $('select[name=hospital_id] option').filter(':selected').val()
                 }
-            ],
+            },
+            columns: columns
         });
+
+        $('#hospital_id').change(function() {
+            table.draw();
+        })
     </script>
 
     <script>
