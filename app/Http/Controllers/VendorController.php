@@ -10,6 +10,7 @@ use App\Imports\VendorImport;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -31,11 +32,16 @@ class VendorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (request()->ajax()) {
-            $vendors = Vendor::with('category_vendor:id,name_category_vendors', 'province:id,provinsi', 'kabkot:id,provinsi_id', 'kecamatan:id,kabkot_id', 'kelurahan:id,kecamatan_id');
-
+            $vendors = Vendor::with('category_vendor:id,name_category_vendors', 'province:id,provinsi', 'kabkot:id,provinsi_id', 'kecamatan:id,kabkot_id', 'kelurahan:id,kecamatan_id', 'hospital:id,name');
+            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
+                $vendors = $vendors->where('hospital_id', $request->hospital_id);
+            }
+            if (Auth::user()->roles->first()->hospital_id) {
+                $vendors = $vendors->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+            }
             return DataTables::of($vendors)
                 ->addIndexColumn()
                 ->addColumn('created_at', function ($row) {
@@ -43,7 +49,9 @@ class VendorController extends Controller
                 })->addColumn('updated_at', function ($row) {
                     return $row->updated_at->format('d M Y H:i:s');
                 })
-
+                ->addColumn('hospital', function ($row) {
+                    return $row->hospital ? $row->hospital->name : '';
+                })
                 ->addColumn('category_vendor', function ($row) {
                     return $row->category_vendor ? $row->category_vendor->name_category_vendors : '';
                 })->addColumn('province', function ($row) {
@@ -79,8 +87,6 @@ class VendorController extends Controller
      */
     public function store(Request $request)
     {
-
-
         $validator = Validator::make(
             $request->all(),
             [
@@ -103,20 +109,39 @@ class VendorController extends Controller
             return redirect()->back()->withInput($request->all())->withErrors($validator);
         }
 
-        $vendor =  Vendor::create([
-            'code_vendor' => $request->code_vendor,
-            'name_vendor' => $request->name_vendor,
-            'category_vendor_id' => $request->category_vendor_id,
-            'email' => $request->email,
-            'provinsi_id' => $request->provinsi_id,
-            'kabkot_id' => $request->kabkot_id,
-            'kecamatan_id' => $request->kecamatan_id,
-            'kelurahan_id' => $request->kelurahan_id,
-            'zip_kode' => $request->zip_kode,
-            'address' => $request->address,
-            'longitude' => $request->longitude,
-            'latitude' => $request->latitude,
-        ]);
+        if (!Auth::user()->roles->first()->hopitas_id) {
+            $vendor =  Vendor::create([
+                'code_vendor' => $request->code_vendor,
+                'name_vendor' => $request->name_vendor,
+                'category_vendor_id' => $request->category_vendor_id,
+                'email' => $request->email,
+                'provinsi_id' => $request->provinsi_id,
+                'kabkot_id' => $request->kabkot_id,
+                'kecamatan_id' => $request->kecamatan_id,
+                'kelurahan_id' => $request->kelurahan_id,
+                'zip_kode' => $request->zip_kode,
+                'address' => $request->address,
+                'longitude' => $request->longitude,
+                'latitude' => $request->latitude,
+                'hospital_id' => $request->hospital_id
+            ]);
+        } else {
+            $vendor =  Vendor::create([
+                'code_vendor' => $request->code_vendor,
+                'name_vendor' => $request->name_vendor,
+                'category_vendor_id' => $request->category_vendor_id,
+                'email' => $request->email,
+                'provinsi_id' => $request->provinsi_id,
+                'kabkot_id' => $request->kabkot_id,
+                'kecamatan_id' => $request->kecamatan_id,
+                'kelurahan_id' => $request->kelurahan_id,
+                'zip_kode' => $request->zip_kode,
+                'address' => $request->address,
+                'longitude' => $request->longitude,
+                'latitude' => $request->latitude,
+                'hospital_id' => Auth::user()->roles->first()->hospital_id
+            ]);
+        }
         $insertedId = $vendor->id;
         if ($vendor) {
             $files = $request->file('file');
@@ -219,20 +244,39 @@ class VendorController extends Controller
             return redirect()->back()->withInput($request->all())->withErrors($validator);
         }
         $vendor = Vendor::findOrFail($vendor->id);
-        $vendor->update([
-            'code_vendor' => $request->code_vendor,
-            'name_vendor' => $request->name_vendor,
-            'category_vendor_id' => $request->category_vendor_id,
-            'email' => $request->email,
-            'provinsi_id' => $request->provinsi_id,
-            'kabkot_id' => $request->kabkot_id,
-            'kecamatan_id' => $request->kecamatan_id,
-            'kelurahan_id' => $request->kelurahan_id,
-            'zip_kode' => $request->zip_kode,
-            'address' => $request->address,
-            'longitude' => $request->longitude,
-            'latitude' => $request->latitude,
-        ]);
+        if (!Auth::user()->roles->first()->hospital_id) {
+            $vendor->update([
+                'code_vendor' => $request->code_vendor,
+                'name_vendor' => $request->name_vendor,
+                'category_vendor_id' => $request->category_vendor_id,
+                'email' => $request->email,
+                'provinsi_id' => $request->provinsi_id,
+                'kabkot_id' => $request->kabkot_id,
+                'kecamatan_id' => $request->kecamatan_id,
+                'kelurahan_id' => $request->kelurahan_id,
+                'zip_kode' => $request->zip_kode,
+                'address' => $request->address,
+                'longitude' => $request->longitude,
+                'latitude' => $request->latitude,
+                'hospital_id' => $request->hospital_id,
+            ]);
+        } else {
+            $vendor->update([
+                'code_vendor' => $request->code_vendor,
+                'name_vendor' => $request->name_vendor,
+                'category_vendor_id' => $request->category_vendor_id,
+                'email' => $request->email,
+                'provinsi_id' => $request->provinsi_id,
+                'kabkot_id' => $request->kabkot_id,
+                'kecamatan_id' => $request->kecamatan_id,
+                'kelurahan_id' => $request->kelurahan_id,
+                'zip_kode' => $request->zip_kode,
+                'address' => $request->address,
+                'longitude' => $request->longitude,
+                'latitude' => $request->latitude,
+                'hospital_id' => Auth::user()->roles->first()->hospital_id,
+            ]);
+        }
 
         // hapus file
         if ($request->id_asal_file == null) {

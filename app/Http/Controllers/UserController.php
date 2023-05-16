@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\{StoreUserRequest, UpdateUserRequest};
-use App\Models\Hospital;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Yajra\DataTables\Facades\DataTables;
 use Image;
+use App\Models\User;
+use App\Models\Hospital;
+use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
+use App\Http\Requests\{StoreUserRequest, UpdateUserRequest};
 
 class UserController extends Controller
 {
@@ -35,14 +36,17 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if (request()->ajax()) {
-            $users = User::with('roles:id,name,hospital_id');
+            $users = User::leftJoin('roles', 'roles.id', '=', 'users.id')
+                ->leftJoin('hospitals', 'roles.hospital_id', '=', 'hospitals.id')
+                ->select('users.*', 'roles.id as role_id', 'roles.name as role_name', 'roles.hospital_id', 'hospitals.id as id_hospital', 'hospitals.name as hospital_name')
+                ->get();
+            // dd($users);
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
-                $users = $users->whereHas('roles', function ($query) use ($request) {
-                    $query->where('hospital_id', $request->hospital_id);
-                });
-                $users->get();
+                $users = $users->where('hospital_id', $request->hospital_id);
             }
-
+            if (Auth::user()->roles->first()->hospital_id) {
+                $users = $users->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+            }
             return Datatables::of($users)
                 ->addIndexColumn()
                 ->addColumn('created_at', function ($row) {
@@ -51,11 +55,7 @@ class UserController extends Controller
                     return $row->updated_at->format('d M Y H:i:s');
                 })
                 ->addColumn('hospital', function ($row) {
-                    if (isset($row->roles[0]) && !empty($row->roles[0])) {
-                        $hospital = Hospital::firstWhere('id', $row->roles[0]->hospital_id);
-                        return $hospital->name;
-                    }
-                    return '';
+                    return $row->hospital_name ? $row->hospital_name : '';
                 })
                 ->addColumn('action', 'users.include.action')
                 ->addColumn('role', function ($row) {
@@ -145,7 +145,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $user->load('roles:id,name');
+        $user->load('roles:id,name,hospital_id');
 
         return view('users.edit', compact('user'));
     }
