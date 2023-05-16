@@ -148,7 +148,7 @@ class ViewServiceProvider extends ServiceProvider
             );
         });
 
-        View::composer(['unit-items.*', 'users.*', 'roles.*'], function ($view) {
+        View::composer(['unit-items.*', 'users.*', 'roles.*', 'equipment-locations.*', 'equipment-categories.*'], function ($view) {
             return $view->with(
                 'hispotals',
                 \App\Models\Hospital::select('id', 'name')->get()

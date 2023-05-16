@@ -25,7 +25,8 @@ class UpdateEquipmentLocationRequest extends FormRequest
     {
         return [
             'code_location' => 'required|string|min:1|max:20',
-			'location_name' => 'required|string|min:1|max:200',
+            'location_name' => 'required|string|min:1|max:200',
+            'hospital_id' => 'required|exists:App\Models\Hospital,id',
         ];
     }
 }

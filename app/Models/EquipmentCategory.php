@@ -14,7 +14,7 @@ class EquipmentCategory extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['code_categoty', 'category_name'];
+    protected $fillable = ['code_categoty', 'category_name', 'hospital_id'];
 
     /**
      * The attributes that should be cast.
@@ -23,6 +23,8 @@ class EquipmentCategory extends Model
      */
     protected $casts = ['code_categoty' => 'string', 'category_name' => 'string', 'created_at' => 'datetime:d/m/Y H:i', 'updated_at' => 'datetime:d/m/Y H:i'];
 
-    
-
+    public function hospital()
+    {
+        return $this->belongsTo(\App\Models\Hospital::class);
+    }
 }

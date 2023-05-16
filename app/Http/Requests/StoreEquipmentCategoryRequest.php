@@ -25,7 +25,8 @@ class StoreEquipmentCategoryRequest extends FormRequest
     {
         return [
             'code_categoty' => 'required|string|min:1|max:20',
-			'category_name' => 'required|string|min:1|max:200',
+            'category_name' => 'required|string|min:1|max:200',
+            'hospital_id' => 'required|exists:App\Models\Hospital,id',
         ];
     }
 }

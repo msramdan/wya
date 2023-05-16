@@ -6,6 +6,7 @@ use App\Models\EquipmentCategory;
 use App\Http\Requests\{StoreEquipmentCategoryRequest, UpdateEquipmentCategoryRequest};
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Http\Request;
 
 class EquipmentCategoryController extends Controller
 {
@@ -22,17 +23,21 @@ class EquipmentCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (request()->ajax()) {
-            $equipmentCategories = EquipmentCategory::query();
-
+            $equipmentCategories = EquipmentCategory::with('hospital:id,name');
+            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
+                $equipmentCategories = $equipmentCategories->where('hospital_id', $request->hospital_id);
+            }
             return DataTables::of($equipmentCategories)
                 ->addIndexColumn()
                 ->addColumn('created_at', function ($row) {
                     return $row->created_at->format('d M Y H:i:s');
                 })->addColumn('updated_at', function ($row) {
                     return $row->updated_at->format('d M Y H:i:s');
+                })->addColumn('hospital', function ($row) {
+                    return $row->hospital ? $row->hospital->name : '';
                 })
 
                 ->addColumn('action', 'equipment-categories.include.action')
@@ -60,11 +65,10 @@ class EquipmentCategoryController extends Controller
      */
     public function store(StoreEquipmentCategoryRequest $request)
     {
-        
+
         EquipmentCategory::create($request->validated());
         Alert::toast('The equipmentCategory was created successfully.', 'success');
         return redirect()->route('equipment-categories.index');
-
     }
 
     /**
@@ -98,7 +102,7 @@ class EquipmentCategoryController extends Controller
      */
     public function update(UpdateEquipmentCategoryRequest $request, EquipmentCategory $equipmentCategory)
     {
-        
+
         $equipmentCategory->update($request->validated());
         Alert::toast('The equipmentCategory was updated successfully.', 'success');
         return redirect()
