@@ -147,5 +147,12 @@ class ViewServiceProvider extends ServiceProvider
                 \App\Models\User::select('id', 'name')->get()
             );
         });
+
+        View::composer(['unit-items.*', 'users.*', 'roles.*'], function ($view) {
+            return $view->with(
+                'hispotals',
+                \App\Models\Hospital::select('id', 'name')->get()
+            );
+        });
     }
 }

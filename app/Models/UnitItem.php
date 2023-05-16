@@ -14,7 +14,7 @@ class UnitItem extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['code_unit', 'unit_name'];
+    protected $fillable = ['code_unit', 'unit_name', 'hospital_id'];
 
     /**
      * The attributes that should be cast.
@@ -23,6 +23,8 @@ class UnitItem extends Model
      */
     protected $casts = ['code_unit' => 'string', 'unit_name' => 'string', 'created_at' => 'datetime:d/m/Y H:i', 'updated_at' => 'datetime:d/m/Y H:i'];
 
-    
-
+    public function hospital()
+    {
+        return $this->belongsTo(\App\Models\Hospital::class);
+    }
 }

@@ -6,6 +6,7 @@ use App\Models\UnitItem;
 use App\Http\Requests\{StoreUnitItemRequest, UpdateUnitItemRequest};
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Http\Request;
 
 class UnitItemController extends Controller
 {
@@ -22,10 +23,14 @@ class UnitItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (request()->ajax()) {
-            $unitItems = UnitItem::query();
+            $unitItems = UnitItem::with('hospital:id,name')->orderBy('unit_items.id', 'DESC');
+
+            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
+                $unitItems = $unitItems->where('hospital_id', $request->hospital_id);
+            }
 
             return DataTables::of($unitItems)
                 ->addIndexColumn()
@@ -34,7 +39,9 @@ class UnitItemController extends Controller
                 })->addColumn('updated_at', function ($row) {
                     return $row->updated_at->format('d M Y H:i:s');
                 })
-
+                ->addColumn('hospital', function ($row) {
+                    return $row->hospital ? $row->hospital->name : '';
+                })
                 ->addColumn('action', 'unit-items.include.action')
                 ->toJson();
         }
@@ -64,7 +71,6 @@ class UnitItemController extends Controller
         UnitItem::create($request->validated());
         Alert::toast('The unitItem was created successfully.', 'success');
         return redirect()->route('unit-items.index');
-
     }
 
     /**

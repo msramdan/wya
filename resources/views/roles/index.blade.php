@@ -33,14 +33,19 @@
 
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-3 mb-2">
                                     <form class="form-inline" method="get">
                                         @csrf
                                         <div class="input-group mb-2 mr-sm-2">
-                                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"
-                                                    aria-hidden="true"></i></span>
-                                            <select name="category_device" id="category_device" class="form-control">
+                                            <select name="category_device" id="category_device"
+                                                class="form-control js-example-basic-multiple">
                                                 <option value="">-- Filter Hospital --</option>
+                                                @foreach ($hispotals as $hispotal)
+                                                    <option value="{{ $hispotal->id }}"
+                                                        {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                                                        {{ $hispotal->name }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </form>

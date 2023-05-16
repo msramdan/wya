@@ -36,7 +36,7 @@ class EquipmentController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $equipments = Equipment::with('nomenklatur:id,name_nomenklatur', 'equipment_category:id,category_name', 'vendor:id,name_vendor', 'equipment_location:id,location_name')->orderBy('equipment.id', 'DESC');;
+            $equipments = Equipment::with('nomenklatur:id,name_nomenklatur', 'equipment_category:id,category_name', 'vendor:id,name_vendor', 'equipment_location:id,location_name')->orderBy('equipment.id', 'DESC');
 
             return DataTables::of($equipments)
                 ->addIndexColumn()
@@ -45,7 +45,6 @@ class EquipmentController extends Controller
                 })->addColumn('updated_at', function ($row) {
                     return $row->updated_at->format('d M Y H:i:s');
                 })
-
                 ->addColumn('nomenklatur', function ($row) {
                     return $row->nomenklatur ? $row->nomenklatur->name_nomenklatur : '';
                 })->addColumn('equipment_category', function ($row) {
