@@ -7,6 +7,7 @@ use App\Http\Requests\{StoreUnitItemRequest, UpdateUnitItemRequest};
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
+use Auth;
 
 class UnitItemController extends Controller
 {
@@ -30,6 +31,9 @@ class UnitItemController extends Controller
 
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
                 $unitItems = $unitItems->where('hospital_id', $request->hospital_id);
+            }
+            if (Auth::user()->roles->first()->hospital_id) {
+                $unitItems = $unitItems->where('hospital_id', Auth::user()->roles->first()->hospital_id);
             }
 
             return DataTables::of($unitItems)

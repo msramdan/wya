@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('category_vendors', function (Blueprint $table) {
             $table->id();
             $table->string('name_category_vendors', 200);
+            $table->boolean('hospital_id')->nullable()->constrained('hospitals')->restrictOnUpdate()->nullOnDelete();
             $table->timestamps();
         });
     }

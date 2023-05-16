@@ -27,6 +27,7 @@ return new class extends Migration
             $table->text('address');
             $table->string('longitude', 100);
             $table->string('latitude', 100);
+            $table->boolean('hospital_id')->nullable()->constrained('hospitals')->restrictOnUpdate()->nullOnDelete();
             $table->timestamps();
         });
     }

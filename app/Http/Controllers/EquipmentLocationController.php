@@ -7,6 +7,7 @@ use App\Http\Requests\{StoreEquipmentLocationRequest, UpdateEquipmentLocationReq
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
+use Auth;
 
 class EquipmentLocationController extends Controller
 {
@@ -29,6 +30,9 @@ class EquipmentLocationController extends Controller
             $equipmentLocations = EquipmentLocation::with('hospital:id,name');
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
                 $equipmentLocations = $equipmentLocations->where('hospital_id', $request->hospital_id);
+            }
+            if (Auth::user()->roles->first()->hospital_id) {
+                $equipmentLocations = $equipmentLocations->where('hospital_id', Auth::user()->roles->first()->hospital_id);
             }
             return DataTables::of($equipmentLocations)
                 ->addIndexColumn()

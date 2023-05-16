@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="d-flex align-items-center">
-                        {{-- <div class="dropdown ms-1 topbar-head-dropdown header-item">
+                        <div class="dropdown ms-1 topbar-head-dropdown header-item">
                             <button type="button"
                                 class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -71,7 +71,7 @@
                                 </a>
 
                             </div>
-                        </div> --}}
+                        </div>
 
                         <div class="ms-1 header-item d-none d-sm-flex">
                             <button type="button"
@@ -106,7 +106,8 @@
                                         <span
                                             class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ Auth::user()->name }}</span>
                                         <span
-                                            class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">{{ Auth::user()->roles->first()->name }}</span>
+                                            class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">{{ Auth::user()->roles->first()->hospital_id }}
+                                            - {{ Auth::user()->roles->first()->name }}</span>
                                     </span>
                                 </span>
                             </button>

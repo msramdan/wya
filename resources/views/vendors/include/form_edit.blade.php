@@ -9,6 +9,27 @@
 
                 <div class="row">
                     <div class="col-md-6 mb-2">
+                        <label for="hospital_id">{{ __('Hispotal') }}</label>
+                        <select
+                            class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
+                            name="hospital_id" id="hospital_id" required>
+                            <option value="" selected disabled>-- {{ __('Select hispotal') }} --</option>
+
+                            @foreach ($hispotals as $hispotal)
+                                <option value="{{ $hispotal->id }}"
+                                    {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                                    {{ $hispotal->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('hospital_id')
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6 mb-2">
                         <label for="code-vendor">{{ __('Code Vendor') }}</label>
                         <input type="text" name="code_vendor" id="code-vendor"
                             class="form-control @error('code_vendor') is-invalid @enderror"

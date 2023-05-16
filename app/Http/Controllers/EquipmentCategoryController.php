@@ -7,6 +7,7 @@ use App\Http\Requests\{StoreEquipmentCategoryRequest, UpdateEquipmentCategoryReq
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
+use Auth;
 
 class EquipmentCategoryController extends Controller
 {
@@ -29,6 +30,9 @@ class EquipmentCategoryController extends Controller
             $equipmentCategories = EquipmentCategory::with('hospital:id,name');
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
                 $equipmentCategories = $equipmentCategories->where('hospital_id', $request->hospital_id);
+            }
+            if (Auth::user()->roles->first()->hospital_id) {
+                $equipmentCategories = $equipmentCategories->where('hospital_id', Auth::user()->roles->first()->hospital_id);
             }
             return DataTables::of($equipmentCategories)
                 ->addIndexColumn()
