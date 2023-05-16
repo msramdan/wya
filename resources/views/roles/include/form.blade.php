@@ -3,12 +3,27 @@
         <div class="form-group">
             <label for="name">{{ __('Name') }}</label>
             <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror"
-                placeholder="{{ __('Name') }}" value="{{ isset($role) ? $role->name : old('name') }}" autofocus required>
+                placeholder="{{ __('Name') }}" value="{{ isset($role) ? $role->name : old('name') }}" autofocus
+                required>
             @error('name')
                 <span class="text-danger">
                     {{ $message }}
                 </span>
             @enderror
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="is_user_mta" id="is_user_mta" value="1"
+                {{ isset($role) && $role->is_user_mta == 1 ? 'checked' : '' }}>
+            <label class="form-check-label" for="is_user_mta">
+                Is User MTA
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="is_user_mta" id="not_user_mta" value="0"
+                {{ isset($role) && $role->is_user_mta == 0 ? 'checked' : '' }}>
+            <label class="form-check-label" for="not_user_mta">
+                Not User MTA
+            </label>
         </div>
     </div>
 </div>
@@ -21,7 +36,7 @@
         @enderror
     </div>
 
-    @foreach(config('permission.permissions') as $permission)
+    @foreach (config('permission.permissions') as $permission)
         <div class="col-md-3">
             <div class="card border">
                 <div class="card-content">
@@ -31,7 +46,7 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="{{ str()->slug($access) }}"
                                     name="permissions[]" value="{{ $access }}"
-                                    {{ isset($role) && $role->hasPermissionTo($access) ? 'checked' : '' }}/>
+                                    {{ isset($role) && $role->hasPermissionTo($access) ? 'checked' : '' }} />
                                 <label class="form-check-label" for="{{ str()->slug($access) }}">
                                     {{ ucwords(__($access)) }}
                                 </label>
