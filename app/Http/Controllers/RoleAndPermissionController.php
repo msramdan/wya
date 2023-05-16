@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\{StoreRoleRequest, UpdateRoleRequest};
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\{Role, Permission};
-use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
+use Spatie\Permission\Models\{Role, Permission};
+use App\Http\Requests\{StoreRoleRequest, UpdateRoleRequest};
 
 class RoleAndPermissionController extends Controller
 {
@@ -32,6 +33,9 @@ class RoleAndPermissionController extends Controller
                 ->get();
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
                 $role = $role->where('hospital_id', $request->hospital_id);
+            }
+            if (Auth::user()->roles->first()->hospital_id) {
+                $role = $role->where('hospital_id', Auth::user()->roles->first()->hospital_id);
             }
 
             return DataTables::of($role)

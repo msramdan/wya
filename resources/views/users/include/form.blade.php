@@ -84,7 +84,13 @@
                     required>
                     <option value="" selected disabled>-- Select role --</option>
                     @foreach ($roles as $role)
-                        <option value="{{ $role->id }}">{{ $role->name }}</option>
+                        @if (!Auth::user()->roles->first()->hospital_id)
+                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                        @else
+                            @if ($role->hospital_id == Auth::user()->roles->first()->hospital_id)
+                                <option value="{{ $role->id }}">{{ $role->name }}</option>
+                            @endif
+                        @endif
                     @endforeach
                     @error('role')
                         <span class="text-danger">
@@ -131,9 +137,17 @@
                         required>
                         <option value="" selected disabled>{{ __('-- Select role --') }}</option>
                         @foreach ($roles as $role)
-                            <option value="{{ $role->id }}"
-                                {{ $user->getRoleNames()->toArray() !== [] && $user->getRoleNames()[0] == $role->name ? 'selected' : '-' }}>
-                                {{ $role->name }}</option>
+                            @if (!Auth::user()->roles->first()->hospital_id)
+                                <option value="{{ $role->id }}"
+                                    {{ $user->getRoleNames()->toArray() !== [] && $user->getRoleNames()[0] == $role->name ? 'selected' : '-' }}>
+                                    {{ $role->name }}</option>
+                            @else
+                                @if ($role->hospital_id == Auth::user()->roles->first()->hospital_id)
+                                    <option value="{{ $role->id }}"
+                                        {{ $user->getRoleNames()->toArray() !== [] && $user->getRoleNames()[0] == $role->name ? 'selected' : '-' }}>
+                                        {{ $role->name }}</option>
+                                @endif
+                            @endif
                         @endforeach
                     </select>
                     @error('role')
