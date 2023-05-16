@@ -1,11 +1,11 @@
 <td>
-    @can('hospitals edit')
+    @can('hospital edit')
         <a href="{{ route('hospitals.edit', $model->id) }}" class="btn btn-success btn-sm">
             <i class="mdi mdi-pencil"></i>
         </a>
     @endcan
 
-    @can('hospitals delete')
+    @can('hospital delete')
         <form action="{{ route('hospitals.destroy', $model->id) }}" method="post" class="d-inline"
             onsubmit="return confirm('Are you sure to delete this record?')">
             @csrf

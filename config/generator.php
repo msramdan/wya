@@ -110,22 +110,6 @@ return [
      */
     'sidebars' => [
         [
-            'header' => 'Hospitals',
-            'permissions' => [
-                'hospitals view'
-            ],
-            'menus' => [
-                [
-                    'title' => 'Hospitals',
-                    'icon' => '<i class="mdi mdi-hospital-building"></i>',
-                    'route' => '/hospitals',
-                    'permission' => 'hospitals view',
-                    'permissions' => [],
-                    'submenus' => []
-                ]
-            ]
-        ],
-        [
             'header' => 'WorkOrder',
             'permissions' => [
                 'work order view'
@@ -137,7 +121,9 @@ return [
                     'route' => null,
                     'permission' => null,
                     'permissions' => [
-                        'work order view', 'work order approval', 'work order process'
+                        'work order view',
+                        'work order approval',
+                        'work order process'
                     ],
                     'submenus' => [
                         [
@@ -148,12 +134,12 @@ return [
                         [
                             'title' => 'Work Orders Approval',
                             'route' => '/work-order-approvals',
-                            'permission' => 'work order approval',
+                            'permission' => 'work order approval'
                         ],
                         [
                             'title' => 'Work Order Processes',
                             'route' => '/work-order-processes',
-                            'permission' => 'work order process',
+                            'permission' => 'work order process'
                         ]
                     ]
                 ]
@@ -251,7 +237,7 @@ return [
             'menus' => [
                 [
                     'title' => 'Vendor Data',
-                    'icon' => '<i class="fa fa-address-book" fa-xs></i>',
+                    'icon' => '<i class="fa fa-address-book"></i>',
                     'route' => null,
                     'permission' => null,
                     'permissions' => [
@@ -400,6 +386,22 @@ return [
                             'permission' => 'setting app view'
                         ]
                     ]
+                ]
+            ]
+        ],
+        [
+            'header' => 'Hospitals',
+            'permissions' => [
+                'hospital view'
+            ],
+            'menus' => [
+                [
+                    'title' => 'Hospitals',
+                    'icon' => '<i class="fa fa-bank"></i>',
+                    'route' => '/hospitals',
+                    'permission' => 'hospital view',
+                    'permissions' => [],
+                    'submenus' => []
                 ]
             ]
         ]

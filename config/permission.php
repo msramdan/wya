@@ -198,6 +198,5 @@ return [
         ['group' => 'nomenklaturs', 'access' => ['nomenklatur view']],
         ['group' => 'equipments', 'access' => ['equipment view', 'equipment create', 'equipment edit', 'equipment delete']],
         ['group' => 'work orders', 'access' => ['work order view', 'work order create', 'work order edit', 'work order delete', 'work order approval', 'work order process']],
-        ['group' => 'hospitals', 'access' => ['hospitals view', 'hospitals create', 'hospitals edit', 'hospitals delete', 'hospitals approval', 'hospitals process']],
-    ],
-];
+  ['group' => 'hospitals', 'access' => ['hospital view', 'hospital create', 'hospital edit', 'hospital delete']], 
+		],];

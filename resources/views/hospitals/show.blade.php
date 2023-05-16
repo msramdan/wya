@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Detail of Work Orders'))
+@section('title', __('Detail of Hospitals'))
 
 @section('content')
         <div class="page-body">
@@ -8,13 +8,13 @@
                     <div class="page-header" style="margin-top: 5px">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h3>{{ __('Work Orders') }}</h3>
+                                <h3>{{ __('Hospitals') }}</h3>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
                                         <a href="/">{{ __('Dashboard') }}</a>
                                     </li>
                                     <li class="breadcrumb-item">
-                                        <a href="{{ route('work-orders.index') }}">{{ __('Work Orders') }}</a>
+                                        <a href="{{ route('hospitals.index') }}">{{ __('Hospitals') }}</a>
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
                                         {{ __('Detail') }}
@@ -34,44 +34,62 @@
                                     <div class="table-responsive">
                                         <table class="table table-hover table-striped">
                                             <tr>
-                                        <td class="fw-bold">{{ __('Equipment') }}</td>
-                                        <td>{{ $workOrder->equipment ? $workOrder->equipment->id : '' }}</td>
-                                    </tr>
-									<tr>
-                                        <td class="fw-bold">{{ __('Type Wo') }}</td>
-                                        <td>{{ $workOrder->type_wo == 1 ? 'True' : 'False' }}</td>
-                                    </tr>
-									<tr>
-                                            <td class="fw-bold">{{ __('Filed Date') }}</td>
-                                            <td>{{ isset($workOrder->filed_date) ? $workOrder->filed_date->format('d/m/Y') : ''  }}</td>
+                                            <td class="fw-bold">{{ __('Name') }}</td>
+                                            <td>{{ $hospital->name }}</td>
                                         </tr>
 									<tr>
-                                        <td class="fw-bold">{{ __('Category Wo') }}</td>
-                                        <td>{{ $workOrder->category_wo == 1 ? 'True' : 'False' }}</td>
-                                    </tr>
-									<tr>
-                                            <td class="fw-bold">{{ __('Schedule Date') }}</td>
-                                            <td>{{ isset($workOrder->schedule_date) ? $workOrder->schedule_date->format('d/m/Y') : ''  }}</td>
+                                            <td class="fw-bold">{{ __('Phone') }}</td>
+                                            <td>{{ $hospital->phone }}</td>
                                         </tr>
 									<tr>
-                                            <td class="fw-bold">{{ __('Note') }}</td>
-                                            <td>{{ $workOrder->note }}</td>
+                                            <td class="fw-bold">{{ __('Email') }}</td>
+                                            <td>{{ $hospital->email }}</td>
                                         </tr>
 									<tr>
-                                        <td class="fw-bold">{{ __('User') }}</td>
-                                        <td>{{ $workOrder->user ? $workOrder->user->name : '' }}</td>
+                                            <td class="fw-bold">{{ __('Address') }}</td>
+                                            <td>{{ $hospital->address }}</td>
+                                        </tr>
+									<tr>
+                                        <td class="fw-bold">{{ __('Logo') }}</td>
+                                        <td>
+                                            @if ($hospital->logo == null)
+                                            <img src="https://via.placeholder.com/350?text=No+Image+Avaiable" alt="Logo"  class="rounded" width="200" height="150" style="object-fit: cover">
+                                            @else
+                                                <img src="{{ asset('storage/uploads/logos/' . $hospital->logo) }}" alt="Logo" class="rounded" width="200" height="150" style="object-fit: cover">
+                                            @endif
+                                        </td>
                                     </tr>
 									<tr>
-                                        <td class="fw-bold">{{ __('Status Wo') }}</td>
-                                        <td>{{ $workOrder->status_wo == 1 ? 'True' : 'False' }}</td>
+                                        <td class="fw-bold">{{ __('Notif Wa') }}</td>
+                                        <td>{{ $hospital->notif_wa == 1 ? 'True' : 'False' }}</td>
                                     </tr>
+									<tr>
+                                            <td class="fw-bold">{{ __('Url Wa Gateway') }}</td>
+                                            <td>{{ $hospital->url_wa_gateway }}</td>
+                                        </tr>
+									<tr>
+                                            <td class="fw-bold">{{ __('Session Wa Gateway') }}</td>
+                                            <td>{{ $hospital->session_wa_gateway }}</td>
+                                        </tr>
+									<tr>
+                                        <td class="fw-bold">{{ __('Paper Qr Code') }}</td>
+                                        <td>{{ $hospital->paper_qr_code == 1 ? 'True' : 'False' }}</td>
+                                    </tr>
+									<tr>
+                                        <td class="fw-bold">{{ __('Bot Telegram') }}</td>
+                                        <td>{{ $hospital->bot_telegram == 1 ? 'True' : 'False' }}</td>
+                                    </tr>
+									<tr>
+                                            <td class="fw-bold">{{ __('Work Order Has Access Approval Users Id') }}</td>
+                                            <td>{{ $hospital->work_order_has_access_approval_users_id }}</td>
+                                        </tr>
                                             <tr>
                                                 <td class="fw-bold">{{ __('Created at') }}</td>
-                                                <td>{{ $workOrder->created_at->format('d/m/Y H:i') }}</td>
+                                                <td>{{ $hospital->created_at->format('d/m/Y H:i') }}</td>
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold">{{ __('Updated at') }}</td>
-                                                <td>{{ $workOrder->updated_at->format('d/m/Y H:i') }}</td>
+                                                <td>{{ $hospital->updated_at->format('d/m/Y H:i') }}</td>
                                             </tr>
                                         </table>
                                     </div>
