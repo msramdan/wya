@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\{StoreRoleRequest, UpdateRoleRequest};
+use Illuminate\Http\Request;
 use Spatie\Permission\Models\{Role, Permission};
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\DB;
@@ -22,13 +23,16 @@ class RoleAndPermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (request()->ajax()) {
             $role = DB::table('roles')
                 ->join('hospitals', 'roles.id', '=', 'hospitals.id')
                 ->select('roles.*', 'hospitals.name as hospital_name')
                 ->get();
+            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
+                $role = $role->where('hospital_id', $request->hospital_id);
+            }
 
             return DataTables::of($role)
                 ->addIndexColumn()

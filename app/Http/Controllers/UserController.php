@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\{StoreUserRequest, UpdateUserRequest};
+use App\Models\Hospital;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Image;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -29,10 +32,16 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (request()->ajax()) {
-            $users = User::with('roles:id,name');
+            $users = User::with('roles:id,name,hospital_id');
+            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
+                $users = $users->whereHas('roles', function ($query) use ($request) {
+                    $query->where('hospital_id', $request->hospital_id);
+                });
+                $users->get();
+            }
 
             return Datatables::of($users)
                 ->addColumn('created_at', function ($row) {
@@ -40,7 +49,13 @@ class UserController extends Controller
                 })->addColumn('updated_at', function ($row) {
                     return $row->updated_at->format('d M Y H:i:s');
                 })
-
+                ->addColumn('hospital', function ($row) {
+                    if (isset($row->roles[0]) && !empty($row->roles[0])) {
+                        $hospital = Hospital::firstWhere('id', $row->roles[0]->hospital_id);
+                        return $hospital->name;
+                    }
+                    return '';
+                })
                 ->addColumn('action', 'users.include.action')
                 ->addColumn('role', function ($row) {
                     return $row->getRoleNames()->toArray() !== [] ? $row->getRoleNames()[0] : '-';

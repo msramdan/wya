@@ -42,7 +42,7 @@
                                                 <option value="">-- Filter Hospital --</option>
                                                 @foreach ($hispotals as $hispotal)
                                                     <option value="{{ $hispotal->id }}"
-                                                        {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                                                        {{ isset($role) && $role->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
                                                         {{ $hispotal->name }}
                                                     </option>
                                                 @endforeach
@@ -86,38 +86,47 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.12.0/datatables.min.js"></script>
         <script>
-            $('#data-table').DataTable({
+            let columns = [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false
+                }, {
+                    data: 'name',
+                    name: 'name'
+                },
+                {
+                    data: 'hospital_name',
+                    name: 'hospital_name'
+                },
+                {
+                    data: 'created_at',
+                    name: 'created_at'
+                },
+                {
+                    data: 'updated_at',
+                    name: 'updated_at'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                }
+            ];
+            var table = $('#data-table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('roles.index') }}",
-                columns: [{
-                        data: 'DT_RowIndex',
-                        name: 'DT_RowIndex',
-                        orderable: false,
-                        searchable: false
-                    }, {
-                        data: 'name',
-                        name: 'name'
-                    },
-                    {
-                        data: 'hospital_name',
-                        name: 'hospital_name'
-                    },
-                    {
-                        data: 'created_at',
-                        name: 'created_at'
-                    },
-                    {
-                        data: 'updated_at',
-                        name: 'updated_at'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
+                ajax: {
+                    url: "{{ route('roles.index') }}",
+                    data: function(s) {
+                        s.hospital_id = $('select[name=hospital_id] option').filter(':selected').val()
                     }
-                ],
-            });
+                },
+                columns: columns
+            })
+            $('#hospital_id').change(function() {
+                table.draw();
+            })
         </script>
     @endpush
