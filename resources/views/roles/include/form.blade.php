@@ -13,13 +13,19 @@
         </div>
     </div>
     <div class="col-md-6 mb-2">
-        <label for="hispotal_id">{{ __('Hospital') }}</label>
-        <select class="form-control js-example-basic-multiple @error('hispotal_id') is-invalid @enderror"
-            name="hispotal_id" id="hispotal_id" required>
-            <option value="" selected disabled>-- {{ __('Select hospital') }} --</option>
-            <option value="3">{{ __('Role MTA') }}</option>
+        <label for="hospital_id">{{ __('Hispotal') }}</label>
+        <select class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
+            name="hospital_id" id="hospital_id" required>
+            <option value="" selected disabled>-- {{ __('Select hispotal') }} --</option>
+
+            @foreach ($hispotals as $hispotal)
+                <option value="{{ $hispotal->id }}"
+                    {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                    {{ $hispotal->name }}
+                </option>
+            @endforeach
         </select>
-        @error('hispotal_id')
+        @error('hospital_id')
             <span class="text-danger">
                 {{ $message }}
             </span>

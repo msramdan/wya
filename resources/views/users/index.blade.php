@@ -36,7 +36,7 @@
                                     <form class="form-inline" method="get">
                                         @csrf
                                         <div class="input-group mb-2 mr-sm-2">
-                                            <select name="category_device" id="category_device"
+                                            <select name="hospital_id" id="hospital_id"
                                                 class="form-control js-example-basic-multiple">
                                                 <option value="">-- Filter Hospital --</option>
                                                 @foreach ($hispotals as $hispotal)
