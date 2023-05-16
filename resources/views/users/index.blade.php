@@ -41,7 +41,7 @@
                                                 <option value="">-- Filter Hospital --</option>
                                                 @foreach ($hispotals as $hispotal)
                                                     <option value="{{ $hispotal->id }}"
-                                                        {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                                                        {{ isset($users) && $users->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
                                                         {{ $hispotal->name }}
                                                     </option>
                                                 @endforeach
@@ -78,60 +78,73 @@
 
 @push('js')
     <script>
-        $('#data-table').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('users.index') }}",
-            columns: [
-                // {
-                //     data: 'DT_RowIndex',
-                //     name: 'DT_RowIndex',
-                //     orderable: false,
-                //     searchable: false
-                // },
-                {
-                    data: 'avatar',
-                    name: 'avatar',
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, full, meta) {
-                        return `<div class="avatar">
+        let columns = [
+            // {
+            //     data: 'DT_RowIndex',
+            //     name: 'DT_RowIndex',
+            //     orderable: false,
+            //     searchable: false
+            // },
+            {
+                data: 'avatar',
+                name: 'avatar',
+                orderable: false,
+                searchable: false,
+                render: function(data, type, full, meta) {
+                    return `<div class="avatar">
                             <img src="${data}" alt="avatar">
                         </div>`;
-                    }
-                },
-                {
-                    data: 'name',
-                    name: 'name'
-                },
-                {
-                    data: 'email',
-                    name: 'email'
-                },
-                {
-                    data: 'no_hp',
-                    name: 'no_hp'
-                },
-
-                {
-                    data: 'role',
-                    name: 'role'
-                },
-                {
-                    data: 'created_at',
-                    name: 'created_at'
-                },
-                {
-                    data: 'updated_at',
-                    name: 'updated_at'
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
                 }
-            ],
-        });
+            },
+            {
+                data: 'name',
+                name: 'name'
+            },
+            {
+                data: 'email',
+                name: 'email'
+            },
+            {
+                data: 'no_hp',
+                name: 'no_hp'
+            },
+
+            {
+                data: 'hospital',
+                name: 'hospital'
+            },
+            {
+                data: 'role',
+                name: 'role'
+            },
+            {
+                data: 'created_at',
+                name: 'created_at'
+            },
+            {
+                data: 'updated_at',
+                name: 'updated_at'
+            },
+            {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }
+        ];
+        var table = $('#data-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "{{ route('users.index') }}",
+                data: function(s) {
+                    s.hospital_id = $('select[name=hospital_id] option').filter(':selected').val()
+                }
+            },
+            columns: columns
+        })
+        $('#hospital_id').change(function() {
+            table.draw();
+        })
     </script>
 @endpush
