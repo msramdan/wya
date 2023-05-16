@@ -32,7 +32,11 @@ class RoleAndPermissionController extends Controller
                 ->select('roles.*', 'hospitals.name as hospital_name')
                 ->get();
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
-                $role = $role->where('hospital_id', $request->hospital_id);
+                if ($request->hospital_id == 'mta') {
+                    $role = $role->where('hospital_id', '');
+                } else {
+                    $role = $role->where('hospital_id', $request->hospital_id);
+                }
             }
             if (Auth::user()->roles->first()->hospital_id) {
                 $role = $role->where('hospital_id', Auth::user()->roles->first()->hospital_id);
@@ -40,6 +44,9 @@ class RoleAndPermissionController extends Controller
 
             return DataTables::of($role)
                 ->addIndexColumn()
+                ->addColumn('hospital_name', function ($row) {
+                    return $row->hospital_name ? $row->hospital_name : 'Role MTA';
+                })
                 ->addColumn('action', 'roles.include.action')
                 ->toJson();
         }

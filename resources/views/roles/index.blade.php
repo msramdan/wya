@@ -41,6 +41,7 @@
                                                 <select name="hospital_id" id="hospital_id"
                                                     class="form-control js-example-basic-multiple">
                                                     <option value="">-- Filter Hospital --</option>
+                                                    <option value="mta">Role MTA</option>
                                                     @foreach ($hispotals as $hispotal)
                                                         <option value="{{ $hispotal->id }}"
                                                             {{ isset($users) && $users->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
