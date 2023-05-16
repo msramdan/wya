@@ -14,7 +14,7 @@ class Vendor extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['code_vendor', 'name_vendor', 'category_vendor_id', 'email', 'provinsi_id', 'kabkot_id', 'kecamatan_id', 'kelurahan_id', 'zip_kode', 'longitude', 'latitude', 'address' . 'hospital_id'];
+    protected $fillable = ['code_vendor', 'name_vendor', 'category_vendor_id', 'email', 'provinsi_id', 'kabkot_id', 'kecamatan_id', 'kelurahan_id', 'zip_kode', 'longitude', 'latitude', 'address', 'hospital_id'];
 
     /**
      * The attributes that should be cast.
