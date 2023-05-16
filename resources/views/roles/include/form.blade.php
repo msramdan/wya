@@ -11,20 +11,19 @@
                 </span>
             @enderror
         </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="is_user_mta" id="is_user_mta" value="1"
-                {{ isset($role) && $role->is_user_mta == 1 ? 'checked' : '' }}>
-            <label class="form-check-label" for="is_user_mta">
-                Is User MTA
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="is_user_mta" id="not_user_mta" value="0"
-                {{ isset($role) && $role->is_user_mta == 0 ? 'checked' : '' }}>
-            <label class="form-check-label" for="not_user_mta">
-                Not User MTA
-            </label>
-        </div>
+    </div>
+    <div class="col-md-6 mb-2">
+        <label for="hispotal_id">{{ __('Hospital') }}</label>
+        <select class="form-control js-example-basic-multiple @error('hispotal_id') is-invalid @enderror"
+            name="hispotal_id" id="hispotal_id" required>
+            <option value="" selected disabled>-- {{ __('Select hospital') }} --</option>
+            <option value="3">{{ __('Role MTA') }}</option>
+        </select>
+        @error('hispotal_id')
+            <span class="text-danger">
+                {{ $message }}
+            </span>
+        @enderror
     </div>
 </div>
 

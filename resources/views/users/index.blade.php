@@ -25,11 +25,26 @@
                     <div class="card">
                         <div class="card-header">
                             @can('department create')
-                                <a href="{{ route('users.create') }}" class="btn btn-md btn-primary"> <i class="mdi mdi-plus"></i> {{ __('Create a new user') }}</a>
+                                <a href="{{ route('users.create') }}" class="btn btn-md btn-primary"> <i
+                                        class="mdi mdi-plus"></i> {{ __('Create a new user') }}</a>
                             @endcan
                         </div>
 
                         <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <form class="form-inline" method="get">
+                                        @csrf
+                                        <div class="input-group mb-2 mr-sm-2">
+                                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"
+                                                    aria-hidden="true"></i></span>
+                                            <select name="category_device" id="category_device" class="form-control">
+                                                <option value="">-- Filter Hospital --</option>
+                                            </select>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                             <div class="table-responsive p-1">
                                 <table class="table table-striped" id="data-table" width="100%">
                                     <thead>
@@ -39,6 +54,7 @@
                                             <th>{{ __('Name') }}</th>
                                             <th>{{ __('Email') }}</th>
                                             <th>{{ __('No HP') }}</th>
+                                            <th>{{ __('Hospital') }}</th>
                                             <th>{{ __('Role') }}</th>
                                             <th>{{ __('Created At') }}</th>
                                             <th>{{ __('Updated At') }}</th>
@@ -91,6 +107,7 @@
                     data: 'no_hp',
                     name: 'no_hp'
                 },
+
                 {
                     data: 'role',
                     name: 'role'

@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('equipment_locations', function (Blueprint $table) {
             $table->id();
             $table->string('code_location', 20);
-			$table->string('location_name', 200);
+            $table->string('location_name', 200);
+            $table->boolean('hospital_id')->nullable()->constrained('hospitals')->restrictOnUpdate()->nullOnDelete();
             $table->timestamps();
         });
     }

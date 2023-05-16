@@ -32,12 +32,27 @@
                         </div>
 
                         <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <form class="form-inline" method="get">
+                                        @csrf
+                                        <div class="input-group mb-2 mr-sm-2">
+                                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"
+                                                    aria-hidden="true"></i></span>
+                                            <select name="category_device" id="category_device" class="form-control">
+                                                <option value="">-- Filter Hospital --</option>
+                                            </select>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                             <div class="table-responsive p-1">
                                 <table class="table table-bordered table-sm" id="data-table" width="100%">
                                     <thead>
                                         <tr>
                                             <th>#</th>
                                             <th>{{ __('Name') }}</th>
+                                            <th>{{ __('Hosital') }}</th>
                                             <th>{{ __('Created At') }}</th>
                                             <th>{{ __('Updated At') }}</th>
                                             <th>{{ __('Action') }}</th>
@@ -78,6 +93,10 @@
                     }, {
                         data: 'name',
                         name: 'name'
+                    },
+                    {
+                        data: 'hospital_name',
+                        name: 'hospital_name'
                     },
                     {
                         data: 'created_at',

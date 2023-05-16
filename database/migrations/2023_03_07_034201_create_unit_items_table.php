@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('unit_items', function (Blueprint $table) {
             $table->id();
             $table->string('code_unit', 20);
-			$table->string('unit_name', 200);
+            $table->string('unit_name', 200);
+            $table->boolean('hospital_id')->nullable()->constrained('hospitals')->restrictOnUpdate()->nullOnDelete();
             $table->timestamps();
         });
     }

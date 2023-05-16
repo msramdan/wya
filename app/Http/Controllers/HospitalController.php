@@ -29,7 +29,8 @@ class HospitalController extends Controller
                     return $row->created_at->format('d M Y H:i:s');
                 })->addColumn('updated_at', function ($row) {
                     return $row->updated_at->format('d M Y H:i:s');
-                })->addColumn('logo', function ($row) {
+                })
+                ->addColumn('logo', function ($row) {
                     if ($row->logo == null) {
                         return 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($row->name))) . '&s=500';
                     }

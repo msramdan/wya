@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\{StoreRoleRequest, UpdateRoleRequest};
 use Spatie\Permission\Models\{Role, Permission};
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\DB;
 
 class RoleAndPermissionController extends Controller
 {
@@ -24,15 +25,13 @@ class RoleAndPermissionController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $users = Role::query();
+            $role = DB::table('roles')
+                ->join('hospitals', 'roles.id', '=', 'hospitals.id')
+                ->select('roles.*', 'hospitals.name as hospital_name')
+                ->get();
 
-            return DataTables::of($users)
+            return DataTables::of($role)
                 ->addIndexColumn()
-                ->addColumn('created_at', function ($row) {
-                    return $row->created_at->format('d M Y H:i:s');
-                })->addColumn('updated_at', function ($row) {
-                    return $row->updated_at->format('d M Y H:i:s');
-                })
                 ->addColumn('action', 'roles.include.action')
                 ->toJson();
         }
@@ -58,7 +57,7 @@ class RoleAndPermissionController extends Controller
      */
     public function store(StoreRoleRequest $request)
     {
-        $role = Role::create(['name' => $request->name, 'is_user_mta' => $request->is_user_mta]);
+        $role = Role::create(['name' => $request->name, 'hospital_id' => $request->hospital_id]);
 
         $role->givePermissionTo($request->permissions);
 
@@ -104,7 +103,7 @@ class RoleAndPermissionController extends Controller
     {
         $role = Role::findOrFail($id);
 
-        $role->update(['name' => $request->name, 'is_user_mta' => $request->is_user_mta]);
+        $role->update(['name' => $request->name, 'hospital_id' => $request->hospital_id]);
 
         $role->syncPermissions($request->permissions);
 

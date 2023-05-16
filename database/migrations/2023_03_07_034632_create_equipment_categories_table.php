@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('equipment_categories', function (Blueprint $table) {
             $table->id();
             $table->string('code_categoty', 20);
-			$table->string('category_name', 200);
+            $table->string('category_name', 200);
+            $table->boolean('hospital_id')->nullable()->constrained('hospitals')->restrictOnUpdate()->nullOnDelete();
             $table->timestamps();
         });
     }

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('roles', function (Blueprint $table) {
-            $table->boolean('is_user_mta')->default(false)->comment('1 = is_User_Mta, 0 = not_User_Mta')->after('guard_name');
+            $table->boolean('hospital_id')->nullable()->constrained('hospitals')->restrictOnUpdate()->nullOnDelete()->after('guard_name');
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('roles', function (Blueprint $table) {
-            $table->dropColumn('is_user_mta');
+            $table->dropColumn('hospital_id');
         });
     }
 };
