@@ -32,4 +32,8 @@ class Equipment extends Model
     {
         return $this->belongsTo(\App\Models\EquipmentLocation::class, 'equipment_location_id');
     }
+    public function hospital()
+    {
+        return $this->belongsTo(\App\Models\Hospital::class);
+    }
 }

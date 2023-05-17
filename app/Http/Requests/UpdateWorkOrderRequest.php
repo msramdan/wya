@@ -33,6 +33,7 @@ class UpdateWorkOrderRequest extends FormRequest
             'schedule_date' => 'required_if:category_wo,Non Rutin|nullable',
             'start_date' => 'required_if:category_wo,Rutin|date|nullable|before_or_equal:end_date',
             'schedule_wo' => 'required_if:category_wo,Rutin|in:Harian,Mingguan,Bulanan,2 Bulanan,3 Bulanan,4 Bulanan,6 Bulanan,Tahunan|nullable',
+            'hospital_id' => 'required|exists:App\models\Hospital,id',
             'end_date' => ['required_if:category_wo,Rutin', 'date', 'nullable', 'after_or_equal:start_date', function ($attribute, $value, $fail) {
                 if (request()->get('category_wo') == 'Rutin') {
                     $startDateValue = request()->get('start_date');

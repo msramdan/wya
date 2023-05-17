@@ -54,4 +54,8 @@ class Employee extends Model
     {
         return $this->belongsTo(\App\Models\Kelurahan::class);
     }
+    public function hospital()
+    {
+        return $this->belongsTo(\App\Models\Hospital::class);
+    }
 }
