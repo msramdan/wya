@@ -23,7 +23,7 @@ return new class extends Migration
             $table->boolean('notif_wa');
             $table->string('url_wa_gateway', 150)->nullable();
             $table->string('session_wa_gateway', 150)->nullable();
-            $table->boolean('paper_qr_code');
+            $table->float('paper_qr_code', 8, 4);
             $table->boolean('bot_telegram');
             $table->json('work_order_has_access_approval_users_id')->nullable();
             $table->timestamps();

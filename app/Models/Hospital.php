@@ -21,8 +21,5 @@ class Hospital extends Model
      *
      * @var string[]
      */
-    protected $casts = ['name' => 'string', 'phone' => 'string', 'email' => 'string', 'address' => 'string', 'logo' => 'string', 'notif_wa' => 'boolean', 'url_wa_gateway' => 'string', 'session_wa_gateway' => 'string', 'paper_qr_code' => 'boolean', 'bot_telegram' => 'boolean', 'work_order_has_access_approval_users_id' => 'string', 'created_at' => 'datetime:d/m/Y H:i', 'updated_at' => 'datetime:d/m/Y H:i'];
-
-    
-
+    protected $casts = ['name' => 'string', 'phone' => 'string', 'email' => 'string', 'address' => 'string', 'logo' => 'string', 'notif_wa' => 'boolean', 'url_wa_gateway' => 'string', 'session_wa_gateway' => 'string', 'bot_telegram' => 'boolean', 'created_at' => 'datetime:d/m/Y H:i', 'updated_at' => 'datetime:d/m/Y H:i'];
 }

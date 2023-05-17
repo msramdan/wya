@@ -7,6 +7,7 @@ use App\Http\Requests\{StoreHospitalRequest, UpdateHospitalRequest};
 use Yajra\DataTables\Facades\DataTables;
 use Image;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Models\User;
 
 class HospitalController extends Controller
 {
@@ -58,7 +59,10 @@ class HospitalController extends Controller
      */
     public function create()
     {
-        return view('hospitals.create');
+        $users = User::orderBy('name', 'ASC')->get();
+        return view('hospitals.create', [
+            'users' => $users
+        ]);
     }
 
     /**
@@ -88,6 +92,8 @@ class HospitalController extends Controller
             $attr['logo'] = $filename;
         }
 
+        $attr['work_order_has_access_approval_users_id'] = json_encode($request->work_order_has_access_approval_users_id);
+
         Hospital::create($attr);
 
         return redirect()
@@ -114,7 +120,8 @@ class HospitalController extends Controller
      */
     public function edit(Hospital $hospital)
     {
-        return view('hospitals.edit', compact('hospital'));
+        $users = User::orderBy('name', 'ASC')->get();
+        return view('hospitals.edit', compact('hospital', 'users'));
     }
 
     /**
@@ -149,6 +156,7 @@ class HospitalController extends Controller
 
             $attr['logo'] = $filename;
         }
+        $attr['work_order_has_access_approval_users_id'] = json_encode($request->work_order_has_access_approval_users_id);
 
         $hospital->update($attr);
 

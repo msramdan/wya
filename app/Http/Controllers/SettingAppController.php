@@ -5,12 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\SettingApp;
 use App\Http\Requests\{StoreSettingAppRequest, UpdateSettingAppRequest};
 use App\Models\User;
-use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 
 
 class SettingAppController extends Controller
