@@ -6,6 +6,28 @@
                     <b> <i class="mdi mdi-information"></i> General Information</b>
                 </div>
                 <hr>
+                @if (!Auth::user()->roles->first()->hospital_id)
+                    <div class="row">
+                        <div class="col-md-12 mb-2">
+                            <div class="form-group">
+                                <label for="role">{{ __('Hospital') }}</label>
+                                <select name="hospital_id" id="hospital_id"
+                                    class="form-control js-example-basic-multiple">
+                                    <option value="">-- {{ __('Select hospital') }} --</option>
+                                    @foreach ($hispotals as $hispotal)
+                                        <option value="{{ $hispotal->id }}"
+                                            {{ isset($equipments) && $equipments->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                                            {{ $hispotal->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <input type="hidden" name="hospital_id" value="{{ Auth::user()->roles->first()->hospital_id }}"
+                        readonly id="hospital_id">
+                @endif
 
                 <div class="row">
                     <div class="col-md-6 mb-2">

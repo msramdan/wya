@@ -1,10 +1,10 @@
 <div class="row mb-2">
     @if (!Auth::user()->roles->first()->hospital_id)
         <div class="col-md-6 mb-2">
-            <label for="hospital_id">{{ __('Hispotal') }}</label>
+            <label for="hospital_id">{{ __('Hospital') }}</label>
             <select class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
                 name="hospital_id" id="hospital_id" required>
-                <option value="" selected disabled>-- {{ __('Select hispotal') }} --</option>
+                <option value="" selected disabled>-- {{ __('Select hospital') }} --</option>
 
                 @foreach ($hispotals as $hispotal)
                     <option value="{{ $hispotal->id }}"

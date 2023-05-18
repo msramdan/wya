@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\EmployeeExport;
-use App\FormatImport\GenerateEmployeeFormat;
 use App\Models\Employee;
-use App\Http\Requests\{ImportEmployeeRequest, StoreEmployeeRequest, UpdateEmployeeRequest};
-use App\Imports\EmployeeImport;
-use Yajra\DataTables\Facades\DataTables;
-use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use App\Exports\EmployeeExport;
+use App\Imports\EmployeeImport;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Validator;
+use App\FormatImport\GenerateEmployeeFormat;
+use App\Http\Requests\{ImportEmployeeRequest, StoreEmployeeRequest, UpdateEmployeeRequest};
 
 
 
@@ -32,10 +33,17 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (request()->ajax()) {
-            $employees = Employee::with('employee_type:id,name_employee_type', 'department:id,name_department', 'position:id,name_position', 'province:id,provinsi', 'kabkot:id,provinsi_id', 'kecamatan:id,kabkot_id', 'kelurahan:id,kecamatan_id');
+            $employees = Employee::with('employee_type:id,name_employee_type', 'department:id,name_department', 'position:id,name_position', 'province:id,provinsi', 'kabkot:id,provinsi_id', 'kecamatan:id,kabkot_id', 'kelurahan:id,kecamatan_id', 'hospital:id,name');
+
+            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
+                $employees = $employees->where('hospital_id', $request->hospital_id);
+            }
+            if (Auth::user()->roles->first()->hospital_id) {
+                $employees = $employees->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+            }
 
             return DataTables::of($employees)
                 ->addIndexColumn()
@@ -109,6 +117,7 @@ class EmployeeController extends Controller
                 'latitude' => 'required|string|min:1|max:200',
                 'join_date' => 'required|date',
                 'photo'     => 'required|image|mimes:png,jpg,jpeg',
+                'hospital_id'     => 'required',
             ],
         );
         if ($validator->fails()) {
@@ -141,6 +150,7 @@ class EmployeeController extends Controller
                 'latitude' => $request->latitude,
                 'join_date' => $request->join_date,
                 'photo'     => $photo->hashName(),
+                'hospital_id' => $request->hospital_id
             ]);
 
             Alert::toast('The employee was created successfully.', 'success');
@@ -212,6 +222,7 @@ class EmployeeController extends Controller
                 'latitude' => 'required|string|min:1|max:200',
                 'join_date' => 'required|date',
                 'photo'     => 'required|image|mimes:png,jpg,jpeg',
+                'hospital_id' => 'required'
             ],
         );
         if ($validator->fails()) {
@@ -246,6 +257,7 @@ class EmployeeController extends Controller
             'longitude' => $request->longitude,
             'latitude' => $request->latitude,
             'join_date' => $request->join_date,
+            'hospital_id' => $request->hospital_id
         ]);
         Alert::toast('The employee was updated successfully.', 'success');
         return redirect()

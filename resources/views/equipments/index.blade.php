@@ -15,8 +15,10 @@
                     <div class="modal-body">
                         @csrf
                         <div class="mb-3">
-                            <input type="file" accept=".xlsx" class="form-control" id="import_equipment" name="import_equipment" aria-describedby="import_equipment" required>
-                            <div id="downloadFormat" class="form-text"> <a href="#"><i class="fa fa-download" aria-hidden="true"></i> Download Format</a> </div>
+                            <input type="file" accept=".xlsx" class="form-control" id="import_equipment"
+                                name="import_equipment" aria-describedby="import_equipment" required>
+                            <div id="downloadFormat" class="form-text"> <a href="#"><i class="fa fa-download"
+                                        aria-hidden="true"></i> Download Format</a> </div>
                         </div>
 
                     </div>
@@ -61,18 +63,41 @@
                     <div class="card">
                         <div class="card-header">
                             @can('equipment create')
-                                <a href="{{ route('equipment.create') }}" class="btn btn-md btn-primary"> <i class="mdi mdi-plus"></i> {{ __('Create a new equipment') }}</a>
+                                <a href="{{ route('equipment.create') }}" class="btn btn-md btn-primary"> <i
+                                        class="mdi mdi-plus"></i> {{ __('Create a new equipment') }}</a>
                             @endcan
                             <button id="btnExport" class="btn btn-success">
                                 <i class='fas fa-file-excel'></i>
                                 {{ __('Export') }}
                             </button>
-                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
                                 {{ __('Import') }}
                             </button>
                         </div>
 
                         <div class="card-body">
+                            @if (!Auth::user()->roles->first()->hospital_id)
+                                <div class="row">
+                                    <div class="col-md-3 mb-2">
+                                        <form class="form-inline" method="get">
+                                            @csrf
+                                            <div class="input-group mb-2 mr-sm-2">
+                                                <select name="hospital_id" id="hospital_id"
+                                                    class="form-control js-example-basic-multiple">
+                                                    <option value="">-- Filter Hospital --</option>
+                                                    @foreach ($hispotals as $hispotal)
+                                                        <option value="{{ $hispotal->id }}"
+                                                            {{ isset($equipments) && $equipments->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                                                            {{ $hispotal->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            @endif
                             <div class="table-responsive">
                                 <table class="table table-bordered table-sm" id="data-table">
                                     <thead>
@@ -102,52 +127,61 @@
 @push('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.5.1/sweetalert2.all.min.js"></script>
     <script>
-        $('#data-table').DataTable({
+        let columns = [{
+                data: 'DT_RowIndex',
+                name: 'DT_RowIndex',
+                orderable: false,
+                searchable: false
+            },
+            {
+                data: 'barcode',
+                name: 'barcode',
+            },
+            {
+                data: 'nomenklatur',
+                name: 'nomenklatur.code_nomenklatur'
+            },
+            {
+                data: 'serial_number',
+                name: 'serial_number',
+            },
+            {
+                data: 'equipment_category',
+                name: 'equipment_category.code_categoty'
+            },
+            {
+                data: 'manufacturer',
+                name: 'manufacturer',
+            },
+            {
+                data: 'type',
+                name: 'type',
+            },
+            {
+                data: 'equipment_location',
+                name: 'equipment_location.code_location'
+            },
+            {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }
+        ];
+        var table = $('#data-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('equipment.index') }}",
-            columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex',
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    data: 'barcode',
-                    name: 'barcode',
-                },
-                {
-                    data: 'nomenklatur',
-                    name: 'nomenklatur.code_nomenklatur'
-                },
-                {
-                    data: 'serial_number',
-                    name: 'serial_number',
-                },
-                {
-                    data: 'equipment_category',
-                    name: 'equipment_category.code_categoty'
-                },
-                {
-                    data: 'manufacturer',
-                    name: 'manufacturer',
-                },
-                {
-                    data: 'type',
-                    name: 'type',
-                },
-                {
-                    data: 'equipment_location',
-                    name: 'equipment_location.code_location'
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
+            ajax: {
+                url: "{{ route('equipment.index') }}",
+                data: function(s) {
+                    s.hospital_id = $('select[name=hospital_id] option').filter(':selected').val()
                 }
-            ],
-        });
+            },
+            columns: columns
+        })
+        $('#hospital_id').change(function() {
+            table.draw();
+        })
     </script>
     <script>
         const showLoading = function() {

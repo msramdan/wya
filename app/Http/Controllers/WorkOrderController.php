@@ -36,13 +36,20 @@ class WorkOrderController extends Controller
     public function index(Request $request)
     {
         if (request()->ajax()) {
-            $workOrders = WorkOrder::with('equipment:id,barcode', 'user:id,name')->orderBy('work_orders.id', 'DESC');
+            $workOrders = WorkOrder::with('equipment:id,barcode', 'user:id,name', 'hospital:id,name')->orderBy('work_orders.id', 'DESC');
             $start_date = intval($request->query('start_date'));
             $end_date = intval($request->query('end_date'));
             $equipment_id = intval($request->query('equipment_id'));
             $type_wo = $request->query('type_wo');
             $category_wo = $request->query('category_wo');
             $created_by = intval($request->query('created_by'));
+
+            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
+                $workOrders = $workOrders->where('hospital_id', $request->hospital_id);
+            }
+            if (Auth::user()->roles->first()->hospital_id) {
+                $workOrders = $workOrders->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+            }
 
 
             if (isset($start_date) && !empty($start_date)) {
@@ -280,7 +287,7 @@ class WorkOrderController extends Controller
                         'start_date' => null,
                         'end_date' => null,
                         'schedule_wo' => $workOrder->schedule_wo,
-                        'status' => 'ready-to-start'
+                        'status' => 'ready-to-start',
                     ]);
                 }
             } elseif ($workOrder->category_wo == 'Non Rutin') {
@@ -297,7 +304,7 @@ class WorkOrderController extends Controller
                     'start_date' => null,
                     'end_date' => null,
                     'schedule_wo' => null,
-                    'status' => 'ready-to-start'
+                    'status' => 'ready-to-start',
                 ]);
             }
         }
