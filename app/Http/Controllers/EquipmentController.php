@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\EquiptmentExport;
-use App\Exports\GenerateEquipmentWithMultipleSheet;
-use App\FormatImport\GenerateEquipmentFormat;
+use PDF;
 use App\Models\Equipment;
-use App\Http\Requests\{ImportEquipmentRequest, StoreEquipmentRequest, UpdateEquipmentRequest};
-use App\Imports\EquipmentImport;
-use App\Imports\EquipmentImportMultipleSheet;
-use Yajra\DataTables\Facades\DataTables;
-use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
+use App\Imports\EquipmentImport;
+use App\Exports\EquiptmentExport;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
-use PDF;
+use RealRashid\SweetAlert\Facades\Alert;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Validator;
+use App\FormatImport\GenerateEquipmentFormat;
+use App\Imports\EquipmentImportMultipleSheet;
+use App\Exports\GenerateEquipmentWithMultipleSheet;
+use App\Http\Requests\{ImportEquipmentRequest, StoreEquipmentRequest, UpdateEquipmentRequest};
 
 class EquipmentController extends Controller
 {
@@ -33,10 +34,16 @@ class EquipmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (request()->ajax()) {
-            $equipments = Equipment::with('nomenklatur:id,name_nomenklatur', 'equipment_category:id,category_name', 'vendor:id,name_vendor', 'equipment_location:id,location_name')->orderBy('equipment.id', 'DESC');
+            $equipments = Equipment::with('nomenklatur:id,name_nomenklatur', 'equipment_category:id,category_name', 'vendor:id,name_vendor', 'equipment_location:id,location_name', 'hospital:id,name')->orderBy('equipment.id', 'DESC');
+            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
+                $equipments = $equipments->where('hospital_id', $request->hospital_id);
+            }
+            if (Auth::user()->roles->first()->hospital_id) {
+                $equipments = $equipments->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+            }
 
             return DataTables::of($equipments)
                 ->addIndexColumn()
@@ -99,6 +106,7 @@ class EquipmentController extends Controller
                 'nilai_perolehan' => 'required',
                 'nilai_residu' => 'required',
                 'masa_manfaat' => 'required',
+                'hospital_id' => 'required|exists:App/Models/Hospital,id'
             ],
         );
         if ($validator->fails()) {
@@ -129,6 +137,7 @@ class EquipmentController extends Controller
                 'nilai_perolehan' => $request->nilai_perolehan,
                 'nilai_residu' => $request->nilai_residu,
                 'masa_manfaat' => $request->masa_manfaat,
+                'hospital_id' => $request->hospital_id
             ]);
             $insertedId = $equipment->id;
             if ($equipment) {
@@ -236,6 +245,7 @@ class EquipmentController extends Controller
                 'nilai_perolehan' => 'required',
                 'nilai_residu' => 'required',
                 'masa_manfaat' => 'required',
+                'hospital_id' => 'required|exists:App/Models/Hospital,id'
             ],
         );
         if ($validator->fails()) {
@@ -270,6 +280,7 @@ class EquipmentController extends Controller
             'nilai_perolehan' => $request->nilai_perolehan,
             'nilai_residu' => $request->nilai_residu,
             'masa_manfaat' => $request->masa_manfaat,
+            'hospital_id' => $request->hospital_id,
         ]);
 
         // hapus file

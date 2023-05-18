@@ -44,4 +44,8 @@ class WorkOrder extends Model
     {
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
+    public function hospital()
+    {
+        return $this->belongsTo(\App\Models\Hospital::class);
+    }
 }

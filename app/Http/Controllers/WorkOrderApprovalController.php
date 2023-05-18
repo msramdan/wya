@@ -30,6 +30,13 @@ class WorkOrderApprovalController extends Controller
                 END'
             )->orderBy('updated_at', 'DESC');
 
+            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
+                $workOrders = $workOrders->where('hospital_id', $request->hospital_id);
+            }
+            if (Auth::user()->roles->first()->hospital_id) {
+                $workOrders = $workOrders->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+            }
+
             $start_date = intval($request->query('start_date'));
             $end_date = intval($request->query('end_date'));
             $equipment_id = intval($request->query('equipment_id'));
