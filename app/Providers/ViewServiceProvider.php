@@ -63,23 +63,38 @@ class ViewServiceProvider extends ServiceProvider
         });
 
         View::composer(['employees.create', 'employees.edit'], function ($view) {
+            if (!Auth::user()->roles->first()->hospital_id) {
+                $data = \App\Models\EmployeeType::select('id', 'name_employee_type')->get();
+            } else {
+                $data = \App\Models\EmployeeType::select('id', 'name_employee_type')->where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
+            }
             return $view->with(
                 'employeeTypes',
-                \App\Models\EmployeeType::select('id', 'name_employee_type')->get()
+                $data
             );
         });
 
         View::composer(['employees.create', 'employees.edit'], function ($view) {
+            if (!Auth::user()->roles->first()->hospital_id) {
+                $data = \App\Models\EmployeeType::select('id', 'name_employee_type')->get();
+            } else {
+                $data = \App\Models\EmployeeType::select('id', 'name_employee_type')->where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
+            }
             return $view->with(
                 'departments',
-                \App\Models\Department::select('id', 'name_department')->get()
+                $data
             );
         });
 
         View::composer(['employees.create', 'employees.edit'], function ($view) {
+            if (!Auth::user()->roles->first()->hospital_id) {
+                $data = \App\Models\EmployeeType::select('id', 'name_employee_type')->get();
+            } else {
+                $data = \App\Models\EmployeeType::select('id', 'name_employee_type')->where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
+            }
             return $view->with(
                 'positions',
-                \App\Models\Position::select('id', 'name_position')->get()
+                $data
             );
         });
 
@@ -104,9 +119,14 @@ class ViewServiceProvider extends ServiceProvider
         });
 
         View::composer(['spareparts.create', 'spareparts.edit'], function ($view) {
+            if (!Auth::user()->roles->first()->hospital_id) {
+                $data = \App\Models\EmployeeType::select('id', 'name_employee_type')->get();
+            } else {
+                $data = \App\Models\EmployeeType::select('id', 'name_employee_type')->where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
+            }
             return $view->with(
                 'unitItems',
-                \App\Models\UnitItem::select('id', 'code_unit')->get()
+                $data
             );
         });
 
@@ -126,16 +146,26 @@ class ViewServiceProvider extends ServiceProvider
         });
 
         View::composer(['equipments.create', 'equipments.edit'], function ($view) {
+            if (!Auth::user()->roles->first()->hospital_id) {
+                $data = \App\Models\EmployeeType::select('id', 'name_employee_type')->get();
+            } else {
+                $data = \App\Models\EmployeeType::select('id', 'name_employee_type')->where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
+            }
             return $view->with(
                 'equipmentCategories',
-                \App\Models\EquipmentCategory::select('id', 'category_name')->get()
+                $data
             );
         });
 
         View::composer(['equipments.create', 'equipments.edit'], function ($view) {
+            if (!Auth::user()->roles->first()->hospital_id) {
+                $data = \App\Models\EmployeeType::select('id', 'name_employee_type')->get();
+            } else {
+                $data = \App\Models\EmployeeType::select('id', 'name_employee_type')->where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
+            }
             return $view->with(
                 'vendors',
-                \App\Models\Vendor::select('id', 'name_vendor')->get()
+                $data
             );
         });
 
@@ -161,6 +191,18 @@ class ViewServiceProvider extends ServiceProvider
             );
         });
 
+        View::composer(['hospitals.create', 'hospitals.edit'], function ($view) {
+            if (!Auth::user()->roles->first()->hospital_id) {
+                $data = \App\Models\Hospital::select('id', 'work_order_has_access_approval_users_id')->get();
+            } else {
+                $data = \App\Models\Hospital::select('id', 'work_order_has_access_approval_users_id')->where('id', Auth::user()->roles->first()->hospital_id)->get();
+            }
+            return $view->with(
+                'rs',
+                $data
+            );
+        });
+
         View::composer(
             [
                 'unit-items.*',
@@ -179,6 +221,7 @@ class ViewServiceProvider extends ServiceProvider
                 'work-orders.*',
                 'work-order-process.*',
                 'work-order-approvals.*',
+                'hospitals.*',
             ],
             function ($view) {
                 return $view->with(
