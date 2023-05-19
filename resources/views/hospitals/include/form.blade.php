@@ -180,7 +180,7 @@
             <option value="" disabled>-- {{ __('Select Users') }} --</option>
             @foreach ($users as $user)
                 <option value="{{ $user->id }}"
-                    @if ($hospital) {{ in_array($user->id, json_decode($hospital->work_order_has_access_approval_users_id, true) ? json_decode($hospital->work_order_has_access_approval_users_id, true) : []) ? 'selected' : '' }} @endif>
+                    @if ($rs) {{ in_array($user->id, json_decode($rs[1]->work_order_has_access_approval_users_id, true) ? json_decode($rs[1]->work_order_has_access_approval_users_id, true) : []) ? 'selected' : '' }} @endif>
                     {{ $user->name }}</option>
             @endforeach
         </select>
