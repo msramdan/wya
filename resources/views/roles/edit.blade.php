@@ -53,3 +53,27 @@
         </div>
     </div>
 @endsection
+@push('js')
+    <script>
+        $(document).ready(function() {
+            // Jika pemilihan adalah opsi tertentu, sembunyikan div
+            if ({{ isset($role) && $role->hospital_id }}) {
+                $('#Nomenklaturs').hide();
+                $('#Hospitals').hide();
+                $('#Provinces').hide();
+                $('#Kabkots').hide();
+                $('#Kecamatans').hide();
+                $('#Kelurahans').hide();
+                $('#setting').hide();
+            } else {
+                $('#Nomenklaturs').show();
+                $('#Hospitals').show();
+                $('#Provinces').show();
+                $('#Kabkots').show();
+                $('#Kecamatans').show();
+                $('#Kelurahans').show();
+                $('#setting').show();
+            }
+        });
+    </script>
+@endpush
