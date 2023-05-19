@@ -75,5 +75,27 @@
                 $('#setting').show();
             }
         });
+        $('#hospital_id_select').change(function() {
+            var selectedValue = $(this).val();
+
+            // Jika pemilihan adalah opsi tertentu, sembunyikan div
+            if (selectedValue !== 'user_mta') {
+                $('#Nomenklaturs').hide();
+                $('#Hospitals').hide();
+                $('#Provinces').hide();
+                $('#Kabkots').hide();
+                $('#Kecamatans').hide();
+                $('#Kelurahans').hide();
+                $('#setting').hide();
+            } else {
+                $('#Nomenklaturs').show();
+                $('#Hospitals').show();
+                $('#Provinces').show();
+                $('#Kabkots').show();
+                $('#Kecamatans').show();
+                $('#Kelurahans').show();
+                $('#setting').show();
+            }
+        });
     </script>
 @endpush
