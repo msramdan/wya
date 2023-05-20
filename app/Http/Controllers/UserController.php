@@ -58,9 +58,12 @@ class UserController extends Controller
                     return $row->updated_at->format('d M Y H:i:s');
                 })
                 ->addColumn('hospital', function ($row) {
-                    return $row->hospital_name ? $row->hospital_name : 'User MTA';
+                    if ($row->hospital_name) {
+                        return '<span class="badge badge-label bg-success"><i class="mdi mdi-circle-medium"></i>' . $row->hospital_name . '</span>';
+                    } else {
+                        return '<span class="badge badge-label bg-danger"><i class="mdi mdi-circle-medium"></i>User MTA</span>';
+                    }
                 })
-                ->addColumn('action', 'users.include.action')
                 ->addColumn('role', function ($row) {
                     return $row->getRoleNames()->toArray() !== [] ? $row->getRoleNames()[0] : '-';
                 })
@@ -70,6 +73,8 @@ class UserController extends Controller
                     }
                     return asset($this->avatarPath . $row->avatar);
                 })
+                ->addColumn('action', 'users.include.action')
+                ->rawColumns(['hospital', 'action'])
                 ->toJson();
         }
 

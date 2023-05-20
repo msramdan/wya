@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Vendor;
 use App\Models\Employee;
 use Auth;
+use App\Models\Hospital;
 
 
 class DashboardController extends Controller
@@ -17,6 +18,7 @@ class DashboardController extends Controller
         $employees = Employee::with('employee_type:id,name_employee_type', 'department:id,name_department', 'position:id,name_position', 'province:id,provinsi', 'kabkot:id,provinsi_id', 'kecamatan:id,kabkot_id', 'kelurahan:id,kecamatan_id')->get();
         $start_date = intval($request->query('start_date'));
         $end_date = intval($request->query('end_date'));
+        $hospitals = Hospital::all();
 
         $in = DB::table('sparepart_trace')
             ->where('type', '=', 'In')
@@ -55,6 +57,7 @@ class DashboardController extends Controller
             'in' => $in->orderBy('id', 'desc')->get(),
             'out' => $out->orderBy('id', 'desc')->get(),
             'dataOpname' => DB::select($sql),
+            'hispotals' => $hospitals
         ]);
     }
 }

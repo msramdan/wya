@@ -198,6 +198,41 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row">
+                            @if (!Auth::user()->roles->first()->hospital_id)
+                                <div class="col-md-3 mb-2">
+                                    <form class="form-inline" method="get">
+                                        @csrf
+                                        <div class="input-group mb-2 mr-sm-2">
+                                            <select name="hospital_id" id="hospital_id"
+                                                class="form-control js-example-basic-multiple">
+                                                <option value="">-- Filter Hospital --</option>
+                                                @foreach ($hispotals as $hispotal)
+                                                    <option value="{{ $hispotal->id }}"
+                                                        {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                                                        {{ $hispotal->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </form>
+                                </div>
+                            @endif
+                            <div class="col-md-3">
+                                <form method="get" action="/panel" id="form-date">
+                                    <div class="input-group mb-4">
+                                        <span class="input-group-text" id="addon-wrapping"><i
+                                                class="fa fa-calendar"></i></span>
+                                        <input type="text" class="form-control" aria-describedby="addon-wrapping"
+                                            id="daterange-btn" value="">
+                                        <input type="hidden" name="start_date" id="start_date" value="{{ $microFrom }}">
+                                        <input type="hidden" name="end_date" id="end_date" value="{{ $microTo }}">
+                                    </div>
+                                    <!--end row-->
+                                </form>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <!-- card -->
@@ -285,7 +320,8 @@
                                         </div>
                                         <div class="d-flex align-items-end justify-content-between mt-4">
                                             <div>
-                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value"
+                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span
+                                                        class="counter-value"
                                                         data-target="{{ App\Models\Vendor::count() }}"></span></h4>
                                             </div>
                                             <div class="avatar-sm flex-shrink-0">
@@ -301,26 +337,7 @@
 
                         </div>
 
-                        <div class="row">
-                            <div class="col-xl-12 col-md-12">
-                                <div class="col-md-3">
 
-                                    <form method="get" action="/panel" id="form-date">
-                                        <div class="input-group mb-4">
-                                            <span class="input-group-text" id="addon-wrapping"><i
-                                                    class="fa fa-calendar"></i></span>
-                                            <input type="text" class="form-control" aria-describedby="addon-wrapping"
-                                                id="daterange-btn" value="">
-                                            <input type="hidden" name="start_date" id="start_date"
-                                                value="{{ $microFrom }}">
-                                            <input type="hidden" name="end_date" id="end_date"
-                                                value="{{ $microTo }}">
-                                        </div>
-                                        <!--end row-->
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
 
                         {{-- grafik knob --}}
                         <div class="row">
