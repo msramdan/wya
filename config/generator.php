@@ -90,7 +90,7 @@ return [
      *          'route' => null,
      *
      *          // permission always null when isset submenus
-     *          'permission' => null,
+     *
      *
      *          // All permissions on submenus[] and will empty[] when submenus equals to []
      *          'permissions' => ['test view'],
@@ -118,7 +118,7 @@ return [
                 [
                     'title' => 'Hospitals',
                     'icon' => '<i class="fa fa-hospital"></i>',
-                    'route' => '/hospitals',
+                    'route' => 'hospitals',
                     'permission' => 'hospital view',
                     'permissions' => [],
                     'submenus' => []
@@ -135,11 +135,13 @@ return [
                     'title' => 'Work Order',
                     'icon' => '<i class="mdi mdi-book-multiple"></i>',
                     'route' => null,
-                    'permission' => null,
+                    'uri' => [
+                        'work-orders*',
+                        'work-order-approvals*',
+                        'work-order-processes*'
+                    ],
                     'permissions' => [
-                        'work order view',
-                        'work order approval',
-                        'work order process'
+                        'work order view', 'work order approval', 'work order process'
                     ],
                     'submenus' => [
                         [
@@ -150,12 +152,12 @@ return [
                         [
                             'title' => 'Work Orders Approval',
                             'route' => '/work-order-approvals',
-                            'permission' => 'work order approval'
+                            'permission' => 'work order approval',
                         ],
                         [
                             'title' => 'Work Order Processes',
                             'route' => '/work-order-processes',
-                            'permission' => 'work order process'
+                            'permission' => 'work order process',
                         ]
                     ]
                 ]
@@ -173,7 +175,11 @@ return [
                     'title' => 'Inventory Data',
                     'icon' => '<i class="mdi mdi-cube"></i>',
                     'route' => null,
-                    'permission' => null,
+                    'uri' => [
+                        'equipment*',
+                        'spareparts*',
+                        'nomenklaturs*'
+                    ],
                     'permissions' => [
                         'sparepart view',
                         'nomenklatur view',
@@ -212,12 +218,17 @@ return [
                     'title' => 'Employee Data',
                     'icon' => '<i class="mdi mdi-account-multiple"></i>',
                     'route' => null,
-                    'permission' => null,
                     'permissions' => [
                         'department view',
                         'position view',
                         'employee type view',
                         'employee view'
+                    ],
+                    'uri' => [
+                        'employees*',
+                        'departments*',
+                        'positions*',
+                        'employee-types*'
                     ],
                     'submenus' => [
                         [
@@ -253,9 +264,12 @@ return [
             'menus' => [
                 [
                     'title' => 'Vendor Data',
-                    'icon' => '<i class="fa fa-address-book"></i>',
+                    'icon' => '<i class="fa fa-address-book" fa-xs></i>',
                     'route' => null,
-                    'permission' => null,
+                    'uri' => [
+                        'vendors*',
+                        'category-vendors*'
+                    ],
                     'permissions' => [
                         'category vendor view',
                         'vendor view'
@@ -288,7 +302,11 @@ return [
                     'title' => 'Main Data',
                     'icon' => '<i class="mdi mdi-format-list-bulleted"></i>',
                     'route' => null,
-                    'permission' => null,
+                    'uri' => [
+                        'unit-items*',
+                        'equipment-locations*',
+                        'equipment-categories*'
+                    ],
                     'permissions' => [
                         'unit item view',
                         'equipment location view',
@@ -328,7 +346,12 @@ return [
                     'title' => 'Region Data',
                     'icon' => '<i class="mdi mdi-google-maps"></i>',
                     'route' => null,
-                    'permission' => null,
+                    'uri' => [
+                        'provinces*',
+                        'kabkots*',
+                        'kecamatans*',
+                        'kecamatans*'
+                    ],
                     'permissions' => [
                         'province view',
                         'kabkot view',
@@ -373,7 +396,12 @@ return [
                     'title' => 'Utilities',
                     'icon' => '<i data-feather="settings"></i>',
                     'route' => null,
-                    'permission' => null,
+                    'uri' => [
+                        'settings*',
+                        'users*',
+                        'roles*',
+                        'setting-apps*'
+                    ],
                     'permissions' => [
                         'setting view',
                         'role & permission view',

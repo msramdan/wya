@@ -5,7 +5,7 @@
         <ul class="navbar-nav" id="navbar-nav">
             <li class="menu-title"><span data-key="t-menu">Main Menu</span></li>
             <li class="nav-item">
-                <a class="nav-link menu-link {{ request()->is('/panel') || request()->is('dashboard') ? ' activee' : '' }}"
+                <a class="nav-link menu-link {{ Route::currentRouteName() == 'dashboard' ? ' active' : '' }}"
                     href="/panel">
                     <i class="mdi mdi-speedometer"></i> <span data-key="t-widgets">Dashboard</span>
                 </a>
@@ -23,7 +23,7 @@
                                 @if (empty($menu['submenus']))
                                     @can($menu['permission'])
                                         <li class="nav-item ">
-                                            <a class="nav-link menu-link {{ is_active_menu($menu['route']) }}"
+                                            <a class="nav-link menu-link {{ set_active($menu['route']) }}"
                                                 href="{{ route(str($menu['route'])->remove('/')->plural() . '.index') }}">
                                                 {!! $menu['icon'] !!}
                                                 <span data-key="t-widgets">{{ __($menu['title']) }}</span>
@@ -32,20 +32,20 @@
                                     @endcan
                                 @else
                                     <li class="nav-item">
-                                        <a class="nav-link menu-link collapsed" href="#sidebarApps{{ $i }}"
-                                            data-bs-toggle="collapse" role="button" aria-expanded="false"
-                                            aria-controls="sidebarApps{{ $i }}">
+                                        <a class="nav-link menu-link collapsed {{ is_active($menu['uri']) }}"
+                                            href="#sidebarApps{{ $i }}" data-bs-toggle="collapse" role="button"
+                                            aria-expanded="false" aria-controls="sidebarApps{{ $i }}">
                                             {!! $menu['icon'] !!}
                                             <span data-key="t-apps">{{ __($menu['title']) }}</span>
                                         </a>
-                                        <div class="collapse menu-dropdown" id="sidebarApps{{ $i }}">
+                                        <div class="collapse menu-dropdown {{ is_show($menu['uri']) }}" id="sidebarApps{{ $i }}">
                                             <ul class="nav nav-sm flex-column">
                                                 @canany($menu['permissions'])
                                                     @foreach ($menu['submenus'] as $submenu)
                                                         @can($submenu['permission'])
                                                             <li class="nav-item">
                                                                 <a href="{{ route(str($submenu['route'])->remove('/')->plural() . '.index') }}"
-                                                                    class="nav-link {{ is_active_menu($submenu['route']) }}"
+                                                                    class="nav-link {{ set_active($submenu['route']) }}"
                                                                     data-key="t-calendar">
                                                                     {{ __($submenu['title']) }} </a>
                                                             </li>

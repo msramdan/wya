@@ -171,7 +171,7 @@
             </span>
         @enderror
     </div>
-
+    {{--
     <div class="col-6 mb-2">
         <label for="work-order-has-access-approval-users">{{ __('Work Order Has Access Approval Users') }}</label>
         <select data-placeholder="Select Users" name="work_order_has_access_approval_users_id[]" multiple="multiple"
@@ -189,5 +189,5 @@
                 {{ $message }}
             </span>
         @enderror
-    </div>
+    </div> --}}
 </div>
