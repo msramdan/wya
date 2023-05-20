@@ -138,8 +138,6 @@ class UnitItemController extends Controller
     public function getUnit($hospitalId)
     {
         $data = DB::table('unit_items')->where('hospital_id', $hospitalId)->get();
-        $message = 'Berhasil mengambil data unit';
-
-        return response()->json(compact('message', 'data'));
+        return response()->json(compact('data'));
     }
 }

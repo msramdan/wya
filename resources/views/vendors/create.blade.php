@@ -232,6 +232,48 @@
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
         integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
         crossorigin=""></script>
+
+    <script>
+        $(document).ready(function() {
+            var cek = $('#hospital_id').val()
+            if (typeof cek === "undefined") {
+                getCategory({{ Auth::user()->roles->first()->hospital_id }});
+            }
+        });
+
+        const _temp = '<option value="" selected disabled>-- Select category vendor --</option>';
+        $('#hospital_id').change(function() {
+            $('#category-vendor-id').html(_temp);
+            if ($(this).val() != "") {
+                getCategory($(this).val());
+            }
+        })
+
+        function getCategory(hospitalId) {
+            let url = '{{ route('api.getCategory', ':id') }}';
+            url = url.replace(':id', hospitalId)
+            $.ajax({
+                url,
+                method: 'GET',
+                beforeSend: function() {
+                    $('#category-vendor-id').prop('disabled', true);
+                },
+                success: function(res) {
+                    const options = res.data.map(value => {
+                        return `<option value="${value.id}">${value.name_category_vendors}</option>`
+                    });
+                    $('#category-vendor-id').html(_temp + options)
+                    $('#category-vendor-id').prop('disabled', false);
+                },
+                error: function(err) {
+                    $('#category-vendor-id').prop('disabled', false);
+                    alert(JSON.stringify(err))
+                }
+
+            })
+        }
+    </script>
+
     <script>
         $(document).ready(function() {
             var i = 1;

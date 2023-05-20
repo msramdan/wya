@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Vendor;
 use App\Models\Employee;
+use Auth;
 
 
 class DashboardController extends Controller

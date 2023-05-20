@@ -7,6 +7,7 @@ use App\FormatImport\GenerateVendorFormat;
 use App\Models\Vendor;
 use App\Http\Requests\{ImportVendorRequest, StoreVendorRequest, UpdateVendorRequest};
 use App\Imports\VendorImport;
+use App\Models\CategoryVendor;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
@@ -108,8 +109,8 @@ class VendorController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withInput($request->all())->withErrors($validator);
         }
-
-        if (!Auth::user()->roles->first()->hopitas_id) {
+        $sessionId = Auth::user()->roles->first()->hospital_id;
+        if ($sessionId == null) {
             $vendor =  Vendor::create([
                 'code_vendor' => $request->code_vendor,
                 'name_vendor' => $request->name_vendor,
@@ -123,7 +124,7 @@ class VendorController extends Controller
                 'address' => $request->address,
                 'longitude' => $request->longitude,
                 'latitude' => $request->latitude,
-                'hospital_id' => $request->hospital_id
+                'hospital_id' =>   $request->hospital_id
             ]);
         } else {
             $vendor =  Vendor::create([
@@ -139,7 +140,7 @@ class VendorController extends Controller
                 'address' => $request->address,
                 'longitude' => $request->longitude,
                 'latitude' => $request->latitude,
-                'hospital_id' => Auth::user()->roles->first()->hospital_id
+                'hospital_id' => $sessionId
             ]);
         }
         $insertedId = $vendor->id;
@@ -209,8 +210,8 @@ class VendorController extends Controller
         $kabkot = DB::table('kabkots')->where('provinsi_id', $vendor->provinsi_id)->get();
         $kecamatan = DB::table('kecamatans')->where('kabkot_id', $vendor->kabkot_id)->get();
         $kelurahan = DB::table('kelurahans')->where('kecamatan_id', $vendor->kecamatan_id)->get();
-
-        return view('vendors.edit', compact('vendor', 'pic', 'file', 'kabkot', 'kecamatan', 'kelurahan'));
+        $categoryVendors = CategoryVendor::where('hospital_id', $vendor->hospital_id)->get();
+        return view('vendors.edit', compact('vendor', 'pic', 'file', 'kabkot', 'kecamatan', 'kelurahan', 'categoryVendors'));
     }
 
     /**

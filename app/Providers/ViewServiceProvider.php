@@ -97,19 +97,6 @@ class ViewServiceProvider extends ServiceProvider
             );
         });
 
-
-        View::composer(['vendors.create', 'vendors.edit'], function ($view) {
-            if (!Auth::user()->roles->first()->hospital_id) {
-                $data = \App\Models\CategoryVendor::select('id', 'name_category_vendors')->get();
-            } else {
-                $data = \App\Models\CategoryVendor::select('id', 'name_category_vendors')->where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
-            }
-            return $view->with(
-                'categoryVendors',
-                $data
-            );
-        });
-
         View::composer(['vendors.create', 'vendors.edit'], function ($view) {
             return $view->with(
                 'provinces',

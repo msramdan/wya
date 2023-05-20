@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\WorkOrderProcessController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,6 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('getUnit/{hospitalId}', [App\Http\Controllers\UnitItemController::class, 'getUnit'])->name('api.getUnit');
+Route::get('getCategory/{hospitalId}', [App\Http\Controllers\CategoryVendorController::class, 'getCategory'])->name('api.getCategory');
 
 Route::group([
     'as' => 'api.'

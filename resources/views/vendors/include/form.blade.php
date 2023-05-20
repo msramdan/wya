@@ -62,13 +62,6 @@
                             class="form-control js-example-basic-multiple @error('category_vendor_id') is-invalid @enderror"
                             name="category_vendor_id" id="category-vendor-id" required>
                             <option value="" selected disabled>-- {{ __('Select category vendor') }} --</option>
-
-                            @foreach ($categoryVendors as $categoryVendor)
-                                <option value="{{ $categoryVendor->id }}"
-                                    {{ isset($vendor) && $vendor->category_vendor_id == $categoryVendor->id ? 'selected' : (old('category_vendor_id') == $categoryVendor->id ? 'selected' : '') }}>
-                                    {{ $categoryVendor->name_category_vendors }}
-                                </option>
-                            @endforeach
                         </select>
                         @error('category_vendor_id')
                             <span class="text-danger">

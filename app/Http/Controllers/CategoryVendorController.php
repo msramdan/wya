@@ -8,6 +8,7 @@ use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class CategoryVendorController extends Controller
 {
@@ -27,7 +28,7 @@ class CategoryVendorController extends Controller
     public function index(Request $request)
     {
         if (request()->ajax()) {
-            $categoryVendors = CategoryVendor::with('hospital:id,name');
+            $categoryVendors = CategoryVendor::with('hospital:id,name')->orderBy('category_vendors.id', 'desc');
 
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
                 $categoryVendors = $categoryVendors->where('hospital_id', $request->hospital_id);
@@ -131,5 +132,11 @@ class CategoryVendorController extends Controller
             Alert::toast('The categoryVendor cant be deleted because its related to another table.', 'error');
             return redirect()->route('category-vendors.index');
         }
+    }
+
+    public function getCategory($hospitalId)
+    {
+        $data = DB::table('category_vendors')->where('hospital_id', $hospitalId)->get();
+        return response()->json(compact('data'));
     }
 }
