@@ -36,15 +36,12 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if (request()->ajax()) {
-            $users = User::leftJoin('roles', 'roles.id', '=', 'users.id')
-                ->leftJoin('hospitals', 'roles.hospital_id', '=', 'hospitals.id')
-                ->select('users.*', 'roles.id as role_id', 'roles.name as role_name', 'roles.hospital_id', 'hospitals.id as id_hospital', 'hospitals.name as hospital_name')
-                ->orderBy('users.id', 'desc')->get();
+            $users = User::with('roles:id,name,hospital_id');
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
                 if ($request->hospital_id == 'mta') {
-                    $users = $users->where('hospital_id', '');
+                    $users = $users->roles->first()->where('hospital_id', '');
                 } else {
-                    $users = $users->where('hospital_id', $request->hospital_id);
+                    $users = $users->roles->first()->where('hospital_id', $request->hospital_id);
                 }
             }
             if (Auth::user()->roles->first()->hospital_id) {
@@ -58,8 +55,8 @@ class UserController extends Controller
                     return $row->updated_at->format('d M Y H:i:s');
                 })
                 ->addColumn('hospital', function ($row) {
-                    if ($row->hospital_name) {
-                        return '<span class="badge badge-label bg-success"><i class="mdi mdi-circle-medium"></i>' . $row->hospital_name . '</span>';
+                    if ($row->roles->first()->hospital_id != null) {
+                        return '<span class="badge badge-label bg-success"><i class="mdi mdi-circle-medium"></i>' . $row->roles->first()->hospital_id . '</span>';
                     } else {
                         return '<span class="badge badge-label bg-danger"><i class="mdi mdi-circle-medium"></i>User MTA</span>';
                     }
@@ -113,7 +110,7 @@ class UserController extends Controller
                 Image::make($request->file('avatar')->getRealPath())->resize(500, 500, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
-                })->save($this->avatarPath . $filename);
+                })->save(public_path($this->avatarPath) . $filename);
             } catch (\Throwable $th) {
                 //throw $th;
             }

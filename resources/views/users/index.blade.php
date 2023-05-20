@@ -61,10 +61,10 @@
 
                                             <th>{{ __('Avatar') }}</th>
                                             <th>{{ __('Hospital') }}</th>
+                                            <th>{{ __('Role') }}</th>
                                             <th>{{ __('Name') }}</th>
                                             <th>{{ __('Email') }}</th>
                                             <th>{{ __('No HP') }}</th>
-                                            <th>{{ __('Role') }}</th>
                                             <th>{{ __('Created At') }}</th>
                                             <th>{{ __('Updated At') }}</th>
                                             <th>{{ __('Action') }}</th>
@@ -96,13 +96,17 @@
                 searchable: false,
                 render: function(data, type, full, meta) {
                     return `<div class="avatar">
-                            <img src="${data}" alt="avatar">
+                            <img src="${data}" alt="avatar" style="width:75px">
                         </div>`;
                 }
             },
             {
                 data: 'hospital',
                 name: 'hospital'
+            },
+            {
+                data: 'role',
+                name: 'role'
             },
             {
                 data: 'name',
@@ -115,12 +119,6 @@
             {
                 data: 'no_hp',
                 name: 'no_hp'
-            },
-
-
-            {
-                data: 'role',
-                name: 'role'
             },
             {
                 data: 'created_at',

@@ -6,19 +6,38 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Vendor;
 use App\Models\Employee;
+use App\Models\Equipment;
+use App\Models\WorkOrder;
 use Auth;
 use App\Models\Hospital;
+
 
 
 class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        $vendor = Vendor::with('category_vendor:id,name_category_vendors', 'province:id,provinsi', 'kabkot:id,provinsi_id', 'kecamatan:id,kabkot_id', 'kelurahan:id,kecamatan_id')->get();
-        $employees = Employee::with('employee_type:id,name_employee_type', 'department:id,name_department', 'position:id,name_position', 'province:id,provinsi', 'kabkot:id,provinsi_id', 'kecamatan:id,kabkot_id', 'kelurahan:id,kecamatan_id')->get();
         $start_date = intval($request->query('start_date'));
         $end_date = intval($request->query('end_date'));
         $hospitals = Hospital::all();
+        $hospital_id = intval($request->query('hospital_id'));
+        $sessionId = Auth::user()->roles->first()->hospital_id;
+        if ($sessionId == null) {
+            if (isset($hospital_id) && !empty($hospital_id)) {
+                $ids = $hospital_id;
+            } else {
+                $ids = Hospital::first()->id;
+            }
+        } else {
+            $ids = Auth::user()->roles->first()->hospital_id;
+        }
+
+        $countVendor = Vendor::where('hospital_id', $ids)->count();
+        $countEmployee = Employee::where('hospital_id', $ids)->count();
+        $countEquipment = Equipment::where('hospital_id', $ids)->count();
+        $countWorkOrder = WorkOrder::where('hospital_id', $ids)->count();
+        $vendor = Vendor::get();
+        $employees = Employee::get();
 
         $in = DB::table('sparepart_trace')
             ->where('type', '=', 'In')
@@ -57,7 +76,13 @@ class DashboardController extends Controller
             'in' => $in->orderBy('id', 'desc')->get(),
             'out' => $out->orderBy('id', 'desc')->get(),
             'dataOpname' => DB::select($sql),
-            'hispotals' => $hospitals
+            'hispotals' => $hospitals,
+            'ids' => $ids,
+            'countVendor' => $countVendor,
+            'countEmployee' => $countEmployee,
+            'countEquipment' => $countEquipment,
+            'countWorkOrder' => $countWorkOrder
+
         ]);
     }
 }

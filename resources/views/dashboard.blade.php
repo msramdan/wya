@@ -198,41 +198,32 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row">
+                        <form method="get" action="/panel" id="form-date" class="row">
                             @if (!Auth::user()->roles->first()->hospital_id)
                                 <div class="col-md-3 mb-2">
-                                    <form class="form-inline" method="get">
-                                        @csrf
-                                        <div class="input-group mb-2 mr-sm-2">
-                                            <select name="hospital_id" id="hospital_id"
-                                                class="form-control js-example-basic-multiple">
-                                                <option value="">-- Filter Hospital --</option>
-                                                @foreach ($hispotals as $hispotal)
-                                                    <option value="{{ $hispotal->id }}"
-                                                        {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
-                                                        {{ $hispotal->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </form>
+                                    <div class="input-group mb-2 mr-sm-2">
+                                        <select name="hospital_id" id="hospital_id"
+                                            class="form-control js-example-basic-multiple">
+                                            @foreach ($hispotals as $hispotal)
+                                                <option value="{{ $hispotal->id }}"
+                                                    {{ $ids == $hispotal->id ? 'selected' : '' }}>
+                                                    {{ $hispotal->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                             @endif
                             <div class="col-md-3">
-                                <form method="get" action="/panel" id="form-date">
-                                    <div class="input-group mb-4">
-                                        <span class="input-group-text" id="addon-wrapping"><i
-                                                class="fa fa-calendar"></i></span>
-                                        <input type="text" class="form-control" aria-describedby="addon-wrapping"
-                                            id="daterange-btn" value="">
-                                        <input type="hidden" name="start_date" id="start_date" value="{{ $microFrom }}">
-                                        <input type="hidden" name="end_date" id="end_date" value="{{ $microTo }}">
-                                    </div>
-                                    <!--end row-->
-                                </form>
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text" id="addon-wrapping"><i class="fa fa-calendar"></i></span>
+                                    <input type="text" class="form-control" aria-describedby="addon-wrapping"
+                                        id="daterange-btn" value="">
+                                    <input type="hidden" name="start_date" id="start_date" value="{{ $microFrom }}">
+                                    <input type="hidden" name="end_date" id="end_date" value="{{ $microTo }}">
+                                </div>
                             </div>
-                        </div>
+                        </form>
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <!-- card -->
@@ -247,7 +238,7 @@
                                         <div class="d-flex align-items-end justify-content-between mt-4">
                                             <div>
                                                 <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value"
-                                                        data-target="{{ App\Models\WorkOrder::count() }}"></span></h4>
+                                                        data-target="{{ $countWorkOrder }}"></span></h4>
                                             </div>
                                             <div class="avatar-sm flex-shrink-0">
                                                 <span class="avatar-title bg-warning rounded fs-3">
@@ -271,7 +262,7 @@
                                         <div class="d-flex align-items-end justify-content-between mt-4">
                                             <div>
                                                 <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value"
-                                                        data-target="{{ App\Models\Equipment::count() }}"></span></h4>
+                                                        data-target="{{ $countEquipment }}"></span></h4>
                                             </div>
                                             <div class="avatar-sm flex-shrink-0">
                                                 <span class="avatar-title bg-success rounded fs-3">
@@ -296,7 +287,7 @@
                                         <div class="d-flex align-items-end justify-content-between mt-4">
                                             <div>
                                                 <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value"
-                                                        data-target="{{ App\Models\Employee::count() }}"></span></h4>
+                                                        data-target="{{ $countEmployee }}"></span></h4>
                                             </div>
                                             <div class="avatar-sm flex-shrink-0">
                                                 <span class="avatar-title bg-info rounded fs-3">
@@ -320,9 +311,8 @@
                                         </div>
                                         <div class="d-flex align-items-end justify-content-between mt-4">
                                             <div>
-                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span
-                                                        class="counter-value"
-                                                        data-target="{{ App\Models\Vendor::count() }}"></span></h4>
+                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value"
+                                                        data-target="{{ $countVendor }}"></span></h4>
                                             </div>
                                             <div class="avatar-sm flex-shrink-0">
                                                 <span class="avatar-title bg-danger rounded fs-3">
@@ -552,6 +542,10 @@
     <script>
         $(document).ready(function() {
             $('#daterange-btn').change(function() {
+                $('#form-date').submit();
+            });
+
+            $('#hospital_id').change(function() {
                 $('#form-date').submit();
             });
         });
