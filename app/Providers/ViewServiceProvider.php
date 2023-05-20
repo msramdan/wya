@@ -179,7 +179,7 @@ class ViewServiceProvider extends ServiceProvider
             }
             return $view->with(
                 'rs',
-                $data
+                json_encode($data)
             );
         });
 
