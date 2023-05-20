@@ -8,6 +8,7 @@ use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class UnitItemController extends Controller
 {
@@ -131,5 +132,14 @@ class UnitItemController extends Controller
             Alert::toast('The unitItem cant be deleted because its related to another table.', 'error');
             return redirect()->route('unit-items.index');
         }
+    }
+
+
+    public function getUnit($hospitalId)
+    {
+        $data = DB::table('unit_items')->where('hospital_id', $hospitalId)->get();
+        $message = 'Berhasil mengambil data unit';
+
+        return response()->json(compact('message', 'data'));
     }
 }

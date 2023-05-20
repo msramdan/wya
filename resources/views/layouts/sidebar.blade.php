@@ -5,7 +5,7 @@
         <ul class="navbar-nav" id="navbar-nav">
             <li class="menu-title"><span data-key="t-menu">Main Menu</span></li>
             <li class="nav-item">
-                <a class="nav-link menu-link {{ request()->is('/panel') || request()->is('dashboard') ? ' active' : '' }}"
+                <a class="nav-link menu-link {{ request()->is('/panel') || request()->is('dashboard') ? ' activee' : '' }}"
                     href="/panel">
                     <i class="mdi mdi-speedometer"></i> <span data-key="t-widgets">Dashboard</span>
                 </a>

@@ -71,15 +71,9 @@
     </div>
     <div class="col-md-6 mb-2">
         <label for="unit-id">{{ __('Unit Item') }}</label>
-        <select class="form-control @error('unit_id') is-invalid @enderror" name="unit_id" id="unit-id" required>
+        <select class="form-control js-example-basic-multiple @error('unit_id') is-invalid @enderror" name="unit_id"
+            id="unit-id" required>
             <option value="" selected disabled>-- {{ __('Select unit item') }} --</option>
-
-            @foreach ($unitItems as $unitItem)
-                <option value="{{ $unitItem->id }}"
-                    {{ isset($sparepart) && $sparepart->unit_id == $unitItem->id ? 'selected' : (old('unit_id') == $unitItem->id ? 'selected' : '') }}>
-                    {{ $unitItem->code_unit }}
-                </option>
-            @endforeach
         </select>
         @error('unit_id')
             <span class="text-danger">

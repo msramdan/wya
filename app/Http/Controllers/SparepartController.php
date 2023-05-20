@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Auth;
 use PDF;
+use App\Models\UnitItem;
 
 
 class SparepartController extends Controller
@@ -140,9 +141,10 @@ class SparepartController extends Controller
      */
     public function edit(Sparepart $sparepart)
     {
-        $sparepart->load('unit_item:id,code_unit',);
-
-        return view('spareparts.edit', compact('sparepart'));
+        $sparepart->load('unit_item:id,code_unit');
+        $unitItems = UnitItem::where('hospital_id', $sparepart->hospital_id)
+            ->get();
+        return view('spareparts.edit', compact('sparepart', 'unitItems'));
     }
 
     /**

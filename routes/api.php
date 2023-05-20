@@ -20,6 +20,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('getUnit/{hospitalId}', [App\Http\Controllers\UnitItemController::class, 'getUnit'])->name('api.getUnit');
+
 Route::group([
     'as' => 'api.'
 ], function () {

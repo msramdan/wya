@@ -51,3 +51,38 @@
         </div>
     </div>
 @endsection
+@push('js')
+    <script>
+        const options_temp = '<option value="" selected disabled>-- Select unit item --</option>';
+        $('#hospital_id').change(function() {
+            $('#unit-id').html(options_temp);
+            if ($(this).val() != "") {
+                getDataUnit($(this).val());
+            }
+        })
+
+        function getDataUnit(hospitalId) {
+            let url = '{{ route('api.getUnit', ':id') }}';
+            url = url.replace(':id', hospitalId)
+            $.ajax({
+                url,
+                method: 'GET',
+                beforeSend: function() {
+                    $('#unit-id').prop('disabled', true);
+                },
+                success: function(res) {
+                    const options = res.data.map(value => {
+                        return `<option value="${value.id}">${value.unit_name}</option>`
+                    });
+                    $('#unit-id').html(options_temp + options)
+                    $('#unit-id').prop('disabled', false);
+                },
+                error: function(err) {
+                    $('#unit-id').prop('disabled', false);
+                    alert(JSON.stringify(err))
+                }
+
+            })
+        }
+    </script>
+@endpush
