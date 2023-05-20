@@ -176,7 +176,9 @@ return [
                     'icon' => '<i class="mdi mdi-cube"></i>',
                     'route' => null,
                     'uri' => [
-                        'equipment*',
+                        'equipment.index',
+                        'equipment.create',
+                        'equipment.edit',
                         'spareparts*',
                         'nomenklaturs*'
                     ],
