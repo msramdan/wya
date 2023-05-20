@@ -39,7 +39,7 @@ class UserController extends Controller
             $users = User::leftJoin('roles', 'roles.id', '=', 'users.id')
                 ->leftJoin('hospitals', 'roles.hospital_id', '=', 'hospitals.id')
                 ->select('users.*', 'roles.id as role_id', 'roles.name as role_name', 'roles.hospital_id', 'hospitals.id as id_hospital', 'hospitals.name as hospital_name')
-                ->get();
+                ->orderBy('users.id', 'desc')->get();
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
                 if ($request->hospital_id == 'mta') {
                     $users = $users->where('hospital_id', '');

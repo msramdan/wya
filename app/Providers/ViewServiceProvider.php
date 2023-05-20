@@ -33,7 +33,6 @@ class ViewServiceProvider extends ServiceProvider
             } else {
                 $data = Role::select('id', 'name')->where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
             }
-
             return $view->with(
                 'roles',
                 $data

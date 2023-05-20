@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Spatie\Permission\Models\{Role, Permission};
 use App\Http\Requests\{StoreRoleRequest, UpdateRoleRequest};
+use RealRashid\SweetAlert\Facades\Alert;
 
 class RoleAndPermissionController extends Controller
 {
@@ -75,10 +76,9 @@ class RoleAndPermissionController extends Controller
         $role = Role::create(['name' => $request->name, 'hospital_id' => $request->hospital_id]);
 
         $role->givePermissionTo($request->permissions);
-
+        Alert::toast('The role was created successfully', 'success');
         return redirect()
-            ->route('roles.index')
-            ->with('success', __('The role was created successfully.'));
+            ->route('roles.index');
     }
 
     /**
@@ -121,10 +121,8 @@ class RoleAndPermissionController extends Controller
         $role->update(['name' => $request->name, 'hospital_id' => $request->hospital_id]);
 
         $role->syncPermissions($request->permissions);
-
-        return redirect()
-            ->route('roles.index')
-            ->with('success', __('The role was updated successfully.'));
+        Alert::toast('The role was updated successfully.', 'success');
+        return redirect()->route('roles.index');
     }
 
     /**
@@ -140,14 +138,14 @@ class RoleAndPermissionController extends Controller
         // if any user where role.id = $id
         if ($role->users_count < 1) {
             $role->delete();
+            Alert::toast('The department was deleted successfully.', 'success');
 
             return redirect()
-                ->route('roles.index')
-                ->with('success', __('The role was deleted successfully.'));
+                ->route('roles.index');
         } else {
+            Alert::toast('Can`t delete role.', 'error');
             return redirect()
-                ->route('roles.index')
-                ->with('error', __('Can`t delete role.'));
+                ->route('roles.index');
         }
 
         return redirect()->route('role.index');

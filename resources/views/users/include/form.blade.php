@@ -119,11 +119,9 @@
                         required>
                         <option value="" selected disabled>{{ __('-- Select role --') }}</option>
                         @foreach ($roles as $role)
-                            @foreach ($roles as $role)
-                                <option value="{{ $role->id }}"
-                                    {{ $user->getRoleNames()->toArray() !== [] && $user->getRoleNames()[0] == $role->name ? 'selected' : '-' }}>
-                                    {{ $role->name }}</option>
-                            @endforeach
+                            <option value="{{ $role->id }}"
+                                {{ $user->getRoleNames()->toArray() !== [] && $user->getRoleNames()[0] == $role->name ? 'selected' : '-' }}>
+                                {{ $role->name }}</option>
                         @endforeach
                     </select>
                     @error('role')
