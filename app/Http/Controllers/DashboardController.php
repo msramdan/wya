@@ -36,8 +36,8 @@ class DashboardController extends Controller
         $countEmployee = Employee::where('hospital_id', $ids)->count();
         $countEquipment = Equipment::where('hospital_id', $ids)->count();
         $countWorkOrder = WorkOrder::where('hospital_id', $ids)->count();
-        $vendor = Vendor::get();
-        $employees = Employee::get();
+        $vendor = Vendor::where('hospital_id', $ids)->get();
+        $employees = Employee::where('hospital_id', $ids)->get();
 
         $in = DB::table('sparepart_trace')
             ->where('type', '=', 'In')
