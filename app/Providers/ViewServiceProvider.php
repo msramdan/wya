@@ -75,37 +75,6 @@ class ViewServiceProvider extends ServiceProvider
             );
         });
 
-        // View::composer(['equipments.create', 'equipments.edit'], function ($view) {
-        //     if (!Auth::user()->roles->first()->hospital_id) {
-        //         $data = \App\Models\EmployeeType::select('id', 'name_employee_type')->get();
-        //     } else {
-        //         $data = \App\Models\EmployeeType::select('id', 'name_employee_type')->where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
-        //     }
-        //     return $view->with(
-        //         'equipmentCategories',
-        //         $data
-        //     );
-        // });
-
-        // View::composer(['equipments.create', 'equipments.edit'], function ($view) {
-        //     if (!Auth::user()->roles->first()->hospital_id) {
-        //         $data = \App\Models\EmployeeType::select('id', 'name_employee_type')->get();
-        //     } else {
-        //         $data = \App\Models\EmployeeType::select('id', 'name_employee_type')->where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
-        //     }
-        //     return $view->with(
-        //         'vendors',
-        //         $data
-        //     );
-        // });
-
-        // View::composer(['equipments.create', 'equipments.edit'], function ($view) {
-        //     return $view->with(
-        //         'equipmentLocations',
-        //         \App\Models\EquipmentLocation::select('id', 'location_name')->get()
-        //     );
-        // });
-
 
         View::composer(['work-orders.create', 'work-orders.edit'], function ($view) {
             return $view->with(

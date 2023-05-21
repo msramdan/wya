@@ -9,6 +9,7 @@ use Image;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\User;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class HospitalController extends Controller
 {
@@ -121,7 +122,12 @@ class HospitalController extends Controller
      */
     public function edit(Hospital $hospital)
     {
-        $users = User::orderBy('name', 'ASC')->get();
+        $users = DB::table('users')
+            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+            ->select('users.*', 'roles.hospital_id')
+            ->where('roles.hospital_id', $hospital->id)
+            ->get();
         return view('hospitals.edit', compact('hospital', 'users'));
     }
 
@@ -161,11 +167,10 @@ class HospitalController extends Controller
 
         $hospital->update($attr);
         Alert::toast('The hospital was updated successfully.', 'success');
-        return redirect()->route('hospitals.index');
         if (Auth::user()->roles->first()->hospital_id != null) {
             return redirect()->back();
         } else {
-            return redirect()->back();
+            return redirect()->route('hospitals.index');
         }
     }
 

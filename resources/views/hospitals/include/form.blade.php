@@ -171,23 +171,28 @@
             </span>
         @enderror
     </div>
-    {{--
-    <div class="col-6 mb-2">
-        <label for="work-order-has-access-approval-users">{{ __('Work Order Has Access Approval Users') }}</label>
-        <select data-placeholder="Select Users" name="work_order_has_access_approval_users_id[]" multiple="multiple"
-            id="work-order-has-access-approval-users"
-            class="form-control js-example-basic-multiple @error('work_order_has_access_approval_users_id') is-invalid @enderror">
-            <option value="" disabled>-- {{ __('Select Users') }} --</option>
-            @foreach ($users as $user)
-                <option value="{{ $user->id }}"
-                    @if ($rs) {{ in_array($user->id, json_decode($rs->work_order_has_access_approval_users_id, true) ? json_decode($rswork_order_has_access_approval_users_id, true) : []) ? 'selected' : '' }} @endif>
-                    {{ $user->name }}</option>
-            @endforeach
-        </select>
-        @error('work_order_has_access_approval_users_id')
-            <span class="text-danger">
-                {{ $message }}
-            </span>
-        @enderror
-    </div> --}}
+    @if (Request::segment(3) != 'create')
+        <div class="col-6 mb-2">
+            <label for="work-order-has-access-approval-users">{{ __('Work Order Has Access Approval Users') }}</label>
+            <select data-placeholder="Select Users" name="work_order_has_access_approval_users_id[]"
+                multiple="multiple" id="work-order-has-access-approval-users"
+                class="form-control js-example-basic-multiple @error('work_order_has_access_approval_users_id') is-invalid @enderror">
+                <option value="" disabled>-- {{ __('Select Users') }} --</option>
+                @foreach ($users as $user)
+                    @if (isset($hospital))
+                        <option value="{{ $user->id }}"
+                            {{ in_array($user->id, json_decode($hospital->work_order_has_access_approval_users_id, true) ? json_decode($hospital->work_order_has_access_approval_users_id, true) : []) ? 'selected' : '' }}>
+                            {{ $user->name }}</option>
+                    @else
+                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    @endif
+                @endforeach
+            </select>
+            @error('work_order_has_access_approval_users_id')
+                <span class="text-danger">
+                    {{ $message }}
+                </span>
+            @enderror
+        </div>
+    @endif
 </div>
