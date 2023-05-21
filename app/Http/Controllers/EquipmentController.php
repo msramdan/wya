@@ -21,6 +21,7 @@ use App\Http\Requests\{ImportEquipmentRequest, StoreEquipmentRequest, UpdateEqui
 use App\Models\EquipmentCategory;
 use App\Models\EquipmentLocation;
 use App\Models\Vendor;
+use App\Models\Hospital;
 
 class EquipmentController extends Controller
 {
@@ -436,9 +437,12 @@ class EquipmentController extends Controller
         return back();
     }
 
-    public function print_qr(Request $request, $barcode)
+    public function print_qr(Request $request, $id)
     {
-        if (setting_web()->paper_qr_code == '68.0315') {
+        $equipment = Equipment::findOrFail($id);
+        $settQR = Hospital::findOrFail($equipment->hospital_id);
+
+        if ($settQR->paper_qr_code == '68.0315') {
             $widthQR = 80;
             $hightPaper = 88;
         } else {
@@ -446,10 +450,10 @@ class EquipmentController extends Controller
             $hightPaper = 120;
         }
         $pdf = PDF::loadview('equipments.qr', [
-            'barcode' => $barcode,
+            'barcode' => $equipment->barcode,
             'widthQR' => $widthQR
         ])
-            ->setPaper([0, 0, $hightPaper, setting_web()->paper_qr_code], 'landscape');
+            ->setPaper([0, 0, $hightPaper,$settQR->paper_qr_code], 'landscape');
         return $pdf->stream();
         // return $pdf->download('qr.pdf');
     }

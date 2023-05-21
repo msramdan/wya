@@ -16,6 +16,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Auth;
 use PDF;
 use App\Models\UnitItem;
+use App\Models\Hospital;
 
 
 class SparepartController extends Controller
@@ -270,9 +271,11 @@ class SparepartController extends Controller
         return redirect()->back();
     }
 
-    public function print_qr(Request $request, $barcode)
+    public function print_qr(Request $request, $id)
     {
-        if (setting_web()->paper_qr_code == '68.0315') {
+        $sparepart = Sparepart::findOrFail($id);
+        $settQR = Hospital::findOrFail($sparepart->hospital_id);
+        if ($settQR->paper_qr_code == '68.0315') {
             $widthQR = 80;
             $hightPaper = 88;
         } else {
@@ -280,10 +283,10 @@ class SparepartController extends Controller
             $hightPaper = 120;
         }
         $pdf = PDF::loadview('spareparts.qr', [
-            'barcode' => $barcode,
+            'barcode' => $sparepart->barcode,
             'widthQR' => $widthQR
         ])
-            ->setPaper([0, 0, $hightPaper, setting_web()->paper_qr_code], 'landscape');
+            ->setPaper([0, 0, $hightPaper, $settQR->paper_qr_code], 'landscape');
         return $pdf->stream();
         // return $pdf->download('qr.pdf');
     }

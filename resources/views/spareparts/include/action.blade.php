@@ -93,7 +93,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <a href="{{ route('print_qr', $model->barcode) }}" target="_blank" class="btn btn-danger "> <i
+                    <a href="{{ route('print_qr', $model->id) }}" target="_blank" class="btn btn-danger "> <i
                             class="fa fa-print" aria-hidden="true"></i>
                         Print</a>
                 </div>
