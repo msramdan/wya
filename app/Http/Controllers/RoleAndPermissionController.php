@@ -73,7 +73,8 @@ class RoleAndPermissionController extends Controller
      */
     public function store(StoreRoleRequest $request)
     {
-        $role = Role::create(['name' => $request->name, 'hospital_id' => $request->hospital_id]);
+        $hospital_id = $request->hospital_id != 'user_mta' ? $request->hospital_id : null;
+        $role = Role::create(['name' => $request->name, 'hospital_id' => $hospital_id]);
 
         $role->givePermissionTo($request->permissions);
         Alert::toast('The role was created successfully', 'success');
@@ -117,8 +118,8 @@ class RoleAndPermissionController extends Controller
     public function update(UpdateRoleRequest $request, $id)
     {
         $role = Role::findOrFail($id);
-
-        $role->update(['name' => $request->name, 'hospital_id' => $request->hospital_id]);
+        $hospital_id = $request->hospital_id != 'user_mta' ? $request->hospital_id : null;
+        $role->update(['name' => $request->name, 'hospital_id' => $hospital_id]);
 
         $role->syncPermissions($request->permissions);
         Alert::toast('The role was updated successfully.', 'success');
