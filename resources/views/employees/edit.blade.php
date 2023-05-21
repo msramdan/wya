@@ -236,6 +236,92 @@
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
         integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
         crossorigin=""></script>
+
+    <script>
+        const _temp = '<option value="" selected disabled>-- Select --</option>';
+        $('#hospital_id').change(function() {
+            $('#employee-type-id, #departement-id, #position-id').html(_temp);
+            if ($(this).val() != "") {
+                getEmployeeType($(this).val());
+                getDepartment($(this).val());
+                getPosition($(this).val());
+            }
+        })
+
+        function getDepartment(hospitalId) {
+            let url = '{{ route('api.getDepartment', ':id') }}';
+            url = url.replace(':id', hospitalId)
+            $.ajax({
+                url,
+                method: 'GET',
+                beforeSend: function() {
+                    $('#departement-id').prop('disabled', true);
+                },
+                success: function(res) {
+                    const options = res.data.map(value => {
+                        return `<option value="${value.id}">${value.name_department}</option>`
+                    });
+                    $('#departement-id').html(_temp + options)
+                    $('#departement-id').prop('disabled', false);
+                },
+                error: function(err) {
+                    $('#departement-id').prop('disabled', false);
+                    alert(JSON.stringify(err))
+                }
+
+            })
+        }
+
+        function getEmployeeType(hospitalId) {
+            let url = '{{ route('api.getEmployeeType', ':id') }}';
+            url = url.replace(':id', hospitalId)
+            $.ajax({
+                url,
+                method: 'GET',
+                beforeSend: function() {
+                    $('#employee-type-id').prop('disabled', true);
+                },
+                success: function(res) {
+                    const options = res.data.map(value => {
+                        return `<option value="${value.id}">${value.name_employee_type}</option>`
+                    });
+                    $('#employee-type-id').html(_temp + options)
+                    $('#employee-type-id').prop('disabled', false);
+                },
+                error: function(err) {
+                    $('#employee-type-id').prop('disabled', false);
+                    alert(JSON.stringify(err))
+                }
+
+            })
+        }
+
+        function getPosition(hospitalId) {
+            let url = '{{ route('api.getPosition', ':id') }}';
+            url = url.replace(':id', hospitalId)
+            $.ajax({
+                url,
+                method: 'GET',
+                beforeSend: function() {
+                    $('#position-id').prop('disabled', true);
+                },
+                success: function(res) {
+                    const options = res.data.map(value => {
+                        return `<option value="${value.id}">${value.name_position}</option>`
+                    });
+                    $('#position-id').html(_temp + options)
+                    $('#position-id').prop('disabled', false);
+                },
+                error: function(err) {
+                    $('#position-id').prop('disabled', false);
+                    alert(JSON.stringify(err))
+                }
+
+            })
+        }
+    </script>
+
+
     <script>
         let lat = "{{ $employee->latitude }}";
         let lng = "{{ $employee->longitude }}";

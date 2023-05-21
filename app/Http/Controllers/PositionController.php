@@ -8,6 +8,7 @@ use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class PositionController extends Controller
 {
@@ -42,8 +43,8 @@ class PositionController extends Controller
                 })->addColumn('updated_at', function ($row) {
                     return $row->updated_at->format('d M Y H:i:s');
                 })->addColumn('hospital', function ($row) {
-                return $row->hospital ? $row->hospital->name : '';
-            })
+                    return $row->hospital ? $row->hospital->name : '';
+                })
 
                 ->addColumn('action', 'positions.include.action')
                 ->toJson();
@@ -130,5 +131,11 @@ class PositionController extends Controller
             Alert::toast('The position cant be deleted because its related to another table.', 'error');
             return redirect()->route('positions.index');
         }
+    }
+
+    public function getPosition($hospitalId)
+    {
+        $data = DB::table('positions')->where('hospital_id', $hospitalId)->get();
+        return response()->json(compact('data'));
     }
 }

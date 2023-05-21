@@ -15,8 +15,9 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use App\FormatImport\GenerateEmployeeFormat;
 use App\Http\Requests\{ImportEmployeeRequest, StoreEmployeeRequest, UpdateEmployeeRequest};
-
-
+use App\Models\Department;
+use App\Models\EmployeeType;
+use App\Models\Position;
 
 class EmployeeController extends Controller
 {
@@ -56,6 +57,9 @@ class EmployeeController extends Controller
                     } else {
                         return 'Non Aktif';
                     }
+                })
+                ->addColumn('hospital', function ($row) {
+                    return $row->hospital ? $row->hospital->name : '';
                 })
                 ->addColumn('employee_type', function ($row) {
                     return $row->employee_type ? $row->employee_type->name_employee_type : '';
@@ -130,7 +134,6 @@ class EmployeeController extends Controller
             //upload image
             $photo = $request->file('photo');
             $photo->storeAs('public/img/employee', $photo->hashName());
-
             Employee::create([
                 'name' => $request->name,
                 'nid_employee' => $request->nid_employee,
@@ -189,7 +192,10 @@ class EmployeeController extends Controller
         $kabkot = DB::table('kabkots')->where('provinsi_id', $employee->provinsi_id)->get();
         $kecamatan = DB::table('kecamatans')->where('kabkot_id', $employee->kabkot_id)->get();
         $kelurahan = DB::table('kelurahans')->where('kecamatan_id', $employee->kecamatan_id)->get();
-        return view('employees.edit', compact('employee', 'kabkot', 'kecamatan', 'kelurahan'));
+        $departments = Department::where('hospital_id', $employee->hospital_id)->get();
+        $positions = Position::where('hospital_id', $employee->hospital_id)->get();
+        $employeeTypes = EmployeeType::where('hospital_id', $employee->hospital_id)->get();
+        return view('employees.edit', compact('employee', 'kabkot', 'kecamatan', 'kelurahan', 'employeeTypes', 'positions', 'departments'));
     }
 
     /**
@@ -221,7 +227,7 @@ class EmployeeController extends Controller
                 'longitude' => 'required|string|min:1|max:200',
                 'latitude' => 'required|string|min:1|max:200',
                 'join_date' => 'required|date',
-                'photo'     => 'required|image|mimes:png,jpg,jpeg',
+                'photo'     => 'image|mimes:png,jpg,jpeg',
                 'hospital_id' => 'required'
             ],
         );

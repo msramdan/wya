@@ -27,6 +27,7 @@ return new class extends Migration
             $table->foreignId('equipment_location_id')->nullable()->constrained('equipment_locations')->restrictOnUpdate()->nullOnDelete();
             $table->string('financing_code', 255);
             $table->string('photo', 255);
+            $table->boolean('hospital_id')->nullable()->constrained('hospitals')->restrictOnUpdate()->nullOnDelete();
             $table->timestamps();
         });
     }

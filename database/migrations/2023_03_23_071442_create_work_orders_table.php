@@ -16,13 +16,14 @@ return new class extends Migration
         Schema::create('work_orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('equipment_id')->constrained('equipment')->restrictOnUpdate()->restrictOnDelete();
-			$table->boolean('type_wo');
-			$table->date('filed_date');
-			$table->boolean('category_wo');
-			$table->date('schedule_date');
-			$table->text('note');
-			$table->foreignId('created_by')->constrained('users')->restrictOnUpdate()->restrictOnDelete();
-			$table->boolean('status_wo');
+            $table->boolean('type_wo');
+            $table->date('filed_date');
+            $table->boolean('category_wo');
+            $table->date('schedule_date');
+            $table->text('note');
+            $table->foreignId('created_by')->constrained('users')->restrictOnUpdate()->restrictOnDelete();
+            $table->boolean('status_wo');
+            $table->boolean('hospital_id')->nullable()->constrained('hospitals')->restrictOnUpdate()->nullOnDelete();
             $table->timestamps();
         });
     }

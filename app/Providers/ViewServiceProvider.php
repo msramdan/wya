@@ -61,42 +61,6 @@ class ViewServiceProvider extends ServiceProvider
             );
         });
 
-        View::composer(['employees.create', 'employees.edit'], function ($view) {
-            if (!Auth::user()->roles->first()->hospital_id) {
-                $data = \App\Models\EmployeeType::select('id', 'name_employee_type')->get();
-            } else {
-                $data = \App\Models\EmployeeType::select('id', 'name_employee_type')->where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
-            }
-            return $view->with(
-                'employeeTypes',
-                $data
-            );
-        });
-
-        View::composer(['employees.create', 'employees.edit'], function ($view) {
-            if (!Auth::user()->roles->first()->hospital_id) {
-                $data = \App\Models\EmployeeType::select('id', 'name_employee_type')->get();
-            } else {
-                $data = \App\Models\EmployeeType::select('id', 'name_employee_type')->where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
-            }
-            return $view->with(
-                'departments',
-                $data
-            );
-        });
-
-        View::composer(['employees.create', 'employees.edit'], function ($view) {
-            if (!Auth::user()->roles->first()->hospital_id) {
-                $data = \App\Models\EmployeeType::select('id', 'name_employee_type')->get();
-            } else {
-                $data = \App\Models\EmployeeType::select('id', 'name_employee_type')->where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
-            }
-            return $view->with(
-                'positions',
-                $data
-            );
-        });
-
         View::composer(['vendors.create', 'vendors.edit'], function ($view) {
             return $view->with(
                 'provinces',
