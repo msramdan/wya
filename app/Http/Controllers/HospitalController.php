@@ -179,16 +179,14 @@ class HospitalController extends Controller
             if ($hospital->logo != null && file_exists($path . $hospital->logo)) {
                 unlink($path . $hospital->logo);
             }
-
             $hospital->delete();
-
+            Alert::toast('The hospital was deleted successfully.', 'success');
             return redirect()
-                ->route('hospitals.index')
-                ->with('success', __('The hospital was deleted successfully.'));
+                ->route('hospitals.index');
         } catch (\Throwable $th) {
+            Alert::toast('The hospital cant be deleted because its related to another table.', 'error');
             return redirect()
-                ->route('hospitals.index')
-                ->with('error', __("The hospital can't be deleted because it's related to another table."));
+                ->route('hospitals.index');
         }
     }
 }

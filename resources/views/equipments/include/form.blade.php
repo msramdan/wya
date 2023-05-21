@@ -71,13 +71,6 @@
                             name="equipment_category_id" id="equipment-category-id" required>
                             <option value="" selected disabled>-- {{ __('Select category') }} --
                             </option>
-
-                            @foreach ($equipmentCategories as $equipmentCategory)
-                                <option value="{{ $equipmentCategory->id }}"
-                                    {{ isset($equipment) && $equipment->equipment_category_id == $equipmentCategory->id ? 'selected' : (old('equipment_category_id') == $equipmentCategory->id ? 'selected' : '') }}>
-                                    {{ $equipmentCategory->category_name }}
-                                </option>
-                            @endforeach
                         </select>
                         @error('equipment_category_id')
                             <span class="text-danger">
@@ -131,13 +124,6 @@
                         <select class="form-control js-example-basic-multiple @error('vendor_id') is-invalid @enderror"
                             name="vendor_id" id="vendor-id" required>
                             <option value="" selected disabled>-- {{ __('Select vendor') }} --</option>
-
-                            @foreach ($vendors as $vendor)
-                                <option value="{{ $vendor->id }}"
-                                    {{ isset($equipment) && $equipment->vendor_id == $vendor->id ? 'selected' : (old('vendor_id') == $vendor->id ? 'selected' : '') }}>
-                                    {{ $vendor->name_vendor }}
-                                </option>
-                            @endforeach
                         </select>
                         @error('vendor_id')
                             <span class="text-danger">
@@ -200,13 +186,6 @@
                             name="equipment_location_id" id="equipment-location-id" required>
                             <option value="" selected disabled>-- {{ __('Select location') }} --
                             </option>
-
-                            @foreach ($equipmentLocations as $equipmentLocation)
-                                <option value="{{ $equipmentLocation->id }}"
-                                    {{ isset($equipment) && $equipment->equipment_location_id == $equipmentLocation->id ? 'selected' : (old('equipment_location_id') == $equipmentLocation->id ? 'selected' : '') }}>
-                                    {{ $equipmentLocation->location_name }}
-                                </option>
-                            @endforeach
                         </select>
                         @error('equipment_location_id')
                             <span class="text-danger">
