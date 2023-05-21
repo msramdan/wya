@@ -57,7 +57,7 @@
     <script>
         $(document).ready(function() {
             // Jika pemilihan adalah opsi tertentu, sembunyikan div
-            if ({{ isset($role) && $role->hospital_id }}) {
+            @if (isset($role) && $role->hospital_id)
                 $('#Nomenklaturs').hide();
                 $('#Hospitals').hide();
                 $('#Provinces').hide();
@@ -65,7 +65,7 @@
                 $('#Kecamatans').hide();
                 $('#Kelurahans').hide();
                 $('#setting').hide();
-            } else {
+            @else
                 $('#Nomenklaturs').show();
                 $('#Hospitals').show();
                 $('#Provinces').show();
@@ -73,29 +73,41 @@
                 $('#Kecamatans').show();
                 $('#Kelurahans').show();
                 $('#setting').show();
-            }
-        });
-        $('#hospital_id_select').change(function() {
-            var selectedValue = $(this).val();
-
-            // Jika pemilihan adalah opsi tertentu, sembunyikan div
-            if (selectedValue !== 'user_mta') {
-                $('#Nomenklaturs').hide();
-                $('#Hospitals').hide();
-                $('#Provinces').hide();
-                $('#Kabkots').hide();
-                $('#Kecamatans').hide();
-                $('#Kelurahans').hide();
-                $('#setting').hide();
-            } else {
-                $('#Nomenklaturs').show();
-                $('#Hospitals').show();
-                $('#Provinces').show();
-                $('#Kabkots').show();
-                $('#Kecamatans').show();
-                $('#Kelurahans').show();
-                $('#setting').show();
-            }
+            @endif
+            $('#hospital_id_select').change(function() {
+                var selectedValue = $(this).val();
+                if (selectedValue !== 'user_mta') {
+                    $('#Nomenklaturs').hide().find(':checkbox')
+                        .prop('checked', false);
+                    $('#Hospitals').hide().find(':checkbox')
+                        .prop('checked', false);
+                    $('#Provinces').hide().find(':checkbox')
+                        .prop('checked', false);
+                    $('#Kabkots').hide().find(':checkbox')
+                        .prop('checked', false);
+                    $('#Kecamatans').hide().find(':checkbox')
+                        .prop('checked', false);
+                    $('#Kelurahans').hide().find(':checkbox')
+                        .prop('checked', false);
+                    $('#setting').hide().find(':checkbox')
+                        .prop('checked', false);
+                } else {
+                    $('#Nomenklaturs').show().find(':checkbox')
+                        .prop('checked', true);
+                    $('#Hospitals').show().find(':checkbox')
+                        .prop('checked', true);
+                    $('#Provinces').show().find(':checkbox')
+                        .prop('checked', true);
+                    $('#Kabkots').show().find(':checkbox')
+                        .prop('checked', true);
+                    $('#Kecamatans').show().find(':checkbox')
+                        .prop('checked', true);
+                    $('#Kelurahans').show().find(':checkbox')
+                        .prop('checked', true);
+                    $('#setting').show().find(':checkbox')
+                        .prop('checked', true);
+                }
+            });
         });
     </script>
 @endpush

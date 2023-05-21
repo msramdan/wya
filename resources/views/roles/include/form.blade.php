@@ -17,9 +17,10 @@
             <label for="hospital_id_select">{{ __('Hispotal') }}</label>
             <select class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
                 name="hospital_id" id="hospital_id_select" required>
-                <option value="" selected disabled>-- {{ __('Select hispotal') }} --</option>
-                <option value="user_mta">{{ __('User MTA') }}</option>
-
+                <option value="" disabled>-- {{ __('Select hospital') }} --</option>
+                <option value="user_mta">
+                    {{ __('User MTA') }}
+                </option>
                 @foreach ($hispotals as $hispotal)
                     <option value="{{ $hispotal->id }}"
                         {{ isset($role) && $role->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
