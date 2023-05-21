@@ -61,8 +61,6 @@
                                             <th>#</th>
                                             <th>{{ __('Hosital') }}</th>
                                             <th>{{ __('Name') }}</th>
-                                            <th>{{ __('Created At') }}</th>
-                                            <th>{{ __('Updated At') }}</th>
                                             <th>{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
@@ -90,15 +88,6 @@
                 {
                     data: 'name',
                     name: 'name'
-                },
-
-                {
-                    data: 'created_at',
-                    name: 'created_at'
-                },
-                {
-                    data: 'updated_at',
-                    name: 'updated_at'
                 },
                 {
                     data: 'action',

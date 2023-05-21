@@ -59,8 +59,8 @@
                                             <th>#</th>
                                             <th>{{ __('Hospital') }}</th>
                                             <th>{{ __('Name Employee Type') }}</th>
-                                            <th>{{ __('Created At') }}</th>
-                                            <th>{{ __('Updated At') }}</th>
+                                            {{-- <th>{{ __('Created At') }}</th>
+                                            <th>{{ __('Updated At') }}</th> --}}
                                             <th>{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
@@ -91,14 +91,14 @@
                 data: 'name_employee_type',
                 name: 'name_employee_type',
             },
-            {
-                data: 'created_at',
-                name: 'created_at'
-            },
-            {
-                data: 'updated_at',
-                name: 'updated_at'
-            },
+            // {
+            //     data: 'created_at',
+            //     name: 'created_at'
+            // },
+            // {
+            //     data: 'updated_at',
+            //     name: 'updated_at'
+            // },
             {
                 data: 'action',
                 name: 'action',
