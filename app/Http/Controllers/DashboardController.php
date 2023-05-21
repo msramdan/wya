@@ -31,7 +31,6 @@ class DashboardController extends Controller
         } else {
             $ids = Auth::user()->roles->first()->hospital_id;
         }
-
         $countVendor = Vendor::where('hospital_id', $ids)->count();
         $countEmployee = Employee::where('hospital_id', $ids)->count();
         $countEquipment = Equipment::where('hospital_id', $ids)->count();
@@ -40,34 +39,40 @@ class DashboardController extends Controller
         $employees = Employee::where('hospital_id', $ids)->get();
 
         $in = DB::table('sparepart_trace')
+            ->join('spareparts', 'sparepart_trace.sparepart_id', '=', 'spareparts.id')
+            ->select('sparepart_trace.*','spareparts.hospital_id')
+            ->where('hospital_id',$ids)
             ->where('type', '=', 'In')
             ->limit(10);
         $out = DB::table('sparepart_trace')
+            ->join('spareparts', 'sparepart_trace.sparepart_id', '=', 'spareparts.id')
+            ->select('sparepart_trace.*','spareparts.hospital_id')
+            ->where('hospital_id',$ids)
             ->where('type', '=', 'Out')
             ->limit(10);
         if (isset($start_date) && !empty($start_date)) {
             $from = date("Y-m-d H:i:s", substr($request->query('start_date'), 0, 10));
             $microFrom = $start_date;
-            $in = $in->where('created_at', '>=', $from);
-            $out = $out->where('created_at', '>=', $from);
+            $in = $in->where('sparepart_trace.created_at', '>=', $from);
+            $out = $out->where('sparepart_trace.created_at', '>=', $from);
         } else {
             $from = date('Y-m-d') . " 00:00:00";
             $microFrom = strtotime($from) * 1000;
-            $in = $in->where('created_at', '>=', $from);
-            $out = $out->where('created_at', '>=', $from);
+            $in = $in->where('sparepart_trace.created_at', '>=', $from);
+            $out = $out->where('sparepart_trace.created_at', '>=', $from);
         }
         if (isset($end_date) && !empty($end_date)) {
             $to = date("Y-m-d H:i:s", substr($request->query('end_date'), 0, 10));
             $microTo = $end_date;
-            $in = $in->where('created_at', '<=', $to);
-            $out = $out->where('created_at', '<=', $to);
+            $in = $in->where('sparepart_trace.created_at', '<=', $to);
+            $out = $out->where('sparepart_trace.created_at', '<=', $to);
         } else {
             $to = date('Y-m-d') . " 23:59:59";
             $microTo = strtotime($to) * 1000;
-            $in = $in->where('created_at', '<=', $to);
-            $out = $out->where('created_at', '<=', $to);
+            $in = $in->where('sparepart_trace.created_at', '<=', $to);
+            $out = $out->where('sparepart_trace.created_at', '<=', $to);
         }
-        $sql = "SELECT * FROM `spareparts` WHERE stock < opname limit 10";
+        $sql = "SELECT * FROM `spareparts` WHERE hospital_id='$ids' and stock < opname limit 10";
         return view('dashboard', [
             'vendor' => $vendor,
             'employees' => $employees,
@@ -82,7 +87,6 @@ class DashboardController extends Controller
             'countEmployee' => $countEmployee,
             'countEquipment' => $countEquipment,
             'countWorkOrder' => $countWorkOrder
-
         ]);
     }
 }
