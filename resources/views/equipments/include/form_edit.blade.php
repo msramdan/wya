@@ -17,7 +17,7 @@
                                     <option value="">-- {{ __('Select hispotal') }} --</option>
                                     @foreach ($hispotals as $hispotal)
                                         <option value="{{ $hispotal->id }}"
-                                            {{ isset($equipments) && $equipments->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                                            {{ isset($equipment) && $equipment->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
                                             {{ $hispotal->name }}
                                         </option>
                                     @endforeach

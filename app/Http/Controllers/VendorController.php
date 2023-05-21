@@ -438,4 +438,10 @@ class VendorController extends Controller
         Alert::toast('Vendors has been successfully imported.', 'success');
         return back();
     }
+
+    public function getVendor($hospitalId)
+    {
+        $data = DB::table('vendors')->where('hospital_id', $hospitalId)->get();
+        return response()->json(compact('data'));
+    }
 }

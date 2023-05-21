@@ -103,6 +103,7 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
+                                            <th>{{ __('Hospital') }}</th>
                                             <th>{{ __('Barcode') }}</th>
                                             <th>{{ __('Nomenklatur') }}</th>
                                             <th>{{ __('SN') }}</th>
@@ -132,6 +133,10 @@
                 name: 'DT_RowIndex',
                 orderable: false,
                 searchable: false
+            },
+            {
+                data: 'hospital',
+                name: 'hospital',
             },
             {
                 data: 'barcode',

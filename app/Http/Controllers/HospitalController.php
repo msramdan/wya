@@ -8,6 +8,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Image;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\User;
+use Auth;
 
 class HospitalController extends Controller
 {
@@ -15,7 +16,7 @@ class HospitalController extends Controller
     {
         $this->middleware('permission:hospital view')->only('index', 'show');
         $this->middleware('permission:hospital create')->only('create', 'store');
-        $this->middleware('permission:hospital edit')->only('edit', 'update');
+        // $this->middleware('permission:hospital edit')->only('edit', 'update');
         $this->middleware('permission:hospital delete')->only('destroy');
     }
 
@@ -159,10 +160,13 @@ class HospitalController extends Controller
         $attr['work_order_has_access_approval_users_id'] = json_encode($request->work_order_has_access_approval_users_id);
 
         $hospital->update($attr);
-
-        return redirect()
-            ->route('hospitals.index')
-            ->with('success', __('The hospital was updated successfully.'));
+        Alert::toast('The hospital was updated successfully.', 'success');
+        return redirect()->route('hospitals.index');
+        if (Auth::user()->roles->first()->hospital_id != null) {
+            return redirect()->back();
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**

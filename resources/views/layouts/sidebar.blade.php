@@ -38,7 +38,8 @@
                                             {!! $menu['icon'] !!}
                                             <span data-key="t-apps">{{ __($menu['title']) }}</span>
                                         </a>
-                                        <div class="collapse menu-dropdown {{ is_show($menu['uri']) }}" id="sidebarApps{{ $i }}">
+                                        <div class="collapse menu-dropdown {{ is_show($menu['uri']) }}"
+                                            id="sidebarApps{{ $i }}">
                                             <ul class="nav nav-sm flex-column">
                                                 @canany($menu['permissions'])
                                                     @foreach ($menu['submenus'] as $submenu)
@@ -61,6 +62,15 @@
                     @endcanany
                 @endif
             @endforeach
+
+            @if (Auth::user()->roles->first()->hospital_id != null)
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ Route::currentRouteName() == 'hospitals.edit' ? ' active' : '' }}"
+                        href="{{ route('hospitals.edit', Auth::user()->roles->first()->hospital_id) }}">
+                        <i data-feather="tool"></i> <span data-key="t-widgets">Setting Apps</span>
+                    </a>
+                </li>
+            @endif
         </ul>
     </div>
 </div>

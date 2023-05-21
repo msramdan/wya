@@ -10,23 +10,30 @@
                     <div class="row">
                         <div class="col-md-12 mb-2">
                             <div class="form-group">
-                                <label for="role">{{ __('Hospital') }}</label>
-                                <select name="hospital_id" id="hospital_id"
-                                    class="form-control js-example-basic-multiple">
-                                    <option value="">-- {{ __('Select hospital') }} --</option>
+                                <label for="hospital_id">{{ __('Hospital') }}</label>
+                                <select
+                                    class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
+                                    name="hospital_id" id="hospital_id" required>
+                                    <option value="" selected disabled>-- {{ __('Select hispotal') }} --</option>
+
                                     @foreach ($hispotals as $hispotal)
                                         <option value="{{ $hispotal->id }}"
-                                            {{ isset($equipments) && $equipments->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                                            {{ isset($equipment) && $equipment->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
                                             {{ $hispotal->name }}
                                         </option>
                                     @endforeach
                                 </select>
+                                @error('hospital_id')
+                                    <span class="text-danger">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
                 @else
-                    <input type="hidden" name="hospital_id" value="{{ Auth::user()->roles->first()->hospital_id }}"
-                        readonly id="hospital_id">
+                    <input type="hidden" readonly value="{{ Auth::user()->roles->first()->hospital_id }}"
+                        id="hospital_id" name="hospital_id">
                 @endif
 
                 <div class="row">

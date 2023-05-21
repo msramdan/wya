@@ -18,6 +18,9 @@ use App\FormatImport\GenerateEquipmentFormat;
 use App\Imports\EquipmentImportMultipleSheet;
 use App\Exports\GenerateEquipmentWithMultipleSheet;
 use App\Http\Requests\{ImportEquipmentRequest, StoreEquipmentRequest, UpdateEquipmentRequest};
+use App\Models\EquipmentCategory;
+use App\Models\EquipmentLocation;
+use App\Models\Vendor;
 
 class EquipmentController extends Controller
 {
@@ -51,6 +54,8 @@ class EquipmentController extends Controller
                     return $row->created_at->format('d M Y H:i:s');
                 })->addColumn('updated_at', function ($row) {
                     return $row->updated_at->format('d M Y H:i:s');
+                })->addColumn('hospital', function ($row) {
+                    return $row->hospital ? $row->hospital->name : '';
                 })
                 ->addColumn('nomenklatur', function ($row) {
                     return $row->nomenklatur ? $row->nomenklatur->name_nomenklatur : '';
@@ -106,7 +111,7 @@ class EquipmentController extends Controller
                 'nilai_perolehan' => 'required',
                 'nilai_residu' => 'required',
                 'masa_manfaat' => 'required',
-                'hospital_id' => 'required|exists:App/Models/Hospital,id'
+                'hospital_id' => 'required'
             ],
         );
         if ($validator->fails()) {
@@ -212,7 +217,10 @@ class EquipmentController extends Controller
         $equipment->load('nomenklatur:id,code_nomenklatur', 'equipment_category:id,code_categoty', 'vendor:id,code_vendor', 'equipment_location:id,code_location');
         $file = DB::table('equipment_files')->where('equipment_id', $equipment->id)->get();
         $fittings  = DB::table('equipment_fittings')->where('equipment_id', $equipment->id)->get();
-        return view('equipments.edit', compact('equipment', 'file', 'fittings'));
+        $equipmentCategories = EquipmentCategory::where('hospital_id', $equipment->hospital_id)->get();
+        $vendors = Vendor::where('hospital_id', $equipment->hospital_id)->get();
+        $equipmentLocations = EquipmentLocation::where('hospital_id', $equipment->hospital_id)->get();
+        return view('equipments.edit', compact('equipment', 'file', 'fittings', 'equipmentCategories', 'vendors', 'equipmentLocations'));
     }
 
     /**
@@ -245,7 +253,7 @@ class EquipmentController extends Controller
                 'nilai_perolehan' => 'required',
                 'nilai_residu' => 'required',
                 'masa_manfaat' => 'required',
-                'hospital_id' => 'required|exists:App/Models/Hospital,id'
+                'hospital_id' => 'required'
             ],
         );
         if ($validator->fails()) {
