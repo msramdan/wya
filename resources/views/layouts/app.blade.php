@@ -52,19 +52,17 @@
                             <button type="button"
                                 class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img id="header-lang-img"
-                                    src="{{ asset('material/assets/images/flags/indonesia.png') }}"
-                                    alt="Header Language" height="20" class="rounded">
+                                <div id="header-lang-img"></div>
                             </button>
                             <div class="dropdown-menu dropdown-menu-end" style="">
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="in"
-                                    title="Spanish">
+                                    title="Indonesia" onclick="cheng_locale()">
                                     <img src="{{ asset('material/assets/images/flags/indonesia.png') }}"
                                         alt="user-image" class="me-2 rounded" height="18">
                                     <span class="align-middle">Indonesia</span>
                                 </a>
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language py-2"
-                                    data-lang="en" title="English">
+                                    data-lang="en" title="English" onclick="cheng_locale()">
                                     <img src="{{ asset('material/assets/images/flags/us.svg') }}" alt="user-image"
                                         class="me-2 rounded" height="18">
                                     <span class="align-middle">English</span>
@@ -180,7 +178,11 @@
         </div>
 
     </div>
-
+    @php
+        // session()->flush();
+        // session()->flash('locale', 'us');
+        // dd(session()->all());
+    @endphp
     <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
         <i class="ri-arrow-up-line"></i>
     </button>
@@ -190,7 +192,43 @@
     @stack('js-libs')
 
     @stack('js-scripts')
+    <script>
+        var lang = localStorage.getItem('language')
+        if (lang === 'en' || lang === 'us') {
+            localStorage.setItem('language', 'in')
+        }
+    </script>
+    <script>
+        $(document).ready(function() {
+            var lang = localStorage.getItem('language');
+            var us =
+                '<img id="header-lang-img" src="{{ asset('/material/assets/images/flags/us.svg') }}" alt="Header Language" height="20" class="rounded">';
+            var id =
+                '<img id="header-lang-img" src="{{ asset('/material/assets/images/flags/indonesia.png') }}" alt="Header Language" height="20" class="rounded">';
+            if (lang === 'en' || lang === 'us') {
+                $('#header-lang-img').html(us);
+            } else if (lang == 'id' || lang === 'in') {
+                $('#header-lang-img').html(id);
+            }
+        })
 
+        function cheng_locale() {
+            var lang = localStorage.getItem('language');
+            if (lang === 'en' || lang === 'us') {
+                localStorage.setItem('language', 'id')
+                @php
+                    session(['lang' => 'id']);
+                @endphp
+                window.location.reload()
+            } else {
+                localStorage.setItem('language', 'us')
+                @php
+                    session(['lang' => 'us']);
+                @endphp
+                window.location.reload()
+            }
+        }
+    </script>
 </body>
 
 </html>
