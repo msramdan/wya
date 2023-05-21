@@ -57,16 +57,13 @@
                                 <table class="table table-striped" id="data-table" width="100%">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
-
+                                            <th>#</th>
                                             <th>{{ __('Avatar') }}</th>
                                             <th>{{ __('Hospital') }}</th>
                                             <th>{{ __('Role') }}</th>
                                             <th>{{ __('Name') }}</th>
                                             <th>{{ __('Email') }}</th>
                                             <th>{{ __('No HP') }}</th>
-                                            <th>{{ __('Created At') }}</th>
-                                            <th>{{ __('Updated At') }}</th>
                                             <th>{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
@@ -119,14 +116,6 @@
             {
                 data: 'no_hp',
                 name: 'no_hp'
-            },
-            {
-                data: 'created_at',
-                name: 'created_at'
-            },
-            {
-                data: 'updated_at',
-                name: 'updated_at'
             },
             {
                 data: 'action',
