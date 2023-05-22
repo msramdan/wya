@@ -329,7 +329,7 @@
 
 
 
-                        {{-- grafik knob --}}
+                        {{-- grafik Total --}}
                         <div class="row">
                             <div class="col-xl-4 col-md-4">
                                 <div class="card" style="height: 500px">
@@ -366,6 +366,35 @@
 
                                     <div class="card-body">
                                         <canvas id="myChart3"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- grafik Expense Cost --}}
+                        <div class="row">
+                            <div class="col-xl-6 col-md-6">
+                                <div class="card" style="height: 450px">
+                                    <div class="card-header align-items-center d-flex">
+                                        <h4 class="card-title mb-0 flex-grow-1">
+                                            Proccess WO ( Finish Vs On Progress Vs Ready to Start )
+                                        </h4>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <canvas id="myChart4"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-md-6">
+                                <div class="card" style="height: 450px">
+                                    <div class="card-header align-items-center d-flex">
+                                        <h4 class="card-title mb-0 flex-grow-1">
+                                            Expense Cost Wo
+                                        </h4>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <canvas id="myChart5"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -604,7 +633,7 @@
             data: {
                 labels: ['Rutin', 'Non Rutin'],
                 datasets: [{
-                    label: '# of Votes',
+                    label: '# Total',
                     data: [{{ totalWoByCategory('Rutin', $microFrom, $microTo, $ids) }},
                         {{ totalWoByCategory('Non Rutin', $microFrom, $microTo, $ids) }}
                     ],
@@ -653,6 +682,70 @@
                         'rgba(54, 162, 235, 1)',
                         'rgba(255, 206, 86, 1)',
                         'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script>
+        const ctx4 = document.getElementById('myChart4');
+        new Chart(ctx4, {
+            type: 'bar',
+            data: {
+                labels: ['Finish', 'Progress', 'Ready to Start'],
+                datasets: [{
+                    label: '# Proccess WO ( Finish Vs On Progress Vs Ready to Start )',
+                    data: [300, 59, 80],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script>
+        const ctx5 = document.getElementById('myChart5');
+        new Chart(ctx5, {
+            type: 'bar',
+            data: {
+                labels: ['Calibration', 'Service', 'Replacement'],
+                datasets: [{
+                    label: '# Expense Cost Wo',
+                    data: [65, 59, 80],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
                     ],
                     borderWidth: 1
                 }]

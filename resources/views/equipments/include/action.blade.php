@@ -29,12 +29,6 @@
                     Detail
                 </a>
             </li>
-            {{-- <li>
-                <a href="#" type="button" class="dropdown-item" data-bs-toggle="modal"
-                    data-bs-target="#detailEquipment{{ $model->id }}">
-                    Cetak
-                </a>
-            </li> --}}
             <li>
                 <a href="#" type="button" class="dropdown-item" data-bs-toggle="modal"
                     data-bs-target="#qrcode-equipment{{ $model->id }}">
@@ -43,10 +37,17 @@
             </li>
             <li>
                 <a href="#" type="button" class="dropdown-item" data-bs-toggle="modal"
+                    data-bs-target="#table-history{{ $model->id }}">
+                    History WO Peralatan
+                </a>
+            </li>
+            <li>
+                <a href="#" type="button" class="dropdown-item" data-bs-toggle="modal"
                     data-bs-target="#table-penyusutan{{ $model->id }}">
                     Tabel Penyusutan
                 </a>
             </li>
+
         </ul>
     </div>
     {{-- @endcanany --}}
@@ -223,6 +224,39 @@
         </div>
     </div>
 </div>
+
+
+<!-- Modal Penyusutan -->
+<div class="modal fade" id="table-history{{ $model->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">History WO Peralatan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-sm dataTables-example">
+                    <thead>
+                        <th>WO Number</th>
+                        <th>Type</th>
+                        <th>Category</th>
+                        <th>Filed Date</th>
+                        <th>Schedule Date</th>
+                        <th>Executor</th>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <script>
     $('.dataTables-example').DataTable();

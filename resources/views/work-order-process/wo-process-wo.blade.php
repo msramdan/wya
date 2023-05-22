@@ -37,7 +37,8 @@
                 </div>
                 <div class="col-12">
                     <div class="row">
-                        <form action="{{ route('work-order-processes.update', $workOrderProcesess->id) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('work-order-processes.update', $workOrderProcesess->id) }}" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
@@ -68,16 +69,22 @@
 
                             @include('work-order-process.includes.form-inspection-recommendations')
 
+                            @include('work-order-process.includes.form-catatan')
+
                             @include('work-order-process.includes.form-status')
 
                             <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
                                 <div class="card">
                                     <div class="card-body">
                                         @if (!$readonly)
-                                            <input type="submit" class="w-100 btn btn-primary" name="status" value="Doing"> <br>
-                                            <input type="submit" class="w-100 mt-3 btn btn-success" name="status" value="Finish"><br>
+                                            <input type="submit" class="w-100 btn btn-primary" name="status"
+                                                value="Doing"> <br>
+                                            <input type="submit" class="w-100 mt-3 btn btn-success" name="status"
+                                                value="Finish"><br>
                                         @endif
-                                        <a href="{{ url('/panel/work-order-processes/' . $workOrder->id) }}"><button type="button" class="btn mt-4 btn-warning"><i class="fa fa-arrow-left"></i> Back To List WO</button></a>
+                                        <a href="{{ url('/panel/work-order-processes/' . $workOrder->id) }}"><button
+                                                type="button" class="btn mt-4 btn-warning"><i class="fa fa-arrow-left"></i>
+                                                Back To List WO</button></a>
                                     </div>
                                 </div>
                             </div>
@@ -93,16 +100,21 @@
     <script>
         $('#executor').on("select2:select", function(e) {
             if ($('#executor').select2('val') == 'vendor_or_supplier') {
-                $('#work_executor_vendor_id').parent().hasClass('d-none') ? $('#work_executor_vendor_id').parent().removeClass('d-none') : '';
-                !$('#work_executor_technician_id').parent().hasClass('d-none') ? $('#work_executor_technician_id').parent().addClass('d-none') : '';
+                $('#work_executor_vendor_id').parent().hasClass('d-none') ? $('#work_executor_vendor_id').parent()
+                    .removeClass('d-none') : '';
+                !$('#work_executor_technician_id').parent().hasClass('d-none') ? $('#work_executor_technician_id')
+                    .parent().addClass('d-none') : '';
             } else if ($('#executor').select2('val') == 'technician') {
-                $('#work_executor_technician_id').parent().hasClass('d-none') ? $('#work_executor_technician_id').parent().removeClass('d-none') : '';
-                !$('#work_executor_vendor_id').parent().hasClass('d-none') ? $('#work_executor_vendor_id').parent().addClass('d-none') : '';
+                $('#work_executor_technician_id').parent().hasClass('d-none') ? $('#work_executor_technician_id')
+                    .parent().removeClass('d-none') : '';
+                !$('#work_executor_vendor_id').parent().hasClass('d-none') ? $('#work_executor_vendor_id').parent()
+                    .addClass('d-none') : '';
             }
         });
 
         function addRowPerformanceCalibration(currentRowHtml) {
-            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length - 1].dataset.index);
+            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length -
+                1].dataset.index);
 
             currentRowHtml.parentElement.insertAdjacentHTML('beforeend',
                 `
@@ -146,7 +158,8 @@
         }
 
         function addRowPhysicalCheck(currentRowHtml) {
-            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length - 1].dataset.index);
+            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length -
+                1].dataset.index);
 
             currentRowHtml.parentElement.insertAdjacentHTML('beforeend',
                 `
@@ -190,7 +203,8 @@
         }
 
         function addRowFunctionCheck(currentRowHtml) {
-            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length - 1].dataset.index);
+            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length -
+                1].dataset.index);
 
             currentRowHtml.parentElement.insertAdjacentHTML('beforeend',
                 `
@@ -224,7 +238,8 @@
         }
 
         function addRowEquipmentInspectionCheck(currentRowHtml) {
-            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length - 1].dataset.index);
+            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length -
+                1].dataset.index);
 
             currentRowHtml.parentElement.insertAdjacentHTML('beforeend',
                 `
@@ -258,7 +273,8 @@
         }
 
         function addRowToolMaintenance(currentRowHtml) {
-            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length - 1].dataset.index);
+            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length -
+                1].dataset.index);
 
             currentRowHtml.parentElement.insertAdjacentHTML('beforeend',
                 `
@@ -292,7 +308,8 @@
         }
 
         function addRowReplacementOfPart(currentRowHtml) {
-            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length - 1].dataset.index);
+            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length -
+                1].dataset.index);
             let existsNotSelectedRow = false;
             let selectedSpareparts = Array.from(document.querySelectorAll('#col-replacement-of-parts select')).map((e) => {
                 if (!e.value) {
@@ -317,7 +334,7 @@
                                 <option value="">--Choose Sparepart--</option>
                                 @foreach ($spareparts as $sparepart)
                                     ${
-                                        !selectedSpareparts.includes('{{ $sparepart->id }}') ? 
+                                        !selectedSpareparts.includes('{{ $sparepart->id }}') ?
                                             '<option data-unit="{{ $sparepart->unit_item->code_unit }}" data-price="{{ $sparepart->estimated_price }}" data-stock="{{ $sparepart->stock }}" value="{{ $sparepart->id }}">{{ $sparepart->sparepart_name }}</option>'
                                         :   ''
                                     }
@@ -357,7 +374,8 @@
 
         function generateAmountReplacementOfPart(qtyElement) {
             const amountElement = qtyElement.parentElement.parentElement.nextElementSibling.querySelector('input');
-            const priceElement = qtyElement.parentElement.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.querySelector('input');
+            const priceElement = qtyElement.parentElement.parentElement.previousElementSibling.previousElementSibling
+                .previousElementSibling.querySelector('input');
 
             if (qtyElement.value && priceElement.value) {
                 amountElement.value = parseInt(priceElement.value) * parseInt(qtyElement.value);
@@ -368,8 +386,11 @@
             Array.from(document.querySelectorAll('#col-replacement-of-parts select')).forEach((currentSelectEl, index) => {
                 if (index != 0) {
                     Array.from(currentSelectEl.children).forEach((optionCurrentSelectEl) => {
-                        Array.from(document.querySelectorAll('#col-replacement-of-parts select')).forEach((conditionalSelectEl) => {
-                            if (optionCurrentSelectEl.getAttribute('value') == conditionalSelectEl.value && optionCurrentSelectEl.getAttribute('value') != currentSelectEl.value) {
+                        Array.from(document.querySelectorAll('#col-replacement-of-parts select')).forEach((
+                            conditionalSelectEl) => {
+                            if (optionCurrentSelectEl.getAttribute('value') == conditionalSelectEl
+                                .value && optionCurrentSelectEl.getAttribute('value') !=
+                                currentSelectEl.value) {
                                 optionCurrentSelectEl.remove();
                             }
                         });
@@ -379,7 +400,8 @@
         }
 
         function addRowWoDocument(currentRowHtml) {
-            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length - 1].dataset.index);
+            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length -
+                1].dataset.index);
 
             currentRowHtml.parentElement.insertAdjacentHTML('beforeend',
                 `
@@ -416,15 +438,20 @@
                 const unit = selectElement.children[selectElement.selectedIndex].dataset.unit;
 
                 selectElement.parentElement.parentElement.nextElementSibling.querySelector('input').value = price;
-                selectElement.parentElement.parentElement.nextElementSibling.nextElementSibling.querySelector('input').value = stock;
-                selectElement.parentElement.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.querySelector('input').value = unit;
+                selectElement.parentElement.parentElement.nextElementSibling.nextElementSibling.querySelector('input')
+                    .value = stock;
+                selectElement.parentElement.parentElement.nextElementSibling.nextElementSibling.nextElementSibling
+                    .querySelector('input').value = unit;
             } else {
                 selectElement.parentElement.parentElement.nextElementSibling.querySelector('input').value = null;
-                selectElement.parentElement.parentElement.nextElementSibling.nextElementSibling.querySelector('input').value = null;
-                selectElement.parentElement.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.querySelector('input').value = null;
+                selectElement.parentElement.parentElement.nextElementSibling.nextElementSibling.querySelector('input')
+                    .value = null;
+                selectElement.parentElement.parentElement.nextElementSibling.nextElementSibling.nextElementSibling
+                    .querySelector('input').value = null;
             }
 
-            generateAmountReplacementOfPart(selectElement.parentElement.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.querySelector('input'));
+            generateAmountReplacementOfPart(selectElement.parentElement.parentElement.nextElementSibling.nextElementSibling
+                .nextElementSibling.nextElementSibling.querySelector('input'));
         }
 
         function removeWoProcWo(el) {
