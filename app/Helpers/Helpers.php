@@ -71,9 +71,34 @@ function Expense($type, $microFrom, $microTo, $ids)
     }
 }
 
+function statusProsesWo($type, $ids)
+{
+    if ($type == 'Finish') {
+        $statusProsesWo = DB::table('work_order_processes')
+            ->join('work_orders', 'work_order_processes.work_order_id', '=', 'work_orders.id')
+            ->where('status', 'finished')
+            ->where('work_orders.hospital_id', $ids)
+            ->get();
+        return  $statusProsesWo->count();
+    } else if ($type == 'Progress') {
+        $statusProsesWo = DB::table('work_order_processes')
+            ->join('work_orders', 'work_order_processes.work_order_id', '=', 'work_orders.id')
+            ->where('status', 'on-progress')
+            ->where('work_orders.hospital_id', $ids)
+            ->get();
+        return  $statusProsesWo->count();
+    } else if ($type == 'Ready to Start') {
+        $statusProsesWo = DB::table('work_order_processes')
+            ->join('work_orders', 'work_order_processes.work_order_id', '=', 'work_orders.id')
+            ->where('status', 'ready-to-start')
+            ->where('work_orders.hospital_id', $ids)
+            ->get();
+        return  $statusProsesWo->count();
+    }
+}
+
 function rupiah($angka)
 {
-
     $hasil_rupiah = "Rp " . number_format($angka, 2, ',', '.');
     return $hasil_rupiah;
 }

@@ -28,7 +28,7 @@ class WorkOrderApprovalController extends Controller
                     WHEN `status_wo` = "pending" then 1
                     ELSE 2
                 END'
-            )->orderBy('updated_at', 'DESC');
+            )->orderBy('work_orders.id', 'DESC');
 
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
                 $workOrders = $workOrders->where('hospital_id', $request->hospital_id);

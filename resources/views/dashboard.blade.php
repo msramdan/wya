@@ -703,8 +703,11 @@
             data: {
                 labels: ['Finish', 'Progress', 'Ready to Start'],
                 datasets: [{
-                    label: '# Proccess WO ( Finish Vs On Progress Vs Ready to Start )',
-                    data: [300, 59, 80],
+                    label: '# Total',
+                    data: [{{ statusProsesWo('Finish', $ids) }},
+                        {{ statusProsesWo('Progress', $ids) }},
+                        {{ statusProsesWo('Ready to Start', $ids) }},
+                    ],
 
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
