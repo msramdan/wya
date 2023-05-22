@@ -328,15 +328,12 @@ class WorkOrderProcessController extends Controller
     {
         $workOrderProcesess = WorkOrderProcess::find($workOrderProcesessId);
         $workOrder = WorkOrder::find($workOrderId);
-        $vendors = Vendor::select('id', 'name_vendor')->get();
-        $spareparts = Sparepart::where('stock', '>', 0)->get();
-
         return view('work-order-process.wo-process-wo', [
             'workOrder' => $workOrder,
             'workOrderProcesess' => $workOrderProcesess,
-            'vendors' => $vendors,
-            'spareparts' => $spareparts,
-            'employees' => Employee::get(),
+            'vendors' => Vendor::select('id', 'name_vendor')->where('hospital_id', $workOrder->hospital_id)->get(),
+            'spareparts' => Sparepart::where('stock', '>', 0)->where('hospital_id', $workOrder->hospital_id)->get(),
+            'employees' => Employee::where('hospital_id', $workOrder->hospital_id)->get(),
             'readonly' => false
         ]);
     }
@@ -345,14 +342,12 @@ class WorkOrderProcessController extends Controller
     {
         $workOrderProcesess = WorkOrderProcess::find($workOrderProcesessId);
         $workOrder = WorkOrder::find($workOrderId);
-        $vendors = Vendor::select('id', 'name_vendor')->get();
-        $spareparts = Sparepart::get();
-
         return view('work-order-process.wo-process-wo', [
             'workOrder' => $workOrder,
             'workOrderProcesess' => $workOrderProcesess,
-            'vendors' => $vendors,
-            'spareparts' => $spareparts,
+            'vendors' => Vendor::select('id', 'name_vendor')->where('hospital_id', $workOrder->hospital_id)->get(),
+            'spareparts' =>
+            Sparepart::where('stock', '>', 0)->where('hospital_id', $workOrder->hospital_id)->get(),
             'employees' => Employee::get(),
             'readonly' => true
         ]);
