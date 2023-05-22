@@ -161,7 +161,7 @@ class WorkOrderController extends Controller
         }
 
         $data = [
-            // 'equipmentLocations' => EquipmentLocation::orderBy('location_name', 'ASC')->get(),
+            'equipmentLocations' => EquipmentLocation::orderBy('location_name', 'ASC')->get(),
             'woNumber' => $woNumber,
         ];
 
@@ -386,30 +386,22 @@ class WorkOrderController extends Controller
     {
         try {
             $workOrder->delete();
-            if (setting_web()->bot_telegram == 1) {
+            $settingApp = Hospital::findOrFail($workOrder->hospital_id);
+            if ($settingApp->bot_telegram == 1) {
                 notifTele($workOrder, 'delete_wo');
             }
 
-            if (setting_web()->notif_wa == 1) {
+            if ($settingApp->notif_wa == 1) {
                 $receiverUsers = json_decode($workOrder->approval_users_id, true);
-
                 foreach ($receiverUsers as $receiverUserId) {
-                    $receiverUser = User::find($receiverUserId);
-
+                    $receiverUser = User::find($receiverUserId['user_id']);
                     if ($receiverUser) {
-                        try {
-                            if ($receiverUser->no_hp) {
-                                new NotifWhatsappWorkOrderDeleted($receiverUser->no_hp, $workOrder);
-                            }
-                        } catch (\Throwable $th) {
-                            if ($receiverUser[0]->no_hp) {
-                                new NotifWhatsappWorkOrderDeleted($receiverUser[0]->no_hp, $workOrder);
-                            }
+                        if ($receiverUser->no_hp) {
+                            new NotifWhatsappWorkOrderDeleted($receiverUser->no_hp, $workOrder, $workOrder->hospital_id);
                         }
                     }
                 }
             }
-
             Alert::toast('The workOrder was deleted successfully.', 'success');
             return redirect()->route('work-orders.index');
         } catch (\Throwable $th) {
