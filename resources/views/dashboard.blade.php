@@ -332,10 +332,10 @@
                         {{-- grafik knob --}}
                         <div class="row">
                             <div class="col-xl-4 col-md-4">
-                                <div class="card" style="height: 450px">
+                                <div class="card" style="height: 500px">
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1">
-                                            Percentage Status WO
+                                            Total Wo By Status
                                         </h4>
                                     </div>
 
@@ -345,10 +345,10 @@
                                 </div>
                             </div>
                             <div class="col-xl-4 col-md-4">
-                                <div class="card" style="height: 450px">
+                                <div class="card" style="height: 500px">
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1">
-                                            Percentage Category WO
+                                            Total Wo By Category
                                         </h4>
                                     </div>
 
@@ -358,10 +358,10 @@
                                 </div>
                             </div>
                             <div class="col-xl-4 col-md-4">
-                                <div class="card" style="height: 450px">
+                                <div class="card" style="height: 500px">
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1">
-                                            Percentage Type WO</h4>
+                                            Total WO By Type</h4>
                                     </div>
 
                                     <div class="card-body">
@@ -561,11 +561,11 @@
                     datasets: [{
                         label: '# Total',
                         data: [
-                            {{ totalWoByStatus('pending', $microFrom, $microTo) }},
-                            {{ totalWoByStatus('rejected', $microFrom, $microTo) }},
-                            {{ totalWoByStatus('accepted', $microFrom, $microTo) }},
-                            {{ totalWoByStatus('on-going', $microFrom, $microTo) }},
-                            {{ totalWoByStatus('finished', $microFrom, $microTo) }}
+                            {{ totalWoByStatus('pending', $microFrom, $microTo, $ids) }},
+                            {{ totalWoByStatus('rejected', $microFrom, $microTo, $ids) }},
+                            {{ totalWoByStatus('accepted', $microFrom, $microTo, $ids) }},
+                            {{ totalWoByStatus('on-going', $microFrom, $microTo, $ids) }},
+                            {{ totalWoByStatus('finished', $microFrom, $microTo, $ids) }}
                         ],
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
@@ -605,8 +605,8 @@
                 labels: ['Rutin', 'Non Rutin'],
                 datasets: [{
                     label: '# of Votes',
-                    data: [{{ totalWoByCategory('Rutin', $microFrom, $microTo) }},
-                        {{ totalWoByCategory('Non Rutin', $microFrom, $microTo) }}
+                    data: [{{ totalWoByCategory('Rutin', $microFrom, $microTo, $ids) }},
+                        {{ totalWoByCategory('Non Rutin', $microFrom, $microTo, $ids) }}
                     ],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
@@ -637,10 +637,10 @@
                 labels: ['Calibration', 'Service', 'Training', 'Inspection and Preventive Maintenance'],
                 datasets: [{
                     label: '# Total',
-                    data: [{{ totalWoByType('Calibration', $microFrom, $microTo) }},
-                        {{ totalWoByType('Service', $microFrom, $microTo) }},
-                        {{ totalWoByType('Training', $microFrom, $microTo) }},
-                        {{ totalWoByType('Inspection and Preventive Maintenance', $microFrom, $microTo) }}
+                    data: [{{ totalWoByType('Calibration', $microFrom, $microTo, $ids) }},
+                        {{ totalWoByType('Service', $microFrom, $microTo, $ids) }},
+                        {{ totalWoByType('Training', $microFrom, $microTo, $ids) }},
+                        {{ totalWoByType('Inspection and Preventive Maintenance', $microFrom, $microTo, $ids) }}
                     ],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',

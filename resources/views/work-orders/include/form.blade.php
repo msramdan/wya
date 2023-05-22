@@ -18,7 +18,7 @@
 
                                 @foreach ($hispotals as $hispotal)
                                     <option value="{{ $hispotal->id }}"
-                                        {{ isset($position) && $position->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                                        {{ isset($workOrder) && $workOrder->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
                                         {{ $hispotal->name }}
                                     </option>
                                 @endforeach
@@ -175,16 +175,6 @@
                 </div>
             </div>
         </div>
-
-        {{-- <div class="card">
-            <div class="card-body">
-                <div class="alert alert-secondary" role="alert">
-                    <b> <i class="fa-solid fa-money-bill"></i> Price Reduction</b>
-                </div>
-                <hr>
-            </div>
-        </div> --}}
-
     </div>
 
     <div class="col-md-6 {{ old('category_wo') ? '' : (isset($workOrder) ? '' : 'd-none') }}"
@@ -202,7 +192,7 @@
                     @if (old('category_wo')) {{ old('category_wo') == 'Rutin' ? 'd-none' : '' }}
                     @elseif(isset($workOrder))
                     {{ $workOrder->category_wo == 'Rutin' ? 'd-none' : '' }} @endif
-                    
+
                     ">
                         <label for="schedule-date">{{ __('Schedule Date') }}</label>
                         <input type="date" name="schedule_date" id="schedule-date"
@@ -217,12 +207,12 @@
                     </div>
 
                     <div
-                        class="col-md-6 mb-2 
-                    
+                        class="col-md-6 mb-2
+
                     @if (old('category_wo')) {{ old('category_wo') == 'Non Rutin' ? 'd-none' : '' }}
                     @elseif(isset($workOrder))
                     {{ $workOrder->category_wo == 'Non Rutin' ? 'd-none' : '' }} @endif
-                    
+
                     ">
                         <label for="schedule-wo">{{ __('Schedule Wo') }}</label>
                         <select
@@ -262,12 +252,12 @@
                     </div>
 
                     <div
-                        class="col-md-6 mb-2 
-                    
+                        class="col-md-6 mb-2
+
                     @if (old('category_wo')) {{ old('category_wo') == 'Non Rutin' ? 'd-none' : '' }}
                     @elseif(isset($workOrder))
                     {{ $workOrder->category_wo == 'Non Rutin' ? 'd-none' : '' }} @endif
-                    
+
                     ">
                         <label for="start-date">{{ __('Start Date') }}</label>
                         <input type="date" name="start_date" id="start-date"
@@ -281,12 +271,12 @@
                         @enderror
                     </div>
                     <div
-                        class="col-md-6 mb-2 
-                    
+                        class="col-md-6 mb-2
+
                     @if (old('category_wo')) {{ old('category_wo') == 'Non Rutin' ? 'd-none' : '' }}
                     @elseif(isset($workOrder))
                     {{ $workOrder->category_wo == 'Non Rutin' ? 'd-none' : '' }} @endif
-                    
+
                     ">
                         <label for="end-date">{{ __('End Date') }}</label>
                         <input type="date" name="end_date" id="end-date"

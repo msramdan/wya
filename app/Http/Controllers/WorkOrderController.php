@@ -8,7 +8,7 @@ use App\Marsweb\Notifications\NotifWhatsappWorkOrderCreated;
 use App\Marsweb\Notifications\NotifWhatsappWorkOrderDeleted;
 use App\Models\Equipment;
 use App\Models\EquipmentLocation;
-use App\Models\SettingApp;
+use App\Models\Hospital;
 use App\Models\User;
 use App\Models\WorkOrderProcess;
 use Carbon\Carbon;
@@ -50,8 +50,6 @@ class WorkOrderController extends Controller
             if (Auth::user()->roles->first()->hospital_id) {
                 $workOrders = $workOrders->where('hospital_id', Auth::user()->roles->first()->hospital_id);
             }
-
-
             if (isset($start_date) && !empty($start_date)) {
                 $from = date("Y-m-d H:i:s", substr($request->query('start_date'), 0, 10));
                 $workOrders = $workOrders->where('filed_date', '>=', $from);
@@ -93,17 +91,14 @@ class WorkOrderController extends Controller
 
             return DataTables::of($workOrders)
                 ->addIndexColumn()
-                ->addColumn('created_at', function ($row) {
-                    return $row->created_at->format('d M Y H:i:s');
-                })->addColumn('updated_at', function ($row) {
-                    return $row->updated_at->format('d M Y H:i:s');
+                ->addColumn('hospital', function ($row) {
+                    return $row->hospital ? $row->hospital->name : '';
                 })->addColumn('wo_number', function ($row) {
                     return $row->wo_number;
                 })
                 ->addColumn('approval_users_id', function ($row) {
                     $arrApprovalUsers = collect(json_decode($row->approval_users_id))->map(function ($row) {
                         $row->user_name = User::find($row->user_id)->name;
-
                         return $row;
                     });
 
@@ -166,7 +161,7 @@ class WorkOrderController extends Controller
         }
 
         $data = [
-            'equipmentLocations' => EquipmentLocation::orderBy('location_name', 'ASC')->get(),
+            // 'equipmentLocations' => EquipmentLocation::orderBy('location_name', 'ASC')->get(),
             'woNumber' => $woNumber,
         ];
 
@@ -181,7 +176,7 @@ class WorkOrderController extends Controller
      */
     public function store(StoreWorkOrderRequest $request)
     {
-        $settingApp = SettingApp::first();
+        $settingApp = Hospital::findOrFail($request->hospital_id);
         $workOrderHasAccessApprovalUsersId = json_decode($settingApp->work_order_has_access_approval_users_id, true);
         $approvalUserId = [];
 
@@ -322,11 +317,11 @@ class WorkOrderController extends Controller
                 if ($receiverUser) {
                     try {
                         if ($receiverUser->no_hp) {
-                            new NotifWhatsappWorkOrderCreated($receiverUser->no_hp, $workOrder);
+                            new NotifWhatsappWorkOrderCreated($receiverUser->no_hp, $workOrder, $request->hospital_id);
                         }
                     } catch (\Throwable $th) {
                         if ($receiverUser[0]->no_hp) {
-                            new NotifWhatsappWorkOrderCreated($receiverUser[0]->no_hp, $workOrder);
+                            new NotifWhatsappWorkOrderCreated($receiverUser[0]->no_hp, $workOrder, $request->hospital_id);
                         }
                     }
                 }

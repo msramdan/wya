@@ -9,12 +9,13 @@ class NotifWhatsappWorkOrderCreated
     private $receiver;
     private $workOrder;
     private $message;
+    private $hospital_id;
 
-    public function __construct($receiver, $workOrder)
+    public function __construct($receiver, $workOrder, $hospital_id)
     {
         $this->receiver = $receiver;
         $this->workOrder = $workOrder;
-
+        $this->hospital_id = $hospital_id;
         $this->buildMessage();
         $this->send();
     }
@@ -31,6 +32,6 @@ class NotifWhatsappWorkOrderCreated
 
     public function send()
     {
-        NotificationHelper::notifWhatsapp($this->receiver, $this->message);
+        NotificationHelper::notifWhatsapp($this->receiver, $this->message, $this->hospital_id);
     }
 }

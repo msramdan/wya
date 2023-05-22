@@ -2,32 +2,35 @@
 
 use App\Models\WorkOrder;
 
-function totalWoByStatus($status, $microFrom, $microTo)
+function totalWoByStatus($status, $microFrom, $microTo, $ids)
 {
     $from = date("Y-m-d H:i:s", substr($microFrom, 0, 10));
     $to = date("Y-m-d H:i:s", substr($microTo, 0, 10));
     $totalStatus = WorkOrder::where('status_wo', $status)
+        ->where('hospital_id',$ids)
         ->where('filed_date', '>=', $from)
         ->where('filed_date', '<=', $to)
         ->get();
     return  $totalStatus->count();
 }
 
-function totalWoByCategory($category, $microFrom, $microTo)
+function totalWoByCategory($category, $microFrom, $microTo, $ids)
 {
     $from = date("Y-m-d H:i:s", substr($microFrom, 0, 10));
     $to = date("Y-m-d H:i:s", substr($microTo, 0, 10));
     $totalCategory = WorkOrder::where('category_wo', $category)
+        ->where('hospital_id',$ids)
         ->where('filed_date', '>=', $from)
         ->where('filed_date', '<=', $to)->get();
     return  $totalCategory->count();
 }
 
-function totalWoByType($type, $microFrom, $microTo)
+function totalWoByType($type, $microFrom, $microTo, $ids)
 {
     $from = date("Y-m-d H:i:s", substr($microFrom, 0, 10));
     $to = date("Y-m-d H:i:s", substr($microTo, 0, 10));
     $totalType = WorkOrder::where('type_wo', $type)
+        ->where('hospital_id',$ids)
         ->where('filed_date', '>=', $from)
         ->where('filed_date', '<=', $to)->get();
     return  $totalType->count();
