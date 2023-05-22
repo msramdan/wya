@@ -360,14 +360,16 @@ class WorkOrderProcessController extends Controller
         $workOrder = WorkOrder::find($workOrderId);
         $vendors = Vendor::select('id', 'name_vendor')->get();
         $spareparts = Sparepart::get();
-        $logo = Hospital::find($workOrder->hospital_id);
+        $hospital = Hospital::find($workOrder->hospital_id);
+        $dataUser = json_decode($hospital->work_order_has_access_approval_users_id);
         $pdf = Pdf::loadView('work-order-process.wo-process-wo-print', [
             'workOrder' => $workOrder,
             'workOrderProcesess' => $workOrderProcesess,
             'vendors' => $vendors,
             'spareparts' => $spareparts,
             'employees' => Employee::get(),
-            'logo' => $logo->logo,
+            'logo' => $hospital->logo,
+            'user_approved' => end($dataUser),
             'readonly' => true
         ]);
 

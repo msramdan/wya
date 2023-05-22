@@ -705,6 +705,7 @@
                 datasets: [{
                     label: '# Proccess WO ( Finish Vs On Progress Vs Ready to Start )',
                     data: [300, 59, 80],
+
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -736,7 +737,10 @@
                 labels: ['Calibration', 'Service', 'Replacement'],
                 datasets: [{
                     label: '# Expense Cost Wo',
-                    data: [65, 59, 80],
+                    data: [{{ Expense('Calibration', $microFrom, $microTo, $ids) }},
+                        {{ Expense('Service', $microFrom, $microTo, $ids) }},
+                        {{ Expense('Replacement', $microFrom, $microTo, $ids) }},
+                    ],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',

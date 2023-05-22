@@ -52,7 +52,9 @@
 
 <table>
     <tr>
-        <td style="max-width: 25%" colspan="3" rowspan="4">Nomor WO : </td>
+        <td style="max-width: 25%" colspan="3" rowspan="4">Nomor WO : <br>
+            <b>{{ $workOrder->wo_number }}</b>
+        </td>
         <td class="bold" style="max-width: 25%;" colspan="3">Inspection Preventive Maintenance
 
             @if ($workOrder->type_wo == 'Inspection and Preventive Maintenance')
@@ -524,18 +526,6 @@
             </tr>
         @endforelse
     @endif
-
-
-    <tr>
-        <td class="cell-head bg-primary" colspan="4">Hasil Pemeriksaan</td>
-        <td class="cell-head bg-primary" colspan="5">Alat Berfungsi Dengan Baik</td>
-        <td class="cell-head bg-primary" colspan="3">Alat Tidak Dapat Digunakan</td>
-    </tr>
-    <tr>
-        <td class="cell-head bg-primary" colspan="4">Hasil Maintenance</td>
-        <td class="cell-head bg-primary" colspan="5">Alat Berfungsi Dengan Baik</td>
-        <td class="cell-head bg-primary" colspan="3">Alat Tidak Dapat Digunakan</td>
-    </tr>
     <tr>
         <td class="cell-head bg-primary" rowspan="3" colspan="4">Rekomendasi Hasil Pekerjaan</td>
         <td colspan="5">Alat Dapat Dipergunakan Dengan Baik
@@ -575,30 +565,38 @@
         </td>
     </tr>
     <tr>
-        <td colspan="12" style="height: 100px; vertical-align: text-top">Catatan</td>
+        <td colspan="12" style="height: 100px; vertical-align: text-top">Catatan : <br>
+            {{ $workOrderProcesess->electrical_safety_note }}</td>
     </tr>
     <tr>
-        <td class="cell-head bg-primary" colspan="4">User</td>
-        <td class="cell-head bg-primary" colspan="4">IPSRS</td>
-        <td class="cell-head bg-primary" colspan="4">KA. IPSRS</td>
+        <td class="cell-head bg-primary" colspan="4">Pembuat Wo</td>
+        <td class="cell-head bg-primary" colspan="4">Pelaksana Wo</td>
+        <td class="cell-head bg-primary" colspan="4">User Approval</td>
     </tr>
     <tr>
         <td colspan="4" style="height: 100px; vertical-align: text-top">
             <center>
-                <img style="width: 120px;margin-top:5px" src="data:image/png;base64, {!! base64_encode(QrCode::generate('ramdan')) !!} ">
-                <p>Muhammad Saeful Ramdan</p>
+                <img style="width: 120px;margin-top:5px" src="data:image/png;base64, {!! base64_encode(QrCode::generate(getUser($workOrder->created_by))) !!} ">
+                <p>{{ getUser($workOrder->created_by) }}</p>
             </center>
         </td>
         <td colspan="4" style="height: 100px; vertical-align: text-top">
             <center>
-                <img style="width: 120px;margin-top:5px" src="data:image/png;base64, {!! base64_encode(QrCode::generate('ramdan')) !!} ">
-                <p>Muhammad Saeful Ramdan</p>
+
+                @if ($workOrderProcesess->executor == 'technician')
+                    <img style="width: 120px;margin-top:5px" src="data:image/png;base64, {!! base64_encode(QrCode::generate(getTeknisi($workOrderProcesess->work_executor_technician_id))) !!} ">
+                    <p>{{ getTeknisi($workOrderProcesess->work_executor_technician_id) }}</p>
+                @else
+                    <img style="width: 120px;margin-top:5px" src="data:image/png;base64, {!! base64_encode(QrCode::generate(getVendor($workOrderProcesess->work_executor_vendor_id))) !!} ">
+                    <p>{{ getVendor($workOrderProcesess->work_executor_vendor_id) }}</p>
+                @endif
+
             </center>
         </td>
         <td colspan="4" style="height: 100px; vertical-align: text-top">
             <center>
-                <img style="width: 120px;margin-top:5px" src="data:image/png;base64, {!! base64_encode(QrCode::generate('ramdan')) !!} ">
-                <p>Muhammad Saeful Ramdan</p>
+                <img style="width: 120px;margin-top:5px" src="data:image/png;base64, {!! base64_encode(QrCode::generate(getUser($user_approved))) !!} ">
+                <p>{{ getUser($user_approved) }}</p>
             </center>
         </td>
     </tr>
