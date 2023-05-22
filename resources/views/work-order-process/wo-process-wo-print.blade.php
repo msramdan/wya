@@ -15,6 +15,7 @@
         width: 100%;
         table-layout: fixed;
         border-collapse: collapse;
+        line-height: 12px
     }
 
     td {
@@ -51,14 +52,15 @@
 
 <table>
     <tr>
-        <td style="max-width: 25%" colspan="3" rowspan="4">Lembar Kerja</td>
+        <td style="max-width: 25%" colspan="3" rowspan="4">Nomor WO : </td>
         <td class="bold" style="max-width: 25%;" colspan="3">Inspection Preventive Maintenance
 
             @if ($workOrder->type_wo == 'Inspection and Preventive Maintenance')
                 <span class="check">&#10004;</span>
             @endif
         </td>
-        <td style="max-width: 25%" colspan="3" rowspan="4">{{ $workOrder->equipment->serial_number }} | {{ $workOrder->equipment->manufacturer }} | {{ $workOrder->equipment->type }}</td>
+        <td style="max-width: 25%" colspan="3" rowspan="4">{{ $workOrder->equipment->serial_number }} |
+            {{ $workOrder->equipment->manufacturer }} | {{ $workOrder->equipment->type }}</td>
         <td style="max-width: 25%" colspan="3">Tanggal: {{ $workOrderProcesess->work_date }}</td>
     </tr>
     <tr>
@@ -70,6 +72,13 @@
 
         </td>
         <td colspan="3" rowspan="3">
+            <center>
+                @if ($logo == null)
+                    <img src="https://via.placeholder.com/350?text=No+Image+Avaiable" width="200" height="150">
+                @else
+                    <img src="../public/storage/uploads/logos/{{ $logo }}" style="width: 95%">
+                @endif
+            </center>
         </td>
     </tr>
     <tr>
@@ -106,7 +115,8 @@
         <td colspan="6">Type : {{ $workOrder->equipment->type }}</td>
     </tr>
     <tr>
-        <td colspan="6">Merk/Type : {{ $workOrder->equipment->manufacturer }}/{{ $workOrder->equipment->type }}</td>
+        <td colspan="6">Merk/Type : {{ $workOrder->equipment->manufacturer }}/{{ $workOrder->equipment->type }}
+        </td>
         <td colspan="6">SN Peralatan : {{ $workOrder->equipment->serial_number }}</td>
     </tr>
     <tr>
@@ -205,8 +215,10 @@
         <td class="cell-head bg-primary" style="text-align: right" colspan="6">Harga Service</td>
     </tr>
     <tr>
-        <td colspan="6" style="text-align: right">{{ number_format($workOrderProcesess->calibration_performance_calibration_price, 0, '.', '.') }}</td>
-        <td colspan="6" style="text-align: right">{{ number_format($workOrderProcesess->replacement_of_part_service_price, 0, '.', '.') }}</td>
+        <td colspan="6" style="text-align: right">
+            {{ number_format($workOrderProcesess->calibration_performance_calibration_price, 0, '.', '.') }}</td>
+        <td colspan="6" style="text-align: right">
+            {{ number_format($workOrderProcesess->replacement_of_part_service_price, 0, '.', '.') }}</td>
     </tr>
     <tr>
         <td class="cell-head bg-primary" colspan="8">Pemeriksaan Fisik</td>
@@ -564,5 +576,30 @@
     </tr>
     <tr>
         <td colspan="12" style="height: 100px; vertical-align: text-top">Catatan</td>
+    </tr>
+    <tr>
+        <td class="cell-head bg-primary" colspan="4">User</td>
+        <td class="cell-head bg-primary" colspan="4">IPSRS</td>
+        <td class="cell-head bg-primary" colspan="4">KA. IPSRS</td>
+    </tr>
+    <tr>
+        <td colspan="4" style="height: 100px; vertical-align: text-top">
+            <center>
+                <img style="width: 120px;margin-top:5px" src="data:image/png;base64, {!! base64_encode(QrCode::generate('ramdan')) !!} ">
+                <p>Muhammad Saeful Ramdan</p>
+            </center>
+        </td>
+        <td colspan="4" style="height: 100px; vertical-align: text-top">
+            <center>
+                <img style="width: 120px;margin-top:5px" src="data:image/png;base64, {!! base64_encode(QrCode::generate('ramdan')) !!} ">
+                <p>Muhammad Saeful Ramdan</p>
+            </center>
+        </td>
+        <td colspan="4" style="height: 100px; vertical-align: text-top">
+            <center>
+                <img style="width: 120px;margin-top:5px" src="data:image/png;base64, {!! base64_encode(QrCode::generate('ramdan')) !!} ">
+                <p>Muhammad Saeful Ramdan</p>
+            </center>
+        </td>
     </tr>
 </table>

@@ -18,6 +18,7 @@ use App\Models\WorkOrderProcessHasPhysicalCheck;
 use App\Models\WorkOrderProcessHasReplacementOfPart;
 use App\Models\WorkOrderProcessHasToolMaintenance;
 use App\Models\WorkOrderProcessHasWoDocument;
+use App\Models\Hospital;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -359,13 +360,14 @@ class WorkOrderProcessController extends Controller
         $workOrder = WorkOrder::find($workOrderId);
         $vendors = Vendor::select('id', 'name_vendor')->get();
         $spareparts = Sparepart::get();
-
+        $logo = Hospital::find($workOrder->hospital_id);
         $pdf = Pdf::loadView('work-order-process.wo-process-wo-print', [
             'workOrder' => $workOrder,
             'workOrderProcesess' => $workOrderProcesess,
             'vendors' => $vendors,
             'spareparts' => $spareparts,
             'employees' => Employee::get(),
+            'logo' => $logo->logo,
             'readonly' => true
         ]);
 
