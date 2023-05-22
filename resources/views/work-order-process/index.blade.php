@@ -112,6 +112,7 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
+                                            <th style="white-space: nowrap">{{ __('Hospital') }}</th>
                                             <th style="white-space: nowrap">{{ __('Wo Number') }}</th>
                                             <th style="white-space: nowrap">{{ __('Filed Date') }}</th>
                                             <th style="white-space: nowrap">{{ __('Equipment') }}</th>
@@ -151,6 +152,10 @@
                 name: 'DT_RowIndex',
                 orderable: false,
                 searchable: false
+            },
+            {
+                data: 'hospital',
+                name: 'hospital'
             },
             {
                 data: 'wo_number',

@@ -33,7 +33,7 @@ class WorkOrderProcessController extends Controller
         if (request()->ajax()) {
             $workOrders = WorkOrder::whereIn('work_orders.status_wo', ['accepted', 'on-going', 'finished'])
 
-                ->with('equipment:id,barcode', 'user:id,name')->orderByRaw(
+                ->with('equipment:id,barcode', 'user:id,name', 'hospital:id,name')->orderByRaw(
                     'CASE
                         WHEN `status_wo` = "accepted" then 1
                         WHEN `status_wo` = "on-going" then 2
@@ -96,6 +96,9 @@ class WorkOrderProcessController extends Controller
 
             return DataTables::of($workOrders)
                 ->addIndexColumn()
+                ->addColumn('hospital', function ($row) {
+                    return $row->hospital ? $row->hospital->name : '';
+                })
                 ->addColumn('finished_processes', function ($row) {
                     return $row->countWoProcess('finished') . '/' . $row->countWoProcess();
                 })

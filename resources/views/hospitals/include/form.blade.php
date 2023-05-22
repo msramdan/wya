@@ -53,7 +53,7 @@
                             style="object-fit: cover">
                     @else
                         <img src="{{ asset('storage/uploads/logos/' . $hospital->logo) }}" alt="Logo"
-                            class="rounded mb-2 mt-2" width="200" height="150" style="object-fit: cover">
+                            class="rounded mb-2 mt-2" style="width: 90%" style="object-fit: cover">
                     @endif
                 </div>
 
