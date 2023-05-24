@@ -218,29 +218,36 @@
                             @endwhile
                         @else
                             @php
-                                $tgl_awal = date('Y-m-d', strtotime('+1 month', strtotime($model->tgl_pembelian)));
+                                $tgl_awal = date('Y-m-d', strtotime('+0 month', strtotime($model->tgl_pembelian)));
                                 $penambahan = '+' . $model->masa_manfaat . ' year';
                                 $end_tgl = date('Y-m-d', strtotime($penambahan, strtotime($model->tgl_pembelian)));
                                 $PersentasePenyusutan = (2 * (100 / $model->masa_manfaat)) / 100; // 0.5
                                 $awalPenyusutan = ($PersentasePenyusutan * $model->nilai_perolehan) / 12;
-                                $totalPenyusutan = $awalPenyusutan;
-                                $nilai_buku = $model->nilai_perolehan - $awalPenyusutan;
-                                $nilaiBukuSekarang = $nilai_buku;
-                                $i = 1;
+                                $totalPenyusutan = 0;
+                                $perolehan = $model->nilai_perolehan;
+                                $nilaiBukuSekarang = $perolehan;
+                                $i = 0;
                                 
                             @endphp
-                            @while ($tgl_awal <= $end_tgl)
+                            @while ($tgl_awal < $end_tgl)
+                                @php
+                                    $tgl_awal = date('Y-m-d', strtotime('+1 month', strtotime($tgl_awal)));
+                                    $i++;
+                                    if ($i > 12) {
+                                        $awalPenyusutan = ($PersentasePenyusutan * $nilaiBukuSekarang) / 12;
+                                        $nilaiBukuSekarang = $nilaiBukuSekarang - $awalPenyusutan;
+                                        $totalPenyusutan = $totalPenyusutan + $awalPenyusutan;
+                                        $i = 1;
+                                    } else {
+                                        $totalPenyusutan = $totalPenyusutan + $awalPenyusutan;
+                                        $nilaiBukuSekarang = $perolehan - $totalPenyusutan;
+                                    }
+                                @endphp
                                 <tr>
                                     <td>{{ $tgl_awal }}</td>
-                                    <td>{{ $totalPenyusutan }}</td>
-                                    <td>{{ $nilaiBukuSekarang }} </td>
+                                    <td>{{ rupiah(round($totalPenyusutan, 3)) }}</td>
+                                    <td>{{ rupiah(round($nilaiBukuSekarang, 3)) }} </td>
                                 </tr>
-                                @php
-                                    $i++;
-                                    $tgl_awal = date('Y-m-d', strtotime('+1 month', strtotime($tgl_awal)));
-                                    $nilaiBukuSekarang = $nilai_buku - $totalPenyusutan;
-                                    $totalPenyusutan = $awalPenyusutan * $i;
-                                @endphp
                             @endwhile
                         @endif
 
