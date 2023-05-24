@@ -25,6 +25,13 @@ Route::get('/', [LandingWebController::class, 'index'])->name('web');
 Route::prefix('panel')->group(function () {
     Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/getTotalWorkOrder', [DashboardController::class, 'getTotalWorkOrder'])->name('dashboard.work_order');
+        Route::get('/getTotalEquipment', [DashboardController::class, 'getTotalEquipment'])->name('dashboard.equipment');
+        Route::get('/getTotalEmployee', [DashboardController::class, 'getTotalEmployee'])->name('dashboard.employee');
+        Route::get('/getTotalVendor', [DashboardController::class, 'getTotalVendor'])->name('dashboard.vendor');
+        Route::get('/getTotalWoByStatus', [DashboardController::class, 'getTotalWoByStatus'])->name('dashboard.woBystatus');
+        Route::get('/getTotalWoByCategory', [DashboardController::class, 'getTotalWoByCategory'])->name('dashboard.woBycategory');
+        Route::get('/getTotalWoByType', [DashboardController::class, 'getTotalWoByType'])->name('dashboard.woBytype');
         Route::get('/profile', ProfileController::class)->name('profile');
         Route::resource('users', UserController::class);
         Route::resource('roles', RoleAndPermissionController::class);

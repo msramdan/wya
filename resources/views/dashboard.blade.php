@@ -232,7 +232,9 @@
                                         <div class="d-flex align-items-center">
                                             <div class="flex-grow-1 overflow-hidden">
                                                 <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
-                                                    Total Work Order</p>
+                                                    <a href="" style="color: #A8AAB5" role="button"
+                                                        id="btn_work_order_modal">Total Work Order</a>
+                                                </p>
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-end justify-content-between mt-4">
@@ -249,6 +251,7 @@
                                     </div>
                                 </div>
                             </div><!-- end col -->
+
                             <div class="col-xl-3 col-md-6">
                                 <!-- card -->
                                 <div class="card card-animate">
@@ -256,7 +259,9 @@
                                         <div class="d-flex align-items-center">
                                             <div class="flex-grow-1 overflow-hidden">
                                                 <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
-                                                    Total Equiment</p>
+                                                    <a href="" style="color: #A8AAB5" role="button"
+                                                        id="btn_equipment_modal">Total Equiment</a>
+                                                </p>
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-end justify-content-between mt-4">
@@ -281,7 +286,9 @@
                                         <div class="d-flex align-items-center">
                                             <div class="flex-grow-1 overflow-hidden">
                                                 <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
-                                                    Total Employee</p>
+                                                    <a href="" style="color: #A8AAB5" role="button"
+                                                        id="btn_employee_modal"> Total Employee</a>
+                                                </p>
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-end justify-content-between mt-4">
@@ -306,13 +313,16 @@
                                         <div class="d-flex align-items-center">
                                             <div class="flex-grow-1 overflow-hidden">
                                                 <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
-                                                    Total Vendor</p>
+                                                    <a href="" style="color: #A8AAB5" role="button"
+                                                        id="btn_vendor_modal">Total Vendor</a>
+                                                </p>
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-end justify-content-between mt-4">
                                             <div>
-                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value"
-                                                        data-target="{{ $countVendor }}"></span></h4>
+                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span
+                                                        class="counter-value" data-target="{{ $countVendor }}"></span>
+                                                </h4>
                                             </div>
                                             <div class="avatar-sm flex-shrink-0">
                                                 <span class="avatar-title bg-danger rounded fs-3">
@@ -335,7 +345,8 @@
                                 <div class="card" style="height: 500px">
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1">
-                                            Total Wo By Status
+                                            <a href="" role="button" class="text-dark"
+                                                id="btn_wo_by_status_modal">Total Wo By Status</a>
                                         </h4>
                                     </div>
 
@@ -348,7 +359,8 @@
                                 <div class="card" style="height: 500px">
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1">
-                                            Total Wo By Category
+                                            <a href="" role="button" class="text-dark"
+                                                id="btn_wo_by_category_modal">Total Wo By Category</a>
                                         </h4>
                                     </div>
 
@@ -361,7 +373,9 @@
                                 <div class="card" style="height: 500px">
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1">
-                                            Total WO By Type</h4>
+                                            <a href="" role="button" class="text-dark"
+                                                id="btn_wo_by_type_modal">Total WO By Type</a>
+                                        </h4>
                                     </div>
 
                                     <div class="card-body">
@@ -474,7 +488,7 @@
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1"><i
                                                 class="fa fa-sign-out text-warning fs-3" aria-hidden="true"></i>
-                                                Stock Out Sparepart</h4>
+                                            Stock Out Sparepart</h4>
                                     </div>
 
                                     <div class="card-body">
@@ -520,6 +534,7 @@
             </div>
         </div>
     </div>
+    @include('modal-dashboard')
 @endsection
 @push('js')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -533,6 +548,567 @@
     <script type="text/javascript" src="{{ asset('material/assets/js/daterangepicker.min.js') }}"></script>
     <script src="../dist/leaflet.awesome-markers.js"></script>
     <script>
+        $(document).ready(function() {
+            // total work order
+            $('#btn_work_order_modal').click(function(e) {
+                e.preventDefault()
+                let columns = [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'hospital',
+                        name: 'hospital'
+                    },
+                    {
+                        data: 'wo_number',
+                        name: 'wo_number'
+                    },
+                    {
+                        data: 'filed_date',
+                        name: 'filed_date',
+                    },
+                    {
+                        data: 'equipment',
+                        name: 'equipment.id'
+                    },
+                    {
+                        data: 'type_wo',
+                        name: 'type_wo',
+                    },
+                    {
+                        data: 'category_wo',
+                        name: 'category_wo',
+                    },
+                    {
+                        data: 'user',
+                        name: 'user.name'
+                    },
+                    {
+                        name: "approval_users_id",
+                        render: function(datum, type, row) {
+                            let htmlEl = '<ul>';
+                            row.approval_users_id.forEach((e) => {
+                                switch (e.status) {
+                                    case 'pending':
+                                        rowStatus = 'primary';
+                                        break;
+                                    case 'rejected':
+                                        rowStatus = 'danger';
+                                        break;
+                                    case 'accepted':
+                                        rowStatus = 'success';
+                                        break;
+                                    default:
+                                        rowStatus = 'success';
+                                        break;
+                                }
+
+                                htmlEl +=
+                                    `<li style="white-space: nowrap">${e.user_name}: <span class="badge bg-${rowStatus}">${e.status}</span></li>`;
+                            })
+
+                            htmlEl += '</ul>';
+
+                            return htmlEl;
+                        }
+                    },
+                    {
+                        data: 'status_wo',
+                        render: function(datum, type, row) {
+                            switch (row.status_wo) {
+                                case 'pending':
+                                    rowStatus = 'primary';
+                                    break;
+                                case 'rejected':
+                                    rowStatus = 'danger';
+                                    break;
+                                case 'accepted':
+                                    rowStatus = 'success';
+                                    break;
+                                default:
+                                    rowStatus = 'success';
+                                    break;
+                            }
+
+                            return `<span class="badge bg-${rowStatus}">${row.status_wo}</span>`;
+                        }
+                    }
+                ];
+                var table = $('#data-table-work-order').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('dashboard.work_order') }}"
+                    },
+                    columns: columns
+                });
+                $('#total_work_order').modal('show')
+            })
+            // total equipment
+            $('#btn_equipment_modal').click(function(e) {
+                e.preventDefault()
+                let columns = [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'hospital',
+                        name: 'hospital',
+                    },
+                    {
+                        data: 'barcode',
+                        name: 'barcode',
+                    },
+                    {
+                        data: 'nomenklatur',
+                        name: 'nomenklatur.code_nomenklatur'
+                    },
+                    {
+                        data: 'serial_number',
+                        name: 'serial_number',
+                    },
+                    {
+                        data: 'equipment_category',
+                        name: 'equipment_category.code_categoty'
+                    },
+                    {
+                        data: 'manufacturer',
+                        name: 'manufacturer',
+                    },
+                    {
+                        data: 'type',
+                        name: 'type',
+                    },
+                    {
+                        data: 'equipment_location',
+                        name: 'equipment_location.code_location'
+                    },
+                ];
+                var table = $('#data-table-equipment').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('dashboard.equipment') }}"
+                    },
+                    columns: columns
+                })
+                $('#total_euipment').modal('show')
+            })
+            // total equipment
+            $('#btn_employee_modal').click(function(e) {
+                e.preventDefault()
+                let columns = [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'hospital',
+                        name: 'hospital',
+                    },
+                    {
+                        data: 'name',
+                        name: 'name',
+                    },
+                    {
+                        data: 'nid_employee',
+                        name: 'nid_employee',
+                    },
+                    {
+                        data: 'employee_type',
+                        name: 'employee_type.name_employee_type'
+                    },
+                    {
+                        data: 'employee_status',
+                        name: 'employee_status',
+                    },
+                    {
+                        data: 'department',
+                        name: 'department.code_department'
+                    },
+                    {
+                        data: 'position',
+                        name: 'position.code_position'
+                    },
+                    {
+                        data: 'phone',
+                        name: 'phone',
+                    },
+                ];
+                var table = $('#data-table-employee').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('dashboard.employee') }}"
+                    },
+                    columns: columns
+                });
+                $('#total_employee').modal('show')
+            })
+            // total vendor 'Rutin', $microFrom, $microTo, $ids
+            $('#btn_vendor_modal').click(function(e) {
+                e.preventDefault()
+                let columns = [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'hospital',
+                        name: 'hospital',
+                    },
+                    {
+                        data: 'code_vendor',
+                        name: 'code_vendor',
+                    },
+                    {
+                        data: 'name_vendor',
+                        name: 'name_vendor',
+                    },
+                    {
+                        data: 'category_vendor',
+                        name: 'category_vendor.name_category_vendors'
+                    },
+                    {
+                        data: 'email',
+                        name: 'email',
+                    }
+                ]
+                var table = $('#data-table-vendor').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('dashboard.vendor') }}"
+                    },
+                    columns: columns
+                });
+                $('#total_vendor').modal('show')
+            })
+            // total wo by status
+            $('#btn_wo_by_status_modal').click(function(e) {
+                e.preventDefault()
+                let columns = [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'hospital',
+                        name: 'hospital'
+                    },
+                    {
+                        data: 'wo_number',
+                        name: 'wo_number'
+                    },
+                    {
+                        data: 'filed_date',
+                        name: 'filed_date',
+                    },
+                    {
+                        data: 'equipment',
+                        name: 'equipment.id'
+                    },
+                    {
+                        data: 'type_wo',
+                        name: 'type_wo',
+                    },
+                    {
+                        data: 'category_wo',
+                        name: 'category_wo',
+                    },
+                    {
+                        data: 'user',
+                        name: 'user.name'
+                    },
+                    {
+                        name: "approval_users_id",
+                        render: function(datum, type, row) {
+                            let htmlEl = '<ul>';
+                            row.approval_users_id.forEach((e) => {
+                                switch (e.status) {
+                                    case 'pending':
+                                        rowStatus = 'primary';
+                                        break;
+                                    case 'rejected':
+                                        rowStatus = 'danger';
+                                        break;
+                                    case 'accepted':
+                                        rowStatus = 'success';
+                                        break;
+                                    default:
+                                        rowStatus = 'success';
+                                        break;
+                                }
+
+                                htmlEl +=
+                                    `<li style="white-space: nowrap">${e.user_name}: <span class="badge bg-${rowStatus}">${e.status}</span></li>`;
+                            })
+
+                            htmlEl += '</ul>';
+
+                            return htmlEl;
+                        }
+                    },
+                    {
+                        data: 'status_wo',
+                        render: function(datum, type, row) {
+                            switch (row.status_wo) {
+                                case 'pending':
+                                    rowStatus = 'primary';
+                                    break;
+                                case 'rejected':
+                                    rowStatus = 'danger';
+                                    break;
+                                case 'accepted':
+                                    rowStatus = 'success';
+                                    break;
+                                default:
+                                    rowStatus = 'success';
+                                    break;
+                            }
+
+                            return `<span class="badge bg-${rowStatus}">${row.status_wo}</span>`;
+                        }
+                    }
+                ];
+                var table = $('#data-table-work-order-by-status').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('dashboard.woBystatus') }}",
+                        data: function(d) {
+                            d.status = ['pending', 'rejected', 'accepted', 'on-going',
+                                'finished'
+                            ];
+                            d.microFrom = "{{ $microFrom }}";
+                            d.microTo = "{{ $microTo }}";
+                            d.ids = "{{ $ids }}";
+                        }
+                    },
+                    columns: columns
+                });
+                $('#total_wo_by_status').modal('show')
+            })
+            // total wo by category
+            $('#btn_wo_by_category_modal').click(function(e) {
+                e.preventDefault()
+                let columns = [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'hospital',
+                        name: 'hospital'
+                    },
+                    {
+                        data: 'wo_number',
+                        name: 'wo_number'
+                    },
+                    {
+                        data: 'filed_date',
+                        name: 'filed_date',
+                    },
+                    {
+                        data: 'equipment',
+                        name: 'equipment.id'
+                    },
+                    {
+                        data: 'type_wo',
+                        name: 'type_wo',
+                    },
+                    {
+                        data: 'category_wo',
+                        name: 'category_wo',
+                    },
+                    {
+                        data: 'user',
+                        name: 'user.name'
+                    },
+                    {
+                        name: "approval_users_id",
+                        render: function(datum, type, row) {
+                            let htmlEl = '<ul>';
+                            row.approval_users_id.forEach((e) => {
+                                switch (e.status) {
+                                    case 'pending':
+                                        rowStatus = 'primary';
+                                        break;
+                                    case 'rejected':
+                                        rowStatus = 'danger';
+                                        break;
+                                    case 'accepted':
+                                        rowStatus = 'success';
+                                        break;
+                                    default:
+                                        rowStatus = 'success';
+                                        break;
+                                }
+
+                                htmlEl +=
+                                    `<li style="white-space: nowrap">${e.user_name}: <span class="badge bg-${rowStatus}">${e.status}</span></li>`;
+                            })
+
+                            htmlEl += '</ul>';
+
+                            return htmlEl;
+                        }
+                    },
+                    {
+                        data: 'status_wo',
+                        render: function(datum, type, row) {
+                            switch (row.status_wo) {
+                                case 'pending':
+                                    rowStatus = 'primary';
+                                    break;
+                                case 'rejected':
+                                    rowStatus = 'danger';
+                                    break;
+                                case 'accepted':
+                                    rowStatus = 'success';
+                                    break;
+                                default:
+                                    rowStatus = 'success';
+                                    break;
+                            }
+
+                            return `<span class="badge bg-${rowStatus}">${row.status_wo}</span>`;
+                        }
+                    }
+                ];
+                var table = $('#data-table-work-order-by-category').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('dashboard.woBycategory') }}",
+                        data: function(d) {
+                            d.status = ['Rutin', 'Non Ruting'];
+                            d.microFrom = "{{ $microFrom }}";
+                            d.microTo = "{{ $microTo }}";
+                            d.ids = "{{ $ids }}";
+                        }
+                    },
+                    columns: columns
+                });
+                $('#total_wo_by_category').modal('show')
+            })
+            // total wo by type
+            $('#btn_wo_by_type_modal').click(function(e) {
+                e.preventDefault()
+                let columns = [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'hospital',
+                        name: 'hospital'
+                    },
+                    {
+                        data: 'wo_number',
+                        name: 'wo_number'
+                    },
+                    {
+                        data: 'filed_date',
+                        name: 'filed_date',
+                    },
+                    {
+                        data: 'equipment',
+                        name: 'equipment.id'
+                    },
+                    {
+                        data: 'type_wo',
+                        name: 'type_wo',
+                    },
+                    {
+                        data: 'category_wo',
+                        name: 'category_wo',
+                    },
+                    {
+                        data: 'user',
+                        name: 'user.name'
+                    },
+                    {
+                        name: "approval_users_id",
+                        render: function(datum, type, row) {
+                            let htmlEl = '<ul>';
+                            row.approval_users_id.forEach((e) => {
+                                switch (e.status) {
+                                    case 'pending':
+                                        rowStatus = 'primary';
+                                        break;
+                                    case 'rejected':
+                                        rowStatus = 'danger';
+                                        break;
+                                    case 'accepted':
+                                        rowStatus = 'success';
+                                        break;
+                                    default:
+                                        rowStatus = 'success';
+                                        break;
+                                }
+
+                                htmlEl +=
+                                    `<li style="white-space: nowrap">${e.user_name}: <span class="badge bg-${rowStatus}">${e.status}</span></li>`;
+                            })
+
+                            htmlEl += '</ul>';
+
+                            return htmlEl;
+                        }
+                    },
+                    {
+                        data: 'status_wo',
+                        render: function(datum, type, row) {
+                            switch (row.status_wo) {
+                                case 'pending':
+                                    rowStatus = 'primary';
+                                    break;
+                                case 'rejected':
+                                    rowStatus = 'danger';
+                                    break;
+                                case 'accepted':
+                                    rowStatus = 'success';
+                                    break;
+                                default:
+                                    rowStatus = 'success';
+                                    break;
+                            }
+
+                            return `<span class="badge bg-${rowStatus}">${row.status_wo}</span>`;
+                        }
+                    }
+                ];
+                var table = $('#data-table-work-order-by-type').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('dashboard.woBytype') }}",
+                        data: function(d) {
+                            d.status = ['Calibration', 'Service', 'Training',
+                                'Inspection And Preventing Maintenance',
+                                'finished'
+                            ];
+                            d.microFrom = "{{ $microFrom }}";
+                            d.microTo = "{{ $microTo }}";
+                            d.ids = "{{ $ids }}";
+                        }
+                    },
+                    columns: columns
+                });
+                $('#total_wo_by_type').modal('show')
+            })
+        })
         var start = {{ $microFrom }}
         var end = {{ $microTo }}
         var label = '';

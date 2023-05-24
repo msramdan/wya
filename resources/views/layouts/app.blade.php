@@ -56,13 +56,13 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-end" style="">
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="in"
-                                    title="Indonesia" onclick="cheng_locale('in')">
+                                    title="Indonesia">
                                     <img src="{{ asset('material/assets/images/flags/indonesia.png') }}"
                                         alt="user-image" class="me-2 rounded" height="18">
                                     <span class="align-middle">Indonesia</span>
                                 </a>
                                 <a href="javascript:void(0);" class="dropdown-item notify-item language py-2"
-                                    data-lang="en" title="English" onclick="cheng_locale('en')">
+                                    data-lang="en" title="English">
                                     <img src="{{ asset('material/assets/images/flags/us.svg') }}" alt="user-image"
                                         class="me-2 rounded" height="18">
                                     <span class="align-middle">English</span>
@@ -200,45 +200,6 @@
                 $('#header-lang-img').html(id);
             }
         })
-
-        function cheng_locale(param) {
-            var lang = localStorage.getItem('language');
-            if (lang === 'en' || lang === 'us') {
-                localStorage.setItem('language', 'id')
-                var locale = localStorage.getItem('language');
-                $.ajax({
-                    url: '{{ route('set-locale') }}',
-                    type: 'POST',
-                    data: {
-                        locale: locale
-                    },
-                    success: function(response) {
-                        console.log('Session locale set successfully');
-                        window.location.reload();
-                    },
-                    error: function(xhr, status, error) {
-                        console.log('Error setting session locale');
-                    }
-                });
-            } else {
-                localStorage.setItem('language', 'us')
-                var locale = localStorage.getItem('language');
-                $.ajax({
-                    url: '{{ route('set-locale') }}',
-                    type: 'POST',
-                    data: {
-                        locale: locale
-                    },
-                    success: function(response) {
-                        console.log('Session locale set successfully');
-                        window.location.reload();
-                    },
-                    error: function(xhr, status, error) {
-                        console.log('Error setting session locale');
-                    }
-                });
-            }
-        }
     </script>
 </body>
 
