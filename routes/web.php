@@ -24,13 +24,13 @@ Route::get('/', [LandingWebController::class, 'index'])->name('web');
 
 Route::prefix('panel')->group(function () {
     Route::middleware(['auth', 'web'])->group(function () {
-        Route::get('/dashboard', function () {
-            return redirect()->route('dashboard');
-        });
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/profile', ProfileController::class)->name('profile');
         Route::resource('users', UserController::class);
         Route::resource('roles', RoleAndPermissionController::class);
+    });
+    Route::get('/dashboard', function () {
+        return redirect()->route('dashboard');
     });
 
     Route::get('kota/{provinsiId}', [WilayahController::class, 'kota'])->name('api.kota');

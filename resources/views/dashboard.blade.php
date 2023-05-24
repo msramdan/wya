@@ -240,8 +240,8 @@
                                     <div class="card-body">
                                         <div class="d-flex align-items-center">
                                             <div class="flex-grow-1 overflow-hidden">
-                                                <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Total
-                                                    Work Order</p>
+                                                <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
+                                                    Total Work Order</p>
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-end justify-content-between mt-4">
@@ -264,8 +264,8 @@
                                     <div class="card-body">
                                         <div class="d-flex align-items-center">
                                             <div class="flex-grow-1 overflow-hidden">
-                                                <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Total
-                                                    Equiment</p>
+                                                <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
+                                                    Total Equiment</p>
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-end justify-content-between mt-4">
@@ -289,8 +289,8 @@
                                     <div class="card-body">
                                         <div class="d-flex align-items-center">
                                             <div class="flex-grow-1 overflow-hidden">
-                                                <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Total
-                                                    Employee</p>
+                                                <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
+                                                    Total Employee</p>
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-end justify-content-between mt-4">
@@ -314,8 +314,8 @@
                                     <div class="card-body">
                                         <div class="d-flex align-items-center">
                                             <div class="flex-grow-1 overflow-hidden">
-                                                <p class="text-uppercase fw-medium text-muted text-truncate mb-0">Total
-                                                    Vendor</p>
+                                                <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
+                                                    Total Vendor</p>
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-end justify-content-between mt-4">
@@ -358,7 +358,7 @@
                                 <div class="card" style="height: 450px">
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1">
-                                            Percentage Category WO
+                                            Percentage Category WO 
                                         </h4>
                                     </div>
 
@@ -423,9 +423,7 @@
                                 <div class="card" style="height: 400px">
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1"><i class="fa fa-sign-in text-success fs-3"
-                                                aria-hidden="true"></i> Stock
-                                            In
-                                            Sparepart</h4>
+                                                aria-hidden="true"></i> Stock In Sparepart</h4>
                                     </div>
 
                                     <div class="card-body">
@@ -456,9 +454,8 @@
                                 <div class="card" style="height: 400px">
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1"><i
-                                                class="fa fa-sign-out text-warning fs-3" aria-hidden="true"></i> Stock
-                                            Out
-                                            Sparepart</h4>
+                                                class="fa fa-sign-out text-warning fs-3" aria-hidden="true"></i>
+                                                Stock Out Sparepart</h4>
                                     </div>
 
                                     <div class="card-body">
