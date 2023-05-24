@@ -14,7 +14,7 @@ class Employee extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['name', 'nid_employee', 'employee_type_id', 'employee_status', 'departement_id', 'position_id', 'email', 'phone', 'provinsi_id', 'kabkot_id', 'kecamatan_id', 'kelurahan_id', 'zip_kode', 'address', 'longitude', 'latitude', 'join_date', 'photo'];
+    protected $fillable = ['name', 'nid_employee', 'employee_type_id', 'employee_status', 'departement_id', 'position_id', 'email', 'phone', 'provinsi_id', 'kabkot_id', 'kecamatan_id', 'kelurahan_id', 'zip_kode', 'address', 'longitude', 'latitude', 'join_date', 'photo', 'hospital_id'];
 
     /**
      * The attributes that should be cast.

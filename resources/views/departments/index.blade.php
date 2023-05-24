@@ -58,8 +58,8 @@
                                             <th>{{ __('Hospital') }}</th>
                                             <th>{{ __('Code Department') }}</th>
                                             <th>{{ __('Name Department') }}</th>
-                                            <th>{{ __('Created At') }}</th>
-                                            <th>{{ __('Updated At') }}</th>
+                                            {{-- <th>{{ __('Created At') }}</th>
+                                            <th>{{ __('Updated At') }}</th> --}}
                                             <th>{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
@@ -94,14 +94,14 @@
                 data: 'name_department',
                 name: 'name_department',
             },
-            {
-                data: 'created_at',
-                name: 'created_at'
-            },
-            {
-                data: 'updated_at',
-                name: 'updated_at'
-            },
+            // {
+            //     data: 'created_at',
+            //     name: 'created_at'
+            // },
+            // {
+            //     data: 'updated_at',
+            //     name: 'updated_at'
+            // },
             {
                 data: 'action',
                 name: 'action',

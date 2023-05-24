@@ -101,6 +101,7 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
+                                            <th>{{ __('Hospital') }}</th>
                                             <th>{{ __('Name') }}</th>
                                             <th>{{ __('Nid Employee') }}</th>
                                             <th>{{ __('Employee Type') }}</th>
@@ -130,6 +131,10 @@
                 name: 'DT_RowIndex',
                 orderable: false,
                 searchable: false
+            },
+            {
+                data: 'hospital',
+                name: 'hospital',
             },
             {
                 data: 'name',

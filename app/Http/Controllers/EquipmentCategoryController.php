@@ -7,6 +7,7 @@ use App\Http\Requests\{StoreEquipmentCategoryRequest, UpdateEquipmentCategoryReq
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Auth;
 
 class EquipmentCategoryController extends Controller
@@ -129,5 +130,11 @@ class EquipmentCategoryController extends Controller
             Alert::toast('The equipmentCategory cant be deleted because its related to another table.', 'error');
             return redirect()->route('equipment-categories.index');
         }
+    }
+
+    public function getEquipmentCategory($hospitalId)
+    {
+        $data = DB::table('equipment_categories')->where('hospital_id', $hospitalId)->get();
+        return response()->json(compact('data'));
     }
 }

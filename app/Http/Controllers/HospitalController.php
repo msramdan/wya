@@ -8,6 +8,8 @@ use Yajra\DataTables\Facades\DataTables;
 use Image;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\User;
+use Auth;
+use Illuminate\Support\Facades\DB;
 
 class HospitalController extends Controller
 {
@@ -15,7 +17,7 @@ class HospitalController extends Controller
     {
         $this->middleware('permission:hospital view')->only('index', 'show');
         $this->middleware('permission:hospital create')->only('create', 'store');
-        $this->middleware('permission:hospital edit')->only('edit', 'update');
+        // $this->middleware('permission:hospital edit')->only('edit', 'update');
         $this->middleware('permission:hospital delete')->only('destroy');
     }
 
@@ -120,7 +122,12 @@ class HospitalController extends Controller
      */
     public function edit(Hospital $hospital)
     {
-        $users = User::orderBy('name', 'ASC')->get();
+        $users = DB::table('users')
+            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+            ->select('users.*', 'roles.hospital_id')
+            ->where('roles.hospital_id', $hospital->id)
+            ->get();
         return view('hospitals.edit', compact('hospital', 'users'));
     }
 
@@ -159,10 +166,12 @@ class HospitalController extends Controller
         $attr['work_order_has_access_approval_users_id'] = json_encode($request->work_order_has_access_approval_users_id);
 
         $hospital->update($attr);
-
-        return redirect()
-            ->route('hospitals.index')
-            ->with('success', __('The hospital was updated successfully.'));
+        Alert::toast('The hospital was updated successfully.', 'success');
+        if (Auth::user()->roles->first()->hospital_id != null) {
+            return redirect()->back();
+        } else {
+            return redirect()->route('hospitals.index');
+        }
     }
 
     /**
@@ -179,16 +188,14 @@ class HospitalController extends Controller
             if ($hospital->logo != null && file_exists($path . $hospital->logo)) {
                 unlink($path . $hospital->logo);
             }
-
             $hospital->delete();
-
+            Alert::toast('The hospital was deleted successfully.', 'success');
             return redirect()
-                ->route('hospitals.index')
-                ->with('success', __('The hospital was deleted successfully.'));
+                ->route('hospitals.index');
         } catch (\Throwable $th) {
+            Alert::toast('The hospital cant be deleted because its related to another table.', 'error');
             return redirect()
-                ->route('hospitals.index')
-                ->with('error', __("The hospital can't be deleted because it's related to another table."));
+                ->route('hospitals.index');
         }
     }
 }

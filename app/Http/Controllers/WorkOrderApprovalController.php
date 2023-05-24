@@ -23,12 +23,12 @@ class WorkOrderApprovalController extends Controller
     public function index(Request $request)
     {
         if (request()->ajax()) {
-            $workOrders = WorkOrder::with('equipment:id,barcode', 'user:id,name',)->orderByRaw(
+            $workOrders = WorkOrder::with('equipment:id,barcode', 'user:id,name', 'hospital:id,name')->orderByRaw(
                 'CASE
                     WHEN `status_wo` = "pending" then 1
                     ELSE 2
                 END'
-            )->orderBy('updated_at', 'DESC');
+            )->orderBy('work_orders.id', 'DESC');
 
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
                 $workOrders = $workOrders->where('hospital_id', $request->hospital_id);
@@ -85,6 +85,9 @@ class WorkOrderApprovalController extends Controller
 
             return DataTables::of($workOrders)
                 ->addIndexColumn()
+                ->addColumn('hospital', function ($row) {
+                    return $row->hospital ? $row->hospital->name : '';
+                })
                 ->addColumn('wo_number', function ($row) {
                     return $row->wo_number;
                 })

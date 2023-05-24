@@ -11,24 +11,31 @@
                     <div class="row">
                         <div class="col-md-12 mb-2">
                             <div class="form-group">
-                                <label for="role">{{ __('Role') }}</label>
-                                <select name="hospital_id" id="hospital_id"
-                                    class="form-control js-example-basic-multiple">
-                                    <option value="">-- {{ __('Select hispotal') }} --</option>
+                                <label for="hospital_id">{{ __('Hospital') }}</label>
+                                <select
+                                    class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
+                                    name="hospital_id" id="hospital_id" required>
+                                    <option value="" selected disabled>-- {{ __('Select hispotal') }} --</option>
+
                                     @foreach ($hispotals as $hispotal)
                                         <option value="{{ $hispotal->id }}"
-                                            {{ isset($employees) && $employees->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                                            {{ isset($sparepart) && $sparepart->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
                                             {{ $hispotal->name }}
                                         </option>
                                     @endforeach
                                 </select>
+                                @error('hospital_id')
+                                    <span class="text-danger">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
                 @else
-                    <input type="hidden" name="hospital_id" value="{{ Auth::user()->roles->first()->hospital_id }}">
+                    <input type="hidden" readonly value="{{ Auth::user()->roles->first()->hospital_id }}"
+                        id="hospital_id" name="hospital_id">
                 @endif
-
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="name">{{ __('Name') }}</label>
@@ -62,14 +69,7 @@
                         <select
                             class="form-control js-example-basic-multiple @error('employee_type_id') is-invalid @enderror"
                             name="employee_type_id" id="employee-type-id" required>
-                            <option value="" selected disabled>-- {{ __('Select employee type') }} --</option>
-
-                            @foreach ($employeeTypes as $employeeType)
-                                <option value="{{ $employeeType->id }}"
-                                    {{ isset($employee) && $employee->employee_type_id == $employeeType->id ? 'selected' : (old('employee_type_id') == $employeeType->id ? 'selected' : '') }}>
-                                    {{ $employeeType->name_employee_type }}
-                                </option>
-                            @endforeach
+                            <option value="" selected disabled>-- {{ __('Select') }} --</option>
                         </select>
                         @error('employee_type_id')
                             <span class="text-danger">
@@ -83,7 +83,7 @@
                         <select
                             class="form-control js-example-basic-multiple @error('employee_status') is-invalid @enderror"
                             name="employee_status" id="employee-status" required>
-                            <option value="" selected disabled>-- {{ __('Select employee status') }} --</option>
+                            <option value="" selected disabled>-- {{ __('Select') }} --</option>
                             <option value="1"
                                 {{ isset($employee) && $employee->employee_status == '1' ? 'selected' : (old('employee_status') == '1' ? 'selected' : '') }}>
                                 {{ __('Aktif') }}</option>
@@ -105,14 +105,7 @@
                         <select
                             class="form-control js-example-basic-multiple @error('departement_id') is-invalid @enderror"
                             name="departement_id" id="departement-id" required>
-                            <option value="" selected disabled>-- {{ __('Select department') }} --</option>
-
-                            @foreach ($departments as $department)
-                                <option value="{{ $department->id }}"
-                                    {{ isset($employee) && $employee->departement_id == $department->id ? 'selected' : (old('departement_id') == $department->id ? 'selected' : '') }}>
-                                    {{ $department->name_department }}
-                                </option>
-                            @endforeach
+                            <option value="" selected disabled>-- {{ __('Select') }} --</option>
                         </select>
                         @error('departement_id')
                             <span class="text-danger">
@@ -126,14 +119,7 @@
                         <select
                             class="form-control js-example-basic-multiple @error('position_id') is-invalid @enderror"
                             name="position_id" id="position-id" required>
-                            <option value="" selected disabled>-- {{ __('Select position') }} --</option>
-
-                            @foreach ($positions as $position)
-                                <option value="{{ $position->id }}"
-                                    {{ isset($employee) && $employee->position_id == $position->id ? 'selected' : (old('position_id') == $position->id ? 'selected' : '') }}>
-                                    {{ $position->name_position }}
-                                </option>
-                            @endforeach
+                            <option value="" selected disabled>-- {{ __('Select') }} --</option>
                         </select>
                         @error('position_id')
                             <span class="text-danger">

@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
+
+
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,6 +27,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('getUnit/{hospitalId}', [App\Http\Controllers\UnitItemController::class, 'getUnit'])->name('api.getUnit');
 Route::get('getCategory/{hospitalId}', [App\Http\Controllers\CategoryVendorController::class, 'getCategory'])->name('api.getCategory');
+Route::get('getDepartment/{hospitalId}', [App\Http\Controllers\DepartmentController::class, 'getDepartment'])->name('api.getDepartment');
+Route::get('getEmployeeType/{hospitalId}', [App\Http\Controllers\EmployeeTypeController::class, 'getEmployeeType'])->name('api.getEmployeeType');
+Route::get('getPosition/{hospitalId}', [App\Http\Controllers\PositionController::class, 'getPosition'])->name('api.getPosition');
+Route::get('getVendor/{hospitalId}', [App\Http\Controllers\VendorController::class, 'getVendor'])->name('api.getVendor');
+Route::get('getEquipmentCategory/{hospitalId}', [App\Http\Controllers\EquipmentCategoryController::class, 'getEquipmentCategory'])->name('api.getEquipmentCategory');
+Route::get('getEquipmentLocation/{hospitalId}', [App\Http\Controllers\EquipmentLocationController::class, 'getEquipmentLocation'])->name('api.getEquipmentLocation');
 
 Route::group([
     'as' => 'api.'

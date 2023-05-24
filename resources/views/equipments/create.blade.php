@@ -52,6 +52,100 @@
 @push('js')
     <script>
         $(document).ready(function() {
+            var cek = $('#hospital_id').val()
+            console.log(cek)
+            if (cek != '' || cek != null) {
+                getEquipmentCategory(cek);
+                getVendor(cek);
+                getEquipmentLocation(cek);
+            }
+        });
+
+        const _temp = '<option value="" selected disabled>-- Select --</option>';
+        $('#hospital_id').change(function() {
+            $('#vendor-id, #equipment-category-id, #equipment-location-id').html(_temp);
+            if ($(this).val() != "") {
+                getEquipmentCategory($(this).val());
+                getVendor($(this).val());
+                getEquipmentLocation($(this).val());
+            }
+        })
+
+        function getEquipmentCategory(hospitalId) {
+            let url = '{{ route('api.getEquipmentCategory', ':id') }}';
+            url = url.replace(':id', hospitalId)
+            $.ajax({
+                url,
+                method: 'GET',
+                beforeSend: function() {
+                    $('#equipment-category-id').prop('disabled', true);
+                },
+                success: function(res) {
+                    const options = res.data.map(value => {
+                        return `<option value="${value.id}">${value.category_name}</option>`
+                    });
+                    $('#equipment-category-id').html(_temp + options)
+                    $('#equipment-category-id').prop('disabled', false);
+                },
+                error: function(err) {
+                    $('#equipment-category-id').prop('disabled', false);
+                    alert(JSON.stringify(err))
+                }
+
+            })
+        }
+
+        function getVendor(hospitalId) {
+            let url = '{{ route('api.getVendor', ':id') }}';
+            url = url.replace(':id', hospitalId)
+            $.ajax({
+                url,
+                method: 'GET',
+                beforeSend: function() {
+                    $('#vendor-id').prop('disabled', true);
+                },
+                success: function(res) {
+                    const options = res.data.map(value => {
+                        return `<option value="${value.id}">${value.name_vendor}</option>`
+                    });
+                    $('#vendor-id').html(_temp + options)
+                    $('#vendor-id').prop('disabled', false);
+                },
+                error: function(err) {
+                    $('#vendor-id').prop('disabled', false);
+                    alert(JSON.stringify(err))
+                }
+
+            })
+        }
+
+        function getEquipmentLocation(hospitalId) {
+            let url = '{{ route('api.getEquipmentLocation', ':id') }}';
+            url = url.replace(':id', hospitalId)
+            $.ajax({
+                url,
+                method: 'GET',
+                beforeSend: function() {
+                    $('#equipment-location-id').prop('disabled', true);
+                },
+                success: function(res) {
+                    const options = res.data.map(value => {
+                        return `<option value="${value.id}">${value.location_name}</option>`
+                    });
+                    $('#equipment-location-id').html(_temp + options)
+                    $('#equipment-location-id').prop('disabled', false);
+                },
+                error: function(err) {
+                    $('#equipment-location-id').prop('disabled', false);
+                    alert(JSON.stringify(err))
+                }
+
+            })
+        }
+    </script>
+
+    <script>
+        $(document).ready(function() {
             var i = 1;
             $('#add_berkas').click(function() {
                 i++;

@@ -18,6 +18,7 @@ use App\Models\WorkOrderProcessHasPhysicalCheck;
 use App\Models\WorkOrderProcessHasReplacementOfPart;
 use App\Models\WorkOrderProcessHasToolMaintenance;
 use App\Models\WorkOrderProcessHasWoDocument;
+use App\Models\Hospital;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +34,7 @@ class WorkOrderProcessController extends Controller
         if (request()->ajax()) {
             $workOrders = WorkOrder::whereIn('work_orders.status_wo', ['accepted', 'on-going', 'finished'])
 
-                ->with('equipment:id,barcode', 'user:id,name')->orderByRaw(
+                ->with('equipment:id,barcode', 'user:id,name', 'hospital:id,name')->orderByRaw(
                     'CASE
                         WHEN `status_wo` = "accepted" then 1
                         WHEN `status_wo` = "on-going" then 2
@@ -96,6 +97,9 @@ class WorkOrderProcessController extends Controller
 
             return DataTables::of($workOrders)
                 ->addIndexColumn()
+                ->addColumn('hospital', function ($row) {
+                    return $row->hospital ? $row->hospital->name : '';
+                })
                 ->addColumn('finished_processes', function ($row) {
                     return $row->countWoProcess('finished') . '/' . $row->countWoProcess();
                 })
@@ -325,15 +329,12 @@ class WorkOrderProcessController extends Controller
     {
         $workOrderProcesess = WorkOrderProcess::find($workOrderProcesessId);
         $workOrder = WorkOrder::find($workOrderId);
-        $vendors = Vendor::select('id', 'name_vendor')->get();
-        $spareparts = Sparepart::where('stock', '>', 0)->get();
-
         return view('work-order-process.wo-process-wo', [
             'workOrder' => $workOrder,
             'workOrderProcesess' => $workOrderProcesess,
-            'vendors' => $vendors,
-            'spareparts' => $spareparts,
-            'employees' => Employee::get(),
+            'vendors' => Vendor::select('id', 'name_vendor')->where('hospital_id', $workOrder->hospital_id)->get(),
+            'spareparts' => Sparepart::where('stock', '>', 0)->where('hospital_id', $workOrder->hospital_id)->get(),
+            'employees' => Employee::where('hospital_id', $workOrder->hospital_id)->get(),
             'readonly' => false
         ]);
     }
@@ -342,14 +343,12 @@ class WorkOrderProcessController extends Controller
     {
         $workOrderProcesess = WorkOrderProcess::find($workOrderProcesessId);
         $workOrder = WorkOrder::find($workOrderId);
-        $vendors = Vendor::select('id', 'name_vendor')->get();
-        $spareparts = Sparepart::get();
-
         return view('work-order-process.wo-process-wo', [
             'workOrder' => $workOrder,
             'workOrderProcesess' => $workOrderProcesess,
-            'vendors' => $vendors,
-            'spareparts' => $spareparts,
+            'vendors' => Vendor::select('id', 'name_vendor')->where('hospital_id', $workOrder->hospital_id)->get(),
+            'spareparts' =>
+            Sparepart::where('stock', '>', 0)->where('hospital_id', $workOrder->hospital_id)->get(),
             'employees' => Employee::get(),
             'readonly' => true
         ]);
@@ -361,13 +360,16 @@ class WorkOrderProcessController extends Controller
         $workOrder = WorkOrder::find($workOrderId);
         $vendors = Vendor::select('id', 'name_vendor')->get();
         $spareparts = Sparepart::get();
-
+        $hospital = Hospital::find($workOrder->hospital_id);
+        $dataUser = json_decode($hospital->work_order_has_access_approval_users_id);
         $pdf = Pdf::loadView('work-order-process.wo-process-wo-print', [
             'workOrder' => $workOrder,
             'workOrderProcesess' => $workOrderProcesess,
             'vendors' => $vendors,
             'spareparts' => $spareparts,
             'employees' => Employee::get(),
+            'logo' => $hospital->logo,
+            'user_approved' => end($dataUser),
             'readonly' => true
         ]);
 

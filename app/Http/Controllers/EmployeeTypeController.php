@@ -8,6 +8,7 @@ use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeTypeController extends Controller
 {
@@ -130,5 +131,10 @@ class EmployeeTypeController extends Controller
             Alert::toast('The employeeType cant be deleted because its related to another table.', 'error');
             return redirect()->route('employee-types.index');
         }
+    }
+    public function getEmployeeType($hospitalId)
+    {
+        $data = DB::table('employee_types')->where('hospital_id', $hospitalId)->get();
+        return response()->json(compact('data'));
     }
 }

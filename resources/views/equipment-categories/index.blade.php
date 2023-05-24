@@ -59,8 +59,8 @@
                                             <th>{{ __('Hospital') }}</th>
                                             <th>{{ __('Code Categoty') }}</th>
                                             <th>{{ __('Category Name') }}</th>
-                                            <th>{{ __('Created At') }}</th>
-                                            <th>{{ __('Updated At') }}</th>
+                                            {{-- <th>{{ __('Created At') }}</th>
+                                            <th>{{ __('Updated At') }}</th> --}}
                                             <th>{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
@@ -95,14 +95,14 @@
                 data: 'category_name',
                 name: 'category_name',
             },
-            {
-                data: 'created_at',
-                name: 'created_at'
-            },
-            {
-                data: 'updated_at',
-                name: 'updated_at'
-            },
+            // {
+            //     data: 'created_at',
+            //     name: 'created_at'
+            // },
+            // {
+            //     data: 'updated_at',
+            //     name: 'updated_at'
+            // },
             {
                 data: 'action',
                 name: 'action',

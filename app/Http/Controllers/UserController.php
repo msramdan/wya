@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use Image;
 use App\Models\User;
-use App\Models\Hospital;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\{StoreUserRequest, UpdateUserRequest};
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -36,46 +35,44 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if (request()->ajax()) {
-            $users = User::leftJoin('roles', 'roles.id', '=', 'users.id')
-                ->leftJoin('hospitals', 'roles.hospital_id', '=', 'hospitals.id')
-                ->select('users.*', 'roles.id as role_id', 'roles.name as role_name', 'roles.hospital_id', 'hospitals.id as id_hospital', 'hospitals.name as hospital_name')
-                ->orderBy('users.id', 'desc')->get();
-            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
-                if ($request->hospital_id == 'mta') {
-                    $users = $users->where('hospital_id', '');
-                } else {
-                    $users = $users->where('hospital_id', $request->hospital_id);
+        $users =
+            DB::table('users')
+            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+            ->leftjoin('hospitals', 'roles.hospital_id', '=', 'hospitals.id')
+            ->select('users.avatar','users.name','users.email','users.no_hp','users.id', 'roles.name as nama_roles','roles.hospital_id', 'hospitals.name as nama_rs')
+            ->get();
+        if ($request->has('hospital_id') && !empty($request->hospital_id)) {
+            if ($request->hospital_id == 'mta') {
+                $users = $users->where('hospital_id', '');
+            } else {
+                $users = $users->where('hospital_id', $request->hospital_id);
+            }
+        }
+        if (Auth::user()->roles->first()->hospital_id) {
+            $users = $users->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+        }
+        return Datatables::of($users)
+            ->addIndexColumn()
+            ->addColumn('hospital', function ($row) {
+                if($row->nama_rs==null){
+                    return 'User MTA';
+                }else{
+                    return $row->nama_rs;
                 }
-            }
-            if (Auth::user()->roles->first()->hospital_id) {
-                $users = $users->where('hospital_id', Auth::user()->roles->first()->hospital_id);
-            }
-            return Datatables::of($users)
-                ->addIndexColumn()
-                ->addColumn('created_at', function ($row) {
-                    return $row->created_at->format('d M Y H:i:s');
-                })->addColumn('updated_at', function ($row) {
-                    return $row->updated_at->format('d M Y H:i:s');
-                })
-                ->addColumn('hospital', function ($row) {
-                    if ($row->hospital_name) {
-                        return '<span class="badge badge-label bg-success"><i class="mdi mdi-circle-medium"></i>' . $row->hospital_name . '</span>';
-                    } else {
-                        return '<span class="badge badge-label bg-danger"><i class="mdi mdi-circle-medium"></i>User MTA</span>';
-                    }
-                })
-                ->addColumn('role', function ($row) {
-                    return $row->getRoleNames()->toArray() !== [] ? $row->getRoleNames()[0] : '-';
-                })
-                ->addColumn('avatar', function ($row) {
-                    if ($row->avatar == null) {
-                        return 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($row->email))) . '&s=500';
-                    }
-                    return asset($this->avatarPath . $row->avatar);
-                })
-                ->addColumn('action', 'users.include.action')
-                ->rawColumns(['hospital', 'action'])
-                ->toJson();
+            })
+            ->addColumn('role', function ($row) {
+                return $row->nama_roles;
+            })
+            ->addColumn('avatar', function ($row) {
+                if ($row->avatar == null) {
+                    return 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($row->email))) . '&s=500';
+                }
+                return asset($this->avatarPath . $row->avatar);
+            })
+            ->addColumn('action', 'users.include.action')
+            ->rawColumns(['hospital', 'action'])
+            ->toJson();
         }
 
         return view('users.index');
@@ -113,7 +110,7 @@ class UserController extends Controller
                 Image::make($request->file('avatar')->getRealPath())->resize(500, 500, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
-                })->save($this->avatarPath . $filename);
+                })->save(public_path($this->avatarPath) . $filename);
             } catch (\Throwable $th) {
                 //throw $th;
             }

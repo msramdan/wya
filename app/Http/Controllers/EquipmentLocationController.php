@@ -7,6 +7,7 @@ use App\Http\Requests\{StoreEquipmentLocationRequest, UpdateEquipmentLocationReq
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Auth;
 
 class EquipmentLocationController extends Controller
@@ -129,5 +130,11 @@ class EquipmentLocationController extends Controller
             Alert::toast('The equipmentLocation cant be deleted because its related to another table.', 'error');
             return redirect()->route('equipment-locations.index');
         }
+    }
+
+    public function getEquipmentLocation($hospitalId)
+    {
+        $data = DB::table('equipment_locations')->where('hospital_id', $hospitalId)->get();
+        return response()->json(compact('data'));
     }
 }

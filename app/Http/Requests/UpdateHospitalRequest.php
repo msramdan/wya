@@ -34,7 +34,7 @@ class UpdateHospitalRequest extends FormRequest
             'session_wa_gateway' => 'required|string|min:1|max:150',
             'paper_qr_code' => 'required',
             'bot_telegram' => 'required|boolean',
-            'work_order_has_access_approval_users_id' => 'required',
+            // 'work_order_has_access_approval_users_id' => 'required',
         ];
     }
 }

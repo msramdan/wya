@@ -10,13 +10,13 @@
                     <div class="row">
                         <div class="col-md-12 mb-2">
                             <div class="form-group">
-                                <label for="role">{{ __('Role') }}</label>
+                                <label for="hospital_id">{{ __('Hospital') }}</label>
                                 <select name="hospital_id" id="hospital_id"
                                     class="form-control js-example-basic-multiple">
                                     <option value="">-- {{ __('Select hispotal') }} --</option>
                                     @foreach ($hispotals as $hispotal)
                                         <option value="{{ $hispotal->id }}"
-                                            {{ isset($employees) && $employees->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                                            {{ isset($employee) && $employee->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
                                             {{ $hispotal->name }}
                                         </option>
                                     @endforeach

@@ -10,23 +10,30 @@
                     <div class="row">
                         <div class="col-md-12 mb-2">
                             <div class="form-group">
-                                <label for="role">{{ __('Hospital') }}</label>
-                                <select name="hospital_id" id="hospital_id"
-                                    class="form-control js-example-basic-multiple">
-                                    <option value="">-- {{ __('Select hospital') }} --</option>
+                                <label for="hospital_id">{{ __('Hospital') }}</label>
+                                <select
+                                    class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
+                                    name="hospital_id" id="hospital_id" required>
+                                    <option value="" selected disabled>-- {{ __('Select hispotal') }} --</option>
+
                                     @foreach ($hispotals as $hispotal)
                                         <option value="{{ $hispotal->id }}"
-                                            {{ isset($equipments) && $equipments->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                                            {{ isset($equipment) && $equipment->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
                                             {{ $hispotal->name }}
                                         </option>
                                     @endforeach
                                 </select>
+                                @error('hospital_id')
+                                    <span class="text-danger">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
                 @else
-                    <input type="hidden" name="hospital_id" value="{{ Auth::user()->roles->first()->hospital_id }}"
-                        readonly id="hospital_id">
+                    <input type="hidden" readonly value="{{ Auth::user()->roles->first()->hospital_id }}"
+                        id="hospital_id" name="hospital_id">
                 @endif
 
                 <div class="row">
@@ -71,13 +78,6 @@
                             name="equipment_category_id" id="equipment-category-id" required>
                             <option value="" selected disabled>-- {{ __('Select category') }} --
                             </option>
-
-                            @foreach ($equipmentCategories as $equipmentCategory)
-                                <option value="{{ $equipmentCategory->id }}"
-                                    {{ isset($equipment) && $equipment->equipment_category_id == $equipmentCategory->id ? 'selected' : (old('equipment_category_id') == $equipmentCategory->id ? 'selected' : '') }}>
-                                    {{ $equipmentCategory->category_name }}
-                                </option>
-                            @endforeach
                         </select>
                         @error('equipment_category_id')
                             <span class="text-danger">
@@ -131,13 +131,6 @@
                         <select class="form-control js-example-basic-multiple @error('vendor_id') is-invalid @enderror"
                             name="vendor_id" id="vendor-id" required>
                             <option value="" selected disabled>-- {{ __('Select vendor') }} --</option>
-
-                            @foreach ($vendors as $vendor)
-                                <option value="{{ $vendor->id }}"
-                                    {{ isset($equipment) && $equipment->vendor_id == $vendor->id ? 'selected' : (old('vendor_id') == $vendor->id ? 'selected' : '') }}>
-                                    {{ $vendor->name_vendor }}
-                                </option>
-                            @endforeach
                         </select>
                         @error('vendor_id')
                             <span class="text-danger">
@@ -200,13 +193,6 @@
                             name="equipment_location_id" id="equipment-location-id" required>
                             <option value="" selected disabled>-- {{ __('Select location') }} --
                             </option>
-
-                            @foreach ($equipmentLocations as $equipmentLocation)
-                                <option value="{{ $equipmentLocation->id }}"
-                                    {{ isset($equipment) && $equipment->equipment_location_id == $equipmentLocation->id ? 'selected' : (old('equipment_location_id') == $equipmentLocation->id ? 'selected' : '') }}>
-                                    {{ $equipmentLocation->location_name }}
-                                </option>
-                            @endforeach
                         </select>
                         @error('equipment_location_id')
                             <span class="text-danger">
@@ -272,9 +258,9 @@
                             <option value="Garis Lurus"
                                 {{ isset($equipment) && $equipment->metode == 'Garis Lurus' ? 'selected' : (old('metode') == 'Garis Lurus' ? 'selected' : '') }}>
                                 {{ __('Garis Lurus') }}</option>
-                            {{-- <option value="Saldo Menurun"
+                            <option value="Saldo Menurun"
                                 {{ isset($equipment) && $equipment->metode == 'Saldo Menurun' ? 'selected' : (old('metode') == 'Saldo Menurun' ? 'selected' : '') }}>
-                                {{ __('Saldo Menurun') }}</option> --}}
+                                {{ __('Saldo Menurun') }}</option>
                         </select>
                         @error('metode')
                             <span class="text-danger">

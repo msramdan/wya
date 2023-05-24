@@ -198,41 +198,32 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row">
+                        <form method="get" action="/panel" id="form-date" class="row">
                             @if (!Auth::user()->roles->first()->hospital_id)
                                 <div class="col-md-3 mb-2">
-                                    <form class="form-inline" method="get">
-                                        @csrf
-                                        <div class="input-group mb-2 mr-sm-2">
-                                            <select name="hospital_id" id="hospital_id"
-                                                class="form-control js-example-basic-multiple">
-                                                <option value="">-- Filter Hospital --</option>
-                                                @foreach ($hispotals as $hispotal)
-                                                    <option value="{{ $hispotal->id }}"
-                                                        {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
-                                                        {{ $hispotal->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </form>
+                                    <div class="input-group mb-2 mr-sm-2">
+                                        <select name="hospital_id" id="hospital_id"
+                                            class="form-control js-example-basic-multiple">
+                                            @foreach ($hispotals as $hispotal)
+                                                <option value="{{ $hispotal->id }}"
+                                                    {{ $ids == $hispotal->id ? 'selected' : '' }}>
+                                                    {{ $hispotal->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                             @endif
                             <div class="col-md-3">
-                                <form method="get" action="/panel" id="form-date">
-                                    <div class="input-group mb-4">
-                                        <span class="input-group-text" id="addon-wrapping"><i
-                                                class="fa fa-calendar"></i></span>
-                                        <input type="text" class="form-control" aria-describedby="addon-wrapping"
-                                            id="daterange-btn" value="">
-                                        <input type="hidden" name="start_date" id="start_date" value="{{ $microFrom }}">
-                                        <input type="hidden" name="end_date" id="end_date" value="{{ $microTo }}">
-                                    </div>
-                                    <!--end row-->
-                                </form>
+                                <div class="input-group mb-4">
+                                    <span class="input-group-text" id="addon-wrapping"><i class="fa fa-calendar"></i></span>
+                                    <input type="text" class="form-control" aria-describedby="addon-wrapping"
+                                        id="daterange-btn" value="">
+                                    <input type="hidden" name="start_date" id="start_date" value="{{ $microFrom }}">
+                                    <input type="hidden" name="end_date" id="end_date" value="{{ $microTo }}">
+                                </div>
                             </div>
-                        </div>
+                        </form>
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <!-- card -->
@@ -247,7 +238,7 @@
                                         <div class="d-flex align-items-end justify-content-between mt-4">
                                             <div>
                                                 <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value"
-                                                        data-target="{{ App\Models\WorkOrder::count() }}"></span></h4>
+                                                        data-target="{{ $countWorkOrder }}"></span></h4>
                                             </div>
                                             <div class="avatar-sm flex-shrink-0">
                                                 <span class="avatar-title bg-warning rounded fs-3">
@@ -271,7 +262,7 @@
                                         <div class="d-flex align-items-end justify-content-between mt-4">
                                             <div>
                                                 <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value"
-                                                        data-target="{{ App\Models\Equipment::count() }}"></span></h4>
+                                                        data-target="{{ $countEquipment }}"></span></h4>
                                             </div>
                                             <div class="avatar-sm flex-shrink-0">
                                                 <span class="avatar-title bg-success rounded fs-3">
@@ -296,7 +287,7 @@
                                         <div class="d-flex align-items-end justify-content-between mt-4">
                                             <div>
                                                 <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value"
-                                                        data-target="{{ App\Models\Employee::count() }}"></span></h4>
+                                                        data-target="{{ $countEmployee }}"></span></h4>
                                             </div>
                                             <div class="avatar-sm flex-shrink-0">
                                                 <span class="avatar-title bg-info rounded fs-3">
@@ -320,9 +311,8 @@
                                         </div>
                                         <div class="d-flex align-items-end justify-content-between mt-4">
                                             <div>
-                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span
-                                                        class="counter-value"
-                                                        data-target="{{ App\Models\Vendor::count() }}"></span></h4>
+                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value"
+                                                        data-target="{{ $countVendor }}"></span></h4>
                                             </div>
                                             <div class="avatar-sm flex-shrink-0">
                                                 <span class="avatar-title bg-danger rounded fs-3">
@@ -339,13 +329,13 @@
 
 
 
-                        {{-- grafik knob --}}
+                        {{-- grafik Total --}}
                         <div class="row">
                             <div class="col-xl-4 col-md-4">
-                                <div class="card" style="height: 450px">
+                                <div class="card" style="height: 500px">
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1">
-                                            Percentage Status WO
+                                            Total Wo By Status
                                         </h4>
                                     </div>
 
@@ -355,10 +345,10 @@
                                 </div>
                             </div>
                             <div class="col-xl-4 col-md-4">
-                                <div class="card" style="height: 450px">
+                                <div class="card" style="height: 500px">
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1">
-                                            Percentage Category WO 
+                                            Total Wo By Category
                                         </h4>
                                     </div>
 
@@ -368,14 +358,43 @@
                                 </div>
                             </div>
                             <div class="col-xl-4 col-md-4">
-                                <div class="card" style="height: 450px">
+                                <div class="card" style="height: 500px">
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1">
-                                            Percentage Type WO</h4>
+                                            Total WO By Type</h4>
                                     </div>
 
                                     <div class="card-body">
                                         <canvas id="myChart3"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- grafik Expense Cost --}}
+                        <div class="row">
+                            <div class="col-xl-6 col-md-6">
+                                <div class="card" style="height: 450px">
+                                    <div class="card-header align-items-center d-flex">
+                                        <h4 class="card-title mb-0 flex-grow-1">
+                                            Proccess WO ( Finish Vs On Progress Vs Ready to Start )
+                                        </h4>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <canvas id="myChart4"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-md-6">
+                                <div class="card" style="height: 450px">
+                                    <div class="card-header align-items-center d-flex">
+                                        <h4 class="card-title mb-0 flex-grow-1">
+                                            Expense Cost Wo
+                                        </h4>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <canvas id="myChart5"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -551,6 +570,10 @@
             $('#daterange-btn').change(function() {
                 $('#form-date').submit();
             });
+
+            $('#hospital_id').change(function() {
+                $('#form-date').submit();
+            });
         });
     </script>
 
@@ -564,11 +587,11 @@
                     datasets: [{
                         label: '# Total',
                         data: [
-                            {{ totalWoByStatus('pending', $microFrom, $microTo) }},
-                            {{ totalWoByStatus('rejected', $microFrom, $microTo) }},
-                            {{ totalWoByStatus('accepted', $microFrom, $microTo) }},
-                            {{ totalWoByStatus('on-going', $microFrom, $microTo) }},
-                            {{ totalWoByStatus('finished', $microFrom, $microTo) }}
+                            {{ totalWoByStatus('pending', $microFrom, $microTo, $ids) }},
+                            {{ totalWoByStatus('rejected', $microFrom, $microTo, $ids) }},
+                            {{ totalWoByStatus('accepted', $microFrom, $microTo, $ids) }},
+                            {{ totalWoByStatus('on-going', $microFrom, $microTo, $ids) }},
+                            {{ totalWoByStatus('finished', $microFrom, $microTo, $ids) }}
                         ],
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
@@ -607,9 +630,9 @@
             data: {
                 labels: ['Rutin', 'Non Rutin'],
                 datasets: [{
-                    label: '# of Votes',
-                    data: [{{ totalWoByCategory('Rutin', $microFrom, $microTo) }},
-                        {{ totalWoByCategory('Non Rutin', $microFrom, $microTo) }}
+                    label: '# Total',
+                    data: [{{ totalWoByCategory('Rutin', $microFrom, $microTo, $ids) }},
+                        {{ totalWoByCategory('Non Rutin', $microFrom, $microTo, $ids) }}
                     ],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
@@ -640,10 +663,10 @@
                 labels: ['Calibration', 'Service', 'Training', 'Inspection and Preventive Maintenance'],
                 datasets: [{
                     label: '# Total',
-                    data: [{{ totalWoByType('Calibration', $microFrom, $microTo) }},
-                        {{ totalWoByType('Service', $microFrom, $microTo) }},
-                        {{ totalWoByType('Training', $microFrom, $microTo) }},
-                        {{ totalWoByType('Inspection and Preventive Maintenance', $microFrom, $microTo) }}
+                    data: [{{ totalWoByType('Calibration', $microFrom, $microTo, $ids) }},
+                        {{ totalWoByType('Service', $microFrom, $microTo, $ids) }},
+                        {{ totalWoByType('Training', $microFrom, $microTo, $ids) }},
+                        {{ totalWoByType('Inspection and Preventive Maintenance', $microFrom, $microTo, $ids) }}
                     ],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
@@ -656,6 +679,77 @@
                         'rgba(54, 162, 235, 1)',
                         'rgba(255, 206, 86, 1)',
                         'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script>
+        const ctx4 = document.getElementById('myChart4');
+        new Chart(ctx4, {
+            type: 'bar',
+            data: {
+                labels: ['Finish', 'Progress', 'Ready to Start'],
+                datasets: [{
+                    label: '# Total',
+                    data: [{{ statusProsesWo('Finish', $ids) }},
+                        {{ statusProsesWo('Progress', $ids) }},
+                        {{ statusProsesWo('Ready to Start', $ids) }},
+                    ],
+
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script>
+        const ctx5 = document.getElementById('myChart5');
+        new Chart(ctx5, {
+            type: 'bar',
+            data: {
+                labels: ['Calibration', 'Service', 'Replacement'],
+                datasets: [{
+                    label: '# Expense Cost Wo',
+                    data: [{{ Expense('Calibration', $microFrom, $microTo, $ids) }},
+                        {{ Expense('Service', $microFrom, $microTo, $ids) }},
+                        {{ Expense('Replacement', $microFrom, $microTo, $ids) }},
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
                     ],
                     borderWidth: 1
                 }]

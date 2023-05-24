@@ -8,6 +8,7 @@ use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class DepartmentController extends Controller
 {
@@ -131,5 +132,11 @@ class DepartmentController extends Controller
             Alert::toast('The department cant be deleted because its related to another table.', 'error');
             return redirect()->route('departments.index');
         }
+    }
+
+    public function getDepartment($hospitalId)
+    {
+        $data = DB::table('departments')->where('hospital_id', $hospitalId)->get();
+        return response()->json(compact('data'));
     }
 }

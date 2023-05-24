@@ -14,7 +14,7 @@ class Equipment extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['barcode', 'nomenklatur_id', 'equipment_category_id', 'manufacturer', 'type', 'serial_number', 'vendor_id', 'condition', 'risk_level', 'equipment_location_id', 'financing_code', 'photo', 'tgl_pembelian', 'metode', 'nilai_perolehan', 'nilai_residu', 'masa_manfaat'];
+    protected $fillable = ['barcode', 'nomenklatur_id', 'equipment_category_id', 'manufacturer', 'type', 'serial_number', 'vendor_id', 'condition', 'risk_level', 'equipment_location_id', 'financing_code', 'photo', 'tgl_pembelian', 'metode', 'nilai_perolehan', 'nilai_residu', 'masa_manfaat', 'hospital_id'];
 
     public function nomenklatur()
     {

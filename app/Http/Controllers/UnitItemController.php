@@ -133,8 +133,6 @@ class UnitItemController extends Controller
             return redirect()->route('unit-items.index');
         }
     }
-
-
     public function getUnit($hospitalId)
     {
         $data = DB::table('unit_items')->where('hospital_id', $hospitalId)->get();
