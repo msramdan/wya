@@ -186,7 +186,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Table Penyusutan</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Table Penyusutan {{ $model->metode }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -197,24 +197,53 @@
                         <th>Nilai Buku</th>
                     </thead>
                     <tbody>
-                        @php
-                            $tgl_awal = date('Y-m-d', strtotime('+1 month', strtotime($model->tgl_pembelian)));
-                            $penambahan = '+' . $model->masa_manfaat . ' year';
-                            $end_tgl = date('Y-m-d', strtotime($penambahan, strtotime($model->tgl_pembelian)));
-                            $x = ($model->nilai_perolehan - $model->nilai_residu) / $model->masa_manfaat;
-                            $i = 1;
-                        @endphp
-                        @while ($tgl_awal <= $end_tgl)
-                            <tr>
-                                <td>{{ $tgl_awal }}</td>
-                                <td>{{ rupiah(round(($i / 12) * $x, 3)) }}</td>
-                                <td>{{ rupiah($model->nilai_perolehan - round(($i / 12) * $x, 3)) }} </td>
-                            </tr>
+                        @if ($model->metode == 'Garis Lurus')
                             @php
-                                $tgl_awal = date('Y-m-d', strtotime('+1 month', strtotime($tgl_awal)));
-                                $i++;
+                                $tgl_awal = date('Y-m-d', strtotime('+1 month', strtotime($model->tgl_pembelian)));
+                                $penambahan = '+' . $model->masa_manfaat . ' year';
+                                $end_tgl = date('Y-m-d', strtotime($penambahan, strtotime($model->tgl_pembelian)));
+                                $x = ($model->nilai_perolehan - $model->nilai_residu) / $model->masa_manfaat;
+                                $i = 1;
                             @endphp
-                        @endwhile
+                            @while ($tgl_awal <= $end_tgl)
+                                <tr>
+                                    <td>{{ $tgl_awal }}</td>
+                                    <td>{{ rupiah(round(($i / 12) * $x, 3)) }}</td>
+                                    <td>{{ rupiah($model->nilai_perolehan - round(($i / 12) * $x, 3)) }} </td>
+                                </tr>
+                                @php
+                                    $tgl_awal = date('Y-m-d', strtotime('+1 month', strtotime($tgl_awal)));
+                                    $i++;
+                                @endphp
+                            @endwhile
+                        @else
+                            @php
+                                $tgl_awal = date('Y-m-d', strtotime('+1 month', strtotime($model->tgl_pembelian)));
+                                $penambahan = '+' . $model->masa_manfaat . ' year';
+                                $end_tgl = date('Y-m-d', strtotime($penambahan, strtotime($model->tgl_pembelian)));
+                                $PersentasePenyusutan = (2 * (100 / $model->masa_manfaat)) / 100; // 0.5
+                                $awalPenyusutan = ($PersentasePenyusutan * $model->nilai_perolehan) / 12;
+                                $totalPenyusutan = $awalPenyusutan;
+                                $nilai_buku = $model->nilai_perolehan - $awalPenyusutan;
+                                $nilaiBukuSekarang = $nilai_buku;
+                                $i = 1;
+                                
+                            @endphp
+                            @while ($tgl_awal <= $end_tgl)
+                                <tr>
+                                    <td>{{ $tgl_awal }}</td>
+                                    <td>{{ $totalPenyusutan }}</td>
+                                    <td>{{ $nilaiBukuSekarang }} </td>
+                                </tr>
+                                @php
+                                    $i++;
+                                    $tgl_awal = date('Y-m-d', strtotime('+1 month', strtotime($tgl_awal)));
+                                    $nilaiBukuSekarang = $nilai_buku - $totalPenyusutan;
+                                    $totalPenyusutan = $awalPenyusutan * $i;
+                                @endphp
+                            @endwhile
+                        @endif
+
                     </tbody>
                 </table>
             </div>
@@ -226,7 +255,7 @@
 </div>
 
 
-<!-- Modal Penyusutan -->
+<!-- Modal History WO -->
 <div class="modal fade" id="table-history{{ $model->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-lg">

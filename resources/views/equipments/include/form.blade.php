@@ -258,9 +258,9 @@
                             <option value="Garis Lurus"
                                 {{ isset($equipment) && $equipment->metode == 'Garis Lurus' ? 'selected' : (old('metode') == 'Garis Lurus' ? 'selected' : '') }}>
                                 {{ __('Garis Lurus') }}</option>
-                            {{-- <option value="Saldo Menurun"
+                            <option value="Saldo Menurun"
                                 {{ isset($equipment) && $equipment->metode == 'Saldo Menurun' ? 'selected' : (old('metode') == 'Saldo Menurun' ? 'selected' : '') }}>
-                                {{ __('Saldo Menurun') }}</option> --}}
+                                {{ __('Saldo Menurun') }}</option>
                         </select>
                         @error('metode')
                             <span class="text-danger">
