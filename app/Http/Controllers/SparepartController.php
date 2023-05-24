@@ -291,6 +291,21 @@ class SparepartController extends Controller
         // return $pdf->download('qr.pdf');
     }
 
+    public function print_histori(Request $request, $id)
+    {
+        $sparepart = Sparepart::with('unit_item:id,code_unit')->findOrFail($id);
+        $histori = DB::table('sparepart_trace')
+            ->where('sparepart_id', $id)
+            ->get();
+        $hospital = Hospital::find($sparepart->hospital_id);
+        $pdf = PDF::loadview('spareparts.history_print', [
+            'sparepart' => $sparepart,
+            'histori' => $histori,
+            'hospital' => $hospital,
+        ])->setPaper('a4', 'portrait');
+        return $pdf->stream();
+    }
+
     public function export()
     {
         $date = date('d-m-Y');
