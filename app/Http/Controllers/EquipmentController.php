@@ -352,6 +352,75 @@ class EquipmentController extends Controller
             'hospital_id' => $request->hospital_id,
         ]);
 
+        // hapus reduction price lama
+        DB::table('equipment_reduction_price')->where('equipment_id', $equipment->id)->delete();
+
+        // insert baru
+        if ($request->metode == 'Garis Lurus') {
+            $tgl_awal = date('Y-m-d', strtotime('+0 month', strtotime($request->tgl_pembelian)));
+            $penambahan = '+' . $request->masa_manfaat . ' year';
+            $end_tgl = date('Y-m-d', strtotime($penambahan, strtotime($request->tgl_pembelian)));
+            $x = ($request->nilai_perolehan - $request->nilai_residu) / $request->masa_manfaat;
+            $i = 0;
+
+            while ($tgl_awal <= $end_tgl) {
+                $dataPenyusutan = [
+                    'equipment_id' => $equipment->id,
+                    'periode' => $tgl_awal,
+                    'month' => substr($tgl_awal, 0, 7),
+                    'total_penyusutan' => round(($i / 12) * $x,
+                        3
+                    ),
+                    'nilai_buku' => $request->nilai_perolehan - round(($i / 12) * $x, 3)
+                ];
+                DB::table('equipment_reduction_price')->insert(
+                    $dataPenyusutan
+                );
+                $tgl_awal = date('Y-m-d', strtotime(
+                    '+1 month',
+                    strtotime($tgl_awal)
+                ));
+                $i++;
+            }
+        } else {
+            $tgl_awal = date('Y-m-d', strtotime('+0 month', strtotime($request->tgl_pembelian)));
+            $penambahan = '+' . $request->masa_manfaat . ' year';
+            $end_tgl = date('Y-m-d', strtotime($penambahan, strtotime($request->tgl_pembelian)));
+            $PersentasePenyusutan = (2 * (100 / $request->masa_manfaat)) / 100; // 0.5
+            $awalPenyusutan = ($PersentasePenyusutan * $request->nilai_perolehan) / 12;
+            $totalPenyusutan = 0;
+            $perolehan = $request->nilai_perolehan;
+            $nilaiBukuSekarang = $perolehan;
+            $i = substr($tgl_awal, 5, 2) - 1;
+            while ($tgl_awal <= $end_tgl) {
+                $dataPenyusutan = [
+                    'equipment_id' => $equipment->id,
+                    'periode' => $tgl_awal,
+                    'month' => substr($tgl_awal, 0, 7),
+                    'total_penyusutan' => round($totalPenyusutan, 3),
+                    'nilai_buku' => round($nilaiBukuSekarang, 3)
+                ];
+                DB::table('equipment_reduction_price')->insert(
+                    $dataPenyusutan
+                );
+
+                $tgl_awal = date('Y-m-d', strtotime(
+                    '+1 month',
+                    strtotime($tgl_awal)
+                ));
+                $i++;
+                if ($i > 12) {
+                    $awalPenyusutan = ($PersentasePenyusutan * $nilaiBukuSekarang) / 12;
+                    $nilaiBukuSekarang = $nilaiBukuSekarang - $awalPenyusutan;
+                    $totalPenyusutan = $totalPenyusutan + $awalPenyusutan;
+                    $i = 1;
+                } else {
+                    $totalPenyusutan = $totalPenyusutan + $awalPenyusutan;
+                    $nilaiBukuSekarang = $perolehan - $totalPenyusutan;
+                }
+            }
+        }
+
         // hapus file
         if ($request->id_asal_file == null) {
             $tidak_terhapus_file = [];
