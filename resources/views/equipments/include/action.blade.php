@@ -265,7 +265,7 @@
 <!-- Modal History WO -->
 <div class="modal fade" id="table-history{{ $model->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">History WO Peralatan</h5>
@@ -279,9 +279,33 @@
                         <th>Category</th>
                         <th>Filed Date</th>
                         <th>Schedule Date</th>
+                        <th>Work Date</th>
                         <th>Executor</th>
                     </thead>
+                    @php
+                        $data = DB::table('work_order_processes')
+                            ->join('work_orders', 'work_order_processes.work_order_id', '=', 'work_orders.id')
+                            ->where('work_orders.equipment_id', $model->id)
+                            ->where('work_order_processes.status', 'finished')
+                            ->select('work_order_processes.executor', 'work_order_processes.schedule_date', 'work_order_processes.work_date', 'work_orders.filed_date', 'work_orders.wo_number', 'work_orders.type_wo', 'work_orders.category_wo')
+                            ->get();
+                    @endphp
                     <tbody>
+                        @foreach ($data as $row)
+                            <tr>
+                                <td>{{ $row->wo_number }}</td>
+                                <td>{{ $row->type_wo }}</td>
+                                <td>{{ $row->category_wo }}</td>
+                                <td>{{ $row->filed_date }}</td>
+                                <td>{{ $row->schedule_date }}</td>
+                                <td>{{ $row->work_date }}</td>
+                                @if ($row->executor == 'technician')
+                                    <td>Teknisi</td>
+                                @else
+                                    <td>Vendor</td>
+                                @endif
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
