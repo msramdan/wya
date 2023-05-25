@@ -17,6 +17,17 @@ function totalWoByStatus($status, $microFrom, $microTo, $ids)
         ->get();
     return  $totalStatus->count();
 }
+function totalWoByStatusDetail($status, $microFrom, $microTo, $ids)
+{
+    $from = date("Y-m-d H:i:s", substr($microFrom, 0, 10));
+    $to = date("Y-m-d H:i:s", substr($microTo, 0, 10));
+    $totalStatusDetail = WorkOrder::whereIn('status_wo', $status)
+        ->where('hospital_id', $ids)
+        ->where('filed_date', '>=', $from)
+        ->where('filed_date', '<=', $to)
+        ->get();
+    return  $totalStatusDetail;
+}
 
 function totalWoByCategory($category, $microFrom, $microTo, $ids)
 {
@@ -28,6 +39,16 @@ function totalWoByCategory($category, $microFrom, $microTo, $ids)
         ->where('filed_date', '<=', $to)->get();
     return  $totalCategory->count();
 }
+function totalWoByCategoryDetail($category, $microFrom, $microTo, $ids)
+{
+    $from = date("Y-m-d H:i:s", substr($microFrom, 0, 10));
+    $to = date("Y-m-d H:i:s", substr($microTo, 0, 10));
+    $totalCategoryDetail = WorkOrder::whereIn('category_wo', $category)
+        ->where('hospital_id', $ids)
+        ->where('filed_date', '>=', $from)
+        ->where('filed_date', '<=', $to)->get();
+    return  $totalCategoryDetail;
+}
 
 function totalWoByType($type, $microFrom, $microTo, $ids)
 {
@@ -38,6 +59,16 @@ function totalWoByType($type, $microFrom, $microTo, $ids)
         ->where('filed_date', '>=', $from)
         ->where('filed_date', '<=', $to)->get();
     return  $totalType->count();
+}
+function totalWoByTypeDetail($type, $microFrom, $microTo, $ids)
+{
+    $from = date("Y-m-d H:i:s", substr($microFrom, 0, 10));
+    $to = date("Y-m-d H:i:s", substr($microTo, 0, 10));
+    $totalTypeDetail = WorkOrder::whereIn('type_wo', $type)
+        ->where('hospital_id', $ids)
+        ->where('filed_date', '>=', $from)
+        ->where('filed_date', '<=', $to)->get();
+    return  $totalTypeDetail;
 }
 
 function Expense($type, $microFrom, $microTo, $ids)
