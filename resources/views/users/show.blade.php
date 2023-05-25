@@ -15,7 +15,7 @@
 
                 <x-breadcrumb>
                     <li class="breadcrumb-item">
-                        <a href="/">{{ __('Dashboard') }}</a>
+                        <a href="/panel">Dashboard</a>
                     </li>
                     <li class="breadcrumb-item">
                         <a href="{{ route('users.index') }}">{{ __('User') }}</a>
@@ -41,7 +41,8 @@
                                                     <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($user->email))) }}&s=500"
                                                         alt="Avatar">
                                                 @else
-                                                    <img src="{{ asset("uploads/images/avatars/$user->avatar") }}" alt="Avatar">
+                                                    <img src="{{ asset("uploads/images/avatars/$user->avatar") }}"
+                                                        alt="Avatar">
                                                 @endif
                                             </div>
                                         </td>
@@ -56,7 +57,8 @@
                                     </tr>
                                     <tr>
                                         <td class="fw-bold">{{ __('Role') }}</td>
-                                        <td>{{ $user->getRoleNames()->toArray() !== [] ? $user->getRoleNames()[0] : '-' }}</td>
+                                        <td>{{ $user->getRoleNames()->toArray() !== [] ? $user->getRoleNames()[0] : '-' }}
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="fw-bold">{{ __('Email verified at') }}</td>

@@ -11,7 +11,7 @@
                         <h4 class="mb-sm-0">{{ __('Roles') }}</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="/">{{ __('Dashboard') }}</a></li>
+                                <li class="breadcrumb-item"><a href="/panel">Dashboard</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">{{ __('User') }}</li>
                             </ol>
                         </div>

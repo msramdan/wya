@@ -11,7 +11,7 @@
         <div class="col-lg-7 col-12">
             <div id="auth-left">
                 <div class="auth-logo" class="mb-0">
-                    <a href="/"><img src="{{ asset('mazer') }}/images/logo/logo.svg" alt="Logo"></a>
+                    <a href="/panel"><img src="{{ asset('mazer') }}/images/logo/logo.svg" alt="Logo"></a>
                 </div>
 
                 <h1 class="auth-title">{{ __('Sign Up.') }}</h1>
@@ -20,10 +20,12 @@
                 @if ($errors->any())
                     <div class="alert alert-danger alert-dismissible show fade">
                         <ul class="ms-0 mb-0">
-                        @foreach ($errors->all() as $error)
-                            <li><p>{{ $error }}</p></li>
-                        @endforeach
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            @foreach ($errors->all() as $error)
+                                <li>
+                                    <p>{{ $error }}</p>
+                                </li>
+                            @endforeach
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </ul>
                     </div>
                 @endif

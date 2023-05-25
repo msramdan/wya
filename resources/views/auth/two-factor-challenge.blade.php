@@ -11,7 +11,7 @@
         <div class="col-lg-7 col-12">
             <div id="auth-left">
                 <div class="auth-logo" class="mb-0">
-                    <a href="/">
+                    <a href="/panel">
                         <img src="{{ asset('mazer') }}/images/logo/logo.svg" alt="Logo">
                     </a>
                 </div>
@@ -49,7 +49,8 @@
                     </div>
 
                     <div class="form-group position-relative has-icon-left mb-4">
-                        <input type="text" class="form-control form-control-xl @error('recovery_code') is-invalid @enderror"
+                        <input type="text"
+                            class="form-control form-control-xl @error('recovery_code') is-invalid @enderror"
                             placeholder="Recovery Code" name="recovery_code" autocomplete="recovery_code">
                         <div class="form-control-icon">
                             <i class="bi bi-shield-lock"></i>

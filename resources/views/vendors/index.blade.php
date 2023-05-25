@@ -72,7 +72,7 @@
                         <h4 class="mb-sm-0">{{ __('Vendors') }}</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="index.html">{{ __('Dashboard') }}</a></li>
+                                <li class="breadcrumb-item"><a href="/panel">Dashboard</a></li>
                                 <li class="breadcrumb-item active">{{ __('Vendors') }}</li>
                             </ol>
                         </div>

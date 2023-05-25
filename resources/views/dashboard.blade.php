@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Dashboard'))
+@section('title', 'Dashboard')
 @push('css')
     <link href="{{ asset('material/assets/css/daterangepicker.min.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"

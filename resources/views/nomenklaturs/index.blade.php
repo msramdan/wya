@@ -17,8 +17,10 @@
                     <div class="modal-body">
                         {{ csrf_field() }}
                         <div class="mb-3">
-                            <input type="file" class="form-control" id="import_nomenklatur" aria-describedby="import_nomenklatur" name="import_nomenklatur" accept=".xlsx" required>
-                            <div id="downloadFormat" class="form-text"> <a href="#"><i class="fa fa-download" aria-hidden="true"></i> Download Format</a> </div>
+                            <input type="file" class="form-control" id="import_nomenklatur"
+                                aria-describedby="import_nomenklatur" name="import_nomenklatur" accept=".xlsx" required>
+                            <div id="downloadFormat" class="form-text"> <a href="#"><i class="fa fa-download"
+                                        aria-hidden="true"></i> Download Format</a> </div>
                         </div>
 
                     </div>
@@ -52,7 +54,7 @@
                         <h4 class="mb-sm-0">{{ __('Nomenklaturs') }}</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="index.html">{{ __('Dashboard') }}</a></li>
+                                <li class="breadcrumb-item"><a href="/panel">Dashboard</a></li>
                                 <li class="breadcrumb-item active">{{ __('Nomenklaturs') }}</li>
                             </ol>
                         </div>
@@ -68,7 +70,8 @@
                                 <i class='fas fa-file-excel'></i>
                                 {{ __('Export') }}
                             </button>
-                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
                                 {{ __('Import') }}
                             </button>
                         </div>

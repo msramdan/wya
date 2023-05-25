@@ -190,7 +190,7 @@
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item">
-                                    <a href="/">{{ __('Dashboard') }}</a>
+                                    <a href="/panel">Dashboard</a>
                                 </li>
                                 <li class="breadcrumb-item">
                                     <a href="{{ route('employees.index') }}">{{ __('Employees') }}</a>

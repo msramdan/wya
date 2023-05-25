@@ -11,7 +11,7 @@
                         <h4 class="mb-sm-0">{{ __('Work Order Procesess') }}</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="index.html">{{ __('Dashboard') }}</a></li>
+                                <li class="breadcrumb-item"><a href="/panel">Dashboard</a></li>
                                 <li class="breadcrumb-item active">{{ __('Work Order Procesess') }}</li>
                             </ol>
                         </div>
@@ -43,7 +43,8 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modalHistoryWoProcess" tabindex="-1" aria-labelledby="modalHistoryWoProcessLabel" aria-hidden="true">
+    <div class="modal fade" id="modalHistoryWoProcess" tabindex="-1" aria-labelledby="modalHistoryWoProcessLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -73,7 +74,8 @@
 @endsection
 
 @push('css-libs')
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 @endpush
 
 @push('js')
@@ -123,17 +125,24 @@
                     data: 'status',
                     render: function(datum, type, row) {
                         if (row.status != 'finished') {
-                            $htmlEl = '<div class="d-flex align-items-center justify-content-center" style="gap: 5px">';
-                            $htmlEl += `<div class="d-flex align-items-center justify-content-center"><a href="/panel/work-order-processes/${row.work_order_id}/${row.id}" class="btn btn-sm btn-primary d-flex align-items-center" style="width: fit-content"><span class="material-symbols-outlined"> electric_bolt</span> Process </a> </div>`;
-                            $htmlEl += `<a href="#" onclick="showModalHistory(${row.id})" class="btn btn-sm btn-secondary d-flex align-items-center w-fit"><span class="material-symbols-outlined">view_timeline</span> History</a>`;
+                            $htmlEl =
+                                '<div class="d-flex align-items-center justify-content-center" style="gap: 5px">';
+                            $htmlEl +=
+                                `<div class="d-flex align-items-center justify-content-center"><a href="/panel/work-order-processes/${row.work_order_id}/${row.id}" class="btn btn-sm btn-primary d-flex align-items-center" style="width: fit-content"><span class="material-symbols-outlined"> electric_bolt</span> Process </a> </div>`;
+                            $htmlEl +=
+                                `<a href="#" onclick="showModalHistory(${row.id})" class="btn btn-sm btn-secondary d-flex align-items-center w-fit"><span class="material-symbols-outlined">view_timeline</span> History</a>`;
                             $htmlEl += '</div>';
 
                             return $htmlEl;
                         } else {
-                            $htmlEl = '<div class="d-flex align-items-center justify-content-center" style="gap: 5px">';
-                            $htmlEl += `<a href="/panel/work-order-processes/${row.work_order_id}/${row.id}/info" class="btn btn-info btn-sm d-flex align-items-center w-fit"><span class="material-symbols-outlined"> description </span> Detail</a>`;
-                            $htmlEl += `<a href="/panel/work-order-processes/${row.work_order_id}/${row.id}/print" target="_blank" class="btn btn-dark btn-sm d-flex align-items-center w-fit"><span class="material-symbols-outlined"> print </span> Print</a> `;
-                            $htmlEl += `<a href="#" onclick="showModalHistory(${row.id})" class="btn btn-sm btn-secondary d-flex align-items-center w-fit"><span class="material-symbols-outlined">view_timeline</span> History</a>`;
+                            $htmlEl =
+                                '<div class="d-flex align-items-center justify-content-center" style="gap: 5px">';
+                            $htmlEl +=
+                                `<a href="/panel/work-order-processes/${row.work_order_id}/${row.id}/info" class="btn btn-info btn-sm d-flex align-items-center w-fit"><span class="material-symbols-outlined"> description </span> Detail</a>`;
+                            $htmlEl +=
+                                `<a href="/panel/work-order-processes/${row.work_order_id}/${row.id}/print" target="_blank" class="btn btn-dark btn-sm d-flex align-items-center w-fit"><span class="material-symbols-outlined"> print </span> Print</a> `;
+                            $htmlEl +=
+                                `<a href="#" onclick="showModalHistory(${row.id})" class="btn btn-sm btn-secondary d-flex align-items-center w-fit"><span class="material-symbols-outlined">view_timeline</span> History</a>`;
                             $htmlEl += '</div>';
 
                             return $htmlEl;

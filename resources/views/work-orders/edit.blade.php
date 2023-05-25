@@ -14,7 +14,7 @@
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item">
-                                    <a href="/">{{ __('Dashboard') }}</a>
+                                    <a href="/panel">Dashboard</a>
                                 </li>
                                 <li class="breadcrumb-item">
                                     <a href="{{ route('work-orders.index') }}">{{ __('Work Orders') }}</a>
@@ -38,9 +38,11 @@
 
                                 @include('work-orders.include.form')
 
-                                <a href="{{ url()->previous() }}" class="btn btn-secondary"><i class="mdi mdi-arrow-left-thin"></i> {{ __('Back') }}</a>
+                                <a href="{{ url()->previous() }}" class="btn btn-secondary"><i
+                                        class="mdi mdi-arrow-left-thin"></i> {{ __('Back') }}</a>
 
-                                <button type="submit" class="btn btn-primary"><i class="mdi mdi-content-save"></i> {{ __('Update') }}</button>
+                                <button type="submit" class="btn btn-primary"><i class="mdi mdi-content-save"></i>
+                                    {{ __('Update') }}</button>
                             </form>
                         </div>
                     </div>
@@ -51,12 +53,18 @@
 @endsection
 
 @push('css-libs')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/frappe-gantt/0.6.1/frappe-gantt.min.css" integrity="sha512-b6CPl1eORfMoZgwWGEYWNxYv79KG0dALXfVu4uReZJOXAfkINSK4UhA0ELwGcBBY7VJN7sykwrCGQnbS8qTKhQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/frappe-gantt/0.6.1/frappe-gantt.min.css"
+        integrity="sha512-b6CPl1eORfMoZgwWGEYWNxYv79KG0dALXfVu4uReZJOXAfkINSK4UhA0ELwGcBBY7VJN7sykwrCGQnbS8qTKhQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 @endpush
 
 @push('js-libs')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js" integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/frappe-gantt/0.6.1/frappe-gantt.min.js" integrity="sha512-HyGTvFEibBWxuZkDsE2wmy0VQ0JRirYgGieHp0pUmmwyrcFkAbn55kZrSXzCgKga04SIti5jZQVjbTSzFpzMlg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
+        integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/frappe-gantt/0.6.1/frappe-gantt.min.js"
+        integrity="sha512-HyGTvFEibBWxuZkDsE2wmy0VQ0JRirYgGieHp0pUmmwyrcFkAbn55kZrSXzCgKga04SIti5jZQVjbTSzFpzMlg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 @endpush
 
 @push('js-scripts')
@@ -67,7 +75,7 @@
 
         /**
          * Event When Equipment Location is changed
-         *  
+         *
          */
         $('#location_id').on("select2:select", function(e) {
             eventChangeLocationId();
@@ -75,7 +83,7 @@
 
         /**
          * Event When Equipment is changed
-         * 
+         *
          */
         $('#equipment-id').on('select2:select', function(e) {
             eventChangeEquipmentId();
@@ -83,31 +91,35 @@
 
         /**
          * Event When Category WO Changed
-         * 
+         *
          */
         $('#category-wo').on('change', function() {
             const value = $('#category-wo').val();
 
             if (value != '') {
-                $('#schedule-information-container').hasClass('d-none') ? $('#schedule-information-container').removeClass('d-none') : '';
+                $('#schedule-information-container').hasClass('d-none') ? $('#schedule-information-container')
+                    .removeClass('d-none') : '';
             }
 
             if (value == 'Non Rutin') {
                 !$('#end-date').parent().hasClass('d-none') ? $('#end-date').parent().addClass('d-none') : '';
                 !$('#start-date').parent().hasClass('d-none') ? $('#start-date').parent().addClass('d-none') : '';
                 !$('#schedule-wo').parent().hasClass('d-none') ? $('#schedule-wo').parent().addClass('d-none') : '';
-                $('#schedule-date').parent().hasClass('d-none') ? $('#schedule-date').parent().removeClass('d-none') : '';
+                $('#schedule-date').parent().hasClass('d-none') ? $('#schedule-date').parent().removeClass(
+                    'd-none') : '';
             } else if (value == 'Rutin') {
-                !$('#schedule-date').parent().hasClass('d-none') ? $('#schedule-date').parent().addClass('d-none') : '';
+                !$('#schedule-date').parent().hasClass('d-none') ? $('#schedule-date').parent().addClass('d-none') :
+                    '';
                 $('#end-date').parent().hasClass('d-none') ? $('#end-date').parent().removeClass('d-none') : '';
                 $('#start-date').parent().hasClass('d-none') ? $('#start-date').parent().removeClass('d-none') : '';
-                $('#schedule-wo').parent().hasClass('d-none') ? $('#schedule-wo').parent().removeClass('d-none') : '';
+                $('#schedule-wo').parent().hasClass('d-none') ? $('#schedule-wo').parent().removeClass('d-none') :
+                    '';
             }
         })
 
         /**
          * Checking if location id value is not empty
-         *  
+         *
          */
         if ($('#location_id').val() != null) {
             eventChangeLocationId(() => {
@@ -117,7 +129,7 @@
 
         /**
          * Function event on change location id
-         * 
+         *
          */
         function eventChangeLocationId(cb = null) {
             const equipmentLocationId = $('#location_id').val();
@@ -130,10 +142,13 @@
                     $("#equipment-id").html('<option value="" selected disabled>-- Select equipment --</option>');
 
                     response.data.forEach((equipment) => {
-                        $("#equipment-id").append(`<option value="${equipment.id}" ${valueEquipmentId == equipment.id ? 'selected' : ''}>${equipment.serial_number}</option>`);
+                        $("#equipment-id").append(
+                            `<option value="${equipment.id}" ${valueEquipmentId == equipment.id ? 'selected' : ''}>${equipment.serial_number}</option>`
+                        );
                     });
                     $('#equipment-id').select2();
-                    !$('#container-equipment-detail').hasClass('d-none') ? $('#container-equipment-detail').addClass('d-none') : '';
+                    !$('#container-equipment-detail').hasClass('d-none') ? $('#container-equipment-detail').addClass(
+                        'd-none') : '';
 
                     if (cb != null) {
                         cb();
@@ -143,7 +158,7 @@
 
         /**
          * Function event on change equipment id
-         * 
+         *
          */
         function eventChangeEquipmentId() {
             const value = $('#equipment-id').val();
@@ -152,7 +167,8 @@
                 .then((res) => res.json())
                 .then((response) => {
                     let data = response.data;
-                    $('#container-equipment-detail').hasClass('d-none') ? $('#container-equipment-detail').removeClass('d-none') : '';
+                    $('#container-equipment-detail').hasClass('d-none') ? $('#container-equipment-detail').removeClass(
+                        'd-none') : '';
 
                     $('#container-equipment-detail #equipment-detail-content').html(
                         `<div class="row">
@@ -226,7 +242,7 @@
 
         /**
          * Event on change schedule wo
-         *  
+         *
          */
         $('#schedule-wo').on('select2:select', function(e) {
             refreshGanttChart();
@@ -234,7 +250,7 @@
 
         /**
          * Event on change view mode
-         *  
+         *
          */
         $('#view_mode').on('select2:select', function(e) {
             refreshGanttChart($('#view_mode').val());
@@ -242,7 +258,7 @@
 
         /**
          * Event on change schedule wo
-         *  
+         *
          */
         $('#start-date').on('change', function(e) {
             refreshGanttChart();
@@ -250,7 +266,7 @@
 
         /**
          * Event on change schedule wo
-         *  
+         *
          */
         $('#end-date').on('change', function(e) {
             refreshGanttChart();
@@ -258,7 +274,7 @@
 
         /**
          * Event on change schedule data
-         * 
+         *
          */
         $('#schedule-date').on('change', function(e) {
             refreshGanttChart();
@@ -266,7 +282,7 @@
 
         /**
          * Trigger Gantt Chart
-         *  
+         *
          */
         function refreshGanttChart(viewModeParram = null) {
             let workOrderSchedules = [];
@@ -332,7 +348,8 @@
                     }
 
                     while (startDateValue <= endDateValue) {
-                        let tempEndData = moment(startDateValue).add(stepModeAmount, scheduleWoFormatted).format("YYYY-MM-DD");
+                        let tempEndData = moment(startDateValue).add(stepModeAmount, scheduleWoFormatted).format(
+                            "YYYY-MM-DD");
 
                         if (moment(tempEndData).subtract(1, 'days').format("YYYY-MM-DD") <= endDateValue) {
                             workOrderSchedules.push({
