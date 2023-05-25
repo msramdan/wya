@@ -49,25 +49,48 @@
 
                     <div class="d-flex align-items-center">
                         <div class="dropdown ms-1 topbar-head-dropdown header-item">
-                            <button type="button"
-                                class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none"
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <div id="header-lang-img"></div>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-end" style="">
-                                <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="in"
-                                    title="Indonesia">
-                                    <img src="{{ asset('material/assets/images/flags/indonesia.png') }}"
-                                        alt="user-image" class="me-2 rounded" height="18">
-                                    <span class="align-middle">Indonesia</span>
-                                </a>
-                                <a href="javascript:void(0);" class="dropdown-item notify-item language py-2"
-                                    data-lang="en" title="English">
-                                    <img src="{{ asset('material/assets/images/flags/us.svg') }}" alt="user-image"
-                                        class="me-2 rounded" height="18">
-                                    <span class="align-middle">English</span>
-                                </a>
+                            @switch(app()->getLocale())
+                                @case('id')
+                                    <button type="button"
+                                        class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="{{ asset('/material/assets/images/flags/indonesia.png') }}"
+                                            alt="Header Language" height="20" class="rounded">
+                                    </button>
+                                @break
 
+                                @case('en')
+                                    <button type="button"
+                                        class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="{{ asset('/material/assets/images/flags/us.svg') }}" alt="Header Language"
+                                            height="20" class="rounded">
+                                    </button>
+                                @break
+
+                                @default
+                            @endswitch
+                            <div class="dropdown-menu media-list dropdown-menu-end" style="">
+                                <a href="{{ route('localization.switch', ['language' => 'id']) }}"
+                                    class="dropdown-item media">
+                                    <div class="media-body">
+                                        <h6 class="media-heading">
+                                            <img src="{{ asset('material/assets/images/flags/indonesia.png') }}"
+                                                alt="" class="me-2 rounded" height="18" />
+                                            <span class="align-middle">Indonesia</span>
+                                        </h6>
+                                    </div>
+                                </a>
+                                <a href="{{ route('localization.switch', ['language' => 'en']) }}"
+                                    class="dropdown-item media">
+                                    <div class="media-body">
+                                        <h6 class="media-heading">
+                                            <img src="{{ asset('material/assets/images/flags/us.svg') }}"
+                                                class="me-2 rounded" height="18" alt="" />
+                                            <span class="align-middle">English</span>
+                                        </h6>
+                                    </div>
+                                </a>
                             </div>
                         </div>
 
@@ -174,7 +197,7 @@
         <div class="main-content">
             @yield('content')
             {{-- footer --}}
-            {{-- @include('layouts.footer') --}}
+            @include('layouts.footer')
         </div>
 
     </div>
@@ -187,20 +210,20 @@
     @stack('js-libs')
 
     @stack('js-scripts')
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             var lang = localStorage.getItem('language');
             var us =
                 '<img id="header-lang-img" src="{{ asset('/material/assets/images/flags/us.svg') }}" alt="Header Language" height="20" class="rounded">';
             var id =
                 '<img id="header-lang-img" src="{{ asset('/material/assets/images/flags/indonesia.png') }}" alt="Header Language" height="20" class="rounded">';
-            if (lang === 'en' || lang === 'us') {
+            if (lang === 'en') {
                 $('#header-lang-img').html(us);
-            } else if (lang == 'id' || lang === 'in') {
+            } else if (lang === 'in') {
                 $('#header-lang-img').html(id);
             }
         })
-    </script>
+    </script> --}}
 </body>
 
 </html>

@@ -10,6 +10,7 @@ use App\Http\Controllers\{
     WilayahController,
 };
 use App\Http\Controllers\LandingWeb\LandingWebController;
+use App\Http\Controllers\LocalizationController;
 
 Route::controller(TelegramBotController::class)->group(function () {
     Route::get('/updated-activity', 'updatedActivity');
@@ -20,6 +21,9 @@ Route::get('/web', function () {
     return redirect()->route('web');
 });
 Route::get('/', [LandingWebController::class, 'index'])->name('web');
+
+//route switch bahasa
+Route::get('/localization/{language}', [LocalizationController::class, 'switch'])->name('localization.switch');
 
 
 Route::prefix('panel')->group(function () {

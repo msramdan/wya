@@ -191,7 +191,8 @@
                             <div class="col-12">
                                 <div class="d-flex align-items-lg-center flex-lg-row flex-column">
                                     <div class="flex-grow-1">
-                                        <h4 class="fs-16 mb-1">Welcome, {{ Auth::user()->name }}</h4>
+                                        <h4 class="fs-16 mb-1">{{ trans('dashboard.welcome') }} {{ Auth::user()->name }}
+                                        </h4>
                                     </div>
                                     <div class="mt-3 mt-lg-0">
                                     </div>
@@ -233,7 +234,7 @@
                                             <div class="flex-grow-1 overflow-hidden">
                                                 <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
                                                     <a href="" style="color: #A8AAB5" role="button"
-                                                        id="btn_work_order_modal">Total Work Order</a>
+                                                        id="btn_work_order_modal">{{ trans('dashboard.wo_total') }}</a>
                                                 </p>
                                             </div>
                                         </div>
@@ -260,7 +261,7 @@
                                             <div class="flex-grow-1 overflow-hidden">
                                                 <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
                                                     <a href="" style="color: #A8AAB5" role="button"
-                                                        id="btn_equipment_modal">Total Equiment</a>
+                                                        id="btn_equipment_modal">{{ trans('dashboard.euip_total') }}</a>
                                                 </p>
                                             </div>
                                         </div>
@@ -287,7 +288,8 @@
                                             <div class="flex-grow-1 overflow-hidden">
                                                 <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
                                                     <a href="" style="color: #A8AAB5" role="button"
-                                                        id="btn_employee_modal"> Total Employee</a>
+                                                        id="btn_employee_modal">
+                                                        {{ trans('dashboard.employee_total') }}</a>
                                                 </p>
                                             </div>
                                         </div>
@@ -314,7 +316,7 @@
                                             <div class="flex-grow-1 overflow-hidden">
                                                 <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
                                                     <a href="" style="color: #A8AAB5" role="button"
-                                                        id="btn_vendor_modal">Total Vendor</a>
+                                                        id="btn_vendor_modal">{{ trans('dashboard.vendor_total') }}</a>
                                                 </p>
                                             </div>
                                         </div>
@@ -346,7 +348,7 @@
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1">
                                             <a href="" role="button" class="text-dark"
-                                                id="btn_wo_by_status_modal">Total Wo By Status</a>
+                                                id="btn_wo_by_status_modal">{{ trans('dashboard.total_status_wo') }}</a>
                                         </h4>
                                     </div>
 
@@ -360,7 +362,7 @@
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1">
                                             <a href="" role="button" class="text-dark"
-                                                id="btn_wo_by_category_modal">Total Wo By Category</a>
+                                                id="btn_wo_by_category_modal">{{ trans('dashboard.total_category_wo') }}</a>
                                         </h4>
                                     </div>
 
@@ -374,7 +376,7 @@
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1">
                                             <a href="" role="button" class="text-dark"
-                                                id="btn_wo_by_type_modal">Total WO By Type</a>
+                                                id="btn_wo_by_type_modal">{{ trans('dashboard.total_type_wo') }}</a>
                                         </h4>
                                     </div>
 
