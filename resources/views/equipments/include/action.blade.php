@@ -199,11 +199,11 @@
                     <tbody>
                         @if ($model->metode == 'Garis Lurus')
                             @php
-                                $tgl_awal = date('Y-m-d', strtotime('+1 month', strtotime($model->tgl_pembelian)));
+                                $tgl_awal = date('Y-m-d', strtotime('+0 month', strtotime($model->tgl_pembelian)));
                                 $penambahan = '+' . $model->masa_manfaat . ' year';
                                 $end_tgl = date('Y-m-d', strtotime($penambahan, strtotime($model->tgl_pembelian)));
                                 $x = ($model->nilai_perolehan - $model->nilai_residu) / $model->masa_manfaat;
-                                $i = 1;
+                                $i = 0;
                             @endphp
                             @while ($tgl_awal <= $end_tgl)
                                 <tr>
@@ -226,10 +226,15 @@
                                 $totalPenyusutan = 0;
                                 $perolehan = $model->nilai_perolehan;
                                 $nilaiBukuSekarang = $perolehan;
-                                $i = 0;
+                                $i = substr($tgl_awal, 5, 2) - 1;
                                 
                             @endphp
-                            @while ($tgl_awal < $end_tgl)
+                            @while ($tgl_awal <= $end_tgl)
+                                <tr>
+                                    <td>{{ $tgl_awal }}</td>
+                                    <td>{{ rupiah(round($totalPenyusutan, 3)) }}</td>
+                                    <td>{{ rupiah(round($nilaiBukuSekarang, 3)) }} </td>
+                                </tr>
                                 @php
                                     $tgl_awal = date('Y-m-d', strtotime('+1 month', strtotime($tgl_awal)));
                                     $i++;
@@ -243,11 +248,6 @@
                                         $nilaiBukuSekarang = $perolehan - $totalPenyusutan;
                                     }
                                 @endphp
-                                <tr>
-                                    <td>{{ $tgl_awal }}</td>
-                                    <td>{{ rupiah(round($totalPenyusutan, 3)) }}</td>
-                                    <td>{{ rupiah(round($nilaiBukuSekarang, 3)) }} </td>
-                                </tr>
                             @endwhile
                         @endif
 

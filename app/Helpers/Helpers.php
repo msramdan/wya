@@ -134,3 +134,17 @@ function getVendor($id)
         return "-";
     }
 }
+
+function getNilaiBuku($id, $harga_awal)
+{
+    $month = date('Y-m');
+    $data = DB::table('equipment_reduction_price')
+        ->where('equipment_id', $id)
+        ->where('month', $month)
+        ->first();
+    if ($data) {
+        return $data->nilai_buku;
+    } else {
+        return 0;
+    }
+}

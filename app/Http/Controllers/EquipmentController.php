@@ -48,7 +48,6 @@ class EquipmentController extends Controller
             if (Auth::user()->roles->first()->hospital_id) {
                 $equipments = $equipments->where('hospital_id', Auth::user()->roles->first()->hospital_id);
             }
-
             return DataTables::of($equipments)
                 ->addIndexColumn()
                 ->addColumn('created_at', function ($row) {
@@ -57,6 +56,9 @@ class EquipmentController extends Controller
                     return $row->updated_at->format('d M Y H:i:s');
                 })->addColumn('hospital', function ($row) {
                     return $row->hospital ? $row->hospital->name : '';
+                })
+                ->addColumn('nilai_buku', function ($row) {
+                    return rupiah(getNilaiBuku($row->id, $row->nilai_perolehan));
                 })
                 ->addColumn('nomenklatur', function ($row) {
                     return $row->nomenklatur ? $row->nomenklatur->name_nomenklatur : '';
@@ -147,6 +149,64 @@ class EquipmentController extends Controller
             ]);
             $insertedId = $equipment->id;
             if ($equipment) {
+                // save price resuction
+                if ($request->metode == 'Garis Lurus') {
+                    $tgl_awal = date('Y-m-d', strtotime('+0 month', strtotime($request->tgl_pembelian)));
+                    $penambahan = '+' . $request->masa_manfaat . ' year';
+                    $end_tgl = date('Y-m-d', strtotime($penambahan, strtotime($request->tgl_pembelian)));
+                    $x = ($request->nilai_perolehan - $request->nilai_residu) / $request->masa_manfaat;
+                    $i = 0;
+
+                    while ($tgl_awal <= $end_tgl) {
+                        $dataPenyusutan = [
+                            'equipment_id' => $insertedId,
+                            'periode' => $tgl_awal,
+                            'month' => substr($tgl_awal, 0, 7),
+                            'total_penyusutan' => round(($i / 12) * $x, 3),
+                            'nilai_buku' => $request->nilai_perolehan - round(($i / 12) * $x, 3)
+                        ];
+                        DB::table('equipment_reduction_price')->insert(
+                            $dataPenyusutan
+                        );
+                        $tgl_awal = date('Y-m-d', strtotime('+1 month', strtotime($tgl_awal)));
+                        $i++;
+                    }
+                } else {
+                    $tgl_awal = date('Y-m-d', strtotime('+0 month', strtotime($request->tgl_pembelian)));
+                    $penambahan = '+' . $request->masa_manfaat . ' year';
+                    $end_tgl = date('Y-m-d', strtotime($penambahan, strtotime($request->tgl_pembelian)));
+                    $PersentasePenyusutan = (2 * (100 / $request->masa_manfaat)) / 100; // 0.5
+                    $awalPenyusutan = ($PersentasePenyusutan * $request->nilai_perolehan) / 12;
+                    $totalPenyusutan = 0;
+                    $perolehan = $request->nilai_perolehan;
+                    $nilaiBukuSekarang = $perolehan;
+                    $i = substr($tgl_awal, 5, 2) - 1;
+                    while ($tgl_awal <= $end_tgl) {
+                        $dataPenyusutan = [
+                            'equipment_id' => $insertedId,
+                            'periode' => $tgl_awal,
+                            'month' => substr($tgl_awal, 0, 7),
+                            'total_penyusutan' => round($totalPenyusutan, 3),
+                            'nilai_buku' => round($nilaiBukuSekarang, 3)
+                        ];
+                        DB::table('equipment_reduction_price')->insert(
+                            $dataPenyusutan
+                        );
+
+                        $tgl_awal = date('Y-m-d', strtotime('+1 month', strtotime($tgl_awal)));
+                        $i++;
+                        if ($i > 12) {
+                            $awalPenyusutan = ($PersentasePenyusutan * $nilaiBukuSekarang) / 12;
+                            $nilaiBukuSekarang = $nilaiBukuSekarang - $awalPenyusutan;
+                            $totalPenyusutan = $totalPenyusutan + $awalPenyusutan;
+                            $i = 1;
+                        } else {
+                            $totalPenyusutan = $totalPenyusutan + $awalPenyusutan;
+                            $nilaiBukuSekarang = $perolehan - $totalPenyusutan;
+                        }
+                    }
+                }
+
                 $files = $request->file('file');
                 $name_file = $request->name_file;
 
@@ -453,8 +513,38 @@ class EquipmentController extends Controller
             'barcode' => $equipment->barcode,
             'widthQR' => $widthQR
         ])
-            ->setPaper([0, 0, $hightPaper,$settQR->paper_qr_code], 'landscape');
+            ->setPaper([0, 0, $hightPaper, $settQR->paper_qr_code], 'landscape');
         return $pdf->stream();
         // return $pdf->download('qr.pdf');
+    }
+
+    public function totalAsset(Request $request)
+    {
+        $month = date('Y-m');
+
+        if (Auth::user()->roles->first()->hospital_id == null) {
+            $id = $request->id;
+            if ($id != null || $id != '') {
+                $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
+            join equipment on equipment_reduction_price.equipment_id = equipment.id
+            WHERE equipment.hospital_id='$id' and month='$month'";
+            } else {
+                $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
+            WHERE month='$month'";
+            }
+        } else {
+            $id = Auth::user()->roles->first()->hospital_id;
+            $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
+                join equipment on equipment_reduction_price.equipment_id = equipment.id
+                WHERE equipment.hospital_id='$id' and month='$month'";
+        }
+
+
+        $data = DB::select($query);
+        if ($data[0]->total != null) {
+            return rupiah($data[0]->total);
+        } else {
+            return rupiah(0);
+        }
     }
 }

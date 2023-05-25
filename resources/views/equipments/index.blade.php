@@ -98,6 +98,12 @@
                                     </div>
                                 </div>
                             @endif
+
+                            <div class="col-md-4">
+                                <div class="alert alert-primary" role="alert">
+                                    Total Nilai Buku Bulan Berjalan : <h4><span id="hitungAsset"></span></h4>
+                                </div>
+                            </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-sm" id="data-table">
                                     <thead>
@@ -111,6 +117,7 @@
                                             <th>{{ __('Manufacturer') }}</th>
                                             <th>{{ __('Type') }}</th>
                                             <th>{{ __('Location') }}</th>
+                                            <th>{{ __('Niali Buku') }}</th>
                                             <th>{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
@@ -126,6 +133,33 @@
 
 
 @push('js')
+    <script>
+        $(document).ready(function() {
+            hitungAsset()
+        });
+
+        function hitungAsset() {
+            var cek = $('#hospital_id').val()
+            console.log(cek)
+            var url = '../panel/totalAsset';
+            $.ajax({
+                url: url,
+                type: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+                data: {
+                    id: cek
+                },
+                success: function(data) {
+                    $('#hitungAsset').text(data)
+                },
+                error: function(data) {
+                    console.log('ada error kaka')
+                }
+            });
+        }
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.5.1/sweetalert2.all.min.js"></script>
     <script>
         let columns = [{
@@ -167,6 +201,10 @@
                 name: 'equipment_location.code_location'
             },
             {
+                data: 'nilai_buku',
+                name: 'nilai_buku'
+            },
+            {
                 data: 'action',
                 name: 'action',
                 orderable: false,
@@ -186,6 +224,7 @@
         })
         $('#hospital_id').change(function() {
             table.draw();
+            hitungAsset()
         })
     </script>
     <script>
