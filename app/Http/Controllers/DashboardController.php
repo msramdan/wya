@@ -104,6 +104,9 @@ class DashboardController extends Controller
 
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
                 $workOrders = $workOrders->where('hospital_id', $request->hospital_id);
+            }else{
+                $hospital = Hospital::first();
+                $workOrders = $workOrders->where('hospital_id', $hospital->id);
             }
             if (Auth::user()->roles->first()->hospital_id) {
                 $workOrders = $workOrders->where('hospital_id', Auth::user()->roles->first()->hospital_id);
@@ -230,6 +233,7 @@ class DashboardController extends Controller
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
                 $employees = $employees->where('hospital_id', $request->hospital_id);
             }
+
             if (Auth::user()->roles->first()->hospital_id) {
                 $employees = $employees->where('hospital_id', Auth::user()->roles->first()->hospital_id);
             }
@@ -344,8 +348,6 @@ class DashboardController extends Controller
 
                         return $row;
                     });
-
-                    return view('work-orders.include.action', ['model' => $row, 'displayAction' => $displayAction, 'arrApprovalUsers' => $arrApprovalUsers]);
                 })
                 ->make(true);
         }
