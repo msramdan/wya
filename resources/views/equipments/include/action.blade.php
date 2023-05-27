@@ -310,6 +310,8 @@
                 </table>
             </div>
             <div class="modal-footer">
+                <a href="{{ route('print_history_equipment', $model->id) }}" type="button" class="btn btn-danger" target="_blank"><i
+                    class="fa fa-print" aria-hidden="true"></i>Print</a>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
