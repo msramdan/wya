@@ -131,7 +131,7 @@
                                             <th>{{ __('Manufacturer') }}</th>
                                             <th>{{ __('Type') }}</th>
                                             <th>{{ __('Location') }}</th>
-                                            <th>{{ __('Niali Buku') }}</th>
+                                            <th>{{ __('Nilai Buku') }}</th>
                                             <th>{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
