@@ -42,8 +42,13 @@ class EquipmentController extends Controller
     {
         if (request()->ajax()) {
             $equipments = Equipment::with('nomenklatur:id,name_nomenklatur', 'equipment_category:id,category_name', 'vendor:id,name_vendor', 'equipment_location:id,location_name', 'hospital:id,name')->orderBy('equipment.id', 'DESC');
+            $equipment_location_id = intval($request->query('equipment_location_id'));
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
                 $equipments = $equipments->where('hospital_id', $request->hospital_id);
+            }
+
+            if (isset($equipment_location_id) && !empty($equipment_location_id)) {
+                $workOrders = $equipments->where('equipment_location_id', $equipment_location_id);
             }
             if (Auth::user()->roles->first()->hospital_id) {
                 $equipments = $equipments->where('hospital_id', Auth::user()->roles->first()->hospital_id);
