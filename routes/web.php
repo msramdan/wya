@@ -86,6 +86,7 @@ Route::prefix('panel')->group(function () {
     Route::post('import-nomenklatur', [App\Http\Controllers\NomenklaturController::class, 'import'])->name('action-import-nomenklatur')->middleware('auth');
     Route::resource('equipment', App\Http\Controllers\EquipmentController::class)->middleware('auth');
     Route::get('print_qr_equipment/{id}', [App\Http\Controllers\EquipmentController::class, 'print_qr'])->name('print_qr_equipment')->middleware('auth');
+    Route::get('print_history_equipment/{id}', [App\Http\Controllers\EquipmentController::class, 'print_history'])->name('print_history_equipment')->middleware('auth');
     Route::get('export-data-equipment', [App\Http\Controllers\EquipmentController::class, 'export'])->name('export-data-equipment')->middleware('auth');
     Route::get('totalAsset', [App\Http\Controllers\EquipmentController::class, 'totalAsset'])->name('totalAsset')->middleware('auth');
     Route::get('download-format-equipment', [App\Http\Controllers\EquipmentController::class, 'formatImport'])->name('download-format-equipment')->middleware('auth');

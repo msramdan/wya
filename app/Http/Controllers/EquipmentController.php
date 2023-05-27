@@ -591,6 +591,16 @@ class EquipmentController extends Controller
         return $pdf->stream();
         // return $pdf->download('qr.pdf');
     }
+    public function print_history($id)
+    {
+        $equipment = Equipment::with('equipment_location:id,location_name','equipment_category:id,category_name')->findOrFail($id);
+        $hospital = Hospital::find($equipment->hospital_id);
+        $pdf = PDF::loadview('equipments.history_print', [
+            'equipment' => $equipment,
+            'hospital' => $hospital,
+        ])->setPaper('a4', 'portrait');
+        return $pdf->stream();   
+    }
 
     public function totalAsset(Request $request)
     {
