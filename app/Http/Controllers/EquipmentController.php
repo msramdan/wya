@@ -595,24 +595,33 @@ class EquipmentController extends Controller
     public function totalAsset(Request $request)
     {
         $month = date('Y-m');
-
+        $location = $request->equipment_location_id;
         if (Auth::user()->roles->first()->hospital_id == null) {
             $id = $request->id;
-            if ($id != null || $id != '') {
+            if ($id != null && $location == null || $id != '' && $location == null) {
                 $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
-            join equipment on equipment_reduction_price.equipment_id = equipment.id
-            WHERE equipment.hospital_id='$id' and month='$month'";
+                join equipment on equipment_reduction_price.equipment_id = equipment.id
+                WHERE equipment.hospital_id='$id' and month='$month'";
+            } else if ($id != null && $location != null || $id != '' && $location != null) {
+                $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
+                join equipment on equipment_reduction_price.equipment_id = equipment.id
+                WHERE equipment.hospital_id='$id' and month='$month' and equipment.equipment_location_id='$location'";
             } else {
                 $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
             WHERE month='$month'";
             }
         } else {
             $id = Auth::user()->roles->first()->hospital_id;
-            $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
+            if ($location != null) {
+                $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
+                join equipment on equipment_reduction_price.equipment_id = equipment.id
+                WHERE equipment.hospital_id='$id' and month='$month' and equipment.equipment_location_id='$location'";
+            } else {
+                $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
                 join equipment on equipment_reduction_price.equipment_id = equipment.id
                 WHERE equipment.hospital_id='$id' and month='$month'";
+            }
         }
-
 
         $data = DB::select($query);
         if ($data[0]->total != null) {

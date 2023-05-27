@@ -154,7 +154,7 @@
 
         function hitungAsset() {
             var cek = $('#hospital_id').val()
-            console.log(cek)
+            var equipment_location_id = $('#equipment_location_id').val()
             var url = '../panel/totalAsset';
             $.ajax({
                 url: url,
@@ -163,7 +163,8 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
                 },
                 data: {
-                    id: cek
+                    id: cek,
+                    equipment_location_id: equipment_location_id,
                 },
                 success: function(data) {
                     $('#hitungAsset').text(data)
