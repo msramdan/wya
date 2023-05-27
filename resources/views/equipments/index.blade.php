@@ -140,7 +140,7 @@
 
         function hitungAsset() {
             var cek = $('#hospital_id').val()
-            console.log(cek)
+            // console.log(cek)
             var url = '../panel/totalAsset';
             $.ajax({
                 url: url,

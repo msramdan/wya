@@ -209,7 +209,7 @@
                 () => {},
                 (dismiss) => {
                     if (dismiss === 'timer') {
-                        console.log('closed by timer!!!!');
+                        // console.log('closed by timer!!!!');
                         swal({
                             title: 'Finished!',
                             type: 'success',
