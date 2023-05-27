@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="total_work_order" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Total Work Order</h1>
@@ -17,7 +17,7 @@
 </div>
 
 <div class="modal fade" id="total_euipment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Total Equipment</h1>
@@ -34,7 +34,7 @@
 </div>
 
 <div class="modal fade" id="total_employee" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Total Employee</h1>
@@ -51,7 +51,7 @@
 </div>
 
 <div class="modal fade" id="total_vendor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Total Vendor</h1>
