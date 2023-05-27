@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\EquipmentLocation;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Permission\Models\Role;
@@ -35,6 +36,19 @@ class ViewServiceProvider extends ServiceProvider
             }
             return $view->with(
                 'roles',
+                $data
+            );
+        });
+
+        View::composer(['equipments.index'], function ($view) {
+
+            if (!Auth::user()->roles->first()->hospital_id) {
+                $data = EquipmentLocation::select('id', 'location_name')->get();
+            } else {
+                $data = EquipmentLocation::select('id', 'location_name')->where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
+            }
+            return $view->with(
+                'equipmentLocations',
                 $data
             );
         });

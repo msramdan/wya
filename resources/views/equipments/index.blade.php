@@ -77,27 +77,41 @@
                         </div>
 
                         <div class="card-body">
-                            @if (!Auth::user()->roles->first()->hospital_id)
-                                <div class="row">
+
+                            <div class="row">
+                                @if (!Auth::user()->roles->first()->hospital_id)
                                     <div class="col-md-3 mb-2">
-                                        <form class="form-inline" method="get">
-                                            @csrf
-                                            <div class="input-group mb-2 mr-sm-2">
-                                                <select name="hospital_id" id="hospital_id"
-                                                    class="form-control js-example-basic-multiple">
-                                                    <option value="">-- Filter Hospital --</option>
-                                                    @foreach ($hispotals as $hispotal)
-                                                        <option value="{{ $hispotal->id }}"
-                                                            {{ isset($equipments) && $equipments->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
-                                                            {{ $hispotal->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </form>
+                                        <div class="input-group mb-2 mr-sm-2">
+                                            <select name="hospital_id" id="hospital_id"
+                                                class="form-control js-example-basic-multiple">
+                                                <option value="">-- Filter Hospital --</option>
+                                                @foreach ($hispotals as $hispotal)
+                                                    <option value="{{ $hispotal->id }}"
+                                                        {{ isset($equipments) && $equipments->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                                                        {{ $hispotal->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                @endif
+                                <div class="col-md-3 mb-2">
+                                    <div class="input-group mb-2 mr-sm-2">
+                                        <select
+                                            class="form-control js-example-basic-multiple @error('equipment_location_id') is-invalid @enderror"
+                                            name="equipment_location_id" id="equipment_location_id" required>
+                                            <option value="" selected>-- {{ __('Select location') }} --
+                                            </option>
+                                            {{-- @foreach ($equipmentLocations as $equipmentLocation)
+                                                <option value="{{ $equipmentLocation->id }}"
+                                                    {{ isset($equipment) && $equipment->equipment_location_id == $equipmentLocation->id ? 'selected' : (old('equipment_location_id') == $equipmentLocation->id ? 'selected' : '') }}>
+                                                    {{ $equipmentLocation->location_name }}
+                                                </option>
+                                            @endforeach --}}
+                                        </select>
                                     </div>
                                 </div>
-                            @endif
+                            </div>
 
                             <div class="col-md-4">
                                 <div class="alert alert-primary" role="alert">
@@ -140,7 +154,7 @@
 
         function hitungAsset() {
             var cek = $('#hospital_id').val()
-            // console.log(cek)
+            var equipment_location_id = $('#equipment_location_id').val()
             var url = '../panel/totalAsset';
             $.ajax({
                 url: url,
@@ -149,7 +163,8 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
                 },
                 data: {
-                    id: cek
+                    id: cek,
+                    equipment_location_id: equipment_location_id,
                 },
                 success: function(data) {
                     $('#hitungAsset').text(data)
@@ -161,6 +176,48 @@
         }
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.5.1/sweetalert2.all.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var cek = $('#hospital_id').val()
+            console.log(cek)
+            if (typeof cek === "undefined") {
+                getEquipmentLocation({{ Auth::user()->roles->first()->hospital_id }});
+            }
+        });
+
+        const _temp = '<option value="" selected>-- Select location --</option>';
+        $('#hospital_id').change(function() {
+            $('#equipment_location_id').html(_temp);
+            if ($(this).val() != "") {
+                getEquipmentLocation($(this).val());
+            }
+        })
+
+        function getEquipmentLocation(hospitalId) {
+            let url = '{{ route('api.getEquipmentLocation', ':id') }}';
+            url = url.replace(':id', hospitalId)
+            $.ajax({
+                url,
+                method: 'GET',
+                beforeSend: function() {
+                    $('#equipment_location_id').prop('disabled', true);
+                },
+                success: function(res) {
+                    const options = res.data.map(value => {
+                        return `<option value="${value.id}">${value.location_name}</option>`
+                    });
+                    $('#equipment_location_id').html(_temp + options)
+                    $('#equipment_location_id').prop('disabled', false);
+                },
+                error: function(err) {
+                    $('#equipment_location_id').prop('disabled', false);
+                    alert(JSON.stringify(err))
+                }
+
+            })
+        }
+    </script>
     <script>
         let columns = [{
                 data: 'DT_RowIndex',
@@ -218,11 +275,18 @@
                 url: "{{ route('equipment.index') }}",
                 data: function(s) {
                     s.hospital_id = $('select[name=hospital_id] option').filter(':selected').val()
+                    s.equipment_location_id = $('select[name=equipment_location_id] option').filter(':selected')
+                        .val()
                 }
             },
             columns: columns
         })
         $('#hospital_id').change(function() {
+            table.draw();
+            hitungAsset()
+        })
+
+        $('#equipment_location_id').change(function() {
             table.draw();
             hitungAsset()
         })
