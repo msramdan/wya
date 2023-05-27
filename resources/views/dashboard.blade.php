@@ -551,6 +551,7 @@
     <script src="../dist/leaflet.awesome-markers.js"></script>
     <script>
         $(document).ready(function() {
+            var hospital_id = $('#hospital_id option:selected').val();
             // total work order
             $('#btn_work_order_modal').click(function(e) {
                 e.preventDefault()
@@ -639,11 +640,17 @@
                         }
                     }
                 ];
+                if ($.fn.DataTable.isDataTable('#data-table-work-order')) {
+                    $('#data-table-work-order').DataTable().destroy();
+                }
                 var table = $('#data-table-work-order').DataTable({
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('dashboard.work_order') }}"
+                        url: "{{ route('dashboard.work_order') }}",
+                        data: function(s) {
+                            s.hospital_id = hospital_id
+                        }
                     },
                     columns: columns
                 });
@@ -691,17 +698,23 @@
                         name: 'equipment_location.code_location'
                     },
                 ];
+                if ($.fn.DataTable.isDataTable('#data-table-equipment')) {
+                    $('#data-table-equipment').DataTable().destroy();
+                }
                 var table = $('#data-table-equipment').DataTable({
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('dashboard.equipment') }}"
+                        url: "{{ route('dashboard.equipment') }}",
+                        data: function(s) {
+                            s.hospital_id = hospital_id
+                        }
                     },
                     columns: columns
                 })
                 $('#total_euipment').modal('show')
             })
-            // total equipment
+            // total employee
             $('#btn_employee_modal').click(function(e) {
                 e.preventDefault()
                 let columns = [{
@@ -743,11 +756,17 @@
                         name: 'phone',
                     },
                 ];
+                if ($.fn.DataTable.isDataTable('#data-table-employee')) {
+                    $('#data-table-employee').DataTable().destroy();
+                }
                 var table = $('#data-table-employee').DataTable({
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('dashboard.employee') }}"
+                        url: "{{ route('dashboard.employee') }}",
+                        data: function(s) {
+                            s.hospital_id = hospital_id
+                        }
                     },
                     columns: columns
                 });
@@ -783,11 +802,17 @@
                         name: 'email',
                     }
                 ]
+                if ($.fn.DataTable.isDataTable('#data-table-vendor')) {
+                    $('#data-table-vendor').DataTable().destroy();
+                }
                 var table = $('#data-table-vendor').DataTable({
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('dashboard.vendor') }}"
+                        url: "{{ route('dashboard.vendor') }}",
+                        data: function(s) {
+                            s.hospital_id = hospital_id
+                        }
                     },
                     columns: columns
                 });
