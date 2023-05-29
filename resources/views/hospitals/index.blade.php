@@ -38,10 +38,10 @@
                                             <th>{{ trans('hospital/index.name') }}</th>
                                             <th>{{ trans('hospital/index.phone') }}</th>
                                             <th>{{ trans('hospital/index.email') }}</th>
-                                            <th>{{ __('Address') }}</th>
+                                            <th>{{ trans('hospital/index.address') }}</th>
                                             {{-- <th>{{ __('Created At') }}</th>
                                             <th>{{ __('Updated At') }}</th> --}}
-                                            <th>{{ __('Action') }}</th>
+                                            <th>{{ trans('hospital/index.action') }}</th>
                                         </tr>
                                     </thead>
                                 </table>

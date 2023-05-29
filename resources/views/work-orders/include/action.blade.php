@@ -22,37 +22,37 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalSubmission{{ $model->id }}Label">Detail Work Order</h5>
+                    <h5 class="modal-title" id="modalSubmission{{ $model->id }}Label">{{ trans('work-order/submission/index.detail_work_order') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <table class="table table-bordered">
                         <tr>
-                            <th>WO Number</th>
+                            <th>{{ trans('work-order/submission/index.wo_number') }}</th>
                             <td>{{ $model->wo_number }}</td>
                         </tr>
                         <tr>
-                            <th>Filled Date</th>
+                            <th>{{ trans('work-order/submission/index.filed_date') }}</th>
                             <td>{{ date('Y-m-d', strtotime($model->filed_date)) }}</td>
                         </tr>
                         <tr>
-                            <th>Equipment</th>
+                            <th>{{ trans('work-order/submission/index.equipment') }}</th>
                             <td>{{ $model->equipment->barcode }}</td>
                         </tr>
                         <tr>
-                            <th>Type</th>
+                            <th>{{ trans('work-order/submission/index.type') }}</th>
                             <td>{{ $model->type_wo }}</td>
                         </tr>
                         <tr>
-                            <th>Category</th>
+                            <th>{{ trans('work-order/submission/index.category') }}</th>
                             <td>{{ $model->category_wo }}</td>
                         </tr>
                         <tr>
-                            <th>Created By</th>
+                            <th>{{ trans('work-order/submission/index.created_by') }}</th>
                             <td>{{ $model->createdBy->name }}</td>
                         </tr>
                         <tr>
-                            <th>Approval Users</th>
+                            <th>{{ trans('work-order/submission/index.approval_user') }}</th>
                             <td>
                                 <ul>
                                     @foreach ($arrApprovalUsers as $approvalUser)

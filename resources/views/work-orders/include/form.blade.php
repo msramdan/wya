@@ -3,18 +3,18 @@
         <div class="card">
             <div class="card-body">
                 <div class="alert alert-secondary" role="alert">
-                    <b> Work Order Data</b>
+                    <b> {{ trans('work-order/submission/form.wo_data') }}</b>
                 </div>
                 <hr>
 
                 <div class="row">
                     @if (!Auth::user()->roles->first()->hospital_id)
                         <div class="col-md-12 mb-2">
-                            <label for="hospital_id">{{ __('Hospital') }}</label>
+                            <label for="hospital_id">{{ trans('work-order/submission/form.hospital') }}</label>
                             <select
                                 class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
                                 name="hospital_id" id="hospital_id" required>
-                                <option value="" selected disabled>-- {{ __('Select hospital') }} --</option>
+                                <option value="" selected disabled>-- {{ trans('work-order/submission/form.filter_hospital') }} --</option>
 
                                 @foreach ($hispotals as $hispotal)
                                     <option value="{{ $hispotal->id }}"
@@ -34,7 +34,7 @@
                             id="hospital_id" name="hospital_id">
                     @endif
                     <div class="col-md-6 mb-2">
-                        <label for="equipment-id">{{ __('WO Number') }}</label>
+                        <label for="equipment-id">{{ trans('work-order/submission/form.wo_number') }}</label>
                         <input type="text" name="wo_number" id="wo_number" readonly
                             class="form-control @error('wo_number') is-invalid @enderror"
                             value="{{ isset($workOrder) ? $workOrder->wo_number : $woNumber }}" placeholder=""
@@ -46,7 +46,7 @@
                         @enderror
                     </div>
                     <div class="col-md-6 mb-2">
-                        <label for="filed-date">{{ __('Filed Date') }}</label>
+                        <label for="filed-date">{{ trans('work-order/submission/form.filed_date') }}</label>
                         <input type="date" name="filed_date" id="filed-date" readonly
                             class="form-control @error('filed_date') is-invalid @enderror"
                             value="{{ isset($workOrder) && $workOrder->filed_date ? $workOrder->filed_date->format('Y-m-d') : date('Y-m-d') }}"
@@ -61,10 +61,10 @@
 
                 <div class="row">
                     <div class="col-md-6 mb-2">
-                        <label for="type-wo">{{ __('Type Wo') }}</label>
+                        <label for="type-wo">{{ trans('work-order/submission/form.type_wo') }}</label>
                         <select class="form-control js-example-basic-multiple @error('type_wo') is-invalid @enderror"
                             name="type_wo" id="type-wo" required>
-                            <option value="" selected disabled>-- {{ __('Select type wo') }} --</option>
+                            <option value="" selected disabled>-- {{ trans('work-order/submission/form.filter_type_wo') }} --</option>
                             <option value="Calibration"
                                 {{ isset($workOrder) && $workOrder->type_wo == 'Calibration' ? 'selected' : (old('type_wo') == 'Calibration' ? 'selected' : '') }}>
                                 {{ __('Calibration') }}</option>
@@ -86,11 +86,11 @@
                     </div>
 
                     <div class="col-md-6 mb-2">
-                        <label for="category-wo">{{ __('Category Wo') }}</label>
+                        <label for="category-wo">{{ trans('work-order/submission/form.category_wo') }}</label>
                         <select
                             class="form-control js-example-basic-multiple @error('category_wo') is-invalid @enderror"
                             name="category_wo" id="category-wo" required>
-                            <option value="" selected disabled>-- {{ __('Select category wo') }} --</option>
+                            <option value="" selected disabled>-- {{ trans('work-order/submission/form.filter_category_wo') }} --</option>
                             <option value="Rutin"
                                 {{ isset($workOrder) && $workOrder->category_wo == 'Rutin' ? 'selected' : (old('category_wo') == 'Rutin' ? 'selected' : '') }}>
                                 {{ __('Rutin') }}</option>
@@ -107,9 +107,9 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="note">{{ __('Note') }}</label>
+                            <label for="note">{{ trans('work-order/submission/form.note') }}</label>
                             <textarea name="note" id="note" class="form-control @error('note') is-invalid @enderror"
-                                placeholder="{{ __('Note') }}" required>{{ isset($workOrder) ? $workOrder->note : old('note') }}</textarea>
+                                placeholder="{{ trans('work-order/submission/form.note') }}" required>{{ isset($workOrder) ? $workOrder->note : old('note') }}</textarea>
                             @error('note')
                                 <span class="text-danger">
                                     {{ $message }}
@@ -126,25 +126,25 @@
         <div class="card">
             <div class="card-body">
                 <div class="alert alert-secondary" role="alert">
-                    <b> Equipment Data</b>
+                    <b> {{ trans('work-order/submission/form.equipment_data') }}</b>
                 </div>
                 <hr>
 
                 <div class="row">
                     <div class="col-md-4 mb-2">
                         <center onclick="showQrScanner()">
-                            <label for="equipment-id">{{ __('Search by Qrcode') }}</label> <br>
+                            <label for="equipment-id">{{ trans('work-order/submission/form.search_qr') }}</label> <br>
                             <img src="{{ asset('material/qr.png') }}" alt="" style="width: 50%">
 
                         </center>
 
                     </div>
                     <div class="col-md-8 mb-2">
-                        <label for="location_id">{{ __('Search by Location') }}</label>
+                        <label for="location_id">{{ trans('work-order/submission/form.search_location') }}</label>
                         <select
                             class="form-control js-example-basic-multiple  @error('location_id') is-invalid @enderror"
                             name="location_id" id="location_id" required>
-                            <option value="" selected disabled>-- {{ __('Select location') }} --</option>
+                            <option value="" selected disabled>-- {{ trans('work-order/submission/form.filter_location') }} --</option>
                             @foreach ($equipmentLocations as $equipmentLocation)
                                 <option value="{{ $equipmentLocation->id }}"
                                     @if (old('location_id')) {{ old('location_id') == $equipmentLocation->id ? 'selected' : '' }}
@@ -160,11 +160,11 @@
                             </span>
                         @enderror
                         <br> <br>
-                        <label for="equipment-id">{{ __('Equipment') }}</label>
+                        <label for="equipment-id">{{ trans('work-order/submission/form.equipment') }}</label>
                         <select
                             class="form-control js-example-basic-multiple @error('equipment_id') is-invalid @enderror"
                             name="equipment_id" id="equipment-id" required>
-                            <option value="" selected disabled>-- {{ __('Select equipment') }} --</option>
+                            <option value="" selected disabled>-- {{ trans('work-order/submission/form.filter_location') }} --</option>
                         </select>
                         @error('equipment_id')
                             <span class="text-danger">
@@ -182,7 +182,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="alert alert-secondary" role="alert">
-                    <b> Schedule Information</b>
+                    <b> {{ trans('work-order/submission/form.schedule_information') }}</b>
                 </div>
                 <hr>
 
@@ -214,11 +214,11 @@
                     {{ $workOrder->category_wo == 'Non Rutin' ? 'd-none' : '' }} @endif
 
                     ">
-                        <label for="schedule-wo">{{ __('Schedule Wo') }}</label>
+                        <label for="schedule-wo">{{ trans('work-order/submission/form.schedule_wo') }}</label>
                         <select
                             class="form-control js-example-basic-multiple @error('schedule_wo') is-invalid @enderror"
                             name="schedule_wo" id="schedule-wo">
-                            <option value="" selected disabled>-- {{ __('Select schedule wo') }} --</option>
+                            <option value="" selected disabled>-- {{ trans('work-order/submission/form.filter_schedule_wo') }} --</option>
                             <option value="Harian"
                                 {{ isset($workOrder) && $workOrder->schedule_wo == 'Harian' ? 'selected' : (old('schedule_wo') == 'Harian' ? 'selected' : '') }}>
                                 {{ __('Harian') }}</option>
@@ -259,7 +259,7 @@
                     {{ $workOrder->category_wo == 'Non Rutin' ? 'd-none' : '' }} @endif
 
                     ">
-                        <label for="start-date">{{ __('Start Date') }}</label>
+                        <label for="start-date">{{ trans('work-order/submission/form.start_date') }}</label>
                         <input type="date" name="start_date" id="start-date"
                             class="form-control @error('start_date') is-invalid @enderror"
                             value="{{ isset($workOrder) && $workOrder->start_date ? $workOrder->start_date : old('start_date') }}"
@@ -278,7 +278,7 @@
                     {{ $workOrder->category_wo == 'Non Rutin' ? 'd-none' : '' }} @endif
 
                     ">
-                        <label for="end-date">{{ __('End Date') }}</label>
+                        <label for="end-date">{{ trans('work-order/submission/form.end_date') }}</label>
                         <input type="date" name="end_date" id="end-date"
                             class="form-control @error('end_date') is-invalid @enderror"
                             value="{{ isset($workOrder) && $workOrder->end_date ? $workOrder->end_date : old('end_date') }}"
@@ -297,7 +297,7 @@
                         <div class="border rounded p-2">
                             <div class="col-4">
                                 <div class="form-group d-none" id="group-viewmode">
-                                    <label for="view_mode">View Mode</label>
+                                    <label for="view_mode">{{ trans('work-order/submission/form.view_mode') }}</label>
                                     <select name="view_mode" id="view_mode"
                                         class="form-control js-example-basic-multiple">
                                         <option value="Day">Day</option>
@@ -334,7 +334,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="alert alert-secondary" role="alert">
-                    <b> Equipment Detail</b>
+                    <b> {{ trans('work-order/submission/form.equipment_detail') }}</b>
                 </div>
                 <hr>
                 <div id="equipment-detail-content">

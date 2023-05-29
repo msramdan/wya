@@ -31,7 +31,7 @@
                                             <div class="input-group mb-2 mr-sm-2">
                                                 <select name="hospital_id" id="hospital_id"
                                                     class="form-control js-example-basic-multiple">
-                                                    <option value="">-- Filter Hospital --</option>
+                                                    <option value="">-- {{ trans('work-order/submission/index.filter_hospital') }} --</option>
                                                     @foreach ($hispotals as $hispotal)
                                                         <option value="{{ $hispotal->id }}"
                                                             {{ isset($workOrders) && $workOrders->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
@@ -58,7 +58,7 @@
                                 <div class="col-md-2">
                                     <div class="input-group mb-4">
                                         <select name="equipment_id" id="equipment_id" class="form-control select2-form">
-                                            <option value="All">-- All Equipment --</option>
+                                            <option value="All">-- {{ trans('work-order/submission/index.filter_equipment') }} --</option>
                                             @foreach ($equipment as $row)
                                                 <option value="{{ $row->id }}">{{ $row->serial_number }} |
                                                     {{ $row->barcode }} | {{ $row->manufacturer }}
@@ -70,7 +70,7 @@
                                 <div class="col-md-2">
                                     <div class="input-group mb-4">
                                         <select name="type_wo" id="type_wo" class="form-control select2-form">
-                                            <option value="All">-- All Type --</option>
+                                            <option value="All">-- {{ trans('work-order/submission/index.filter_type') }} --</option>
                                             <option value="Calibration">Calibration</option>
                                             <option value="Service">Service</option>
                                             <option value="Training">Training</option>
@@ -82,7 +82,7 @@
                                 <div class="col-md-2">
                                     <div class="input-group mb-4">
                                         <select name="category_wo" id="category_wo" class="form-control select2-form">
-                                            <option value="All">-- All Category --</option>
+                                            <option value="All">-- {{ trans('work-order/submission/index.filter_category') }} --</option>
                                             <option value="Rutin">Rutin</option>
                                             <option value="Non Rutin">Non Rutin</option>
                                         </select>
@@ -91,7 +91,7 @@
                                 <div class="col-md-2">
                                     <div class="input-group mb-4">
                                         <select name="created_by" id="created_by" class="form-control select2-form">
-                                            <option value="All">-- All Created By --</option>
+                                            <option value="All">-- {{ trans('work-order/submission/index.filter_created') }} --</option>
                                             @foreach ($user as $row)
                                                 <option value="{{ $row->id }}">{{ $row->name }}
                                                 </option>
@@ -114,16 +114,16 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th style="white-space: nowrap">{{ __('Hospital') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Wo Number') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Filed Date') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Equipment') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Type Wo') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Category Wo') }}</th>
-                                            <th style="white-space: nowrap">{{ __('User') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Approval Users') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Status Wo') }}</th>
-                                            <th style="white-space: nowrap">{{ __('Action') }}</th>
+                                            <th style="white-space: nowrap">{{ trans('work-order/submission/index.hospital') }}</th>
+                                            <th style="white-space: nowrap">{{ trans('work-order/submission/index.wo_number') }}</th>
+                                            <th style="white-space: nowrap">{{ trans('work-order/submission/index.filed_date') }}</th>
+                                            <th style="white-space: nowrap">{{ trans('work-order/submission/index.equipment') }}</th>
+                                            <th style="white-space: nowrap">{{ trans('work-order/submission/index.type') }}</th>
+                                            <th style="white-space: nowrap">{{ trans('work-order/submission/index.category') }}</th>
+                                            <th style="white-space: nowrap">{{ trans('work-order/submission/index.created_by') }}</th>
+                                            <th style="white-space: nowrap">{{ trans('work-order/submission/index.approval_user') }}</th>
+                                            <th style="white-space: nowrap">{{ trans('work-order/submission/index.status') }}</th>
+                                            <th style="white-space: nowrap">{{ trans('work-order/submission/index.action') }}</th>
                                         </tr>
                                     </thead>
                                 </table>
