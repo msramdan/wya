@@ -25,7 +25,7 @@
                         <div class="card-header">
                             @can('hospital create')
                                 <a href="{{ route('hospitals.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ __('Create a new hospital') }}</a>
+                                        class="mdi mdi-plus"></i> {{ trans('hospital/index.create') }}</a>
                             @endcan
                         </div>
 
@@ -35,9 +35,9 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>{{ __('Name') }}</th>
-                                            <th>{{ __('Phone') }}</th>
-                                            <th>{{ __('Email') }}</th>
+                                            <th>{{ trans('hospital/index.name') }}</th>
+                                            <th>{{ trans('hospital/index.phone') }}</th>
+                                            <th>{{ trans('hospital/index.email') }}</th>
                                             <th>{{ __('Address') }}</th>
                                             {{-- <th>{{ __('Created At') }}</th>
                                             <th>{{ __('Updated At') }}</th> --}}
