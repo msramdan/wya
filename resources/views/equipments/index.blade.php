@@ -70,10 +70,12 @@
                                 <i class='fas fa-file-excel'></i>
                                 {{ __('Export') }}
                             </button>
-                            <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
-                                {{ __('Import') }}
-                            </button>
+                            @if (Auth::user()->roles->first()->hospital_id)
+                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
+                                    {{ __('Import') }}
+                                </button>
+                            @endif
                         </div>
 
                         <div class="card-body">
@@ -102,12 +104,6 @@
                                             name="equipment_location_id" id="equipment_location_id" required>
                                             <option value="" selected>-- {{ __('Select location') }} --
                                             </option>
-                                            {{-- @foreach ($equipmentLocations as $equipmentLocation)
-                                                <option value="{{ $equipmentLocation->id }}"
-                                                    {{ isset($equipment) && $equipment->equipment_location_id == $equipmentLocation->id ? 'selected' : (old('equipment_location_id') == $equipmentLocation->id ? 'selected' : '') }}>
-                                                    {{ $equipmentLocation->location_name }}
-                                                </option>
-                                            @endforeach --}}
                                         </select>
                                     </div>
                                 </div>

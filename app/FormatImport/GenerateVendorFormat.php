@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Events\AfterSheet;
 use App\Models\CategoryVendor;
 use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
+use Auth;
 
 
 
@@ -38,7 +39,7 @@ class GenerateVendorFormat implements FromView, ShouldAutoSize, WithEvents, With
                 // set dropdown column
                 $drop_column = 'C';
                 $options = [];
-                $dataUnit = CategoryVendor::get();
+                $dataUnit = CategoryVendor::where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
                 foreach ($dataUnit as $value) {
                     array_push($options, $value->name_category_vendors);
                 }

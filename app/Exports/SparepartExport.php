@@ -7,17 +7,21 @@ use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
-use App\Models\Nomenklatur;
 use Illuminate\Support\Facades\DB;
+use Auth;
 
 class SparepartExport implements FromView, ShouldAutoSize, WithEvents
 {
     public function view(): View
     {
-        $data =
-            DB::table('spareparts')
+        $data = DB::table('spareparts')
             ->join('unit_items', 'spareparts.unit_id', '=', 'unit_items.id')
-            ->select('spareparts.*', 'unit_items.unit_name')->orderBy('spareparts.id', 'desc')->get();
+            ->join('hospitals', 'spareparts.hospital_id', '=', 'hospitals.id')
+            ->select('spareparts.*', 'unit_items.unit_name', 'hospitals.name as nama_hospital');
+        if (Auth::user()->roles->first()->hospital_id) {
+            $data = $data->where('spareparts.hospital_id', Auth::user()->roles->first()->hospital_id);
+        }
+        $data = $data->orderBy('spareparts.id', 'desc')->get();
         return view('spareparts.export', [
             'data' => $data
         ]);
@@ -27,7 +31,7 @@ class SparepartExport implements FromView, ShouldAutoSize, WithEvents
     {
         return [
             AfterSheet::class    => function (AfterSheet $event) {
-                $cellRange = 'A1:G1'; // All headers
+                $cellRange = 'A1:H1'; // All headers
                 $event->sheet->getStyle($cellRange)->applyFromArray([
                     'borders' => [
                         'allBorders' => [

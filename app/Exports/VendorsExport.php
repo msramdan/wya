@@ -8,6 +8,7 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Illuminate\Support\Facades\DB;
+use Auth;
 
 class VendorsExport implements FromView, ShouldAutoSize, WithEvents
 {
@@ -19,7 +20,12 @@ class VendorsExport implements FromView, ShouldAutoSize, WithEvents
             ->join('kabkots', 'vendors.kabkot_id', '=', 'kabkots.id')
             ->join('kecamatans', 'vendors.kecamatan_id', '=', 'kecamatans.id')
             ->join('kelurahans', 'vendors.kelurahan_id', '=', 'kelurahans.id')
-            ->select('vendors.*', 'category_vendors.name_category_vendors', 'provinces.provinsi', 'kabkots.kabupaten_kota', 'kecamatans.kecamatan', 'kelurahans.kelurahan')->orderBy('vendors.id', 'desc')->get();
+            ->join('hospitals', 'vendors.hospital_id', '=', 'hospitals.id')
+            ->select('vendors.*', 'category_vendors.name_category_vendors', 'provinces.provinsi', 'kabkots.kabupaten_kota', 'kecamatans.kecamatan', 'kelurahans.kelurahan', 'hospitals.name as nama_hospital');
+        if (Auth::user()->roles->first()->hospital_id) {
+            $vendors = $vendors->where('vendors.hospital_id', Auth::user()->roles->first()->hospital_id);
+        }
+        $vendors = $vendors->orderBy('vendors.id', 'desc')->get();
         return view('vendors.export', [
             'data' => $vendors
         ]);
@@ -30,7 +36,7 @@ class VendorsExport implements FromView, ShouldAutoSize, WithEvents
     {
         return [
             AfterSheet::class    => function (AfterSheet $event) {
-                $cellRange = 'A1:J1'; // All headers
+                $cellRange = 'A1:K1'; // All headers
                 $event->sheet->getStyle($cellRange)->applyFromArray([
                     'borders' => [
                         'allBorders' => [

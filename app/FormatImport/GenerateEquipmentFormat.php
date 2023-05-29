@@ -14,6 +14,7 @@ use App\Models\Nomenklatur;
 use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
+use Auth;
 
 
 
@@ -73,7 +74,7 @@ class GenerateEquipmentFormat implements FromView, ShouldAutoSize, WithEvents, W
 
                 // kolom C category
                 $kolomC = [];
-                $EquipmentCategory = EquipmentCategory::get();
+                $EquipmentCategory = EquipmentCategory::where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
                 foreach ($EquipmentCategory as $value) {
                     array_push($kolomC, $value->category_name);
                 }
@@ -92,7 +93,7 @@ class GenerateEquipmentFormat implements FromView, ShouldAutoSize, WithEvents, W
 
                 // Kolom G Vendor
                 $kolomG = [];
-                $Vendor = Vendor::get();
+                $Vendor = Vendor::where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
                 foreach ($Vendor as $value) {
                     array_push($kolomG, $value->name_vendor);
                 }
@@ -149,7 +150,7 @@ class GenerateEquipmentFormat implements FromView, ShouldAutoSize, WithEvents, W
 
                 // Kolom J Location
                 $kolomJ = [];
-                $EquipmentLocation = EquipmentLocation::get();
+                $EquipmentLocation = EquipmentLocation::where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
                 foreach ($EquipmentLocation as $value) {
                     array_push($kolomJ, $value->location_name);
                 }

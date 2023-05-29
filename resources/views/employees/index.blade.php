@@ -68,10 +68,12 @@
                                 <i class='fas fa-file-excel'></i>
                                 {{ __('Export') }}
                             </button>
-                            <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
-                                {{ __('Import') }}
-                            </button>
+                            @if (Auth::user()->roles->first()->hospital_id)
+                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
+                                    {{ __('Import') }}
+                                </button>
+                            @endif
                         </div>
 
                         <div class="card-body">

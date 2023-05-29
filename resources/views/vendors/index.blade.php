@@ -55,7 +55,6 @@
 
     <div class="page-content">
         <div class="container-fluid">
-
             @if (count($errors) > 0)
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>Failed!</strong>
@@ -92,12 +91,13 @@
                                 <i class='fas fa-file-excel'></i>
                                 {{ __('Export') }}
                             </button>
-                            <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
-                                {{ __('Import') }}
-                            </button>
+                            @if (Auth::user()->roles->first()->hospital_id)
+                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
+                                    {{ __('Import') }}
+                                </button>
+                            @endif
                         </div>
-
                         <div class="card-body">
                             @if (!Auth::user()->roles->first()->hospital_id)
                                 <div class="row">

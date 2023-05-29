@@ -8,6 +8,7 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Illuminate\Support\Facades\DB;
+use Auth;
 
 
 class EmployeeExport implements FromView, ShouldAutoSize, WithEvents
@@ -22,7 +23,12 @@ class EmployeeExport implements FromView, ShouldAutoSize, WithEvents
             ->join('kabkots', 'employees.kabkot_id', '=', 'kabkots.id')
             ->join('kecamatans', 'employees.kecamatan_id', '=', 'kecamatans.id')
             ->join('kelurahans', 'employees.kelurahan_id', '=', 'kelurahans.id')
-            ->select('employees.*', 'employee_types.name_employee_type', 'departments.name_department', 'positions.name_position', 'provinces.provinsi', 'kabkots.kabupaten_kota', 'kecamatans.kecamatan', 'kelurahans.kelurahan')->orderBy('employees.id', 'desc')->get();
+            ->join('hospitals', 'employees.hospital_id', '=', 'hospitals.id')
+            ->select('employees.*', 'employee_types.name_employee_type', 'departments.name_department', 'positions.name_position', 'provinces.provinsi', 'kabkots.kabupaten_kota', 'kecamatans.kecamatan', 'kelurahans.kelurahan', 'hospitals.name as nama_hospital');
+        if (Auth::user()->roles->first()->hospital_id) {
+            $data = $data->where('employees.hospital_id', Auth::user()->roles->first()->hospital_id);
+        }
+        $data = $data->orderBy('employees.id', 'desc')->get();
         return view('employees.export', [
             'data' => $data
         ]);
@@ -33,7 +39,7 @@ class EmployeeExport implements FromView, ShouldAutoSize, WithEvents
     {
         return [
             AfterSheet::class    => function (AfterSheet $event) {
-                $cellRange = 'A1:O1'; // All headers
+                $cellRange = 'A1:P1'; // All headers
                 $event->sheet->getStyle($cellRange)->applyFromArray([
                     'borders' => [
                         'allBorders' => [

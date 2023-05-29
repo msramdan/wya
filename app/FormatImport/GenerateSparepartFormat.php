@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Events\AfterSheet;
 use App\Models\UnitItem;
 use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
+use Auth;
 
 
 class GenerateSparepartFormat implements FromView, ShouldAutoSize, WithEvents, WithStrictNullComparison
@@ -37,7 +38,7 @@ class GenerateSparepartFormat implements FromView, ShouldAutoSize, WithEvents, W
                 // set dropdown column
                 $drop_column = 'F';
                 $options = [];
-                $dataUnit = UnitItem::get();
+                $dataUnit = UnitItem::where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
                 foreach ($dataUnit as $value) {
                     array_push($options, $value->unit_name);
                 }

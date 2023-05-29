@@ -1,6 +1,7 @@
 <table>
     <thead>
         <tr>
+            <th style="background-color:#D3D3D3 ">{{ __('Hospital') }}</th>
             <th style="background-color:#D3D3D3 ">{{ __('Name') }}</th>
             <th style="background-color:#D3D3D3 ">{{ __('Nid Employee') }}</th>
             <th style="background-color:#D3D3D3 ">{{ __('Employee Type') }}</th>
@@ -21,6 +22,7 @@
     <tbody>
         @foreach ($data as $dt)
             <tr>
+                <td>{{ $dt->nama_hospital }}</td>
                 <td>{{ $dt->name }}</td>
                 <td>{{ $dt->nid_employee }}</td>
                 <td>{{ $dt->name_employee_type }}</td>
