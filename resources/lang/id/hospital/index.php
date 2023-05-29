@@ -4,4 +4,6 @@ return [
     'name' => 'Nama',
     'phone' => 'Telpon',
     'email' => 'Surel',
+    'address' => 'Alamat',
+    'action' => 'Aksi'
 ];
