@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Auth;
 
 class VendorImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
 {
@@ -40,6 +41,7 @@ class VendorImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
                 'email' => $row['email'],
                 'address' => $row['address'],
                 'zip_kode' => $row['zip_kode'],
+                'hospital_id' => Auth::user()->roles->first()->hospital_id,
             ]);
         }
     }

@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Auth;
 
 class SparepartImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
 {
@@ -44,6 +45,7 @@ class SparepartImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
                 'estimated_price' => $row['estimated_price'],
                 'opname' => $row['opname'],
                 'stock' => 0,
+                'hospital_id' => Auth::user()->roles->first()->hospital_id,
             ]);
         }
     }

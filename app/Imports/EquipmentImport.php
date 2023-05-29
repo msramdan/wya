@@ -15,6 +15,7 @@ use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
+use Auth;
 
 class EquipmentImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
 {
@@ -62,6 +63,7 @@ class EquipmentImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
                 'nilai_perolehan' => $row['nilai_perolehan'],
                 'nilai_residu' => $row['nilai_residu'],
                 'masa_manfaat' => $row['masa_manfaat'],
+                'hospital_id' => Auth::user()->roles->first()->hospital_id,
             ]);
         }
     }
