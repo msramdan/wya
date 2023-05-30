@@ -1,6 +1,6 @@
 <div class="row mb-2">
     <div class="col-md-6 mb-2">
-        <label for="name">{{ __('Name') }}</label>
+        <label for="name">{{ trans('hospital/form.name') }}</label>
         <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror"
             value="{{ isset($hospital) ? $hospital->name : old('name') }}" placeholder="{{ __('Name') }}" required />
         @error('name')
@@ -10,7 +10,7 @@
         @enderror
     </div>
     <div class="col-md-6 mb-2">
-        <label for="phone">{{ __('Phone') }}</label>
+        <label for="phone">{{ trans('hospital/form.phone') }}</label>
         <input type="text" name="phone" id="phone" class="form-control @error('phone') is-invalid @enderror"
             value="{{ isset($hospital) ? $hospital->phone : old('phone') }}" placeholder="{{ __('Phone') }}"
             required />
@@ -21,7 +21,7 @@
         @enderror
     </div>
     <div class="col-md-6 mb-2">
-        <label for="email">{{ __('Email') }}</label>
+        <label for="email">{{ trans('hospital/form.email') }}</label>
         <input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror"
             value="{{ isset($hospital) ? $hospital->email : old('email') }}" placeholder="{{ __('Email') }}"
             required />
@@ -33,7 +33,7 @@
     </div>
     <div class="col-md-6">
         <div class="form-group">
-            <label for="address">{{ __('Address') }}</label>
+            <label for="address">{{ trans('hospital/form.address') }}</label>
             <textarea name="address" id="address" class="form-control @error('address') is-invalid @enderror"
                 placeholder="{{ __('Address') }}" required>{{ isset($hospital) ? $hospital->address : old('address') }}</textarea>
             @error('address')
@@ -59,7 +59,7 @@
 
                 <div class="col-md-8">
                     <div class="form-group ms-3">
-                        <label for="logo">{{ __('Logo') }}</label>
+                        <label for="logo">{{ trans('hospital/form.logo') }}</label>
                         <input type="file" name="logo" class="form-control @error('logo') is-invalid @enderror"
                             id="logo">
 
@@ -78,7 +78,7 @@
     @else
         <div class="col-md-6">
             <div class="form-group">
-                <label for="logo">{{ __('Logo') }}</label>
+                <label for="logo">{{ trans('hospital/form.logo') }}</label>
                 <input type="file" name="logo" class="form-control @error('logo') is-invalid @enderror" id="logo"
                     required>
 
@@ -92,7 +92,7 @@
     @endisset
 
     <div class="col-6 mb-2">
-        <label for="notif-wa">{{ __('Notif Wa') }}</label>
+        <label for="notif-wa">{{ trans('hospital/form.notif_wa') }}</label>
         <select class="form-control js-example-basic-multiple @error('notif_wa') is-invalid @enderror" name="notif_wa"
             id="notif-wa" required>
             <option value="" selected disabled>-- {{ __('Select notif wa') }} --</option>
@@ -111,7 +111,7 @@
     </div>
 
     <div class="col-md-6 mb-2">
-        <label for="url-wa-gateway">{{ __('Url Wa Gateway') }}</label>
+        <label for="url-wa-gateway">{{ trans('hospital/form.url_wa') }}</label>
         <input type="text" name="url_wa_gateway" id="url-wa-gateway"
             class="form-control @error('url_wa_gateway') is-invalid @enderror"
             value="{{ isset($hospital) ? $hospital->url_wa_gateway : old('url_wa_gateway') }}"
@@ -123,7 +123,7 @@
         @enderror
     </div>
     <div class="col-md-6 mb-2">
-        <label for="session-wa-gateway">{{ __('Session Wa Gateway') }}</label>
+        <label for="session-wa-gateway">{{ trans('hospital/form.session_wa') }}</label>
         <input type="text" name="session_wa_gateway" id="session-wa-gateway"
             class="form-control @error('session_wa_gateway') is-invalid @enderror"
             value="{{ isset($hospital) ? $hospital->session_wa_gateway : old('session_wa_gateway') }}"
@@ -135,7 +135,7 @@
         @enderror
     </div>
     <div class="col-6 mb-2">
-        <label for="paper-qr-code">{{ __('QRcode Paper') }}</label>
+        <label for="paper-qr-code">{{ trans('hospital/form.qrcode') }}</label>
         <select class="form-control js-example-basic-multiple  @error('paper_qr_code') is-invalid @enderror"
             name="paper_qr_code" id="paper-qr-code" required>
             <option value="" selected disabled>-- {{ __('Select QRcode Paper') }} --</option>
@@ -154,7 +154,7 @@
     </div>
 
     <div class="col-6 mb-2">
-        <label for="bot-telegram">{{ __('Bot Telegram') }}</label>
+        <label for="bot-telegram">{{ trans('hospital/form.bot_telegram') }}</label>
         <select class="form-control js-example-basic-multiple @error('bot_telegram') is-invalid @enderror"
             name="bot_telegram" id="bot-telegram" required>
             <option value="" selected disabled>-- {{ __('Select bot telegram') }} --</option>
@@ -173,7 +173,7 @@
     </div>
     @if (Request::segment(3) != 'create')
         <div class="col-6 mb-2">
-            <label for="work-order-has-access-approval-users">{{ __('Work Order Has Access Approval Users') }}</label>
+            <label for="work-order-has-access-approval-users">{{ trans('hospital/form.wo_has_access') }}</label>
             <select data-placeholder="Select Users" name="work_order_has_access_approval_users_id[]"
                 multiple="multiple" id="work-order-has-access-approval-users"
                 class="form-control js-example-basic-multiple @error('work_order_has_access_approval_users_id') is-invalid @enderror">

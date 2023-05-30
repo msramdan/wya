@@ -31,7 +31,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Import Vendor</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ trans('vendor/index.import_vendor') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form method="POST" action="{{ route('action-import-vendor') }}" enctype="multipart/form-data">
@@ -41,7 +41,7 @@
                             <input type="file" class="form-control" id="import_vendor" aria-describedby="import_vendor"
                                 name="import_vendor" accept=".xlsx" required>
                             <div id="downloadFormat" class="form-text"> <a href="#"><i class="fa fa-download"
-                                        aria-hidden="true"></i> Download Format</a> </div>
+                                        aria-hidden="true"></i> {{ trans('vendor/index.download_format') }}</a> </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -85,16 +85,16 @@
                         <div class="card-header">
                             @can('vendor create')
                                 <a href="{{ route('vendors.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ __('Create a new vendor') }}</a>
+                                        class="mdi mdi-plus"></i> {{ trans('vendor/index.create') }}</a>
                             @endcan
                             <button id="btnExport" class="btn btn-success">
                                 <i class='fas fa-file-excel'></i>
-                                {{ __('Export') }}
+                                {{ trans('vendor/index.export') }}
                             </button>
                             @if (Auth::user()->roles->first()->hospital_id)
                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
-                                    {{ __('Import') }}
+                                    {{ trans('vendor/index.import') }}
                                 </button>
                             @endif
                         </div>
@@ -107,7 +107,7 @@
                                             <div class="input-group mb-2 mr-sm-2">
                                                 <select name="hospital_id" id="hospital_id"
                                                     class="form-control js-example-basic-multiple">
-                                                    <option value="">-- Filter Hospital --</option>
+                                                    <option value="">-- {{ trans('vendor/index.filter_hospital') }} --</option>
                                                     @foreach ($hispotals as $hispotal)
                                                         <option value="{{ $hispotal->id }}"
                                                             {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
@@ -125,12 +125,12 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>{{ __('Hospital') }}</th>
-                                            <th>{{ __('Code Vendor') }}</th>
-                                            <th>{{ __('Name Vendor') }}</th>
-                                            <th>{{ __('Category Vendor') }}</th>
-                                            <th>{{ __('Email') }}</th>
-                                            <th>{{ __('Action') }}</th>
+                                            <th>{{ trans('vendor/index.hospital') }}</th>
+                                            <th>{{ trans('vendor/index.code_vendor') }}</th>
+                                            <th>{{ trans('vendor/index.name_vendor') }}</th>
+                                            <th>{{ trans('vendor/index.category_vendor') }}</th>
+                                            <th>{{ trans('vendor/index.email') }}</th>
+                                            <th>{{ trans('vendor/index.action') }}</th>
                                         </tr>
                                     </thead>
                                 </table>
