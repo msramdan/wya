@@ -1,10 +1,10 @@
 <div class="row mb-2">
     @if (!Auth::user()->roles->first()->hospital_id)
         <div class="col-md-6 mb-2">
-            <label for="hospital_id">{{ __('Hispotal') }}</label>
+            <label for="hospital_id">{{ trans('employee/departement/form.hospital') }}</label>
             <select class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
                 name="hospital_id" id="hospital_id" required>
-                <option value="" selected disabled>-- {{ __('Select hispotal') }} --</option>
+                <option value="" selected disabled>-- {{ trans('employee/departement/form.select_hospital') }} --</option>
 
                 @foreach ($hispotals as $hispotal)
                     <option value="{{ $hispotal->id }}"
@@ -25,11 +25,11 @@
     @endif
 
     <div class="col-md-6 mb-3">
-        <label for="code-department">{{ __('Code Department') }}</label>
+        <label for="code-department">{{ trans('employee/departement/form.code') }}</label>
         <input type="text" name="code_department" id="code-department"
             class="form-control @error('code_department') is-invalid @enderror"
             value="{{ isset($department) ? $department->code_department : old('code_department') }}"
-            placeholder="{{ __('Code Department') }}" required />
+            placeholder="{{ trans('employee/departement/form.code') }}" required />
         @error('code_department')
             <span class="text-danger">
                 {{ $message }}
@@ -37,11 +37,11 @@
         @enderror
     </div>
     <div class="col-md-6 mb-3">
-        <label for="name-department">{{ __('Name Department') }}</label>
+        <label for="name-department">{{ trans('employee/departement/form.name') }}</label>
         <input type="text" name="name_department" id="name-department"
             class="form-control @error('name_department') is-invalid @enderror"
             value="{{ isset($department) ? $department->name_department : old('name_department') }}"
-            placeholder="{{ __('Name Department') }}" required />
+            placeholder="{{ trans('employee/departement/form.name') }}" required />
         @error('name_department')
             <span class="text-danger">
                 {{ $message }}

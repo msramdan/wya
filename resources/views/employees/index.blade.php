@@ -7,7 +7,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Import Employee</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ trans('employee/index.import_title') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form method="POST" action="{{ route('action-import-employees') }}" enctype="multipart/form-data">
@@ -17,7 +17,7 @@
                             <input type="file" class="form-control" id="import_employees"
                                 aria-describedby="import_employees" name="import_employees" accept=".xlsx" required>
                             <div id="downloadFormat" class="form-text"> <a href="#"><i class="fa fa-download"
-                                        aria-hidden="true"></i> Download Format</a> </div>
+                                        aria-hidden="true"></i> {{ trans('employee/index.format') }}</a> </div>
                         </div>
 
                     </div>
@@ -62,16 +62,16 @@
                         <div class="card-header">
                             @can('employee create')
                                 <a href="{{ route('employees.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ __('Create a new employee') }}</a>
+                                        class="mdi mdi-plus"></i> {{ trans('employee/index.create') }}</a>
                             @endcan
                             <button id="btnExport" class="btn btn-success">
                                 <i class='fas fa-file-excel'></i>
-                                {{ __('Export') }}
+                                {{ trans('employee/index.export') }}
                             </button>
                             @if (Auth::user()->roles->first()->hospital_id)
                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
-                                    {{ __('Import') }}
+                                    {{ trans('employee/index.import') }}
                                 </button>
                             @endif
                         </div>
@@ -85,7 +85,7 @@
                                             <div class="input-group mb-2 mr-sm-2">
                                                 <select name="hospital_id" id="hospital_id"
                                                     class="form-control js-example-basic-multiple">
-                                                    <option value="">-- Filter Hospital --</option>
+                                                    <option value="">-- {{ trans('employee/index.filter_hospital') }} --</option>
                                                     @foreach ($hispotals as $hispotal)
                                                         <option value="{{ $hispotal->id }}"
                                                             {{ isset($employees) && $employees->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
@@ -103,15 +103,15 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>{{ __('Hospital') }}</th>
-                                            <th>{{ __('Name') }}</th>
-                                            <th>{{ __('Nid Employee') }}</th>
-                                            <th>{{ __('Employee Type') }}</th>
-                                            <th>{{ __('Employee Status') }}</th>
-                                            <th>{{ __('Department') }}</th>
-                                            <th>{{ __('Position') }}</th>
-                                            <th>{{ __('Phone') }}</th>
-                                            <th>{{ __('Action') }}</th>
+                                            <th>{{ trans('employee/index.hospital') }}</th>
+                                            <th>{{ trans('employee/index.name') }}</th>
+                                            <th>{{ trans('employee/index.nid') }}</th>
+                                            <th>{{ trans('employee/index.type') }}</th>
+                                            <th>{{ trans('employee/index.status') }}</th>
+                                            <th>{{ trans('employee/index.department') }}</th>
+                                            <th>{{ trans('employee/index.position') }}</th>
+                                            <th>{{ trans('employee/index.phone') }}</th>
+                                            <th>{{ trans('employee/index.action') }}</th>
                                         </tr>
                                     </thead>
                                 </table>

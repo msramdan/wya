@@ -8,9 +8,9 @@ return [
   'serial_number' => 'Nomer Seri',
   'condition' => 'Kondisi',
   'risk_level' => 'Tingkat Resiko',
-  'eq_location' => 'Lokasi Peralatn',
+  'eq_location' => 'Lokasi Peralatan',
   'financing_code' => 'Kode Pembiayaan',
   'photo' => 'Foto',
   'created_at' => 'Dibuat pada',
-  'updated_at' => 'Diupdate pada',
+  'updated_at' => 'Diperbarui pada',
 ];

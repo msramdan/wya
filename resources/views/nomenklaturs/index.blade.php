@@ -10,7 +10,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Import Nomenklaturs</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ trans('inventory/reference/index.import_title') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form method="POST" action="{{ route('action-import-nomenklatur') }}" enctype="multipart/form-data">
@@ -20,7 +20,7 @@
                             <input type="file" class="form-control" id="import_nomenklatur"
                                 aria-describedby="import_nomenklatur" name="import_nomenklatur" accept=".xlsx" required>
                             <div id="downloadFormat" class="form-text"> <a href="#"><i class="fa fa-download"
-                                        aria-hidden="true"></i> Download Format</a> </div>
+                                        aria-hidden="true"></i> {{ trans('inventory/reference/index.download') }}</a> </div>
                         </div>
 
                     </div>
@@ -68,11 +68,11 @@
                         <div class="card-header">
                             <button id="btnExport" class="btn btn-success">
                                 <i class='fas fa-file-excel'></i>
-                                {{ __('Export') }}
+                                {{ trans('inventory/reference/index.export') }}
                             </button>
                             <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                                 data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
-                                {{ __('Import') }}
+                                {{ trans('inventory/reference/index.import') }}
                             </button>
                         </div>
                         <div class="card-body">
@@ -81,8 +81,8 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>{{ __('Code Nomenklatur') }}</th>
-                                            <th>{{ __('Name Nomenklatur') }}</th>
+                                            <th>{{ trans('inventory/reference/index.code') }}</th>
+                                            <th>{{ trans('inventory/reference/index.name') }}</th>
                                         </tr>
                                     </thead>
                                 </table>

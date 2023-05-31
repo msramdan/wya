@@ -10,13 +10,13 @@ return [
   'select_category' => 'Pilih Kategori',
   'manufacture' => 'Pabrikan',
   'type' => 'Jenis',
-  'serial_number' => 'Nomor Seri',
+  'serial_number' => 'Nomer Seri',
   'vendor' => 'Rekanan',
   'select_vendor' => 'Pilih Rekanan',
   'condition' => 'Kondisi',
   'select_condition' => 'Pilih Kondisi',
   'risk_level' => 'Tingkat Resiko',
-  'select_risk_level' => 'Pilih Tingkat Resiko',
+  'select_risk_level' => 'Pilih Tingkat Reiko',
   'location' => 'Lokasi',
   'select_location' => 'Pilih Lokasi',
   'financing_code' => 'Kode Pembiayaan',
@@ -34,14 +34,14 @@ return [
 
   // eq fitting
   'eq_fitting' => 'Perlengkapan Peralatan',
-  'eq_desc' => 'Rekomendasi format gambar adalh jpg/png',
+  'eq_desc' => 'Rekomendasi gambar adalah jpg/png',
   'add_fiting' => 'Tambah Perlengkapan',
   'fitting_name' => 'Nama Perlengkapan',
   'photo' => 'Foto',
 
   // eq document
-  'eq_document' => 'berkas Peralatan',
-  'eqdoc_desc' => 'Rekomendasi format berkas adalah pdf',
+  'eq_document' => 'Berkas Peralatan',
+  'eqdoc_desc' => 'Rekomendasi format dokumen adalah pdf',
   'add_doc' => 'Tambah Berkas',
   'file_name' => 'Nama Berkas',
   'file' => 'Berkas',

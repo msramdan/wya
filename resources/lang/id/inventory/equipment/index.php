@@ -1,11 +1,11 @@
 <?php
 return [
-  'create' => 'Tambah Peralatan Baru',
+  'create' => 'Tambah Peralatan baru',
   'export' => 'Ekspor',
   'import' => 'Impor Peralatan',
   'download' => 'Unduh Format',
-  'filter_hospital' => 'Filter Rumah Sakit',
-  'filter_location' => 'Filter Lokasi',
+  'filter_hospital' => 'Pilih Rumah Sakit',
+  'filter_location' => 'Pilih Lokasi',
 
   'total' => 'Total Nilai Buku Bulan Berjalan',
   'hospital' => 'Rumah Sakit',
@@ -20,7 +20,7 @@ return [
 
   // Detail
   'detail' => 'Detail',
-  'serial_number' => 'Nomor Seri',
+  'serial_number' => 'Nomer Seri',
   'vendor' => 'Rekanan',
   'condition' => 'Kondisi',
   'risk_level' => 'Tingkat Resiko',
@@ -32,11 +32,11 @@ return [
   'useful' => 'Masa Manfaat (Tahun)',
 
   // history
-  'title_history' => 'Riwayat Peralatan PK',
-  'wo_number' => 'Nomor PK',
+  'title_history' => 'Riwayan PK Perlengkalpan',
+  'wo_number' => 'Nomer PK',
   'filed_date' => 'Tanggal Pengajuan',
   'schedule_date' => 'Tanggal Terjadwal',
-  'work_date' => 'Tanggl Bekerja',
+  'work_date' => 'Tanggal Bekerja',
   'executor' => 'Pelaksana',
 
   // table penyusutan

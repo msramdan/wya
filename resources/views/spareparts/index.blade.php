@@ -8,7 +8,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Import Sparepart</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ trans('inventory/sparepart/index.import_title') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form method="POST" action="{{ route('action-import-sparepart') }}" enctype="multipart/form-data">
@@ -18,7 +18,7 @@
                             <input type="file" class="form-control" id="import_sparepart" name="import_sparepart"
                                 aria-describedby="import_sparepart" accept=".xlsx" required>
                             <div id="downloadFormat" class="form-text"> <a href="#"><i class="fa fa-download"
-                                        aria-hidden="true"></i> Download Format</a> </div>
+                                        aria-hidden="true"></i> {{ trans('inventory/sparepart/index.download_format') }}</a> </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -63,11 +63,11 @@
                         <div class="card-header">
                             @can('sparepart create')
                                 <a href="{{ route('spareparts.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ __('Create a new sparepart') }}</a>
+                                        class="mdi mdi-plus"></i> {{ trans('inventory/sparepart/index.create') }}</a>
                             @endcan
                             <button id="btnExport" class="btn btn-success">
                                 <i class='fas fa-file-excel'></i>
-                                {{ __('Export') }}
+                                {{ trans('inventory/sparepart/index.export') }}
                             </button>
 
                             @if (Auth::user()->roles->first()->hospital_id)
@@ -87,7 +87,7 @@
                                             <div class="input-group mb-2 mr-sm-2">
                                                 <select name="hospital_id" id="hospital_id"
                                                     class="form-control js-example-basic-multiple">
-                                                    <option value="">-- Filter Hospital --</option>
+                                                    <option value="">-- {{ trans('inventory/sparepart/index.filter_hospital') }} --</option>
                                                     @foreach ($hispotals as $hispotal)
                                                         <option value="{{ $hispotal->id }}"
                                                             {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
@@ -105,16 +105,16 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>{{ __('Hospital') }}</th>
-                                            <th>{{ __('Barcode') }}</th>
-                                            <th>{{ __('Sparepart Name') }}</th>
-                                            <th>{{ __('Merk') }}</th>
-                                            <th>{{ __('Sparepart Type') }}</th>
-                                            <th>{{ __('Estimated Price') }}</th>
-                                            <th>{{ __('Opname') }}</th>
-                                            <th>{{ __('Stock') }}</th>
-                                            <th>{{ __('Unit Item') }}</th>
-                                            <th>{{ __('Action') }}</th>
+                                            <th>{{ trans('inventory/sparepart/index.hospital') }}</th>
+                                            <th>{{ trans('inventory/sparepart/index.barcode') }}</th>
+                                            <th>{{ trans('inventory/sparepart/index.sparepart_name') }}</th>
+                                            <th>{{ trans('inventory/sparepart/index.merk') }}</th>
+                                            <th>{{ trans('inventory/sparepart/index.sparepart_type') }}</th>
+                                            <th>{{ trans('inventory/sparepart/index.estimated_price') }}</th>
+                                            <th>{{ trans('inventory/sparepart/index.opname') }}</th>
+                                            <th>{{ trans('inventory/sparepart/index.stock') }}</th>
+                                            <th>{{ trans('inventory/sparepart/index.unit_item') }}</th>
+                                            <th>{{ trans('inventory/sparepart/index.action') }}</th>
                                         </tr>
                                     </thead>
                                 </table>

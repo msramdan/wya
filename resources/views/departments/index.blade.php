@@ -25,7 +25,7 @@
                         <div class="card-header">
                             @can('department create')
                                 <a href="{{ route('departments.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ __('Create a new department') }}</a>
+                                        class="mdi mdi-plus"></i> {{ trans('employee/departement/index.create') }}</a>
                             @endcan
                         </div>
                         <div class="card-body">
@@ -37,7 +37,7 @@
                                             <div class="input-group mb-2 mr-sm-2">
                                                 <select name="hospital_id" id="hospital_id"
                                                     class="form-control js-example-basic-multiple">
-                                                    <option value="">-- Filter Hospital --</option>
+                                                    <option value="">-- {{ trans('employee/departement/index.select_hospital') }} --</option>
                                                     @foreach ($hispotals as $hispotal)
                                                         <option value="{{ $hispotal->id }}"
                                                             {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
@@ -55,12 +55,10 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>{{ __('Hospital') }}</th>
-                                            <th>{{ __('Code Department') }}</th>
-                                            <th>{{ __('Name Department') }}</th>
-                                            {{-- <th>{{ __('Created At') }}</th>
-                                            <th>{{ __('Updated At') }}</th> --}}
-                                            <th>{{ __('Action') }}</th>
+                                            <th>{{ trans('employee/departement/index.hospital') }}</th>
+                                            <th>{{ trans('employee/departement/index.code') }}</th>
+                                            <th>{{ trans('employee/departement/index.name') }}</th>
+                                            <th>{{ trans('employee/departement/index.action') }}</th>
                                         </tr>
                                     </thead>
                                 </table>
