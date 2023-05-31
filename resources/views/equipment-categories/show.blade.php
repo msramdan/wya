@@ -34,19 +34,19 @@
                             <div class="table-responsive">
                                 <table class="table table-hover table-striped">
                                     <tr>
-                                        <td class="fw-bold">{{ __('Code Categoty') }}</td>
+                                        <td class="fw-bold">{{ trans('main-data/equipment/category/show.category_code') }}</td>
                                         <td>{{ $equipmentCategory->code_categoty }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Category Name') }}</td>
+                                        <td class="fw-bold">{{ trans('main-data/equipment/category/show.category_name') }}</td>
                                         <td>{{ $equipmentCategory->category_name }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Created at') }}</td>
+                                        <td class="fw-bold">{{ trans('main-data/equipment/category/show.created_at') }}</td>
                                         <td>{{ $equipmentCategory->created_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Updated at') }}</td>
+                                        <td class="fw-bold">{{ trans('main-data/equipment/category/show.updated_at') }}</td>
                                         <td>{{ $equipmentCategory->updated_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                 </table>

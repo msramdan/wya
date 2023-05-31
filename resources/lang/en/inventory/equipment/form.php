@@ -1,0 +1,48 @@
+<?php
+return [
+  'general_information'=> 'General Information',
+  'hospital' => 'Hospital',
+  'select_hospital' => 'Select Hospital',
+  'barcode' => 'Barcode',
+  'nomenklatur' => 'Nomenklatur',
+  'select_nomenklatur' => 'Select Nomenklatur',
+  'category' => 'Category',
+  'select_category' => 'Select Category',
+  'manufacture' => 'Manufacture',
+  'type' => 'Type',
+  'serial_number' => 'Serial Number',
+  'vendor' => 'Vendor',
+  'select_vendor' => 'Select Vendor',
+  'condition' => 'Condition',
+  'select_condition' => 'Condition',
+  'risk_level' => 'Risk Level',
+  'select_risk_level' => 'Select Risk Level',
+  'location' => 'Location',
+  'select_location' => 'Select Location',
+  'financing_code' => 'Financing Code',
+  'photo' => 'Photo',
+  'action' => 'Action',
+  
+  // price
+  'price_reduction' => 'Price Reduction',
+  'purchase_date' => 'Purchase Date',
+  'method' => 'Method',
+  'select_method' => 'Select Method',
+  'acquisition_value' => 'Acquisition Value',
+  'residual_value' => 'Residual Value',
+  'useful' => 'The usefull life (Year)',
+
+  // eq fitting
+  'eq_fitting' => 'Equipment Fittings',
+  'eq_desc' => 'recomended format photo is jpg/png',
+  'add_fiting' => 'Add Fittings',
+  'fitting_name' => 'Fitting Name',
+  'photo' => 'Photo',
+
+  // eq document
+  'eq_document' => 'Equipmetn Document',
+  'eqdoc_desc' => 'Recomended format  document is pdf',
+  'add_doc' => 'Add Document',
+  'file_name' => 'File Name',
+  'file' => 'File',
+];

@@ -14,10 +14,10 @@
                                 <a href="/panel">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="{{ route('vendors.index') }}">{{ __('Vendors') }}</a>
+                                <a href="{{ route('vendors.index') }}">{{ trans('vendor/show.vendors') }}</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                {{ __('Detail') }}
+                                {{ trans('vendor/show.detail') }}
                             </li>
                         </ol>
                     </div>
@@ -34,24 +34,24 @@
                             <div class="table-responsive">
                                 <table class="table table-hover table-striped">
                                     <tr>
-                                        <td class="fw-bold">{{ __('Code Vendor') }}</td>
+                                        <td class="fw-bold">{{ trans('vendor/show.vendor_code') }}</td>
                                         <td>{{ $vendor->code_vendor }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Name Vendor') }}</td>
+                                        <td class="fw-bold">{{ trans('vendor/show.vendor_name') }}</td>
                                         <td>{{ $vendor->name_vendor }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Category Vendor') }}</td>
+                                        <td class="fw-bold">{{ trans('vendor/show.vendor_category') }}</td>
                                         <td>{{ $vendor->category_vendor ? $vendor->category_vendor->name_category_vendors : '' }}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Email') }}</td>
+                                        <td class="fw-bold">{{ trans('vendor/show.email') }}</td>
                                         <td>{{ $vendor->email }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Province') }}</td>
+                                        <td class="fw-bold">{{ trans('vendor/show.province') }}</td>
                                         <td>{{ $vendor->province ? $vendor->province->provinsi : '' }}</td>
                                     </tr>
                                     <tr>
@@ -59,31 +59,31 @@
                                         <td>{{ $vendor->kabkot ? $vendor->kabkot->provinsi_id : '' }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Kecamatan') }}</td>
+                                        <td class="fw-bold">{{ trans('vendor/show.subdistrict') }}</td>
                                         <td>{{ $vendor->kecamatan ? $vendor->kecamatan->kabkot_id : '' }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Kelurahan') }}</td>
+                                        <td class="fw-bold">{{ trans('vendor/show.ward') }}</td>
                                         <td>{{ $vendor->kelurahan ? $vendor->kelurahan->kecamatan_id : '' }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Zip Kode') }}</td>
+                                        <td class="fw-bold">{{ trans('vendor/show.zip_code') }}</td>
                                         <td>{{ $vendor->zip_kode }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Longitude') }}</td>
+                                        <td class="fw-bold">{{ trans('vendor/show.longitude') }}</td>
                                         <td>{{ $vendor->longitude }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Latitude') }}</td>
+                                        <td class="fw-bold">{{ trans('vendor/show.latitude') }}</td>
                                         <td>{{ $vendor->latitude }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Created at') }}</td>
+                                        <td class="fw-bold">{{ trans('vendor/show.created') }}</td>
                                         <td>{{ $vendor->created_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Updated at') }}</td>
+                                        <td class="fw-bold">{{ trans('vendor/show.updated') }}</td>
                                         <td>{{ $vendor->updated_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                 </table>

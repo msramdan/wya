@@ -34,15 +34,15 @@
                             <div class="table-responsive">
                                 <table class="table table-hover table-striped">
                                     <tr>
-                                        <td class="fw-bold">{{ __('Name Category Vendors') }}</td>
+                                        <td class="fw-bold">{{ trans('category-vendor/show.name') }}</td>
                                         <td>{{ $categoryVendor->name_category_vendors }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Created at') }}</td>
+                                        <td class="fw-bold">{{ trans('category-vendor/show.created') }}</td>
                                         <td>{{ $categoryVendor->created_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Updated at') }}</td>
+                                        <td class="fw-bold">{{ trans('category-vendor/show.updated') }}</td>
                                         <td>{{ $categoryVendor->updated_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                 </table>

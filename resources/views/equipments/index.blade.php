@@ -8,7 +8,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Import Equipment</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ trans('inventory/equipment/index.import') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form method="POST" action="{{ route('action-import-equipment') }}" enctype="multipart/form-data">
@@ -18,7 +18,7 @@
                             <input type="file" accept=".xlsx" class="form-control" id="import_equipment"
                                 name="import_equipment" aria-describedby="import_equipment" required>
                             <div id="downloadFormat" class="form-text"> <a href="#"><i class="fa fa-download"
-                                        aria-hidden="true"></i> Download Format</a> </div>
+                                        aria-hidden="true"></i> {{ trans('inventory/equipment/index.download') }}</a> </div>
                         </div>
 
                     </div>
@@ -64,7 +64,7 @@
                         <div class="card-header">
                             @can('equipment create')
                                 <a href="{{ route('equipment.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ __('Create a new equipment') }}</a>
+                                        class="mdi mdi-plus"></i> {{ trans('inventory/equipment/index.create') }}</a>
                             @endcan
                             <button id="btnExport" class="btn btn-success">
                                 <i class='fas fa-file-excel'></i>
@@ -73,7 +73,7 @@
                             @if (Auth::user()->roles->first()->hospital_id)
                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
-                                    {{ __('Import') }}
+                                    {{ trans('inventory/equipment/index.import') }}
                                 </button>
                             @endif
                         </div>
@@ -86,7 +86,7 @@
                                         <div class="input-group mb-2 mr-sm-2">
                                             <select name="hospital_id" id="hospital_id"
                                                 class="form-control js-example-basic-multiple">
-                                                <option value="">-- Filter Hospital --</option>
+                                                <option value="">-- {{ trans('inventory/equipment/index.filter_hospital') }} --</option>
                                                 @foreach ($hispotals as $hispotal)
                                                     <option value="{{ $hispotal->id }}"
                                                         {{ isset($equipments) && $equipments->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
@@ -102,7 +102,7 @@
                                         <select
                                             class="form-control js-example-basic-multiple @error('equipment_location_id') is-invalid @enderror"
                                             name="equipment_location_id" id="equipment_location_id" required>
-                                            <option value="" selected>-- {{ __('Select location') }} --
+                                            <option value="" selected>-- {{ trans('inventory/equipment/index.filter_location') }} --
                                             </option>
                                         </select>
                                     </div>
@@ -111,7 +111,7 @@
 
                             <div class="col-md-4">
                                 <div class="alert alert-primary" role="alert">
-                                    Total Nilai Buku Bulan Berjalan : <h4><span id="hitungAsset"></span></h4>
+                                    {{ trans('inventory/equipment/index.total') }} : <h4><span id="hitungAsset"></span></h4>
                                 </div>
                             </div>
                             <div class="table-responsive">
@@ -119,16 +119,16 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>{{ __('Hospital') }}</th>
-                                            <th>{{ __('Barcode') }}</th>
-                                            <th>{{ __('Nomenklatur') }}</th>
+                                            <th>{{ trans('inventory/equipment/index.hospital') }}</th>
+                                            <th>{{ trans('inventory/equipment/index.barcode') }}</th>
+                                            <th>{{ trans('inventory/equipment/index.nomenklatur') }}</th>
                                             <th>{{ __('SN') }}</th>
-                                            <th>{{ __('Category') }}</th>
-                                            <th>{{ __('Manufacturer') }}</th>
-                                            <th>{{ __('Type') }}</th>
-                                            <th>{{ __('Location') }}</th>
-                                            <th>{{ __('Nilai Buku') }}</th>
-                                            <th>{{ __('Action') }}</th>
+                                            <th>{{ trans('inventory/equipment/index.category') }}</th>
+                                            <th>{{ trans('inventory/equipment/index.manufacture') }}</th>
+                                            <th>{{ trans('inventory/equipment/index.type') }}</th>
+                                            <th>{{ trans('inventory/equipment/index.location') }}</th>
+                                            <th>{{ trans('inventory/equipment/index.book_value') }}</th>
+                                            <th>{{ trans('inventory/equipment/index.action') }}</th>
                                         </tr>
                                     </thead>
                                 </table>

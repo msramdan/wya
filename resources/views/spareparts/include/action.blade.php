@@ -107,7 +107,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Stock In : {{ $sparepart->sparepart_name }}</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ trans('inventory/sparepart/index.stock_in_title') }} : {{ $sparepart->sparepart_name }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('stok_in') }}" method="POST">
@@ -115,13 +115,13 @@
                     @method('POST')
                     <div class="modal-body">
                         <div class="mb-2">
-                            <label for="qty" class="form-label">Qty Stok In</label>
+                            <label for="qty" class="form-label">{{ trans('inventory/sparepart/index.qty_stock_in') }}</label>
                             <input type="number" name="qty" class="form-control" id="qty" required>
                             <input type="hidden" name="sparepart_id" value="{{ $model->id }}" class="form-control"
                                 id="" required>
                         </div>
                         <div class="mb-2">
-                            <label for="note" class="form-label">Note</label>
+                            <label for="note" class="form-label">{{ trans('inventory/sparepart/index.note') }}</label>
                             <textarea class="form-control" name="note" id="note" cols="4" rows="3" required></textarea>
                         </div>
 
@@ -143,7 +143,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Stock Out : {{ $sparepart->sparepart_name }}</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ trans('inventory/sparepart/index.stock_out_title') }} : {{ $sparepart->sparepart_name }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('stok_out') }}" method="POST">
@@ -151,13 +151,13 @@
                     @method('POST')
                     <div class="modal-body">
                         <div class="mb-2">
-                            <label for="qty" class="form-label">Qty Stok Out</label>
+                            <label for="qty" class="form-label">{{ trans('inventory/sparepart/index.qty_stock_out') }}</label>
                             <input type="number" name="qty" class="form-control" id="qty" required>
                             <input type="hidden" name="sparepart_id" value="{{ $model->id }}"
                                 class="form-control" id="sparepart_id" required>
                         </div>
                         <div class="mb-2">
-                            <label for="note" class="form-label">Note</label>
+                            <label for="note" class="form-label">{{ trans('inventory/sparepart/index.note_stock_out') }}</label>
                             <textarea class="form-control" name="note" id="note" cols="4" rows="3" required></textarea>
                         </div>
 
@@ -179,7 +179,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Stock History : {{ $sparepart->sparepart_name }}
+                    <h5 class="modal-title" id="exampleModalLabel">{{ trans('inventory/sparepart/index.history_title') }} : {{ $sparepart->sparepart_name }}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -193,12 +193,12 @@
                     <table class="table table-hover table-bordered table-sm dataTables-example">
                         <thead>
                             <tr>
-                                <th>No Referensi</th>
-                                <th>Type</th>
+                                <th>{{ trans('inventory/sparepart/index.no_reference') }}</th>
+                                <th>{{ trans('inventory/sparepart/index.type') }}</th>
                                 <th>Qty</th>
-                                <th>Note</th>
-                                <th>Date</th>
-                                <th>Action</th>
+                                <th>{{ trans('inventory/sparepart/index.note') }}</th>
+                                <th>{{ trans('inventory/sparepart/index.date') }}</th>
+                                <th>{{ trans('inventory/sparepart/index.action') }}</th>
                             </tr>
                         </thead>
                         <tbody>

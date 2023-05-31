@@ -34,19 +34,19 @@
                             <div class="table-responsive">
                                 <table class="table table-hover table-striped">
                                     <tr>
-                                        <td class="fw-bold">{{ __('Code Unit') }}</td>
+                                        <td class="fw-bold">{{ trans('main-data/unit-item/show.unit_code') }}</td>
                                         <td>{{ $unitItem->code_unit }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Unit Name') }}</td>
+                                        <td class="fw-bold">{{ trans('main-data/unit-item/show.unit_name') }}</td>
                                         <td>{{ $unitItem->unit_name }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Created at') }}</td>
+                                        <td class="fw-bold">{{ trans('main-data/unit-item/show.created_at') }}</td>
                                         <td>{{ $unitItem->created_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Updated at') }}</td>
+                                        <td class="fw-bold">{{ trans('main-data/unit-item/show.updated_at') }}</td>
                                         <td>{{ $unitItem->updated_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                 </table>

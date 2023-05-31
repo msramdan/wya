@@ -25,7 +25,7 @@
                         <div class="card-header">
                             @can('category vendor create')
                                 <a href="{{ route('category-vendors.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ __('Create a new category vendor') }}</a>
+                                        class="mdi mdi-plus"></i> {{ trans('category-vendor/index.create_category') }}</a>
                             @endcan
                         </div>
 
@@ -38,7 +38,7 @@
                                             <div class="input-group mb-2 mr-sm-2">
                                                 <select name="hospital_id" id="hospital_id"
                                                     class="form-control js-example-basic-multiple">
-                                                    <option value="">-- Filter Hospital --</option>
+                                                    <option value="">-- {{ trans('category-vendor/index.filter_hospital') }} --</option>
                                                     @foreach ($hispotals as $hispotal)
                                                         <option value="{{ $hispotal->id }}"
                                                             {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
@@ -56,11 +56,11 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>{{ __('Hospital') }}</th>
-                                            <th>{{ __('Name Category Vendors') }}</th>
-                                            {{-- <th>{{ __('Created At') }}</th>
-                                            <th>{{ __('Updated At') }}</th> --}}
-                                            <th>{{ __('Action') }}</th>
+                                            <th>{{ trans('category-vendor/index.hospital') }}</th>
+                                            <th>{{ trans('category-vendor/index.name') }}</th>
+                                            {{-- <th>{{ trans('Created At') }}</th>
+                                            <th>{{ trans('Updated At') }}</th> --}}
+                                            <th>{{ trans('category-vendor/index.action') }}</th>
                                         </tr>
                                     </thead>
                                 </table>

@@ -34,23 +34,23 @@
                             <div class="table-responsive">
                                 <table class="table table-hover table-striped">
                                     <tr>
-                                        <td class="fw-bold">{{ __('Code Department') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/departement/show.code') }}</td>
                                         <td>{{ $department->code_department }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Name Department') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/departement/show.name') }}</td>
                                         <td>{{ $department->name_department }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Is Active') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/departement/show.is_active') }}</td>
                                         <td>{{ $department->is_active == 1 ? 'True' : 'False' }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Created at') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/departement/show.created_at') }}</td>
                                         <td>{{ $department->created_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Updated at') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/departement/show.updated_at') }}</td>
                                         <td>{{ $department->updated_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                 </table>
