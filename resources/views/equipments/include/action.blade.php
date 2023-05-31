@@ -67,68 +67,68 @@
             <div class="modal-body">
                 <table class="table table-bordered table-sm">
                     <tr>
-                        <th>Barcode</th>
+                        <th>{{ trans('inventory/equipment/index.barcode') }}</th>
                         <td>{{ $model->barcode }}</td>
                     </tr>
                     <tr>
-                        <th>Nomenklatur</th>
+                        <th>{{ trans('inventory/equipment/index.nomenklatur') }}</th>
                         <td>{{ $model->nomenklatur->name_nomenklatur }}
                         </td>
                     </tr>
                     <tr>
-                        <th>Category</th>
+                        <th>{{ trans('inventory/equipment/index.category') }}</th>
                         <td>{{ $model->equipment_category->category_name }}</td>
                     </tr>
                     <tr>
-                        <th>Manufacturer</th>
+                        <th>{{ trans('inventory/equipment/index.manufacture') }}</th>
                         <td>{{ $model->manufacturer }}</td>
                     </tr>
                     <tr>
-                        <th>Type</th>
+                        <th>{{ trans('inventory/equipment/index.type') }}</th>
                         <td>{{ $model->type }}</td>
                     </tr>
                     <tr>
-                        <th>Serial Number</th>
+                        <th>{{ trans('inventory/equipment/index.serial_number') }}</th>
                         <td>{{ $model->serial_number }}</td>
                     </tr>
                     <tr>
-                        <th>Vendor</th>
+                        <th>{{ trans('inventory/equipment/index.vendor') }}</th>
                         <td>{{ $model->vendor->name_vendor }}</td>
                     </tr>
                     <tr>
-                        <th>Condition</th>
+                        <th>{{ trans('inventory/equipment/index.condition') }}</th>
                         <td>{{ $model->condition }}</td>
                     </tr>
                     <tr>
-                        <th>Risk Level</th>
+                        <th>{{ trans('inventory/equipment/index.risk_level') }}</th>
                         <td>{{ $model->risk_level }}</td>
                     </tr>
                     <tr>
-                        <th>Location</th>
+                        <th>{{ trans('inventory/equipment/index.location') }}</th>
                         <td>{{ $model->equipment_location->location_name }}</td>
                     </tr>
                     <tr>
-                        <th>Financing Code</th>
+                        <th>{{ trans('inventory/equipment/index.financing_code') }}</th>
                         <td>{{ $model->financing_code }}</td>
                     </tr>
                     <tr>
-                        <th>Tanggal Pembelian</th>
+                        <th>{{ trans('inventory/equipment/index.purchase_date') }}</th>
                         <td>{{ $model->tgl_pembelian }}</td>
                     </tr>
                     <tr>
-                        <th>Metode</th>
+                        <th>{{ trans('inventory/equipment/index.method') }}</th>
                         <td>{{ $model->metode }}</td>
                     </tr>
                     <tr>
-                        <th>Nilai Perolehan</th>
+                        <th>{{ trans('inventory/equipment/index.aq_value') }}</th>
                         <td>{{ rupiah($model->nilai_perolehan) }}</td>
                     </tr>
                     <tr>
-                        <th>Nilai Residu</th>
+                        <th>{{ trans('inventory/equipment/index.rsd_value') }}</th>
                         <td>{{ rupiah($model->nilai_residu) }}</td>
                     </tr>
                     <tr>
-                        <th>Masa Manfaat (Tahun)</th>
+                        <th>{{ trans('inventory/equipment/index.useful') }}</th>
                         <td>{{ $model->masa_manfaat }} Tahun</td>
                     </tr>
                 </table>
@@ -186,15 +186,15 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Table Penyusutan {{ $model->metode }}</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{ trans('inventory/equipment/index.depreciation_tabel') }} {{ $model->metode }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <table class="table table-bordered table-sm dataTables-example">
                     <thead>
-                        <th>Periode</th>
-                        <th>Akumulasi Penyusutan</th>
-                        <th>Nilai Buku</th>
+                        <th>{{ trans('inventory/equipment/index.period') }}</th>
+                        <th>{{ trans('inventory/equipment/index.accu_depreciation') }}</th>
+                        <th>{{ trans('inventory/equipment/index.book_value') }}</th>
                     </thead>
                     <tbody>
                         @if ($model->metode == 'Garis Lurus')
@@ -268,19 +268,19 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">History WO Peralatan</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{ trans('inventory/equipment/index.title_history') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <table class="table table-bordered table-sm dataTables-example">
                     <thead>
-                        <th>WO Number</th>
-                        <th>Type</th>
-                        <th>Category</th>
-                        <th>Filed Date</th>
-                        <th>Schedule Date</th>
-                        <th>Work Date</th>
-                        <th>Executor</th>
+                        <th>{{ trans('inventory/equipment/index.wo_number') }}</th>
+                        <th>{{ trans('inventory/equipment/index.type') }}</th>
+                        <th>{{ trans('inventory/equipment/index.category') }}</th>
+                        <th>{{ trans('inventory/equipment/index.filed_date') }}</th>
+                        <th>{{ trans('inventory/equipment/index.schedule_date') }}</th>
+                        <th>{{ trans('inventory/equipment/index.work_date') }}</th>
+                        <th>{{ trans('inventory/equipment/index.executor') }}</th>
                     </thead>
                     @php
                         $data = DB::table('work_order_processes')
