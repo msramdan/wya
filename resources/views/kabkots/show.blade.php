@@ -34,27 +34,27 @@
                             <div class="table-responsive">
                                 <table class="table table-hover table-striped">
                                     <tr>
-                                        <td class="fw-bold">{{ __('Province') }}</td>
+                                        <td class="fw-bold">{{ trans('region-data/kabkot/show.province') }}</td>
                                         <td>{{ $kabkot->province ? $kabkot->province->provinsi : '' }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Kabupaten Kota') }}</td>
+                                        <td class="fw-bold">{{ trans('region-data/kabkot/show.city_district') }}</td>
                                         <td>{{ $kabkot->kabupaten_kota }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Ibukota') }}</td>
+                                        <td class="fw-bold">{{ trans('region-data/kabkot/show.capital') }}</td>
                                         <td>{{ $kabkot->ibukota }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('K Bsni') }}</td>
+                                        <td class="fw-bold">{{ trans('region-data/kabkot/show.kbsni') }}</td>
                                         <td>{{ $kabkot->k_bsni }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Created at') }}</td>
+                                        <td class="fw-bold">{{ trans('region-data/kabkot/show.created_at') }}</td>
                                         <td>{{ $kabkot->created_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Updated at') }}</td>
+                                        <td class="fw-bold">{{ trans('region-data/kabkot/show.updated_at') }}</td>
                                         <td>{{ $kabkot->updated_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                 </table>

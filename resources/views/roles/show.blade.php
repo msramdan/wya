@@ -35,11 +35,11 @@
                             <div class="table-responsive">
                                 <table class="table table-hover table-striped">
                                     <tr>
-                                        <td class="fw-bold">{{ __('Name') }}</td>
+                                        <td class="fw-bold">{{ trans('utilities/rolepermission/show.name') }}</td>
                                         <td>{{ $role->name }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Permissions') }}</td>
+                                        <td class="fw-bold">{{ trans('utilities/rolepermission/show.permission') }}</td>
                                         <td>
                                             <ul class="list-inline mb-0">
                                                 @foreach ($role->permissions as $permission)
@@ -49,11 +49,11 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Created at') }}</td>
+                                        <td class="fw-bold">{{ trans('utilities/rolepermission/show.created_at') }}</td>
                                         <td>{{ $role->created_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Updated at') }}</td>
+                                        <td class="fw-bold">{{ trans('utilities/rolepermission/show.updated_at') }}</td>
                                         <td>{{ $role->updated_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                 </table>

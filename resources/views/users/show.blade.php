@@ -48,29 +48,29 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Name') }}</td>
+                                        <td class="fw-bold">{{ trans('utilities/users/show.name') }}</td>
                                         <td>{{ $user->name }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Email') }}</td>
+                                        <td class="fw-bold">{{ trans('utilities/users/show.email') }}</td>
                                         <td>{{ $user->email }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Role') }}</td>
-                                        <td>{{ $user->getRoleNames()->toArray() !== [] ? $user->getRoleNames()[0] : '-' }}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fw-bold">{{ __('Email verified at') }}</td>
+                                        <td class="fw-bold">{{ trans('utilities/users/show.email_verified') }}</td>
                                         <td>{{ $user->email_verified_at ? $user->email_verified_at->format('d/m/Y H:i') : '-' }}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Created at') }}</td>
+                                        <td class="fw-bold">{{ trans('utilities/users/show.role') }}</td>
+                                        <td>{{ $user->getRoleNames()->toArray() !== [] ? $user->getRoleNames()[0] : '-' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ trans('utilities/users/show.created_at') }}</td>
                                         <td>{{ $user->created_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Updated at') }}</td>
+                                        <td class="fw-bold">{{ trans('utilities/users/show.updated_at') }}</td>
                                         <td>{{ $user->updated_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                 </table>

@@ -14,10 +14,10 @@
     </div>
     @if (!Auth::user()->roles->first()->hospital_id)
         <div class="col-md-6 mb-2">
-            <label for="hospital_id_select">{{ __('Hispotal') }}</label>
+            <label for="hospital_id_select">{{ trans('utilities/rolepermission/form.hospital') }}</label>
             <select class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
                 name="hospital_id" id="hospital_id_select" required>
-                <option value="" disabled>-- {{ __('Select hospital') }} --</option>
+                <option value="" disabled>-- {{ trans('utilities/rolepermission/form.select_hospital') }} --</option>
                 <option value="user_mta">
                     {{ __('User MTA') }}
                 </option>
@@ -41,7 +41,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <label class="mb-1">{{ __('Permissions') }}</label>
+        <label class="mb-1">{{ trans('utilities/rolepermission/form.permission') }}</label>
         @error('permissions')
             <div class="text-danger mb-2 mt-0">{{ $message }}</div>
         @enderror

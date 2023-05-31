@@ -34,19 +34,19 @@
                             <div class="table-responsive">
                                 <table class="table table-hover table-striped">
                                     <tr>
-                                        <td class="fw-bold">{{ __('Kabkot') }}</td>
+                                        <td class="fw-bold">{{ trans('region-data/kecamatan/show.city_district') }}</td>
                                         <td>{{ $kecamatan->kabkot ? $kecamatan->kabkot->provinsi_id : '' }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Kecamatan') }}</td>
+                                        <td class="fw-bold">{{ trans('region-data/kecamatan/show.subdistrict') }}</td>
                                         <td>{{ $kecamatan->kecamatan }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Created at') }}</td>
+                                        <td class="fw-bold">{{ trans('region-data/kecamatan/show.created_at') }}</td>
                                         <td>{{ $kecamatan->created_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Updated at') }}</td>
+                                        <td class="fw-bold">{{ trans('region-data/kecamatan/show.updated_at') }}</td>
                                         <td>{{ $kecamatan->updated_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                 </table>
