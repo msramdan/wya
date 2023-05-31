@@ -108,7 +108,7 @@
                                             <th>{{ trans('employee/index.nid') }}</th>
                                             <th>{{ trans('employee/index.type') }}</th>
                                             <th>{{ trans('employee/index.status') }}</th>
-                                            <th>{{ trans('employee/index.department') }}</th>
+                                            <th>{{ trans('employee/index.departement') }}</th>
                                             <th>{{ trans('employee/index.position') }}</th>
                                             <th>{{ trans('employee/index.phone') }}</th>
                                             <th>{{ trans('employee/index.action') }}</th>
