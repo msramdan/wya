@@ -89,6 +89,7 @@ Route::prefix('panel')->group(function () {
     Route::get('print_history_equipment/{id}', [App\Http\Controllers\EquipmentController::class, 'print_history'])->name('print_history_equipment')->middleware('auth');
     Route::get('export-data-equipment', [App\Http\Controllers\EquipmentController::class, 'export'])->name('export-data-equipment')->middleware('auth');
     Route::get('totalAsset', [App\Http\Controllers\EquipmentController::class, 'totalAsset'])->name('totalAsset')->middleware('auth');
+    Route::get('getDetailEquipment/{id}', [App\Http\Controllers\EquipmentController::class, 'getDetailEquipment'])->name('getDetailEquipment')->middleware('auth');
     Route::get('download-format-equipment', [App\Http\Controllers\EquipmentController::class, 'formatImport'])->name('download-format-equipment')->middleware('auth');
     Route::post('import-equipment', [App\Http\Controllers\EquipmentController::class, 'import'])->name('action-import-equipment')->middleware('auth');
     Route::resource('work-orders', App\Http\Controllers\WorkOrderController::class)->middleware('auth');

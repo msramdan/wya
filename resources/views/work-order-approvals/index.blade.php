@@ -3,6 +3,48 @@
 @section('title', __('Work Order Approval'))
 
 @section('content')
+    <div class="modal fade" id="modal-dialog3">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">{{ trans('work-order/submission/index.informasi') }}</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td width="25%">{{ trans('inventory/equipment/index.barcode') }}</td>
+                            <td><span id="modal_barcode"></span></td>
+                        </tr>
+                        <tr>
+                            <td>{{ trans('inventory/equipment/index.nomenklatur') }}</td>
+                            <td><span id="modal_nomenklatur"></span></td>
+                        </tr>
+                        <tr>
+                            <td>{{ __('SN') }}</td>
+                            <td><span id="modal_sn"></span></td>
+                        </tr>
+                        <tr>
+                            <td>{{ trans('inventory/equipment/index.category') }}</td>
+                            <td><span id="modal_category"></span></td>
+                        </tr>
+                        <tr>
+                            <td>{{ trans('inventory/equipment/index.manufacture') }}</td>
+                            <td><span id="modal_manufacture"></span></td>
+                        </tr>
+                        <tr>
+                            <td>{{ trans('inventory/equipment/index.type') }}</td>
+                            <td><span id="modal_type"></span></td>
+                        </tr>
+                        <tr>
+                            <td>{{ trans('inventory/equipment/index.location') }}</td>
+                            <td><span id="modal_location"></span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="page-content">
         <div class="container-fluid">
             <div class="row">
@@ -31,7 +73,9 @@
                                             <div class="input-group mb-2 mr-sm-2">
                                                 <select name="hospital_id" id="hospital_id"
                                                     class="form-control js-example-basic-multiple">
-                                                    <option value="">-- {{ trans('work-order/submission/index.filter_hospital') }} --</option>
+                                                    <option value="">--
+                                                        {{ trans('work-order/submission/index.filter_hospital') }} --
+                                                    </option>
                                                     @foreach ($hispotals as $hispotal)
                                                         <option value="{{ $hispotal->id }}"
                                                             {{ isset($workOrders) && $workOrders->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
@@ -51,14 +95,16 @@
                                                 class="fa fa-calendar"></i></span>
                                         <input type="text" class="form-control" aria-describedby="addon-wrapping"
                                             id="daterange-btn" value="">
-                                        <input type="hidden" name="start_date" id="start_date" value="{{ $microFrom }}">
+                                        <input type="hidden" name="start_date" id="start_date"
+                                            value="{{ $microFrom }}">
                                         <input type="hidden" name="end_date" id="end_date" value="{{ $microTo }}">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="input-group mb-4">
                                         <select name="equipment_id" id="equipment_id" class="form-control select2-form">
-                                            <option value="All">-- {{ trans('work-order/submission/index.filter_equipment') }} --</option>
+                                            <option value="All">--
+                                                {{ trans('work-order/submission/index.filter_equipment') }} --</option>
                                             @foreach ($equipment as $row)
                                                 <option value="{{ $row->id }}">{{ $row->serial_number }} |
                                                     {{ $row->barcode }} | {{ $row->manufacturer }}
@@ -70,7 +116,8 @@
                                 <div class="col-md-2">
                                     <div class="input-group mb-4">
                                         <select name="type_wo" id="type_wo" class="form-control select2-form">
-                                            <option value="All">-- {{ trans('work-order/submission/index.filter_type') }} --</option>
+                                            <option value="All">--
+                                                {{ trans('work-order/submission/index.filter_type') }} --</option>
                                             <option value="Calibration">Calibration</option>
                                             <option value="Service">Service</option>
                                             <option value="Training">Training</option>
@@ -82,7 +129,8 @@
                                 <div class="col-md-2">
                                     <div class="input-group mb-4">
                                         <select name="category_wo" id="category_wo" class="form-control select2-form">
-                                            <option value="All">-- {{ trans('work-order/submission/index.filter_category') }} --</option>
+                                            <option value="All">--
+                                                {{ trans('work-order/submission/index.filter_category') }} --</option>
                                             <option value="Rutin">Rutin</option>
                                             <option value="Non Rutin">Non Rutin</option>
                                         </select>
@@ -91,7 +139,8 @@
                                 <div class="col-md-2">
                                     <div class="input-group mb-4">
                                         <select name="created_by" id="created_by" class="form-control select2-form">
-                                            <option value="All">-- {{ trans('work-order/submission/index.filter_created') }} --</option>
+                                            <option value="All">--
+                                                {{ trans('work-order/submission/index.filter_created') }} --</option>
                                             @foreach ($user as $row)
                                                 <option value="{{ $row->id }}">{{ $row->name }}
                                                 </option>
@@ -114,16 +163,26 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th style="white-space: nowrap">{{ trans('work-order/submission/index.hospital') }}</th>
-                                            <th style="white-space: nowrap">{{ trans('work-order/submission/index.wo_number') }}</th>
-                                            <th style="white-space: nowrap">{{ trans('work-order/submission/index.filed_date') }}</th>
-                                            <th style="white-space: nowrap">{{ trans('work-order/submission/index.equipment') }}</th>
-                                            <th style="white-space: nowrap">{{ trans('work-order/submission/index.type') }}</th>
-                                            <th style="white-space: nowrap">{{ trans('work-order/submission/index.category') }}</th>
-                                            <th style="white-space: nowrap">{{ trans('work-order/submission/index.created_by') }}</th>
-                                            <th style="white-space: nowrap">{{ trans('work-order/submission/index.approval_user') }}</th>
-                                            <th style="white-space: nowrap">{{ trans('work-order/submission/index.status') }}</th>
-                                            <th style="white-space: nowrap">{{ trans('work-order/submission/index.action') }}</th>
+                                            <th style="white-space: nowrap">
+                                                {{ trans('work-order/submission/index.hospital') }}</th>
+                                            <th style="white-space: nowrap">
+                                                {{ trans('work-order/submission/index.wo_number') }}</th>
+                                            <th style="white-space: nowrap">
+                                                {{ trans('work-order/submission/index.filed_date') }}</th>
+                                            <th style="white-space: nowrap">
+                                                {{ trans('work-order/submission/index.equipment') }}</th>
+                                            <th style="white-space: nowrap">
+                                                {{ trans('work-order/submission/index.type') }}</th>
+                                            <th style="white-space: nowrap">
+                                                {{ trans('work-order/submission/index.category') }}</th>
+                                            <th style="white-space: nowrap">
+                                                {{ trans('work-order/submission/index.created_by') }}</th>
+                                            <th style="white-space: nowrap">
+                                                {{ trans('work-order/submission/index.approval_user') }}</th>
+                                            <th style="white-space: nowrap">
+                                                {{ trans('work-order/submission/index.status') }}</th>
+                                            <th style="white-space: nowrap">
+                                                {{ trans('work-order/submission/index.action') }}</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -148,6 +207,30 @@
         });
     </script>
     <script>
+        $(document).on('click', '#view_data', function() {
+            var barcode = $(this).data('equipment');
+            var url = '/panel/getDetailEquipment/' + barcode;
+            $.ajax({
+                url: url,
+                type: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+                data: {},
+                dataType: 'json',
+                success: function(result) {
+                    $('#modal_barcode').text(result['data']['barcode']);
+                    $('#modal_nomenklatur').text(result['data']['nomenklatur']['name_nomenklatur']);
+                    $('#modal_sn').text(result['data']['serial_number']);
+                    $('#modal_category').text(result['data']['equipment_category']['category_name']);
+                    $('#modal_manufacture').text(result['data']['manufacturer']);
+                    $('#modal_type').text(result['data']['type']);
+                    $('#modal_location').text(result['data']['equipment_location']['location_name']);
+                }
+            });
+        })
+    </script>
+    <script>
         let columns = [{
                 data: 'DT_RowIndex',
                 name: 'DT_RowIndex',
@@ -168,7 +251,12 @@
             },
             {
                 data: 'equipment',
-                name: 'equipment.id'
+                name: 'equipment.id',
+                render: function(datum, type, row) {
+                    return `${row.equipment} <a id="view_data" href="#modal-dialog3" data-bs-toggle="modal" data-equipment="${row.equipment}">
+																<i style="color : #17a2b8" class="fas fa-info-circle fs-15 align-middle"></i>
+															</a>`;
+                }
             },
             {
                 data: 'type_wo',

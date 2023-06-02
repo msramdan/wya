@@ -593,13 +593,13 @@ class EquipmentController extends Controller
     }
     public function print_history($id)
     {
-        $equipment = Equipment::with('equipment_location:id,location_name','equipment_category:id,category_name')->findOrFail($id);
+        $equipment = Equipment::with('equipment_location:id,location_name', 'equipment_category:id,category_name')->findOrFail($id);
         $hospital = Hospital::find($equipment->hospital_id);
         $pdf = PDF::loadview('equipments.history_print', [
             'equipment' => $equipment,
             'hospital' => $hospital,
         ])->setPaper('a4', 'portrait');
-        return $pdf->stream();   
+        return $pdf->stream();
     }
 
     public function totalAsset(Request $request)
@@ -639,5 +639,14 @@ class EquipmentController extends Controller
         } else {
             return rupiah(0);
         }
+    }
+
+    public function getDetailEquipment($barcode)
+    {
+        $data = Equipment::with('nomenklatur:id,name_nomenklatur', 'equipment_category:id,category_name', 'vendor:id,name_vendor', 'equipment_location:id,location_name')->where('barcode', $barcode)->first();
+        return response()->json([
+            'success' => true,
+            'data'    => $data
+        ]);
     }
 }

@@ -17,4 +17,5 @@ return [
   'status' => 'Status',
   'action' => 'Action',
   'detail_work_order' => 'Detail Work Order',
+  'informasi' => 'Equipment Information',
 ];
