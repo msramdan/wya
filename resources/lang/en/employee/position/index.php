@@ -1,5 +1,6 @@
 <?php
 return [
+  'head' => 'Positions',
   'create' => 'Create a New Position',
   'select_hospital' => 'Select Hospital',
   'hospital' => 'Hospital',

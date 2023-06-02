@@ -1,5 +1,6 @@
 <?php
 return [
+    'head' => 'Vendors Category',
     'welcome' => 'Welcome,',
     'wo_total' => 'Total Work Order',
     'euip_total' => 'Total Equiment',

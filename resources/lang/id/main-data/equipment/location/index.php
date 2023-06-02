@@ -1,5 +1,6 @@
 <?php
 return [
+  'head' => 'Lokasi Peralatan',
   'create' => 'Tambah Lokasi Peralatan',
   'select_hospital' => 'Pilih Rumah Sakit',
   'hospital' => 'Rumah Sakit',

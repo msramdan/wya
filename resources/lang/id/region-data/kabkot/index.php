@@ -1,5 +1,6 @@
 <?php
 return [
+  'head' => 'Kabupaten Kota',
   'create' => 'Tambah Kabupaten Kota Baru',
   'province' => 'Provinsi',
   'select_province' => 'Pilih Provinsi',

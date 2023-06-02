@@ -1,5 +1,6 @@
 <?php
 return [
+  'head' => 'Equipment Location',
   'create' => 'Create a New Equipment Location',
   'select_hospital' => 'Select Hospital',
   'hospital' => 'Hospital',

@@ -1,5 +1,7 @@
 <?php
 return [
+  'head' => 'Karyawan',
+  'head' => 'Karyawan',
   'create' => 'Tambah Karyawan Baru',
   'export' => 'Ekspor',
   'import' => 'Impor',
