@@ -18,7 +18,8 @@
                             <input type="file" class="form-control" id="import_sparepart" name="import_sparepart"
                                 aria-describedby="import_sparepart" accept=".xlsx" required>
                             <div id="downloadFormat" class="form-text"> <a href="#"><i class="fa fa-download"
-                                        aria-hidden="true"></i> {{ trans('inventory/sparepart/index.download_format') }}</a> </div>
+                                        aria-hidden="true"></i> {{ trans('inventory/sparepart/index.download_format') }}</a>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -35,11 +36,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">{{ __('Spareparts') }}</h4>
+                        <h4 class="mb-sm-0">{{ trans('inventory/sparepart/index.sparepart') }}</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="/panel">Dashboard</a></li>
-                                <li class="breadcrumb-item active">{{ __('Spareparts') }}</li>
+                                <li class="breadcrumb-item active">{{ trans('inventory/sparepart/index.sparepart') }}</li>
                             </ol>
                         </div>
 
@@ -87,7 +88,9 @@
                                             <div class="input-group mb-2 mr-sm-2">
                                                 <select name="hospital_id" id="hospital_id"
                                                     class="form-control js-example-basic-multiple">
-                                                    <option value="">-- {{ trans('inventory/sparepart/index.filter_hospital') }} --</option>
+                                                    <option value="">--
+                                                        {{ trans('inventory/sparepart/index.filter_hospital') }} --
+                                                    </option>
                                                     @foreach ($hispotals as $hispotal)
                                                         <option value="{{ $hispotal->id }}"
                                                             {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
