@@ -1,6 +1,7 @@
 <?php
 return [
-  'create' => 'Create a New Sparepart',
+  'head' => 'Separeparts',
+  'create' => 'Create a New Separepart',
   'export' => 'Export',
   'import' => 'Import',
   'import_title' => 'Import Sparepart',

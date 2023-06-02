@@ -1,5 +1,6 @@
 <?php
 return [
+  'head' => 'Employee',
   'create' => 'Create a New Employee',
   'export' => 'Export',
   'import' => 'Import',

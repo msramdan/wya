@@ -8,13 +8,13 @@
             <div class="page-header" style="margin-top: 5px">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h3>{{ __('Equipment Locations') }}</h3>
+                        <h3>{{ trans('main-data/equipment/location/index.head') }}</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <a href="/panel">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="{{ route('equipment-locations.index') }}">{{ __('Equipment Locations') }}</a>
+                                <a href="{{ route('equipment-locations.index') }}">{{ trans('main-data/equipment/location/index.head') }}</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
                                 {{ __('Detail') }}

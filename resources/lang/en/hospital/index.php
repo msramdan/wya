@@ -1,5 +1,6 @@
 <?php
 return [
+    'head' => 'Hospitals',
     'create' => 'Create a New Hospital',
     'name' => 'Name',
     'phone' => 'Phone',

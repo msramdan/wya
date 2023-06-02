@@ -1,6 +1,7 @@
 <?php
 return [
-  'head' => 'Category Vendors',
+  'head' => 'Kategori Rekanan',
+  'head' => 'Kategori Rekanan',
   'create_category' => 'Tambah Kategori Rekanan Baru',
   'filter_hospital' => 'Filter Rumah Sakit',
   'hospital' => 'Rumah Sakit',

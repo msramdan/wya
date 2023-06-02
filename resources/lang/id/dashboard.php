@@ -1,5 +1,6 @@
 <?php
 return [
+    'head' => 'Dashboard',
     'welcome' => 'Selamat Datang,',
     'wo_total' => 'Total Perintah Kerja',
     'euip_total' => 'Total Peralatan',
@@ -9,7 +10,7 @@ return [
     'total_category_wo' => 'Total Wo Berdasarkan Kategori',
     'total_type_wo' => 'Total WO Berdasarkan Jenis',
     'op_sparepat' => 'Rekaman suku cadang',
-    'stock_in_sparepat' => 'Stok Di Sparepart',
+    'stock_in_sparepat' => 'Stok Sparepart',
     'stock_out_sparepat' => 'Persediaan Sparepart Habis',
-    'location_employee_vendor' => 'Lokasi Karyawan & Penjual',
+    'location_employee_vendor' => 'Lokasi Karyawan & Rekanan',
 ];

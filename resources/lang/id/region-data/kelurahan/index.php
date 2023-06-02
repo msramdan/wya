@@ -1,5 +1,6 @@
 <?php
 return [
+  'head' => 'Kelurahan',
   'create' => 'Tambah Kelurahan Baru',
   'subdistrict' => 'Kecamatan',
   'ward' => 'Kelurahan',

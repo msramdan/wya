@@ -1,5 +1,6 @@
 <?php
 return [
+  'head' => 'Onderdil',
   'create' => 'Tambah Onderdil Baru',
   'export' => 'Ekspor',
   'import' => 'Impor',

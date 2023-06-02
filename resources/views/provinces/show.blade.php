@@ -8,13 +8,13 @@
             <div class="page-header" style="margin-top: 5px">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h3>{{ __('Provinces') }}</h3>
+                        <h3>{{ trans('region-data/province/index.head') }}</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <a href="/panel">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="{{ route('provinces.index') }}">{{ __('Provinces') }}</a>
+                                <a href="{{ route('provinces.index') }}">{{ trans('region-data/province/index.head') }}</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
                                 {{ __('Detail') }}

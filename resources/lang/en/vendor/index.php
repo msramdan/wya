@@ -1,5 +1,6 @@
 <?php
 return [
+  'head' => 'Vendor',
   'create' => 'Create a New Vendor',
   'filter_hospital' => 'Filter Hospital',
   'hospital' => 'Hospital',

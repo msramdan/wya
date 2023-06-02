@@ -1,5 +1,6 @@
 <?php
 return [
+  'head' => 'Unit Item',
   'create' => 'Create a New Unit Item',
   'select_hospital' => 'Select Hospital',
   'hospital' => 'Hospital',
