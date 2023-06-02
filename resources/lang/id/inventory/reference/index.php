@@ -1,5 +1,6 @@
 <?php
 return [
+  'head' => 'Refrensi',
   'export' => 'Ekspor',
   'import' => 'Impor',
   'import_title' => 'Impor Nomenklatur',

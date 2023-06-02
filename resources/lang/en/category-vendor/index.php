@@ -1,6 +1,6 @@
 <?php
 return [
-  'head' => 'Category Vendors',
+  'head' => 'Vendors Category',
   'create_category' => 'Create a New Category Vendor',
   'filter_hospital' => 'Filter Hospital',
   'hospital' => 'Hospital',

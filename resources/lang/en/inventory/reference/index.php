@@ -1,5 +1,6 @@
 <?php
 return [
+  'head' => 'Reference',
   'export' => 'Export',
   'import' => 'Import',
   'import_title' => 'Import Nomenclature',

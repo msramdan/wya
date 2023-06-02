@@ -1,5 +1,6 @@
 <?php
 return [
+  'head' => 'Rekanan',
   'create' => 'Tambah Rekanan Baru',
   'filter_hospital' => 'Pilih Rumah Sakit',
   'hospital' => 'Rumah Sakit',

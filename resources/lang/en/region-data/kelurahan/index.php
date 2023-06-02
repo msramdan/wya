@@ -1,5 +1,6 @@
 <?php
 return [
+  'head' => 'Ward',
   'create' => 'Create a New Ward',
   'subdistrict' => 'Subdistrict',
   'ward' => 'Ward',

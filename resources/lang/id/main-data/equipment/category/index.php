@@ -1,5 +1,6 @@
 <?php
 return [
+  'head' => 'Kategori Peralatan',
   'create' => 'Tambah Kategori Peralatan Baru',
   'select_hospital' => 'Pilih Rumah Sakit',
   'hospital' => 'Rumah Sakit',

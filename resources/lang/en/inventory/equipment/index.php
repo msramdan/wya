@@ -1,5 +1,6 @@
 <?php
 return [
+  'head' => 'Equipements',
   'create' => 'Create a New Equipment',
   'export' => 'Export',
   'import' => 'Import Equipment',

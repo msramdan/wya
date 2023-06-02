@@ -1,5 +1,6 @@
 <?php
 return [
+  'head' => 'Pengguna',
   'create' => 'Tambah Pengguna Baru',
   'filter_hospital' => 'Pilih Rumah Sakit',
   'avatar' => 'Avatar',

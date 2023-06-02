@@ -1,5 +1,6 @@
 <?php
 return [
+  'head' => 'Barang Satuan',
   'create' => 'Tambah Barang Satuan Baru',
   'select_hospital' => 'Pilih Rumah Sakit',
   'hospital' => 'Rumah Sakit',

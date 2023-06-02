@@ -1,5 +1,6 @@
 <?php
 return [
+  'head' => 'Work Order Approval',
   'create' => 'Create a New Work Order',
   'filter_hospital' => 'Filter Hospital',
   'filter_equipment' => 'All Equipment',

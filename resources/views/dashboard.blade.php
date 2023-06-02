@@ -422,7 +422,7 @@
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1">
                                             <i class="fa fa-exclamation-triangle text-danger fs-3" aria-hidden="true"></i>
-                                            Opname Sparepart
+                                            {{ trans('dashboard.op_sparepat') }}
                                         </h4>
                                     </div>
 
@@ -458,7 +458,7 @@
                                 <div class="card" style="height: 400px">
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1"><i class="fa fa-sign-in text-success fs-3"
-                                                aria-hidden="true"></i> Stock In Sparepart</h4>
+                                                aria-hidden="true"></i> {{ trans('dashboard.stock_in_sparepat') }}</h4>
                                     </div>
 
                                     <div class="card-body">
@@ -490,7 +490,7 @@
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1"><i
                                                 class="fa fa-sign-out text-warning fs-3" aria-hidden="true"></i>
-                                            Stock Out Sparepart</h4>
+                                                {{ trans('dashboard.stock_out_sparepat') }}</h4>
                                     </div>
 
                                     <div class="card-body">
@@ -522,7 +522,7 @@
                             <div class="col-xl-12 col-md-12">
                                 <div class="card" style="height: 550px">
                                     <div class="card-header align-items-center d-flex">
-                                        <h4 class="card-title mb-0 flex-grow-1">Location Employee & Vendor</h4>
+                                        <h4 class="card-title mb-0 flex-grow-1">{{ trans('dashboard.location_employee_vendor') }}</h4>
                                     </div>
                                     <div class="card-body">
                                         <div class="map-embed" id="map" style="height: 100%; z-index: 0;"></div>

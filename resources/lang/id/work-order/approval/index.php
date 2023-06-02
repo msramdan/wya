@@ -1,5 +1,6 @@
 <?php
 return [
+  'head' => 'Persutujuan Perintah Kerja',
   'create' => 'Buat Perintah Kerja Baru',
   'filter_hospital' => 'Filter Rumah Sakit',
   'filter_equipment' => 'Semua Peralatan',

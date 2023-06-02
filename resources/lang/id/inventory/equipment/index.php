@@ -1,5 +1,7 @@
 <?php
 return [
+  'head' => 'Peralatan',
+  'head' => 'Peralatan',
   'create' => 'Tambah Peralatan baru',
   'export' => 'Ekspor',
   'import' => 'Impor Peralatan',
