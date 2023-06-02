@@ -1,10 +1,10 @@
 <div class="row mb-2">
     @if (!Auth::user()->roles->first()->hospital_id)
         <div class="col-md-6 mb-2">
-            <label for="hospital_id">{{ __('Hispotal') }}</label>
+            <label for="hospital_id">{{ trans('category-vendor/form.hospital') }}</label>
             <select class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
                 name="hospital_id" id="hospital_id" required>
-                <option value="" selected disabled>-- {{ __('Select hispotal') }} --</option>
+                <option value="" selected disabled>-- {{ trans('category-vendor/form.filter_hospital') }} --</option>
 
                 @foreach ($hispotals as $hispotal)
                     <option value="{{ $hispotal->id }}"
@@ -24,11 +24,11 @@
             name="hospital_id">
     @endif
     <div class="col-md-6 mb-2">
-        <label for="name-category-vendor">{{ __('Name Category Vendors') }}</label>
+        <label for="name-category-vendor">{{ trans('category-vendor/form.name') }}</label>
         <input type="text" name="name_category_vendors" id="name-category-vendor"
             class="form-control @error('name_category_vendors') is-invalid @enderror"
             value="{{ isset($categoryVendor) ? $categoryVendor->name_category_vendors : old('name_category_vendors') }}"
-            placeholder="{{ __('Name Category Vendors') }}" required />
+            placeholder="{{ trans('category-vendor/form.name') }}" required />
         @error('name_category_vendors')
             <span class="text-danger">
                 {{ $message }}

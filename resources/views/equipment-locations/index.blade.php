@@ -25,7 +25,7 @@
                         <div class="card-header">
                             @can('equipment location create')
                                 <a href="{{ route('equipment-locations.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ __('Create a new equipment location') }}</a>
+                                        class="mdi mdi-plus"></i> {{ trans('main-data/equipment/location/index.create') }}</a>
                             @endcan
                         </div>
 
@@ -38,7 +38,7 @@
                                             <div class="input-group mb-2 mr-sm-2">
                                                 <select name="hospital_id" id="hospital_id"
                                                     class="form-control js-example-basic-multiple">
-                                                    <option value="">-- Filter Hospital --</option>
+                                                    <option value="">-- {{ trans('main-data/equipment/location/index.select_hospital') }} --</option>
                                                     @foreach ($hispotals as $hispotal)
                                                         <option value="{{ $hispotal->id }}"
                                                             {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
@@ -56,12 +56,10 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>{{ __('Hospital') }}</th>
-                                            <th>{{ __('Code Location') }}</th>
-                                            <th>{{ __('Location Name') }}</th>
-                                            {{-- <th>{{ __('Created At') }}</th>
-                                            <th>{{ __('Updated At') }}</th> --}}
-                                            <th>{{ __('Action') }}</th>
+                                            <th>{{ trans('main-data/equipment/location/index.hospital') }}</th>
+                                            <th>{{ trans('main-data/equipment/location/index.location_code') }}</th>
+                                            <th>{{ trans('main-data/equipment/location/index.location_name') }}</th>
+                                            <th>{{ trans('main-data/equipment/location/index.action') }}</th>
                                         </tr>
                                     </thead>
                                 </table>

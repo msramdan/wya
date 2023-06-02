@@ -34,40 +34,40 @@
                             <div class="table-responsive">
                                 <table class="table table-hover table-striped">
                                     <tr>
-                                        <td class="fw-bold">{{ __('Name') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/show.name') }}</td>
                                         <td>{{ $employee->name }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Nid Employee') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/show.nid') }}</td>
                                         <td>{{ $employee->nid_employee }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Employee Type') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/show.type') }}</td>
                                         <td>{{ $employee->employee_type ? $employee->employee_type->name_employee_type : '' }}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Employee Status') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/show.status') }}</td>
                                         <td>{{ $employee->employee_status == 1 ? 'True' : 'False' }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Department') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/show.department') }}</td>
                                         <td>{{ $employee->department ? $employee->department->code_department : '' }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Position') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/show.position') }}</td>
                                         <td>{{ $employee->position ? $employee->position->code_position : '' }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Email') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/show.email') }}</td>
                                         <td>{{ $employee->email }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Phone') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/show.phone') }}</td>
                                         <td>{{ $employee->phone }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Province') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/show.province') }}</td>
                                         <td>{{ $employee->province ? $employee->province->provinsi : '' }}</td>
                                     </tr>
                                     <tr>
@@ -75,44 +75,44 @@
                                         <td>{{ $employee->kabkot ? $employee->kabkot->provinsi_id : '' }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Kecamatan') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/show.subdistrict') }}</td>
                                         <td>{{ $employee->kecamatan ? $employee->kecamatan->kabkot_id : '' }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Kelurahan') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/show.ward') }}</td>
                                         <td>{{ $employee->kelurahan ? $employee->kelurahan->kecamatan_id : '' }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Zip Kode') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/show.zip_code') }}</td>
                                         <td>{{ $employee->zip_kode }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Address') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/show.address') }}</td>
                                         <td>{{ $employee->address }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Longitude') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/show.longitude') }}</td>
                                         <td>{{ $employee->longitude }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Longitude') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/show.longitude') }}</td>
                                         <td>{{ $employee->longitude }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Join Date') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/show.join_date') }}</td>
                                         <td>{{ isset($employee->join_date) ? $employee->join_date->format('d/m/Y') : '' }}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Photo') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/show.photo') }}</td>
                                         <td>{{ $employee->photo }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Created at') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/show.created_at') }}</td>
                                         <td>{{ $employee->created_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Updated at') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/show.updateda_at') }}</td>
                                         <td>{{ $employee->updated_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                 </table>

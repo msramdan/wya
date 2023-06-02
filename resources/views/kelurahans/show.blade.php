@@ -34,23 +34,23 @@
                             <div class="table-responsive">
                                 <table class="table table-hover table-striped">
                                     <tr>
-                                        <td class="fw-bold">{{ __('Kecamatan') }}</td>
+                                        <td class="fw-bold">{{ trans('region-data/kelurahan/show.subdistrict') }}</td>
                                         <td>{{ $kelurahan->kecamatan ? $kelurahan->kecamatan->kabkot_id : '' }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Kelurahan') }}</td>
+                                        <td class="fw-bold">{{ trans('region-data/kelurahan/show.ward') }}</td>
                                         <td>{{ $kelurahan->kelurahan }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Kd Pos') }}</td>
+                                        <td class="fw-bold">{{ trans('region-data/kelurahan/show.zip_code') }}</td>
                                         <td>{{ $kelurahan->kd_pos }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Created at') }}</td>
+                                        <td class="fw-bold">{{ trans('region-data/kelurahan/show.created_at') }}</td>
                                         <td>{{ $kelurahan->created_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Updated at') }}</td>
+                                        <td class="fw-bold">{{ trans('region-data/kelurahan/show.updated_at') }}</td>
                                         <td>{{ $kelurahan->updated_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                 </table>

@@ -34,15 +34,15 @@
                             <div class="table-responsive">
                                 <table class="table table-hover table-striped">
                                     <tr>
-                                        <td class="fw-bold">{{ __('Name Employee Type') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/type/show.name') }}</td>
                                         <td>{{ $employeeType->name_employee_type }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Created at') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/type/show.created_at') }}</td>
                                         <td>{{ $employeeType->created_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Updated at') }}</td>
+                                        <td class="fw-bold">{{ trans('employee/type/show.updated_at') }}</td>
                                         <td>{{ $employeeType->updated_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                 </table>

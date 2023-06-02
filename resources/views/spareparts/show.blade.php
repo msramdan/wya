@@ -34,39 +34,39 @@
                             <div class="table-responsive">
                                 <table class="table table-hover table-striped">
                                     <tr>
-                                        <td class="fw-bold">{{ __('Barcode') }}</td>
+                                        <td class="fw-bold">{{ trans('inventory/sparepart/show.barcode') }}</td>
                                         <td>{{ $sparepart->barcode }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Sparepart Name') }}</td>
+                                        <td class="fw-bold">{{ trans('inventory/sparepart/show.sparepart_name') }}</td>
                                         <td>{{ $sparepart->sparepart_name }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Merk') }}</td>
+                                        <td class="fw-bold">{{ trans('inventory/sparepart/show.merk') }}</td>
                                         <td>{{ $sparepart->merk }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Sparepart Type') }}</td>
+                                        <td class="fw-bold">{{ trans('inventory/sparepart/show.sparepart_type') }}</td>
                                         <td>{{ $sparepart->sparepart_type }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Unit Item') }}</td>
+                                        <td class="fw-bold">{{ trans('inventory/sparepart/show.unit_item') }}</td>
                                         <td>{{ $sparepart->unit_item ? $sparepart->unit_item->code_unit : '' }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Estimated Price') }}</td>
+                                        <td class="fw-bold">{{ trans('inventory/sparepart/show.estimated_price') }}</td>
                                         <td>{{ $sparepart->estimated_price }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Stock') }}</td>
+                                        <td class="fw-bold">{{ trans('inventory/sparepart/show.stock') }}</td>
                                         <td>{{ $sparepart->stock }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Created at') }}</td>
+                                        <td class="fw-bold">{{ trans('inventory/sparepart/show.created_at') }}</td>
                                         <td>{{ $sparepart->created_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Updated at') }}</td>
+                                        <td class="fw-bold">{{ trans('inventory/sparepart/show.updated_at') }}</td>
                                         <td>{{ $sparepart->updated_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                 </table>

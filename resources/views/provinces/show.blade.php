@@ -34,23 +34,23 @@
                             <div class="table-responsive">
                                 <table class="table table-hover table-striped">
                                     <tr>
-                                        <td class="fw-bold">{{ __('Provinsi') }}</td>
+                                        <td class="fw-bold">{{ trans('region-data/province/show.province') }}</td>
                                         <td>{{ $province->provinsi }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Ibukota') }}</td>
+                                        <td class="fw-bold">{{ trans('region-data/province/show.capital') }}</td>
                                         <td>{{ $province->ibukota }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('P Bsni') }}</td>
+                                        <td class="fw-bold">{{ trans('region-data/province/show.pbsni') }}</td>
                                         <td>{{ $province->p_bsni }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Created at') }}</td>
+                                        <td class="fw-bold">{{ trans('region-data/province/show.created_at') }}</td>
                                         <td>{{ $province->created_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Updated at') }}</td>
+                                        <td class="fw-bold">{{ trans('region-data/province/show.updated_at') }}</td>
                                         <td>{{ $province->updated_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                 </table>

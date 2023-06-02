@@ -27,7 +27,7 @@
                         <div class="card-header">
                             @can('department create')
                                 <a href="{{ route('roles.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ __('Create a new role') }}</a>
+                                        class="mdi mdi-plus"></i> {{ trans('utilities/rolepermission/index.create') }}</a>
                             @endcan
                         </div>
 
@@ -40,7 +40,7 @@
                                             <div class="input-group mb-2 mr-sm-2">
                                                 <select name="hospital_id" id="hospital_id"
                                                     class="form-control js-example-basic-multiple">
-                                                    <option value="">-- Filter Hospital --</option>
+                                                    <option value="">-- {{ trans('utilities/rolepermission/index.filter_hospital') }}--</option>
                                                     <option value="mta">Role MTA</option>
                                                     @foreach ($hispotals as $hispotal)
                                                         <option value="{{ $hispotal->id }}"
@@ -59,9 +59,9 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>{{ __('Hosital') }}</th>
-                                            <th>{{ __('Name') }}</th>
-                                            <th>{{ __('Action') }}</th>
+                                            <th>{{ trans('utilities/rolepermission/index.hospital') }}</th>
+                                            <th>{{ trans('utilities/rolepermission/index.name') }}</th>
+                                            <th>{{ trans('utilities/rolepermission/index.action') }}</th>
                                         </tr>
                                     </thead>
                                 </table>

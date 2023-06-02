@@ -25,7 +25,7 @@
                         <div class="card-header">
                             @can('employee type create')
                                 <a href="{{ route('employee-types.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ __('Create a new employee type') }}</a>
+                                        class="mdi mdi-plus"></i> {{ trans('employee/type/index.create') }}</a>
                             @endcan
                         </div>
 
@@ -38,7 +38,7 @@
                                             <div class="input-group mb-2 mr-sm-2">
                                                 <select name="hospital_id" id="hospital_id"
                                                     class="form-control js-example-basic-multiple">
-                                                    <option value="">-- Filter Hospital --</option>
+                                                    <option value="">-- {{ trans('employee/type/index.select_hospital') }} --</option>
                                                     @foreach ($hispotals as $hispotal)
                                                         <option value="{{ $hispotal->id }}"
                                                             {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
@@ -57,11 +57,9 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>{{ __('Hospital') }}</th>
-                                            <th>{{ __('Name Employee Type') }}</th>
-                                            {{-- <th>{{ __('Created At') }}</th>
-                                            <th>{{ __('Updated At') }}</th> --}}
-                                            <th>{{ __('Action') }}</th>
+                                            <th>{{ trans('employee/type/index.hospital') }}</th>
+                                            <th>{{ trans('employee/type/index.name') }}</th>
+                                            <th>{{ trans('employee/type/index.action') }}</th>
                                         </tr>
                                     </thead>
                                 </table>

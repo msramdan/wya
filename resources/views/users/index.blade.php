@@ -26,7 +26,7 @@
                         <div class="card-header">
                             @can('department create')
                                 <a href="{{ route('users.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ __('Create a new user') }}</a>
+                                        class="mdi mdi-plus"></i> {{ trans('utilities/users/index.create') }}</a>
                             @endcan
                         </div>
 
@@ -39,7 +39,7 @@
                                             <div class="input-group mb-2 mr-sm-2">
                                                 <select name="hospital_id" id="hospital_id"
                                                     class="form-control js-example-basic-multiple">
-                                                    <option value="">-- Filter Hospital --</option>
+                                                    <option value="">-- {{ trans('utilities/users/index.filter_hospital') }}--</option>
                                                     <option value="mta">User MTA</option>
                                                     @foreach ($hispotals as $hispotal)
                                                         <option value="{{ $hispotal->id }}"
@@ -58,13 +58,13 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>{{ __('Avatar') }}</th>
-                                            <th>{{ __('Hospital') }}</th>
-                                            <th>{{ __('Role') }}</th>
-                                            <th>{{ __('Name') }}</th>
-                                            <th>{{ __('Email') }}</th>
-                                            <th>{{ __('No HP') }}</th>
-                                            <th>{{ __('Action') }}</th>
+                                            <th>{{ trans('utilities/users/index.avatar') }}</th>
+                                            <th>{{ trans('utilities/users/index.hospital') }}</th>
+                                            <th>{{ trans('utilities/users/index.role') }}</th>
+                                            <th>{{ trans('utilities/users/index.name') }}</th>
+                                            <th>{{ trans('utilities/users/index.email') }}</th>
+                                            <th>{{ trans('utilities/users/index.phone') }}</th>
+                                            <th>{{ trans('utilities/users/index.action') }}</th>
                                         </tr>
                                     </thead>
                                 </table>

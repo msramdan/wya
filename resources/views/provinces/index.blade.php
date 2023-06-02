@@ -25,7 +25,7 @@
                         <div class="card-header">
                             @can('province create')
                                 <a href="{{ route('provinces.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ __('Create a new province') }}</a>
+                                        class="mdi mdi-plus"></i> {{ trans('region-data/province/index.create') }}</a>
                             @endcan
                         </div>
 
@@ -35,12 +35,10 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>{{ __('Provinsi') }}</th>
-                                            <th>{{ __('Ibukota') }}</th>
-                                            <th>{{ __('P Bsni') }}</th>
-                                            {{-- <th>{{ __('Created At') }}</th>
-                                            <th>{{ __('Updated At') }}</th> --}}
-                                            <th>{{ __('Action') }}</th>
+                                            <th>{{ trans('region-data/province/index.province') }}</th>
+                                            <th>{{ trans('region-data/province/index.capital') }}</th>
+                                            <th>{{ trans('region-data/province/index.pbsni') }}</th>
+                                            <th>{{ trans('region-data/province/index.action') }}</th>
                                         </tr>
                                     </thead>
                                 </table>

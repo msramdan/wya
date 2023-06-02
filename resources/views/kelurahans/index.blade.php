@@ -25,7 +25,7 @@
                         <div class="card-header">
                             @can('kelurahan create')
                                 <a href="{{ route('kelurahans.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ __('Create a new kelurahan') }}</a>
+                                        class="mdi mdi-plus"></i> {{ trans('region-data/kelurahan/index.create') }}</a>
                             @endcan
                         </div>
 
@@ -35,12 +35,10 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>{{ __('Kecamatan') }}</th>
-                                            <th>{{ __('Kelurahan') }}</th>
-                                            <th>{{ __('Kd Pos') }}</th>
-                                            {{-- <th>{{ __('Created At') }}</th>
-                                            <th>{{ __('Updated At') }}</th> --}}
-                                            <th>{{ __('Action') }}</th>
+                                            <th>{{ trans('region-data/kelurahan/index.subdistrict') }}</th>
+                                            <th>{{ trans('region-data/kelurahan/index.ward') }}</th>
+                                            <th>{{ trans('region-data/kelurahan/index.zip_code') }}</th>
+                                            <th>{{ trans('region-data/kelurahan/index.action') }}</th>
                                         </tr>
                                     </thead>
                                 </table>

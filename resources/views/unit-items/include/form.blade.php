@@ -2,10 +2,10 @@
 
     @if (!Auth::user()->roles->first()->hospital_id)
         <div class="col-md-6 mb-2">
-            <label for="hospital_id">{{ __('Hispotal') }}</label>
+            <label for="hospital_id">{{ trans('main-data/unit-item/form.hospital') }}</label>
             <select class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
                 name="hospital_id" id="hospital_id" required>
-                <option value="" selected disabled>-- {{ __('Select hispotal') }} --</option>
+                <option value="" selected disabled>-- {{ trans('main-data/unit-item/form.select_hospital') }} --</option>
 
                 @foreach ($hispotals as $hispotal)
                     <option value="{{ $hispotal->id }}"
@@ -27,10 +27,10 @@
 
 
     <div class="col-md-6 mb-2">
-        <label for="code-unit">{{ __('Code Unit') }}</label>
+        <label for="code-unit">{{ trans('main-data/unit-item/form.unit_code') }}</label>
         <input type="text" name="code_unit" id="code-unit"
             class="form-control @error('code_unit') is-invalid @enderror"
-            value="{{ isset($unitItem) ? $unitItem->code_unit : old('code_unit') }}" placeholder="{{ __('Code Unit') }}"
+            value="{{ isset($unitItem) ? $unitItem->code_unit : old('code_unit') }}" placeholder="{{ trans('main-data/unit-item/form.unit_code') }}"
             required />
         @error('code_unit')
             <span class="text-danger">
@@ -39,11 +39,11 @@
         @enderror
     </div>
     <div class="col-md-6 mb-2">
-        <label for="unit-name">{{ __('Unit Name') }}</label>
+        <label for="unit-name">{{ trans('main-data/unit-item/form.unit_name') }}</label>
         <input type="text" name="unit_name" id="unit-name"
             class="form-control @error('unit_name') is-invalid @enderror"
             value="{{ isset($unitItem) ? $unitItem->unit_name : old('unit_name') }}"
-            placeholder="{{ __('Unit Name') }}" required />
+            placeholder="{{ trans('main-data/unit-item/form.unit_name') }}" required />
         @error('unit_name')
             <span class="text-danger">
                 {{ $message }}

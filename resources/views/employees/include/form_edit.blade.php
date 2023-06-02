@@ -3,17 +3,17 @@
         <div class="card">
             <div class="card-body">
                 <div class="alert alert-secondary" role="alert">
-                    <b>General Information</b>
+                    <b>{{ trans('employee/form.general_information') }}</b>
                 </div>
                 <hr>
                 @if (!Auth::user()->roles->first()->hospital_id)
                     <div class="row">
                         <div class="col-md-12 mb-2">
                             <div class="form-group">
-                                <label for="hospital_id">{{ __('Hospital') }}</label>
+                                <label for="hospital_id">{{ trans('employee/form.hospital') }}</label>
                                 <select name="hospital_id" id="hospital_id"
                                     class="form-control js-example-basic-multiple">
-                                    <option value="">-- {{ __('Select hispotal') }} --</option>
+                                    <option value="">-- {{ trans('employee/form.select_hospital') }} --</option>
                                     @foreach ($hispotals as $hispotal)
                                         <option value="{{ $hispotal->id }}"
                                             {{ isset($employee) && $employee->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
@@ -30,11 +30,11 @@
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="name">{{ __('Name') }}</label>
+                        <label for="name">{{ trans('employee/form.name') }}</label>
                         <input type="text" name="name" id="name"
                             class="form-control @error('name') is-invalid @enderror"
                             value="{{ isset($employee) ? $employee->name : old('name') }}"
-                            placeholder="{{ __('Name') }}" required />
+                            placeholder="{{ trans('employee/form.name') }}" required />
                         @error('name')
                             <span class="text-danger">
                                 {{ $message }}
@@ -42,11 +42,11 @@
                         @enderror
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="nid-employee">{{ __('Nid Employee') }}</label>
+                        <label for="nid-employee">{{ trans('employee/form.nid') }}</label>
                         <input type="text" name="nid_employee" id="nid-employee"
                             class="form-control @error('nid_employee') is-invalid @enderror"
                             value="{{ isset($employee) ? $employee->nid_employee : old('nid_employee') }}"
-                            placeholder="{{ __('Nid Employee') }}" />
+                            placeholder="{{ trans('employee/form.nid') }}" />
                         @error('nid_employee')
                             <span class="text-danger">
                                 {{ $message }}
@@ -57,11 +57,11 @@
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="employee-type-id">{{ __('Employee Type') }}</label>
+                        <label for="employee-type-id">{{ trans('employee/form.type') }}</label>
                         <select
                             class="form-control js-example-basic-multiple @error('employee_type_id') is-invalid @enderror"
                             name="employee_type_id" id="employee-type-id" required>
-                            <option value="" selected disabled>-- {{ __('Select employee type') }} --</option>
+                            <option value="" selected disabled>-- {{ trans('employee/form.select_type') }} --</option>
 
                             @foreach ($employeeTypes as $employeeType)
                                 <option value="{{ $employeeType->id }}"
@@ -78,11 +78,11 @@
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <label for="employee-status">{{ __('Employee Status') }}</label>
+                        <label for="employee-status">{{ trans('employee/form.status') }}</label>
                         <select
                             class="form-control js-example-basic-multiple @error('employee_status') is-invalid @enderror"
                             name="employee_status" id="employee-status" required>
-                            <option value="" selected disabled>-- {{ __('Select employee status') }} --</option>
+                            <option value="" selected disabled>-- {{ trans('employee/form.select_status') }} --</option>
                             <option value="1"
                                 {{ isset($employee) && $employee->employee_status == '1' ? 'selected' : (old('employee_status') == '1' ? 'selected' : '') }}>
                                 {{ __('Aktif') }}</option>
@@ -100,11 +100,11 @@
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="departement-id">{{ __('Department') }}</label>
+                        <label for="departement-id">{{ trans('employee/form.departement') }}</label>
                         <select
                             class="form-control js-example-basic-multiple @error('departement_id') is-invalid @enderror"
                             name="departement_id" id="departement-id" required>
-                            <option value="" selected disabled>-- {{ __('Select department') }} --</option>
+                            <option value="" selected disabled>-- {{ trans('employee/form.select_departement') }} --</option>
 
                             @foreach ($departments as $department)
                                 <option value="{{ $department->id }}"
@@ -121,11 +121,11 @@
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <label for="position-id">{{ __('Position') }}</label>
+                        <label for="position-id">{{ trans('employee/form.position') }}</label>
                         <select
                             class="form-control js-example-basic-multiple @error('position_id') is-invalid @enderror"
                             name="position_id" id="position-id" required>
-                            <option value="" selected disabled>-- {{ __('Select position') }} --</option>
+                            <option value="" selected disabled>-- {{ trans('employee/form.select_position') }} --</option>
 
                             @foreach ($positions as $position)
                                 <option value="{{ $position->id }}"
@@ -143,11 +143,11 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4 mb-3">
-                        <label for="email">{{ __('Email') }}</label>
+                        <label for="email">{{ trans('employee/form.email') }}</label>
                         <input type="text" name="email" id="email"
                             class="form-control @error('email') is-invalid @enderror"
                             value="{{ isset($employee) ? $employee->email : old('email') }}"
-                            placeholder="{{ __('Email') }}" required />
+                            placeholder="{{ trans('employee/form.email') }}" required />
                         @error('email')
                             <span class="text-danger">
                                 {{ $message }}
@@ -155,11 +155,11 @@
                         @enderror
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="phone">{{ __('Phone') }}</label>
+                        <label for="phone">{{ trans('employee/form.phone') }}</label>
                         <input type="text" name="phone" id="phone"
                             class="form-control @error('phone') is-invalid @enderror"
                             value="{{ isset($employee) ? $employee->phone : old('phone') }}"
-                            placeholder="{{ __('Phone') }}" required />
+                            placeholder="{{ trans('employee/form.phone') }}" required />
                         @error('phone')
                             <span class="text-danger">
                                 {{ $message }}
@@ -167,11 +167,11 @@
                         @enderror
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="join-date">{{ __('Join Date') }}</label>
+                        <label for="join-date">{{ trans('employee/form.join_date') }}</label>
                         <input type="date" name="join_date" id="join-date"
                             class="form-control @error('join_date') is-invalid @enderror"
                             value="{{ isset($employee) && $employee->join_date ? $employee->join_date->format('Y-m-d') : old('join_date') }}"
-                            placeholder="{{ __('Join Date') }}" required />
+                            placeholder="{{ trans('employee/form.join_date') }}" required />
                         @error('join_date')
                             <span class="text-danger">
                                 {{ $message }}
@@ -194,11 +194,11 @@
 
                     <div class="col-md-8">
                         <div class="form-group">
-                            <label class="form-label" for="photo"> Photo</label>
+                            <label class="form-label" for="photo"> {{ trans('employee/form.photo') }}</label>
                             <input type="file" class="form-control @error('photo') is-invalid @enderror"
                                 id="photo" name="photo" onchange="previewImg()"
                                 value="{{ $employee->photo }}">
-                            <p style="color: red">* Choose a photo if you want to change it</p>
+                            <p style="color: red">* {{ trans('employee/form.change_photo') }}</p>
                             @error('photo')
                                 <span class="text-danger">
                                     {{ $message }}
@@ -216,17 +216,17 @@
         <div class="card">
             <div class="card-body">
                 <div class="alert alert-secondary" role="alert">
-                    <b> Address Information</b>
+                    <b> {{ trans('employee/form.address_information') }}</b>
                 </div>
                 <hr>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="provinsi-id">{{ __('Province') }}</label>
+                        <label for="provinsi-id">{{ trans('employee/form.province') }}</label>
                         <select
                             class="form-control js-example-basic-multiple @error('provinsi_id') is-invalid @enderror"
                             name="provinsi_id" id="provinsi-id" required>
-                            <option value="" selected disabled>-- {{ __('Select province') }} --</option>
+                            <option value="" selected disabled>-- {{ trans('employee/form.select_province') }} --</option>
 
                             @foreach ($provinces as $province)
                                 <option value="{{ $province->id }}"
@@ -267,11 +267,11 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="kecamatan-id">{{ __('Kecamatan') }}</label>
+                        <label for="kecamatan-id">{{ trans('employee/form.subdistrict') }}</label>
                         <select
                             class="form-control js-example-basic-multiple @error('kecamatan_id') is-invalid @enderror"
                             name="kecamatan_id" id="kecamatan-id" required>
-                            <option value="" selected disabled>-- {{ __('Select kecamatan') }} --</option>
+                            <option value="" selected disabled>-- {{ trans('employee/form.select_subdistrict') }} --</option>
 
                             @foreach ($kecamatan as $kecamatan)
                                 <option value="{{ $kecamatan->id }}"
@@ -288,11 +288,11 @@
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <label for="kelurahan-id">{{ __('Kelurahan') }}</label>
+                        <label for="kelurahan-id">{{ trans('employee/form.ward') }}</label>
                         <select
                             class="form-control js-example-basic-multiple @error('kelurahan_id') is-invalid @enderror"
                             name="kelurahan_id" id="kelurahan-id" required>
-                            <option value="" selected disabled>-- {{ __('Select kelurahan') }} --</option>
+                            <option value="" selected disabled>-- {{ trans('employee/form.select_ward') }} --</option>
 
                             @foreach ($kelurahan as $kelurahan)
                                 <option value="{{ $kelurahan->id }}"
@@ -310,11 +310,11 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="zip-kode">{{ __('Zip Kode') }}</label>
+                        <label for="zip-kode">{{ trans('employee/form.zip_code') }}</label>
                         <input readonly type="text" name="zip_kode" id="zip-kode"
                             class="form-control @error('zip_kode') is-invalid @enderror"
                             value="{{ isset($employee) ? $employee->zip_kode : old('zip_kode') }}"
-                            placeholder="{{ __('Zip Kode') }}" required />
+                            placeholder="{{ trans('employee/form.zip_code') }}" required />
                         @error('zip_kode')
                             <span class="text-danger">
                                 {{ $message }}
@@ -322,9 +322,9 @@
                         @enderror
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="address">{{ __('Address') }}</label>
+                        <label for="address">{{ trans('employee/form.address') }}</label>
                         <textarea name="address" id="address" class="form-control @error('address') is-invalid @enderror"
-                            placeholder="{{ __('Address') }}" required>{{ isset($employee) ? $employee->address : old('address') }}</textarea>
+                            placeholder="{{ trans('employee/form.address') }}" required>{{ isset($employee) ? $employee->address : old('address') }}</textarea>
                         @error('address')
                             <span class="text-danger">
                                 {{ $message }}
@@ -339,11 +339,11 @@
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="longitude">{{ __('Longitude') }}</label>
+                        <label for="longitude">{{ trans('employee/form.longitude') }}</label>
                         <input type="text" name="longitude" id="longitude"
                             class="form-control @error('longitude') is-invalid @enderror"
                             value="{{ isset($employee) ? $employee->longitude : old('longitude') }}"
-                            placeholder="{{ __('Longitude') }}" required />
+                            placeholder="{{ trans('employee/form.longitude') }}" required />
                         @error('longitude')
                             <span class="text-danger">
                                 {{ $message }}
@@ -351,11 +351,11 @@
                         @enderror
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="latitude">{{ __('Latitude') }}</label>
+                        <label for="latitude">{{ trans('employee/form.latitude') }}</label>
                         <input type="text" name="latitude" id="latitude"
                             class="form-control @error('latitude') is-invalid @enderror"
                             value="{{ isset($employee) ? $employee->latitude : old('latitude') }}"
-                            placeholder="{{ __('Latitude') }}" required />
+                            placeholder="{{ trans('employee/form.latitude') }}" required />
                         @error('latitude')
                             <span class="text-danger">
                                 {{ $message }}
@@ -368,7 +368,7 @@
                 <div class="col-md-12 mb-2">
                     <div class="mb-3 search-box">
                         <input type="text" class="form-control @error('place') is-invalid @enderror"
-                            name="place" id="search_place" placeholder="Cari Lokasi" value="{{ old('place') }}"
+                            name="place" id="search_place" placeholder="{{ trans('employee/form.search_location') }}" value="{{ old('place') }}"
                             autocomplete="off">
                         <span class="d-none" style="color: red;" id="error-place"></span>
                         @error('place')

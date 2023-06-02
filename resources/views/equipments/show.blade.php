@@ -34,62 +34,62 @@
                             <div class="table-responsive">
                                 <table class="table table-hover table-striped">
                                     <tr>
-                                        <td class="fw-bold">{{ __('Barcode') }}</td>
+                                        <td class="fw-bold">{{ trans('inventory/equipment/show.barcode') }}</td>
                                         <td>{{ $equipment->barcode }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Nomenklatur') }}</td>
+                                        <td class="fw-bold">{{ trans('inventory/equipment/show.nomenklatur') }}</td>
                                         <td>{{ $equipment->nomenklatur ? $equipment->nomenklatur->code_nomenklatur : '' }}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Equipment Category') }}</td>
+                                        <td class="fw-bold">{{ trans('inventory/equipment/show.eq_category') }}</td>
                                         <td>{{ $equipment->equipment_category ? $equipment->equipment_category->code_categoty : '' }}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Manufacturer') }}</td>
+                                        <td class="fw-bold">{{ trans('inventory/equipment/show.manufacturer') }}</td>
                                         <td>{{ $equipment->manufacturer }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Type') }}</td>
+                                        <td class="fw-bold">{{ trans('inventory/equipment/show.Type') }}</td>
                                         <td>{{ $equipment->type }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Serial Number') }}</td>
+                                        <td class="fw-bold">{{ trans('inventory/equipment/show.serial_number') }}</td>
                                         <td>{{ $equipment->serial_number }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Vendor') }}</td>
+                                        <td class="fw-bold">{{ trans('inventory/equipment/show.vendor') }}</td>
                                         <td>{{ $equipment->vendor ? $equipment->vendor->code_vendor : '' }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Condition') }}</td>
+                                        <td class="fw-bold">{{ trans('inventory/equipment/show.condition') }}</td>
                                         <td>{{ $equipment->condition == 1 ? 'True' : 'False' }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Risk Level') }}</td>
+                                        <td class="fw-bold">{{ trans('inventory/equipment/show.risk_level') }}</td>
                                         <td>{{ $equipment->risk_level == 1 ? 'True' : 'False' }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Equipment Location') }}</td>
+                                        <td class="fw-bold">{{ trans('inventory/equipment/show.eq_location') }}</td>
                                         <td>{{ $equipment->equipment_location ? $equipment->equipment_location->code_location : '' }}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Financing Code') }}</td>
+                                        <td class="fw-bold">{{ trans('inventory/equipment/show.financing_code') }}</td>
                                         <td>{{ $equipment->financing_code }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Photo') }}</td>
+                                        <td class="fw-bold">{{ trans('inventory/equipment/show.photo') }}</td>
                                         <td>{{ $equipment->photo }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Created at') }}</td>
+                                        <td class="fw-bold">{{ trans('inventory/equipment/show.created_at') }}</td>
                                         <td>{{ $equipment->created_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Updated at') }}</td>
+                                        <td class="fw-bold">{{ trans('inventory/equipment/show.updated_at') }}</td>
                                         <td>{{ $equipment->updated_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                 </table>

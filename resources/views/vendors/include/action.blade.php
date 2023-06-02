@@ -4,17 +4,17 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"> Contact Vendor</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"> {{ trans('vendor/index.contact_vendor') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <table class="table table-bordered dataTables-example" style="width:100%">
                         <thead>
                             <tr>
-                                <th>{{ __('Name') }}</th>
-                                <th>{{ __('Phone') }}</th>
-                                <th>{{ __('Email') }}</th>
-                                <th>{{ __('Remark') }}</th>
+                                <th>{{ trans('vendor/index.name') }}</th>
+                                <th>{{ trans('vendor/index.phone') }}</th>
+                                <th>{{ trans('vendor/index.email') }}</th>
+                                <th>{{ trans('vendor/index.remark') }}</th>
                             </tr>
                         </thead>
                         @php

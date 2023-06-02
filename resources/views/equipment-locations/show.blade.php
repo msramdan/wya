@@ -34,19 +34,19 @@
                             <div class="table-responsive">
                                 <table class="table table-hover table-striped">
                                     <tr>
-                                        <td class="fw-bold">{{ __('Code Location') }}</td>
+                                        <td class="fw-bold">{{ trans('main-data/equipment/location/show.location_code') }}</td>
                                         <td>{{ $equipmentLocation->code_location }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Location Name') }}</td>
+                                        <td class="fw-bold">{{ trans('main-data/equipment/location/show.location_name') }}</td>
                                         <td>{{ $equipmentLocation->location_name }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Created at') }}</td>
+                                        <td class="fw-bold">{{ trans('main-data/equipment/location/show.created_at') }}</td>
                                         <td>{{ $equipmentLocation->created_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Updated at') }}</td>
+                                        <td class="fw-bold">{{ trans('main-data/equipment/location/show.updated_at') }}</td>
                                         <td>{{ $equipmentLocation->updated_at->format('d/m/Y H:i') }}</td>
                                     </tr>
                                 </table>
