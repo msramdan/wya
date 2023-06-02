@@ -199,32 +199,48 @@
                                 </div>
                             </div>
                         </div>
-                        <form method="get" action="/panel" id="form-date" class="row">
-                            @if (!Auth::user()->roles->first()->hospital_id)
-                                <div class="col-md-3 mb-2">
-                                    <div class="input-group mb-2 mr-sm-2">
-                                        <select name="hospital_id" id="hospital_id"
-                                            class="form-control js-example-basic-multiple">
-                                            @foreach ($hispotals as $hispotal)
-                                                <option value="{{ $hispotal->id }}"
-                                                    {{ $ids == $hispotal->id ? 'selected' : '' }}>
-                                                    {{ $hispotal->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form method="get" action="/panel" id="form-date" class="row">
+                                    @if (!Auth::user()->roles->first()->hospital_id)
+                                        <div class="col-md-6">
+                                            <div class="input-group mb-2 mr-sm-2">
+                                                <select name="hospital_id" id="hospital_id"
+                                                    class="form-control js-example-basic-multiple">
+                                                    @foreach ($hispotals as $hispotal)
+                                                        <option value="{{ $hispotal->id }}"
+                                                            {{ $ids == $hispotal->id ? 'selected' : '' }}>
+                                                            {{ $hispotal->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    <div class="col-md-6">
+                                        <div class="input-group mb-4">
+                                            <span class="input-group-text" id="addon-wrapping"><i
+                                                    class="fa fa-calendar"></i></span>
+                                            <input type="text" class="form-control" aria-describedby="addon-wrapping"
+                                                id="daterange-btn" value="">
+                                            <input type="hidden" name="start_date" id="start_date"
+                                                value="{{ $microFrom }}">
+                                            <input type="hidden" name="end_date" id="end_date"
+                                                value="{{ $microTo }}">
+                                        </div>
                                     </div>
-                                </div>
-                            @endif
-                            <div class="col-md-3">
-                                <div class="input-group mb-4">
-                                    <span class="input-group-text" id="addon-wrapping"><i class="fa fa-calendar"></i></span>
-                                    <input type="text" class="form-control" aria-describedby="addon-wrapping"
-                                        id="daterange-btn" value="">
-                                    <input type="hidden" name="start_date" id="start_date" value="{{ $microFrom }}">
-                                    <input type="hidden" name="end_date" id="end_date" value="{{ $microTo }}">
-                                </div>
+                                </form>
                             </div>
-                        </form>
+                            <div class="col-md-6">
+                                <button id="btnExport" class="btn btn-primary">
+                                    <i class="fa fa-file-word" aria-hidden="true"></i>
+                                    General Report
+                                </button>
+                            </div>
+                        </div>
+
+
+
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <!-- card -->
@@ -295,8 +311,9 @@
                                         </div>
                                         <div class="d-flex align-items-end justify-content-between mt-4">
                                             <div>
-                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value"
-                                                        data-target="{{ $countEmployee }}"></span></h4>
+                                                <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span
+                                                        class="counter-value" data-target="{{ $countEmployee }}"></span>
+                                                </h4>
                                             </div>
                                             <div class="avatar-sm flex-shrink-0">
                                                 <span class="avatar-title bg-info rounded fs-3">
