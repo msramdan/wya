@@ -102,6 +102,18 @@ function Expense($type, $microFrom, $microTo, $ids)
     }
 }
 
+function ExpenseTable($ids)
+{
+    $query = "SELECT SUM(amount) AS total FROM work_order_process_has_replacement_of_parts
+    join work_order_processes on work_order_processes.id = work_order_process_has_replacement_of_parts.work_order_process_id WHERE work_order_processes.id= $ids";
+    $data = DB::select($query);
+    if ($data[0]->total != null) {
+        return $data[0]->total;
+    } else {
+        return 0;
+    }
+}
+
 function statusProsesWo($type, $ids)
 {
     if ($type == 'Finish') {

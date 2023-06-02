@@ -85,7 +85,7 @@
             <table class="table table-bordered"
                 style="line-height: 4px;margin-left: 25px;margin-left: 5px; font-size:12px; width:100%">
                 <thead>
-                    <th style="width: 37%">Fitting Name</th>
+                    <th style="width: 45%">Fitting Name</th>
                     <th>Qty</th>
                 </thead>
                 @php
@@ -110,19 +110,18 @@
             </table>
 
             <h6 style="margin-left: 10px">III. Calibration History</h6>
-            <table class="table table-bordered"
-                style="line-height: 4px; margin-left: 25px;margin-left: 5px; font-size:11px;width:100%">
+            <table class="table table-bordered" style="line-height: 4px; margin-left: 5px;font-size:11px;width:100%;">
                 <thead>
                     <tr>
                         <th style="width: 20%;text-align: center;" rowspan="2">WO Number</th>
                         <th style="width: 15%;text-align: center;" rowspan="2">Category</th>
                         <th style="width: 15%;text-align: center;" rowspan="2">Work Date</th>
-                        <th style="width: 15%;text-align: center;" colspan="3">Expense Cost</th>
+                        <th style="width: 55%;text-align: center;" colspan="3">Expense Cost</th>
                     </tr>
                     <tr>
-                        <th style="width: 15%;text-align: center;">Calibration</th>
-                        <th style="width: 15%;text-align: center;">Services</th>
-                        <th style="width: 15%;text-align: center;">Replacement</th>
+                        <th style="width: 20%;text-align: center;">Calibration</th>
+                        <th style="width: 20%;text-align: center;">Services</th>
+                        <th style="width: 20%;text-align: center;">Replacement</th>
                     </tr>
                 </thead>
                 @php
@@ -131,7 +130,7 @@
                         ->where('work_orders.equipment_id', $equipment->id)
                         ->where('work_order_processes.status', 'finished')
                         ->where('work_orders.type_wo', 'Calibration')
-                        ->select('work_order_processes.executor', 'work_order_processes.schedule_date', 'work_order_processes.work_date', 'work_orders.filed_date', 'work_orders.wo_number', 'work_orders.type_wo', 'work_orders.category_wo')
+                        ->select('work_order_processes.id as ids', 'work_order_processes.work_date', 'work_order_processes.calibration_performance_calibration_price', 'work_order_processes.replacement_of_part_service_price', 'work_orders.wo_number', 'work_orders.type_wo', 'work_orders.category_wo')
                         ->get();
                 @endphp
                 <tbody>
@@ -140,9 +139,9 @@
                             <td>{{ $row->wo_number }}</td>
                             <td>{{ $row->category_wo }}</td>
                             <td>{{ $row->work_date }}</td>
-                            <td>1000</td>
-                            <td>1000</td>
-                            <td>1000</td>
+                            <td>{{ rupiah($row->calibration_performance_calibration_price) }}</td>
+                            <td>{{ rupiah($row->replacement_of_part_service_price) }}</td>
+                            <td>{{ rupiah(ExpenseTable($row->ids)) }}</td>
                         </tr>
                     @empty
                         <tr>
@@ -157,19 +156,18 @@
                 </tbody>
             </table>
             <h6 style="margin-left: 10px">IV. Services History </h6>
-            <table class="table table-bordered"
-                style="line-height: 4px; margin-left: 25px;margin-left: 5px; font-size:11px;width:100%">
+            <table class="table table-bordered" style="line-height: 4px; margin-left: 5px;font-size:11px;width:100%;">
                 <thead>
                     <tr>
                         <th style="width: 20%;text-align: center;" rowspan="2">WO Number</th>
                         <th style="width: 15%;text-align: center;" rowspan="2">Category</th>
                         <th style="width: 15%;text-align: center;" rowspan="2">Work Date</th>
-                        <th style="width: 15%;text-align: center;" colspan="3">Expense Cost</th>
+                        <th style="width: 55%;text-align: center;" colspan="3">Expense Cost</th>
                     </tr>
                     <tr>
-                        <th style="width: 15%;text-align: center;">Calibration</th>
-                        <th style="width: 15%;text-align: center;">Services</th>
-                        <th style="width: 15%;text-align: center;">Replacement</th>
+                        <th style="width: 20%;text-align: center;">Calibration</th>
+                        <th style="width: 20%;text-align: center;">Services</th>
+                        <th style="width: 20%;text-align: center;">Replacement</th>
                     </tr>
                 </thead>
                 @php
@@ -178,7 +176,7 @@
                         ->where('work_orders.equipment_id', $equipment->id)
                         ->where('work_order_processes.status', 'finished')
                         ->where('work_orders.type_wo', 'Service')
-                        ->select('work_order_processes.executor', 'work_order_processes.schedule_date', 'work_order_processes.work_date', 'work_orders.filed_date', 'work_orders.wo_number', 'work_orders.type_wo', 'work_orders.category_wo')
+                        ->select('work_order_processes.id as ids', 'work_order_processes.work_date', 'work_order_processes.calibration_performance_calibration_price', 'work_order_processes.replacement_of_part_service_price', 'work_orders.wo_number', 'work_orders.type_wo', 'work_orders.category_wo')
                         ->get();
                 @endphp
                 <tbody>
@@ -187,9 +185,9 @@
                             <td>{{ $row->wo_number }}</td>
                             <td>{{ $row->category_wo }}</td>
                             <td>{{ $row->work_date }}</td>
-                            <td>1000</td>
-                            <td>1000</td>
-                            <td>1000</td>
+                            <td>{{ rupiah($row->calibration_performance_calibration_price) }}</td>
+                            <td>{{ rupiah($row->replacement_of_part_service_price) }}</td>
+                            <td>{{ rupiah(ExpenseTable($row->ids)) }}</td>
                         </tr>
                     @empty
                         <tr>
@@ -205,19 +203,18 @@
             </table>
 
             <h6 style="margin-left: 10px">V. Traning History</h6>
-            <table class="table table-bordered"
-                style="line-height: 4px; margin-left: 25px;margin-left: 5px; font-size:11px;width:100%">
+            <table class="table table-bordered" style="line-height: 4px; margin-left: 5px;font-size:11px;width:100%;">
                 <thead>
                     <tr>
                         <th style="width: 20%;text-align: center;" rowspan="2">WO Number</th>
                         <th style="width: 15%;text-align: center;" rowspan="2">Category</th>
                         <th style="width: 15%;text-align: center;" rowspan="2">Work Date</th>
-                        <th style="width: 15%;text-align: center;" colspan="3">Expense Cost</th>
+                        <th style="width: 55%;text-align: center;" colspan="3">Expense Cost</th>
                     </tr>
                     <tr>
-                        <th style="width: 15%;text-align: center;">Calibration</th>
-                        <th style="width: 15%;text-align: center;">Services</th>
-                        <th style="width: 15%;text-align: center;">Replacement</th>
+                        <th style="width: 20%;text-align: center;">Calibration</th>
+                        <th style="width: 20%;text-align: center;">Services</th>
+                        <th style="width: 20%;text-align: center;">Replacement</th>
                     </tr>
                 </thead>
                 @php
@@ -226,7 +223,7 @@
                         ->where('work_orders.equipment_id', $equipment->id)
                         ->where('work_order_processes.status', 'finished')
                         ->where('work_orders.type_wo', 'Training')
-                        ->select('work_order_processes.executor', 'work_order_processes.schedule_date', 'work_order_processes.work_date', 'work_orders.filed_date', 'work_orders.wo_number', 'work_orders.type_wo', 'work_orders.category_wo')
+                        ->select('work_order_processes.id as ids', 'work_order_processes.work_date', 'work_order_processes.calibration_performance_calibration_price', 'work_order_processes.replacement_of_part_service_price', 'work_orders.wo_number', 'work_orders.type_wo', 'work_orders.category_wo')
                         ->get();
                 @endphp
                 <tbody>
@@ -235,9 +232,9 @@
                             <td>{{ $row->wo_number }}</td>
                             <td>{{ $row->category_wo }}</td>
                             <td>{{ $row->work_date }}</td>
-                            <td>1000</td>
-                            <td>1000</td>
-                            <td>1000</td>
+                            <td>{{ rupiah($row->calibration_performance_calibration_price) }}</td>
+                            <td>{{ rupiah($row->replacement_of_part_service_price) }}</td>
+                            <td>{{ rupiah(ExpenseTable($row->ids)) }}</td>
                         </tr>
                     @empty
                         <tr>
@@ -254,19 +251,18 @@
 
             <h6 style="margin-left: 10px">VI. History Inspection & Preventive Maintenance
             </h6>
-            <table class="table table-bordered"
-                style="line-height: 4px; margin-left: 25px;margin-left: 5px; font-size:11px;width:100%">
+            <table class="table table-bordered" style="line-height: 4px; margin-left: 5px;font-size:11px;width:100%;">
                 <thead>
                     <tr>
                         <th style="width: 20%;text-align: center;" rowspan="2">WO Number</th>
                         <th style="width: 15%;text-align: center;" rowspan="2">Category</th>
                         <th style="width: 15%;text-align: center;" rowspan="2">Work Date</th>
-                        <th style="width: 15%;text-align: center;" colspan="3">Expense Cost</th>
+                        <th style="width: 55%;text-align: center;" colspan="3">Expense Cost</th>
                     </tr>
                     <tr>
-                        <th style="width: 15%;text-align: center;">Calibration</th>
-                        <th style="width: 15%;text-align: center;">Services</th>
-                        <th style="width: 15%;text-align: center;">Replacement</th>
+                        <th style="width: 20%;text-align: center;">Calibration</th>
+                        <th style="width: 20%;text-align: center;">Services</th>
+                        <th style="width: 20%;text-align: center;">Replacement</th>
                     </tr>
                 </thead>
                 @php
@@ -275,7 +271,7 @@
                         ->where('work_orders.equipment_id', $equipment->id)
                         ->where('work_order_processes.status', 'finished')
                         ->where('work_orders.type_wo', 'Inspection and Preventive Maintenance')
-                        ->select('work_order_processes.executor', 'work_order_processes.schedule_date', 'work_order_processes.work_date', 'work_orders.filed_date', 'work_orders.wo_number', 'work_orders.type_wo', 'work_orders.category_wo')
+                        ->select('work_order_processes.id as ids', 'work_order_processes.work_date', 'work_order_processes.calibration_performance_calibration_price', 'work_order_processes.replacement_of_part_service_price', 'work_orders.wo_number', 'work_orders.type_wo', 'work_orders.category_wo')
                         ->get();
                 @endphp
                 <tbody>
@@ -284,9 +280,9 @@
                             <td>{{ $row->wo_number }}</td>
                             <td>{{ $row->category_wo }}</td>
                             <td>{{ $row->work_date }}</td>
-                            <td>1000</td>
-                            <td>1000</td>
-                            <td>1000</td>
+                            <td>{{ rupiah($row->calibration_performance_calibration_price) }}</td>
+                            <td>{{ rupiah($row->replacement_of_part_service_price) }}</td>
+                            <td>{{ rupiah(ExpenseTable($row->ids)) }}</td>
                         </tr>
                     @empty
                         <tr>
