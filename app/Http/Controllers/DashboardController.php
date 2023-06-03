@@ -513,35 +513,9 @@ class DashboardController extends Controller
         // Create a fourth page
         $section->addPageBreak();
         $section->addListItem('MANAJEMEN INVENTORY', 1, null, $multilevelNumberingStyleName);
-        // $list_category = '';
-        // foreach ($reff_category->result() as $r) {
-        //     $list_category .= getReferenceGeneralById($r->reff_category) . ', ';
-        // }
         $section->addText('             Inventory Peralatan terbagi menjadi beberapa kategori Peralatan, dengan rincian sebagai berikut :', $fontStyleName, $paragraphStyleName);
-        $section->addListItem('Asset Peralatan', 2, null, $multilevelNumberingStyleName);
-        $section->addText('Sampai dengan periode dibuat nya laporan ini, dapat kami sajikan data Inventory beserta Total Asset yang dimiliki :', $fontStyleName, $paragraphStyleName);
-        // $section->addListItem('Alat Kesehatan terdapat 800 units Peralatan dengan Total Asset Rp. 123.232.234,-', 3, null, $multilevelNumberingStyleName);
-        // foreach ($reff_category->result() as $r) {
-        //     $book_value = 0;
-        //     $getDataAsset = $this->finance_model->get_tools_depreciation();
-        //     foreach ($getDataAsset  as $row) {
-        //         if ($row->reff_category == $r->reff_category) {
-        //             $book_value += $row->book_value;
-        //         }
-        //     }
-        //     $total_units = $pg->where('reff_category', $r->reff_category)->get('bgn_600')->num_rows();
-        //     $section->addListItem(getReferenceById($r->reff_category) . ' terdapat ' . $total_units . ' unit Peralatan dengan Total Asset ' . rupiah($book_value) . ',-');
-        // }
 
-        // $sparepart_total_asset = $pg->query("select sum(item_price*stock) tot from bgn_100 where company_id = $company_id")->row()->tot;
-        $section->addListItem('Riwayat Peralatan', 2, null, $multilevelNumberingStyleName);
-        $section->addText('Selain menyajikan jumlah peralatan yang dimiliki, kami juga menyajikan Riwayat Peralatan masing-masing peralatannya, riwayat yang kami sajikan merupakan riwayat service, riwayat kalibrasi, riwayat maintenance, riwayat training, riwayat penggantian sparepart hingga riwayat pengeluaran biaya-biaya selama peralatan tersebut beroperasi (di cetak secara terpisah sebagai lampiran).', $fontStyleName, $paragraphStyleName);
 
-        $section->addListItem('Asset Sparepart', 2, null, $multilevelNumberingStyleName);
-        $section->addText('Kami juga melakukan pendataan dan pencatatan Aset Sparepart yang di miliki oleh RS, hingga laporan ini dibuat Mitra Tera Akurasi memiliki Total Aset Sparepart sebesar 999999999999 (Tingkat keakurasian nilai aset sparepart yang di miliki oleh RS bergantung pada ketepatan penginputan harga pembelian).', $fontStyleName, $paragraphStyleName);
-
-        $section->addListItem('Riwayat Sparepart', 2, null, $multilevelNumberingStyleName);
-        $section->addText('Kami juga menyajikan riwayat keluar masuk nya masing-masing sparepart (di cetak secara terpisah sebagai lampiran).', $fontStyleName, $paragraphStyleName);
 
         // Add footer
         $footer = $section->addFooter();
