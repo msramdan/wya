@@ -407,4 +407,150 @@ class DashboardController extends Controller
                 ->make(true);
         }
     }
+
+    public function generalReport(Request $request)
+    {
+        $start_date = intval($request->query('start_date'));
+        $end_date = intval($request->query('end_date'));
+        if (isset($start_date) && !empty($start_date)) {
+            $from = date("Y-m-d H:i:s", substr($request->query('start_date'), 0, 10));
+        } else {
+            // $from = date('Y-m-d') . " 00:00:00";
+            $from = date('d l Y');
+        }
+        if (isset($end_date) && !empty($end_date)) {
+            $to = date("Y-m-d H:i:s", substr($request->query('end_date'), 0, 10));
+        } else {
+            // $to = date('Y-m-d') . " 23:59:59";
+            $to = date('d l Y');
+        }
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $fontStyleName = 'oneUserDefinedStyle';
+        $phpWord->addFontStyle(
+            $fontStyleName,
+            array('name' => 'calibri', 'size' => 12)
+        );
+        $phpWord->addTitleStyle(null, array('size' => 20, 'bold' => false), array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER, 'spaceAfter' => 100));
+        $phpWord->addTitleStyle(1, array('size' => 24, 'bold' => false), array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER, 'spaceAfter' => 100));
+        $phpWord->addTitleStyle(2, array('size' => 18, 'color' => '000'), array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER, 'spaceAfter' => 100));
+        $phpWord->addTitleStyle(3, array('size' => 14, 'italic' => true));
+        $phpWord->addTitleStyle(4, array('size' => 12, 'bold' => true), array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER, 'spaceAfter' => 100));
+
+        $paragraphStyleName = 'pStyle';
+        $phpWord->addParagraphStyle($paragraphStyleName, array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::BOTH));
+
+        $multilevelNumberingStyleName = 'multilevel';
+        $phpWord->addNumberingStyle(
+            $multilevelNumberingStyleName,
+            array(
+                'type'   => 'multilevel',
+                'levels' => array(
+                    array('format' => 'decimal', 'text' => '%1.', 'left' => 360, 'hanging' => 360, 'tabPos' => 360),
+                    array('format' => 'upperLetter', 'text' => '%2.', 'left' => 720, 'hanging' => 360, 'tabPos' => 720),
+                    array('format' => 'decimal', 'text' => '%3.', 'left' => 1080, 'hanging' => 360, 'tabPos' => 1080),
+                    array('format' => 'bullet', 'text' => '%4.', 'left' => 1280, 'hanging' => 360, 'tabPos' => 1280),
+                ),
+            )
+        );
+
+        // Add first page
+        $section = $phpWord->addSection();
+        $section->addTitle('General Report', 0);
+        $section->addTitle('PT Mitra Tera Akurasi', 0);
+        $section->addTextBreak(4);
+        $section->addTitle('PROGRAM', 1);
+        $section->addTitle('Inspection Preventive Maintenace', 1);
+        $section->addTextBreak(17);
+        $section->addTitle('Di Sajikan Oleh', 2);
+        $section->addTitle('PT Mitra Tera Akurasi', 2);
+        $section->addTitle($from . ' - ' . $to, 2);
+
+        // Create a second page
+        $section->addPageBreak();
+        $section->addTitle('BAB I', 4);
+        $section->addTitle('PENDAHULUAN', 4);
+        $section->addTextBreak();
+        $section->addText('             Infrastruktur Pelayanan Kesehatan adalah suatu alat dan/atau tempat yang digunakan untuk menyelenggarakan upaya kesehatan, baik promotif, preventif, kuratif maupun rehabilitatif yang dilakukan oleh pemerintah maupun masyarakat. Infrastruktur pada sebuah institusi Rumah Sakit pada umumnya dapat di klasifikasikan menjadi 5 sektor, diantaranya adalah Medical Equipment, Non Medical Equipment, Building, Human Resource dan Operational', $fontStyleName, $paragraphStyleName);
+        $section->addImage(public_path('gr.png'), array('width' => 250, 'height' => 150));
+        $section->addText('             Medical Equipment adalah infrastruktur terbesar dengan capaian persentase sekitar 37%. Sebagai infrastruktur Rumah Sakit terbesar tentu diharapkan agar peralatan medik tetap dalam kinerja optimal sehingga pelayan Rumah Sakit tidak terhambat. Terkait dengan peraturan Kementrian Kesehatan RI No.35 tentang pentingnya pemeliharaan dan panduan pemeliharaan untuk asset Rumah Sakit bahwa menjamin tersedianya alat kesehatan sesuai standar pelayanan, persyaratan mutu, keamanan, manfaat, keselamatan, dan laik pakai perlu adanya pemeliharaan secara periodik.', $fontStyleName, $paragraphStyleName);
+        $section->addText('             Untuk itu perlu dilakukan Program Inspeksi, Pengujian dan Pemeliharaan Peralatan Medik (Inspection Preventive Maintenance). Dimana program ini merupakan suatu pengamatan secara sistematik yang disertai analisis teknis dan ekonomis untuk menjamin berfungsinya suatu alat kesehatan dan memperpanjang usia alat itu sendiri. Tujuannya untuk memastikan keandalan asset agar memperoleh suatu kualitas alat yang aman, laik pakai, serta menghilangkan potensi kegagalan peralatan.', $fontStyleName, $paragraphStyleName);
+        $section->addText('             Berdasarkan hasil pengolahan data pada pemeliharaan periodik, diperoleh statistik yang dapat dimanfaatkan untuk program manajemen peralatan medik, sebagai perencanaan jangka panjang untuk upgrade dan penggantian alat. Dalam upaya pelaksanaannya, diperlukan aplikasi penunjang untuk melakukan pengelolaan peralatan medik.', $fontStyleName, $paragraphStyleName);
+        $section->addText('             Aplikasi Manajemen Aset Rumah Sakit (MARS) dapat memenuhi kebutuhan Program Inspeksi, Pengujian dan Pemeliharaan Peralatan Medik tersebut, karena meliputi pencatatan dan pelaporan sesuai dengan Peraturan Menteri Kesehatan (PMK) No.15 Tahun 2023 tentang Pemeliharaan Alat Kesehatan di Fasilitas Pelayanan Kesehatan. Beberapa fitur yang terdapat pada aplikasi MARS diantaranya:', $fontStyleName, $paragraphStyleName);
+        $section->addListItem(' Manajemen Preventive Maintenane', 0, null, $multilevelNumberingStyleName);
+        $section->addListItem(' Manajemen Inventory', 0, null, $multilevelNumberingStyleName);
+        $section->addListItem(' Manajemen Peralatan dan Sparepart', 0, null, $multilevelNumberingStyleName);
+        $section->addListItem(' Manajemen Expense', 0, null, $multilevelNumberingStyleName);
+        $section->addListItem(' Manajemen Dokumen', 0, null, $multilevelNumberingStyleName);
+        $section->addListItem(' General Report', 0, null, $multilevelNumberingStyleName);
+        $section->addText('Statistik dari setiap fitur diperlukan sebagai rujukan pengembangan dan tolak ukur dalam Manajemen Fasilitas dan Keselamatan (MFK) dari Rumah Sakit. ', $fontStyleName, $paragraphStyleName);
+
+        // Create a third page
+        $section->addPageBreak();
+        $section->addTitle('BAB II', 4);
+        $section->addTitle('MANAJEMEN PERALATAN MEDIK', 4);
+        $section->addTextBreak();
+
+        $section->addListItem('MANAJEMEN INSPECTION PREVENTIVE MAINTENANCE (IPM)', 1, null, $multilevelNumberingStyleName);
+        $section->addText('             Secara umum, Manajemen Inspection Preventive Maintenance (IPM) meliputi 4 (empat) jenis kegiatan yaitu: Preventive Maintenace, Service, Kalibrasi dan Training Berdasarkan hasil pengamatan berkala dalam periode 01 Maret – 31 Maret 2023 dilaporkan statistik sebagai berikut:', $fontStyleName, $paragraphStyleName);
+
+        $section->addListItem('Preventive Maintenance', 2, null, $multilevelNumberingStyleName);
+        $section->addText(" Pada periode tersebut tercatat 1 kegiatan Preventive Maintenance Peralatan Medik yang telah terlaksana dari 10 jadwal kegiatan Preventive Maintenance yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("Pencapaian pelaksanaan kegiatan Preventive Maintenance adalah sebesar 10% (Sepuluh Persen) dari JAdwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
+
+        $section->addListItem('Service', 2, null, $multilevelNumberingStyleName);
+        $section->addText("Pada periode tersebut kami mencatat terdapat 5 kegiatan Service Peralatan Medik yang telah terlaksana dari 5 jadwal kegiatan Service yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("Pencapaian pelaksanaan kegiatan Service adalah sebesar 100% (Seratus Persen) dari JAdwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
+
+        $section->addListItem('Kalibrasi', 2, null, $multilevelNumberingStyleName);
+        $section->addText("Pada periode tersebut kami mencatat terdapat 4 kegiatan kalibrasi Peralatan Medik yang terlaksana dari 8 jadwal kegiatan Kalibrasi yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("Pencapaian pelaksanaan kegiatan Kalibrasi adalah sebesar 50% (Lima puluh Persen) dari JAdwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
+
+        $section->addListItem('Training', 2, null, $multilevelNumberingStyleName);
+        $section->addText("Pada periode tersebut kami mencatat terdapat 2 kegiatan Training terlaksana dari 8 jadwal kegiatan Training yang telah di rencanakan, baik itu kegiatan Training yang dilakukan secara internal ataupun kegiatan yang di selenggarakan oleh Pihak Ketiga.", $fontStyleName, $paragraphStyleName);
+        $section->addText("Pencapaian pelaksanaan kegiatan Training adalah sebesar 25% (Seratus Persen) dari JAdwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
+
+        // Create a fourth page
+        $section->addPageBreak();
+        $section->addListItem('MANAJEMEN INVENTORY', 1, null, $multilevelNumberingStyleName);
+        // $list_category = '';
+        // foreach ($reff_category->result() as $r) {
+        //     $list_category .= getReferenceGeneralById($r->reff_category) . ', ';
+        // }
+        $section->addText('             Inventory Peralatan terbagi menjadi beberapa kategori Peralatan, dengan rincian sebagai berikut :', $fontStyleName, $paragraphStyleName);
+        $section->addListItem('Asset Peralatan', 2, null, $multilevelNumberingStyleName);
+        $section->addText('Sampai dengan periode dibuat nya laporan ini, dapat kami sajikan data Inventory beserta Total Asset yang dimiliki :', $fontStyleName, $paragraphStyleName);
+        // $section->addListItem('Alat Kesehatan terdapat 800 units Peralatan dengan Total Asset Rp. 123.232.234,-', 3, null, $multilevelNumberingStyleName);
+        // foreach ($reff_category->result() as $r) {
+        //     $book_value = 0;
+        //     $getDataAsset = $this->finance_model->get_tools_depreciation();
+        //     foreach ($getDataAsset  as $row) {
+        //         if ($row->reff_category == $r->reff_category) {
+        //             $book_value += $row->book_value;
+        //         }
+        //     }
+        //     $total_units = $pg->where('reff_category', $r->reff_category)->get('bgn_600')->num_rows();
+        //     $section->addListItem(getReferenceById($r->reff_category) . ' terdapat ' . $total_units . ' unit Peralatan dengan Total Asset ' . rupiah($book_value) . ',-');
+        // }
+
+        // $sparepart_total_asset = $pg->query("select sum(item_price*stock) tot from bgn_100 where company_id = $company_id")->row()->tot;
+        $section->addListItem('Riwayat Peralatan', 2, null, $multilevelNumberingStyleName);
+        $section->addText('Selain menyajikan jumlah peralatan yang dimiliki, kami juga menyajikan Riwayat Peralatan masing-masing peralatannya, riwayat yang kami sajikan merupakan riwayat service, riwayat kalibrasi, riwayat maintenance, riwayat training, riwayat penggantian sparepart hingga riwayat pengeluaran biaya-biaya selama peralatan tersebut beroperasi (di cetak secara terpisah sebagai lampiran).', $fontStyleName, $paragraphStyleName);
+
+        $section->addListItem('Asset Sparepart', 2, null, $multilevelNumberingStyleName);
+        $section->addText('Kami juga melakukan pendataan dan pencatatan Aset Sparepart yang di miliki oleh RS, hingga laporan ini dibuat Mitra Tera Akurasi memiliki Total Aset Sparepart sebesar 999999999999 (Tingkat keakurasian nilai aset sparepart yang di miliki oleh RS bergantung pada ketepatan penginputan harga pembelian).', $fontStyleName, $paragraphStyleName);
+
+        $section->addListItem('Riwayat Sparepart', 2, null, $multilevelNumberingStyleName);
+        $section->addText('Kami juga menyajikan riwayat keluar masuk nya masing-masing sparepart (di cetak secara terpisah sebagai lampiran).', $fontStyleName, $paragraphStyleName);
+
+        // Add footer
+        $footer = $section->addFooter();
+        $footer->addLink('https://marsweb.id', 'Present by Manajemen Aset Rumah Sakit (MARS)');
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        try {
+            $objWriter->save(storage_path('General-Report.docx'));
+        } catch (Exception $e) {
+        }
+        return response()->download(storage_path('General-Report.docx'));
+    }
 }

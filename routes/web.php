@@ -29,6 +29,7 @@ Route::get('/localization/{language}', [LocalizationController::class, 'switch']
 Route::prefix('panel')->group(function () {
     Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/generalReport', [DashboardController::class, 'generalReport'])->name('generalReport');
         Route::get('/getTotalWorkOrder', [DashboardController::class, 'getTotalWorkOrder'])->name('dashboard.work_order');
         Route::get('/getTotalEquipment', [DashboardController::class, 'getTotalEquipment'])->name('dashboard.equipment');
         Route::get('/getTotalEmployee', [DashboardController::class, 'getTotalEmployee'])->name('dashboard.employee');

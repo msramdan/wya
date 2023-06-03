@@ -232,10 +232,10 @@
                                 </form>
                             </div>
                             <div class="col-md-6">
-                                <button id="btnExport" class="btn btn-primary">
+                                <a href="{{ route('generalReport') }}" id="btnExport" class="btn btn-primary" target="_blank">
                                     <i class="fa fa-file-word" aria-hidden="true"></i>
                                     General Report
-                                </button>
+                                </a>
                             </div>
                         </div>
 
@@ -507,7 +507,7 @@
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1"><i
                                                 class="fa fa-sign-out text-warning fs-3" aria-hidden="true"></i>
-                                                {{ trans('dashboard.stock_out_sparepat') }}</h4>
+                                            {{ trans('dashboard.stock_out_sparepat') }}</h4>
                                     </div>
 
                                     <div class="card-body">
@@ -539,7 +539,8 @@
                             <div class="col-xl-12 col-md-12">
                                 <div class="card" style="height: 550px">
                                     <div class="card-header align-items-center d-flex">
-                                        <h4 class="card-title mb-0 flex-grow-1">{{ trans('dashboard.location_employee_vendor') }}</h4>
+                                        <h4 class="card-title mb-0 flex-grow-1">
+                                            {{ trans('dashboard.location_employee_vendor') }}</h4>
                                     </div>
                                     <div class="card-body">
                                         <div class="map-embed" id="map" style="height: 100%; z-index: 0;"></div>
