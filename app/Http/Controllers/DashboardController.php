@@ -431,6 +431,7 @@ class DashboardController extends Controller
             $fontStyleName,
             array('name' => 'calibri', 'size' => 12)
         );
+        $styleFont2 = array('bold' => true, 'size' => 12, 'name' => 'Calibri');
         $phpWord->addTitleStyle(null, array('size' => 20, 'bold' => false), array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER, 'spaceAfter' => 100));
         $phpWord->addTitleStyle(1, array('size' => 24, 'bold' => false), array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER, 'spaceAfter' => 100));
         $phpWord->addTitleStyle(2, array('size' => 18, 'color' => '000'), array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER, 'spaceAfter' => 100));
@@ -446,10 +447,10 @@ class DashboardController extends Controller
             array(
                 'type'   => 'multilevel',
                 'levels' => array(
-                    array('format' => 'decimal', 'text' => '%1.', 'left' => 360, 'hanging' => 360, 'tabPos' => 360),
-                    array('format' => 'upperLetter', 'text' => '%2.', 'left' => 720, 'hanging' => 360, 'tabPos' => 720),
-                    array('format' => 'decimal', 'text' => '%3.', 'left' => 1080, 'hanging' => 360, 'tabPos' => 1080),
-                    array('format' => 'bullet', 'text' => '%4.', 'left' => 1280, 'hanging' => 360, 'tabPos' => 1280),
+                    array('format' => 'decimal', 'text' => '%1.', 'left' => 360, 'hanging' => 360, 'tabPos' => 360, 'bold' => true),
+                    array('format' => 'upperLetter', 'text' => '%2.', 'left' => 720, 'hanging' => 360, 'tabPos' => 720, 'bold' => true),
+                    array('format' => 'decimal', 'text' => '%3.', 'left' => 1080, 'hanging' => 360, 'tabPos' => 1080, 'bold' => true),
+                    array('format' => 'bullet', 'text' => '%4.', 'left' => 1280, 'hanging' => 360, 'tabPos' => 1280, 'bold' => true),
                 ),
             )
         );
@@ -477,25 +478,25 @@ class DashboardController extends Controller
         $section->addText('             Untuk itu perlu dilakukan Program Inspeksi, Pengujian dan Pemeliharaan Peralatan Medik (Inspection Preventive Maintenance). Dimana program ini merupakan suatu pengamatan secara sistematik yang disertai analisis teknis dan ekonomis untuk menjamin berfungsinya suatu alat kesehatan dan memperpanjang usia alat itu sendiri. Tujuannya untuk memastikan keandalan asset agar memperoleh suatu kualitas alat yang aman, laik pakai, serta menghilangkan potensi kegagalan peralatan.', $fontStyleName, $paragraphStyleName);
         $section->addText('             Berdasarkan hasil pengolahan data pada pemeliharaan periodik, diperoleh statistik yang dapat dimanfaatkan untuk program manajemen peralatan medik, sebagai perencanaan jangka panjang untuk upgrade dan penggantian alat. Dalam upaya pelaksanaannya, diperlukan aplikasi penunjang untuk melakukan pengelolaan peralatan medik.', $fontStyleName, $paragraphStyleName);
         $section->addText('             Aplikasi Manajemen Aset Rumah Sakit (MARS) dapat memenuhi kebutuhan Program Inspeksi, Pengujian dan Pemeliharaan Peralatan Medik tersebut, karena meliputi pencatatan dan pelaporan sesuai dengan Peraturan Menteri Kesehatan (PMK) No.15 Tahun 2023 tentang Pemeliharaan Alat Kesehatan di Fasilitas Pelayanan Kesehatan. Beberapa fitur yang terdapat pada aplikasi MARS diantaranya:', $fontStyleName, $paragraphStyleName);
-        $section->addListItem(' Manajemen Preventive Maintenane', 0, null, $multilevelNumberingStyleName);
-        $section->addListItem(' Manajemen Inventory', 0, null, $multilevelNumberingStyleName);
-        $section->addListItem(' Manajemen Peralatan dan Sparepart', 0, null, $multilevelNumberingStyleName);
-        $section->addListItem(' Manajemen Expense', 0, null, $multilevelNumberingStyleName);
-        $section->addListItem(' Manajemen Dokumen', 0, null, $multilevelNumberingStyleName);
-        $section->addListItem(' General Report', 0, null, $multilevelNumberingStyleName);
-        $section->addText('Statistik dari setiap fitur diperlukan sebagai rujukan pengembangan dan tolak ukur dalam Manajemen Fasilitas dan Keselamatan (MFK) dari Rumah Sakit. ', $fontStyleName, $paragraphStyleName);
+        $section->addText(" 1. Manajemen Preventive Maintenane", $fontStyleName, $paragraphStyleName);
+        $section->addText(" 2. Manajemen Inventory", $fontStyleName, $paragraphStyleName);
+        $section->addText(" 3. Manajemen Peralatan dan Sparepart", $fontStyleName, $paragraphStyleName);
+        $section->addText(" 4. Manajemen Expense", $fontStyleName, $paragraphStyleName);
+        $section->addText(" 5. Manajemen Dokumen", $fontStyleName, $paragraphStyleName);
+        $section->addText(" 6. General Report", $fontStyleName, $paragraphStyleName);
+        $section->addText('             Statistik dari setiap fitur diperlukan sebagai rujukan pengembangan dan tolak ukur dalam Manajemen Fasilitas dan Keselamatan (MFK) dari Rumah Sakit. ', $fontStyleName, $paragraphStyleName);
 
-        // Create a third page
+        // Create a four page
         $section->addPageBreak();
         $section->addTitle('BAB II', 4);
         $section->addTitle('MANAJEMEN PERALATAN MEDIK', 4);
         $section->addTextBreak();
 
-        $section->addListItem('MANAJEMEN INSPECTION PREVENTIVE MAINTENANCE (IPM)', 1, null, $multilevelNumberingStyleName);
+        $section->addText("2.1      MANAJEMEN INSPECTION PREVENTIVE MAINTENANCE (IPM)", $styleFont2, $paragraphStyleName);
         $section->addText('             Secara umum, Manajemen Inspection Preventive Maintenance (IPM) meliputi 4 (empat) jenis kegiatan yaitu: Preventive Maintenace, Service, Kalibrasi dan Training Berdasarkan hasil pengamatan berkala dalam periode 01 Maret – 31 Maret 2023 dilaporkan statistik sebagai berikut:', $fontStyleName, $paragraphStyleName);
 
         $section->addListItem('Preventive Maintenance', 2, null, $multilevelNumberingStyleName);
-        $section->addText(" Pada periode tersebut tercatat 1 kegiatan Preventive Maintenance Peralatan Medik yang telah terlaksana dari 10 jadwal kegiatan Preventive Maintenance yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("Pada periode tersebut tercatat 1 kegiatan Preventive Maintenance Peralatan Medik yang telah terlaksana dari 10 jadwal kegiatan Preventive Maintenance yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
         $section->addText("Pencapaian pelaksanaan kegiatan Preventive Maintenance adalah sebesar 10% (Sepuluh Persen) dari JAdwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
 
         $section->addListItem('Service', 2, null, $multilevelNumberingStyleName);
@@ -510,10 +511,63 @@ class DashboardController extends Controller
         $section->addText("Pada periode tersebut kami mencatat terdapat 2 kegiatan Training terlaksana dari 8 jadwal kegiatan Training yang telah di rencanakan, baik itu kegiatan Training yang dilakukan secara internal ataupun kegiatan yang di selenggarakan oleh Pihak Ketiga.", $fontStyleName, $paragraphStyleName);
         $section->addText("Pencapaian pelaksanaan kegiatan Training adalah sebesar 25% (Seratus Persen) dari JAdwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
 
-        // Create a fourth page
+        // Create a five page
         $section->addPageBreak();
-        $section->addListItem('MANAJEMEN INVENTORY', 1, null, $multilevelNumberingStyleName);
+        $section->addText("2.2      MANAJEMEN INVENTORY", $styleFont2, $paragraphStyleName);
         $section->addText('             Inventory Peralatan terbagi menjadi beberapa kategori Peralatan, dengan rincian sebagai berikut :', $fontStyleName, $paragraphStyleName);
+        $section->addText("             •    Alat Medis terdapat 11 unit Peralatan dengan Total Asset Rp 1.196.120.911,-", $fontStyleName, $paragraphStyleName);
+        $section->addText("             •    Alat Non Medis terdapat 1 unit Peralatan dengan Total Asset Rp 10.000.000,-", $fontStyleName, $paragraphStyleName);
+        $section->addText("             •    Dengan Akumulasi Total Aset Peralatan sejumlah Rp 1.206.120.911,-", $fontStyleName, $paragraphStyleName);
+
+        $section->addText("2.3      MANAJEMEN PERALATAN DAN SPAREPART", $styleFont2, $paragraphStyleName);
+        $section->addText("1.       Asset Peralatan", $fontStyleName, $paragraphStyleName);
+        $section->addText("Sampai dengan periode dibuat nya laporan ini, dapat kami sajikan data Inventory beserta Total Asset yang dimiliki :", $fontStyleName, $paragraphStyleName);
+        $section->addText("             •    Alat Medis terdapat 11 unit Peralatan dengan Total Asset Rp 1.196.120.911,-", $fontStyleName, $paragraphStyleName);
+        $section->addText("             •    Alat Non Medis terdapat 1 unit Peralatan dengan Total Asset Rp 10.000.000,-", $fontStyleName, $paragraphStyleName);
+        $section->addText("             •    Dengan Akumulasi Total Aset Peralatan sejumlah Rp 1.206.120.911,-", $fontStyleName, $paragraphStyleName);
+
+        $section->addText("2.       Riwayat Peralatan", $fontStyleName, $paragraphStyleName);
+        $section->addText("Selain menyajikan jumlah peralatan yang dimiliki, disajikan juga riwayat peralatan masing-masing peralatannya, riwayat yang disajikan merupakan riwayat service, riwayat kalibrasi, riwayat maintenance, riwayat training, riwayat penggantian sparepart hingga riwayat pengeluaran biaya-biaya selama peralatan tersebut beroperasi (dicetak secara terpisah sebagai lampiran).", $fontStyleName, $paragraphStyleName);
+        $section->addText("3.       Asset Sparepart", $fontStyleName, $paragraphStyleName);
+        $section->addText("Telah dilakukan pendataan dan pencatatan Aset Sparepart yang di miliki oleh Rumah Sakit dan tercatat memiliki Total Aset Sparepart sebesar Rp 45.488.000,- ", $fontStyleName, $paragraphStyleName);
+        $section->addText("4.       Riwayat Sparepart", $fontStyleName, $paragraphStyleName);
+        $section->addText("Kami juga menyajikan data riwayat keluar masuk nya sparepart dan asesoris  yang kami sajikan terpisah sebagai lampiran.", $fontStyleName, $paragraphStyleName);
+
+
+        $section->addText("2.4      MANAJEMEN EXPENSES", $styleFont2, $paragraphStyleName);
+        $section->addText("             Selain pencatatan dan pelaporan kegiatan Inspection Preventive Maintenance, tercatat juga biaya-biaya pengeluaran untuk kegiatan Service, Kalibrasi dan Penggantian Sparepart yang secara otomatis tersimpan pada Riwayat Peralatan masing-masing. ", $fontStyleName, $paragraphStyleName);
+        $section->addText("             Pada periode ini tercatat biaya pengeluaran untuk kegiatan Service sebesar Rp. 30.000.000,-", $fontStyleName, $paragraphStyleName);
+        $section->addText("             Pada periode ini tercatat biaya pengeluaran untuk kegiatan Kalibrasi sebesar Rp. 10.000.000,-", $fontStyleName, $paragraphStyleName);
+        $section->addText("             Pada periode ini tercatat biaya pengeluaran untuk kegiatan Penggantian Sparepart dan Asesoris sebesar Rp. 20.000.000,-", $fontStyleName, $paragraphStyleName);
+
+
+        $section->addText("2.5      MANAJEMEN DOKUMEN", $styleFont2, $paragraphStyleName);
+        $section->addText("2.6      GENERAL REPORT", $styleFont2, $paragraphStyleName);
+        $section->addText("             Dari statistik yang tercatat selama periode 01 Maret 2023 sampai dengan 31 Maret 2023, dapat dilaporkan bahwa:", $fontStyleName, $paragraphStyleName);
+
+        $section->addText("     1.  Program Inspection Preventive Maintenance (IPM) telah terlaksana dengan presentase 0% dari total asset peralatan Rumah Sakit.", $fontStyleName, $paragraphStyleName);
+        $section->addText("     2.   Pemeliharaan pada program Inspection Preventive Maintenance (IPM) yang telah dilakukan mencapai 0% dari Work Order yang diajukan.", $fontStyleName, $paragraphStyleName);
+
+        $section->addText("Dengan rincian 4 kategori Status Work Order sebagai berikut:", $fontStyleName, $paragraphStyleName);
+
+        $section->addText("     1.   Approved terdapat 0 kasus", $fontStyleName, $paragraphStyleName);
+        $section->addText("     2.   Rejected terdapat 0 kasus", $fontStyleName, $paragraphStyleName);
+        $section->addText("     3.   On Progress terdapat 0 kasus", $fontStyleName, $paragraphStyleName);
+        $section->addText("     4.   Finished/Closed terdapat 0 kasus", $fontStyleName, $paragraphStyleName);
+
+        // Create a seventh page
+        $section->addPageBreak();
+        $section->addTitle('BAB III', 4);
+        $section->addTitle('Kesimpulan', 4);
+        $section->addTextBreak(1);
+        $section->addText('             Berdasarkan ukuran statistik yang menunjukkan pemeliharaan atas peralatan medik, manajemen dapat menarik kesimpulan bahwa program Inspection Preventive Maintenance (IPM) memiliki peranan dan manfaat yang sangat penting dalam upaya peningkatan mutu pelayanan Rumah Sakit. Statistik tersebut dapat digunakan sebagai bahan acuan perencanaan program IPM berikutnya ataupun perencanaan penambahan peralatan medik.', $fontStyleName, $paragraphStyleName);
+        $section->addTextBreak(0);
+        $section->addText('             Demikian Laporan ini dapat kami sampaikan, semoga bermanfaat dalam upaya peningkatan mutu pelayanan Rumah Sakit.', $fontStyleName, $paragraphStyleName);
+        $section->addTextBreak(2);
+        $section->addText("                                                                                                                     Jakarta, " . date('d') . ' ' . getMonthIndo(date('m')) . ' ' . date('Y'));
+        $section->addText("                                                                                                                     PT. Mitra Tera Akurasi");
+        $section->addTextBreak(4);
+        $section->addText("                                                                                                                         (Manager Teknik)");
 
 
 
