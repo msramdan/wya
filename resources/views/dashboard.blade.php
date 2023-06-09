@@ -232,10 +232,10 @@
                                 </form>
                             </div>
                             <div class="col-md-6">
-                                <a href="{{ route('generalReport') }}" id="btnExport" class="btn btn-primary" target="_blank">
+                                <button type="button" id="btnExport" class="btn btn-primary">
                                     <i class="fa fa-file-word" aria-hidden="true"></i>
                                     General Report
-                                </a>
+                                </button>
                             </div>
                         </div>
 
@@ -1195,6 +1195,13 @@
             $('#hospital_id').change(function() {
                 $('#form-date').submit();
             });
+
+            $('#btnExport').click(function(){
+                const hospital_id = $('#hospital_id').val()
+                const start_date = $('#start_date').val()
+                const end_date = $('#end_date').val()
+                window.open('/panel/generalReport' + '?hospital_id=' + hospital_id + '&start_date=' + start_date + '&end_date=' + end_date, '_blank')
+            })
         });
     </script>
 
