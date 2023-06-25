@@ -80,6 +80,7 @@ Route::prefix('panel')->group(function () {
     Route::post('stok_out', [App\Http\Controllers\SparepartController::class, 'stok_out'])->name('stok_out')->middleware('auth');
     Route::delete('delete_history/{id}', [App\Http\Controllers\SparepartController::class, 'delete_history'])->name('delete_history')->middleware('auth');
     Route::get('print_qr/{id}', [App\Http\Controllers\SparepartController::class, 'print_qr'])->name('print_qr')->middleware('auth');
+    Route::get('totalAssetPart', [App\Http\Controllers\SparepartController::class, 'totalAssetPart'])->name('totalAssetPart')->middleware('auth');
     Route::get('print_histori/{id}', [App\Http\Controllers\SparepartController::class, 'print_histori'])->name('print_histori')->middleware('auth');
     Route::resource('nomenklaturs', App\Http\Controllers\NomenklaturController::class)->middleware('auth');
     Route::get('export-data-nomenklatur', [App\Http\Controllers\NomenklaturController::class, 'export'])->name('export-data-nomenklatur')->middleware('auth');

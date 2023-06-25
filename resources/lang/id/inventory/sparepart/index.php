@@ -18,6 +18,7 @@ return [
     'unit_item' => 'Barang Satuan',
     'action' => 'Aksi',
     'sparepart' => 'Onderdil',
+    'total' => 'Total Nilai Aset Onderdil',
 
     // stock in
     'stock_in_title' => 'Stok Masuk',

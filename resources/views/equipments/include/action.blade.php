@@ -25,7 +25,8 @@
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             <li>
                 <a href="#" type="button" class="dropdown-item" data-bs-toggle="modal"
-                    data-bs-target="#detailEquipment{{ $model->id }}">
+                    data-bs-target="#detailEquipment{{ $model->id }}" id="view_gambar"
+                    data-photo="{{ $model->photo }}" data-id="{{ $model->id }}">
                     Detail
                 </a>
             </li>
@@ -58,7 +59,7 @@
 <!-- Modal Detail -->
 <div class="modal fade" id="detailEquipment{{ $model->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Detail</h5>
@@ -67,7 +68,7 @@
             <div class="modal-body">
                 <table class="table table-bordered table-sm">
                     <tr>
-                        <th>{{ trans('inventory/equipment/index.barcode') }}</th>
+                        <th style="width: 200px">{{ trans('inventory/equipment/index.barcode') }}</th>
                         <td>{{ $model->barcode }}</td>
                     </tr>
                     <tr>
@@ -131,9 +132,18 @@
                         <th>{{ trans('inventory/equipment/index.useful') }}</th>
                         <td>{{ $model->masa_manfaat }} Tahun</td>
                     </tr>
+
+                    <tr>
+                        <th>{{ trans('inventory/equipment/form.photo') }}</th>
+                        <td><img class="img-thumbnail" src="" id="photo_alat_modal{{ $model->id }}"
+                                style="width: 100%;margin:0px" /></td>
+                    </tr>
+
                 </table>
             </div>
             <div class="modal-footer">
+                <a class="btn btn-danger" id="download" href=""><i class="ace-icon fa fa-print"></i>
+                    Print</a>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
@@ -186,7 +196,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{ trans('inventory/equipment/index.depreciation_tabel') }} {{ $model->metode }}</h5>
+                <h5 class="modal-title" id="exampleModalLabel">
+                    {{ trans('inventory/equipment/index.depreciation_tabel') }} {{ $model->metode }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -255,6 +266,8 @@
                 </table>
             </div>
             <div class="modal-footer">
+                <a class="btn btn-danger" id="download" href=""><i class="ace-icon fa fa-print"></i>
+                    Print</a>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
@@ -268,7 +281,8 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{ trans('inventory/equipment/index.title_history') }}</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{ trans('inventory/equipment/index.title_history') }}
+                </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -310,15 +324,13 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <a href="{{ route('print_history_equipment', $model->id) }}" type="button" class="btn btn-danger" target="_blank"><i
-                    class="fa fa-print" aria-hidden="true"></i>Print</a>
+                <a href="{{ route('print_history_equipment', $model->id) }}" type="button" class="btn btn-danger"
+                    target="_blank"><i class="fa fa-print" aria-hidden="true"></i>Print</a>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
-
-
 
 <script>
     $('.dataTables-example').DataTable();

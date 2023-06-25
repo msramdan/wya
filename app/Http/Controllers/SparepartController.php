@@ -13,10 +13,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use Auth;
 use PDF;
 use App\Models\UnitItem;
 use App\Models\Hospital;
+use Illuminate\Support\Facades\Auth;
 
 
 class SparepartController extends Controller
@@ -326,5 +326,30 @@ class SparepartController extends Controller
 
         Alert::toast('Sparepart has been successfully imported.', 'success');
         return back();
+    }
+
+    public function totalAssetPart(Request $request)
+    {
+        $month = date('Y-m');
+        if (Auth::user()->roles->first()->hospital_id == null) {
+            $id = $request->id;
+            if ($id != null || $id != '') {
+                $query = "SELECT SUM(estimated_price * stock) AS total FROM spareparts
+                WHERE hospital_id='$id' ";
+            } else {
+                $query = "SELECT SUM(estimated_price * stock) AS total FROM spareparts";
+            }
+        } else {
+            $id = Auth::user()->roles->first()->hospital_id;
+            $query = "SELECT SUM(estimated_price * stock) AS total FROM spareparts
+                WHERE hospital_id='$id'";
+        }
+
+        $data = DB::select($query);
+        if ($data[0]->total != null) {
+            return rupiah($data[0]->total);
+        } else {
+            return rupiah(0);
+        }
     }
 }

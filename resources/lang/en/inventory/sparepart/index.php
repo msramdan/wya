@@ -18,6 +18,7 @@ return [
     'unit_item' => 'Unit Item',
     'action' => 'Action',
     'sparepart' => 'Sparepart',
+    'total' => 'Total Value of Spare Parts Assets',
 
 
     // stock in

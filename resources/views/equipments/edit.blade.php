@@ -17,7 +17,8 @@
                                     <a href="/panel">Dashboard</a>
                                 </li>
                                 <li class="breadcrumb-item">
-                                    <a href="{{ route('equipment.index') }}">{{ trans('inventory/equipment/index.head') }}</a>
+                                    <a
+                                        href="{{ route('equipment.index') }}">{{ trans('inventory/equipment/index.head') }}</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
                                     {{ __('Edit') }}
@@ -142,7 +143,6 @@
         $(document).on('click', '#view_photo_alat', function() {
             var photo = $(this).data('photo');
             $('#modalPhotoAlat #photo_alat').attr("src", "../../../storage/img/equipment/" + photo);
-            console.log(photo);
         })
     </script>
 

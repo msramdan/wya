@@ -86,7 +86,8 @@
                                         <div class="input-group mb-2 mr-sm-2">
                                             <select name="hospital_id" id="hospital_id"
                                                 class="form-control js-example-basic-multiple">
-                                                <option value="">-- {{ trans('inventory/equipment/index.filter_hospital') }} --</option>
+                                                <option value="">--
+                                                    {{ trans('inventory/equipment/index.filter_hospital') }} --</option>
                                                 @foreach ($hispotals as $hispotal)
                                                     <option value="{{ $hispotal->id }}"
                                                         {{ isset($equipments) && $equipments->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
@@ -102,7 +103,8 @@
                                         <select
                                             class="form-control js-example-basic-multiple @error('equipment_location_id') is-invalid @enderror"
                                             name="equipment_location_id" id="equipment_location_id" required>
-                                            <option value="" selected>-- {{ trans('inventory/equipment/index.filter_location') }} --
+                                            <option value="" selected>--
+                                                {{ trans('inventory/equipment/index.filter_location') }} --
                                             </option>
                                         </select>
                                     </div>
@@ -111,7 +113,8 @@
 
                             <div class="col-md-4">
                                 <div class="alert alert-primary" role="alert">
-                                    {{ trans('inventory/equipment/index.total') }} : <h4><span id="hitungAsset"></span></h4>
+                                    {{ trans('inventory/equipment/index.total') }} : <h4><span id="hitungAsset"></span>
+                                    </h4>
                                 </div>
                             </div>
                             <div class="table-responsive">
@@ -143,6 +146,14 @@
 
 
 @push('js')
+    <script type="text/javascript">
+        $(document).on('click', '#view_gambar', function() {
+            var id = $(this).data('id');
+            var photo = $(this).data('photo');
+            $('#photo_alat_modal' + id).attr("src", "../../../storage/img/equipment/" + photo);
+        })
+    </script>
+
     <script>
         $(document).ready(function() {
             hitungAsset()

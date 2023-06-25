@@ -103,6 +103,13 @@
                                     </div>
                                 </div>
                             @endif
+                            <div class="col-md-4">
+                                <div class="alert alert-primary" role="alert">
+                                    {{ trans('inventory/sparepart/index.total') }} : <h4><span id="hitungAsset"></span>
+                                    </h4>
+                                </div>
+                            </div>
+
                             <div class="table-responsive">
                                 <table class="table table-bordered table-sm" id="data-table">
                                     <thead>
@@ -132,6 +139,33 @@
 
 
 @push('js')
+    <script>
+        $(document).ready(function() {
+            hitungAsset()
+        });
+
+        function hitungAsset() {
+            var cek = $('#hospital_id').val()
+            console.log(cek)
+            var url = '../panel/totalAssetPart';
+            $.ajax({
+                url: url,
+                type: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+                data: {
+                    id: cek,
+                },
+                success: function(data) {
+                    $('#hitungAsset').text(data)
+                },
+                error: function(data) {
+                    console.log('ada error kaka')
+                }
+            });
+        }
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.5.1/sweetalert2.all.min.js"></script>
     <script>
         let columns = [{
@@ -199,6 +233,7 @@
 
         $('#hospital_id').change(function() {
             table.draw();
+            hitungAsset()
         })
     </script>
     <script>
