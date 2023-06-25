@@ -602,6 +602,17 @@ class EquipmentController extends Controller
         return $pdf->stream();
     }
 
+    public function print_penyusutan($id)
+    {
+        $equipment = Equipment::with('equipment_location:id,location_name', 'equipment_category:id,category_name')->findOrFail($id);
+        $hospital = Hospital::find($equipment->hospital_id);
+        $pdf = PDF::loadview('equipments.print_penyusutan', [
+            'equipment' => $equipment,
+            'hospital' => $hospital,
+        ])->setPaper('a4', 'portrait');
+        return $pdf->stream();
+    }
+
     public function totalAsset(Request $request)
     {
         $month = date('Y-m');

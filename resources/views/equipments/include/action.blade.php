@@ -267,7 +267,8 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <a class="btn btn-danger" id="download" href=""><i class="ace-icon fa fa-print"></i>
+                <a class="btn btn-danger" id="download" href="{{ route('print_penyusutan', $model->id) }}"
+                    target="_blank"><i class="ace-icon fa fa-print"></i>
                     Print</a>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
