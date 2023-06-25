@@ -412,6 +412,7 @@ class DashboardController extends Controller
     {
         $start_date = intval($request->query('start_date'));
         $end_date = intval($request->query('end_date'));
+        
         if (isset($start_date) && !empty($start_date)) {
             $from = date("Y-m-d H:i:s", substr($request->query('start_date'), 0, 10));
         } else {
@@ -423,6 +424,15 @@ class DashboardController extends Controller
         } else {
             // $to = date('Y-m-d') . " 23:59:59";
             $to = date('d l Y');
+        }
+        $get_hospital_id = Auth::user()->roles->first()->hospital_id;
+        $penyaji = '';
+        if ($get_hospital_id == null) {
+            $hospital = Hospital::firstWhere('id', $request->hospital_id);
+            $penyaji = $hospital->name;
+        }else{
+            $hospital = Hospital::firstWhere('id', Auth::user()->roles->first()->hospital_id);
+            $penyaji = $hospital->name;
         }
 
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
@@ -458,13 +468,13 @@ class DashboardController extends Controller
         // Add first page
         $section = $phpWord->addSection();
         $section->addTitle('General Report', 0);
-        $section->addTitle('PT Mitra Tera Akurasi', 0);
+        $section->addTitle($penyaji, 0);
         $section->addTextBreak(4);
         $section->addTitle('PROGRAM', 1);
         $section->addTitle('Inspection Preventive Maintenace', 1);
         $section->addTextBreak(17);
         $section->addTitle('Di Sajikan Oleh', 2);
-        $section->addTitle('PT Mitra Tera Akurasi', 2);
+        $section->addTitle($penyaji, 2);
         $section->addTitle($from . ' - ' . $to, 2);
 
         // Create a second page
