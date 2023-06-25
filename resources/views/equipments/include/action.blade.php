@@ -142,8 +142,8 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <a class="btn btn-danger" id="download" href=""><i class="ace-icon fa fa-print"></i>
-                    Print</a>
+                <a href="{{ route('print_history_equipment', $model->id) }}" type="button" class="btn btn-danger"
+                    target="_blank"><i class="fa fa-print" aria-hidden="true"></i>Print</a>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
@@ -181,10 +181,11 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <a href="{{ route('print_qr_equipment', $model->id) }}" target="_blank" class="btn btn-danger ">
                     <i class="fa fa-print" aria-hidden="true"></i>
                     Print</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
             </div>
         </div>
     </div>
