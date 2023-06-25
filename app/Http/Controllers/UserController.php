@@ -97,7 +97,6 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $attr = $request->validated();
-
         if ($request->file('avatar') && $request->file('avatar')->isValid()) {
 
             $filename = $request->file('avatar')->hashName();
@@ -105,7 +104,6 @@ class UserController extends Controller
             if (!file_exists($folder = public_path($this->avatarPath))) {
                 mkdir($folder, 0777, true);
             }
-
             try {
                 Image::make($request->file('avatar')->getRealPath())->resize(500, 500, function ($constraint) {
                     $constraint->aspectRatio();
