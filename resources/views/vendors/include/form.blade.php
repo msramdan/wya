@@ -14,7 +14,8 @@
                             <select
                                 class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
                                 name="hospital_id" id="hospital_id" required>
-                                <option value="" selected disabled>-- {{ trans('vendor/create.filter_hospital') }} --</option>
+                                <option value="" selected disabled>-- {{ trans('vendor/create.filter_hospital') }}
+                                    --</option>
 
                                 @foreach ($hispotals as $hispotal)
                                     <option value="{{ $hispotal->id }}"
@@ -61,7 +62,8 @@
                         <select
                             class="form-control js-example-basic-multiple @error('category_vendor_id') is-invalid @enderror"
                             name="category_vendor_id" id="category-vendor-id" required>
-                            <option value="" selected disabled>-- {{ trans('vendor/create.filter_category') }} --</option>
+                            <option value="" selected disabled>-- {{ trans('vendor/create.filter_category') }} --
+                            </option>
                         </select>
                         @error('category_vendor_id')
                             <span class="text-danger">
@@ -89,7 +91,8 @@
                         <select
                             class="form-control js-example-basic-multiple @error('provinsi_id') is-invalid @enderror"
                             name="provinsi_id" id="provinsi-id" required>
-                            <option value="" selected disabled>-- {{ trans('vendor/create.filter_province') }} --</option>
+                            <option value="" selected disabled>-- {{ trans('vendor/create.filter_province') }} --
+                            </option>
 
                             @foreach ($provinces as $province)
                                 <option value="{{ $province->id }}"
@@ -124,7 +127,8 @@
                         <select
                             class="form-control js-example-basic-multiple @error('kecamatan_id') is-invalid @enderror"
                             name="kecamatan_id" id="kecamatan-id" required>
-                            <option value="" selected disabled>-- {{ trans('vendor/create.filter_subdistrict') }} --</option>
+                            <option value="" selected disabled>-- {{ trans('vendor/create.filter_subdistrict') }}
+                                --</option>
                         </select>
                         @error('kecamatan_id')
                             <span class="text-danger">
@@ -138,7 +142,8 @@
                         <select
                             class="form-control js-example-basic-multiple @error('kelurahan_id') is-invalid @enderror"
                             name="kelurahan_id" id="kelurahan-id" required>
-                            <option value="" selected disabled>-- {{ trans('vendor/create.filter_ward') }} --</option>
+                            <option value="" selected disabled>-- {{ trans('vendor/create.filter_ward') }} --
+                            </option>
                         </select>
                         @error('kelurahan_id')
                             <span class="text-danger">
@@ -201,8 +206,8 @@
                 <div class="col-md-12 mb-2">
                     <div class="mb-3 search-box">
                         <input type="text" class="form-control @error('place') is-invalid @enderror"
-                            name="place" id="search_place" placeholder="{{ trans('vendor/create.location') }}" value="{{ old('place') }}"
-                            autocomplete="off">
+                            name="place" id="search_place" placeholder="{{ trans('vendor/create.location') }}"
+                            value="{{ old('place') }}" autocomplete="off">
                         <span class="d-none" style="color: red;" id="error-place"></span>
                         @error('place')
                             <span style="color: red;">{{ $message }}</span>
@@ -230,7 +235,8 @@
                 <div class="row">
                     <div class="col-md-12 mb-3">
                         <button style="margin-bottom: 10px;" type="button" name="add_berkas" id="add_berkas"
-                            class="btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i> {{ trans('vendor/create.add_contact') }}</button>
+                            class="btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i>
+                            {{ trans('vendor/create.add_contact') }}</button>
                         <table class="table table-bordered " id="dynamic_field">
                             <thead>
                                 <tr>
@@ -255,13 +261,15 @@
         <div class="card">
             <div class="card-body">
                 <div class="alert alert-secondary" role="alert">
-                    <b> <i class="mdi mdi-file"></i> {{ trans('vendor/create.title_file') }} <span style="color:red; font-size:11px">( {{trans('vendor/create.des')}} )</span></b>
+                    <b> <i class="mdi mdi-file"></i> {{ trans('vendor/create.title_file') }} <span
+                            style="color:red; font-size:11px">( {{ trans('vendor/create.des') }} )</span></b>
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col-md-12 mb-3">
                         <button style="margin-bottom: 10px;" type="button" name="add_berkas2" id="add_berkas2"
-                            class="btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i> {{trans('vendor/create.add_file')}}</button>
+                            class="btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i>
+                            {{ trans('vendor/create.add_file') }}</button>
                         <table class="table table-bordered" id="dynamic_field2">
                             <thead>
                                 <tr>

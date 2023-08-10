@@ -12,7 +12,8 @@ class GenerateEquipmentWithMultipleSheet implements WithMultipleSheets
     {
         return [
             0 => new GenerateEquipmentFormat(),
-            1 => new NomenklaturExport()
+            1 => new NomenklaturExport(),
+            2 => new LocationExport()
         ];
     }
 }

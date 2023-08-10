@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Models\EquipmentLocation;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
@@ -10,17 +11,17 @@ use Maatwebsite\Excel\Events\AfterSheet;
 use App\Models\Nomenklatur;
 use Maatwebsite\Excel\Concerns\WithTitle;
 
-class NomenklaturExport implements FromView, ShouldAutoSize, WithEvents, WithTitle
+class LocationExport implements FromView, ShouldAutoSize, WithEvents, WithTitle
 {
     public function title(): string
     {
-        return 'Code Nomenklatur';
+        return 'Code Location';
     }
 
     public function view(): View
     {
-        $data = Nomenklatur::orderBy('id', 'desc')->get();
-        return view('nomenklaturs.export', [
+        $data = EquipmentLocation::orderBy('id', 'desc')->get();
+        return view('equipment-locations.export', [
             'data' => $data
         ]);
     }

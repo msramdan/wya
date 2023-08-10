@@ -50,7 +50,7 @@ class GenerateEquipmentFormat implements FromView, ShouldAutoSize, WithEvents, W
                 $column_g = 'G';
                 $column_h = 'H';
                 $column_i = 'I';
-                $column_j = 'J';
+                // $column_j = 'J';
                 $column_m = 'M';
 
                 // // kolom b category
@@ -149,24 +149,24 @@ class GenerateEquipmentFormat implements FromView, ShouldAutoSize, WithEvents, W
                 $validationI->setFormula1(sprintf('"%s"', implode(',', $kolomI)));
 
                 // Kolom J Location
-                $kolomJ = [];
-                $EquipmentLocation = EquipmentLocation::where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
-                foreach ($EquipmentLocation as $value) {
-                    array_push($kolomJ, $value->location_name);
-                }
+                // $kolomJ = [];
+                // $EquipmentLocation = EquipmentLocation::where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
+                // foreach ($EquipmentLocation as $value) {
+                //     array_push($kolomJ, $value->location_name);
+                // }
 
-                $validationJ = $event->sheet->getCell("{$column_j}2")->getDataValidation();
-                $validationJ->setType(DataValidation::TYPE_LIST);
-                $validationJ->setErrorStyle(DataValidation::STYLE_INFORMATION);
-                $validationJ->setAllowBlank(false);
-                $validationJ->setShowInputMessage(true);
-                $validationJ->setShowErrorMessage(true);
-                $validationJ->setShowDropDown(true);
-                $validationJ->setErrorTitle('Input error');
-                $validationJ->setError('Value is not in list.');
-                $validationJ->setPromptTitle('Pick from list');
-                $validationJ->setPrompt('Please pick a value from the drop-down list.');
-                $validationJ->setFormula1(sprintf('"%s"', implode(',', $kolomJ)));
+                // $validationJ = $event->sheet->getCell("{$column_j}2")->getDataValidation();
+                // $validationJ->setType(DataValidation::TYPE_LIST);
+                // $validationJ->setErrorStyle(DataValidation::STYLE_INFORMATION);
+                // $validationJ->setAllowBlank(false);
+                // $validationJ->setShowInputMessage(true);
+                // $validationJ->setShowErrorMessage(true);
+                // $validationJ->setShowDropDown(true);
+                // $validationJ->setErrorTitle('Input error');
+                // $validationJ->setError('Value is not in list.');
+                // $validationJ->setPromptTitle('Pick from list');
+                // $validationJ->setPrompt('Please pick a value from the drop-down list.');
+                // $validationJ->setFormula1(sprintf('"%s"', implode(',', $kolomJ)));
 
 
                 // Kolom M Metode
@@ -193,7 +193,7 @@ class GenerateEquipmentFormat implements FromView, ShouldAutoSize, WithEvents, W
                     $event->sheet->getCell("{$column_g}{$i}")->setDataValidation(clone $validationG);
                     $event->sheet->getCell("{$column_h}{$i}")->setDataValidation(clone $validationH);
                     $event->sheet->getCell("{$column_i}{$i}")->setDataValidation(clone $validationI);
-                    $event->sheet->getCell("{$column_j}{$i}")->setDataValidation(clone $validationJ);
+                    // $event->sheet->getCell("{$column_j}{$i}")->setDataValidation(clone $validationJ);
                     $event->sheet->getCell("{$column_m}{$i}")->setDataValidation(clone $validationM);
                 }
             },
