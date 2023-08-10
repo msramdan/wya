@@ -8,8 +8,8 @@ use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
-use App\Models\Nomenklatur;
 use Maatwebsite\Excel\Concerns\WithTitle;
+use Auth;
 
 class LocationExport implements FromView, ShouldAutoSize, WithEvents, WithTitle
 {
@@ -20,7 +20,7 @@ class LocationExport implements FromView, ShouldAutoSize, WithEvents, WithTitle
 
     public function view(): View
     {
-        $data = EquipmentLocation::orderBy('id', 'desc')->get();
+        $data = EquipmentLocation::where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
         return view('equipment-locations.export', [
             'data' => $data
         ]);
