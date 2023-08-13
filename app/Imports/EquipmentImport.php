@@ -16,6 +16,7 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Auth;
+use DateTime;
 
 class EquipmentImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
 {
@@ -36,9 +37,9 @@ class EquipmentImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
             '*.vendor' => 'required|exists:App\Models\Vendor,name_vendor',
             '*.condition' => 'required',
             '*.risk_level' => 'required',
-            '*.equipment_location' => 'required',
+            '*.code_location' => 'required',
             '*.financing_code' => 'required|min:1|max:255',
-            '*.tanggal_pembelian' => 'required|date_format:d/m/Y',
+            '*.tanggal_pembelian' => 'required',
             '*.metode_penyusutan' => 'required|in:Garis Lurus,Saldo Menurun',
             '*.nilai_perolehan' => 'required|numeric',
             '*.nilai_residu' => 'required|numeric',
@@ -55,10 +56,10 @@ class EquipmentImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
                 'vendor_id' => Vendor::where('name_vendor', $row['vendor'])->first()->id,
                 'condition' => $row['condition'],
                 'risk_level' => $row['risk_level'],
-                'equipment_location_id' => EquipmentLocation::where('code_location', $row['equipment_location'])->first()->id,
+                'equipment_location_id' => EquipmentLocation::where('code_location', $row['code_location'])->first()->id,
                 'financing_code' => $row['financing_code'],
                 'serial_number' => $row['serial_number'],
-                'tgl_pembelian' => Carbon::createFromFormat('d/m/Y', $row['tanggal_pembelian'])->format('Y-m-d'),
+                'tgl_pembelian' => self::convertTglFromExcel($row['tanggal_pembelian']),
                 'metode' => $row['metode_penyusutan'],
                 'nilai_perolehan' => $row['nilai_perolehan'],
                 'nilai_residu' => $row['nilai_residu'],
@@ -66,5 +67,13 @@ class EquipmentImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
                 'hospital_id' => Auth::user()->roles->first()->hospital_id,
             ]);
         }
+    }
+
+    public static function convertTglFromExcel($num) {
+            $excel_date = $num; //here is that value 41621 or 41631
+            $unix_date = ($excel_date - 25569) * 86400;
+            $excel_date = 25569 + ($unix_date / 86400);
+            $unix_date = ($excel_date - 25569) * 86400;
+            return gmdate("Y-m-d", $unix_date);
     }
 }
