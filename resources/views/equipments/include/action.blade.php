@@ -167,10 +167,6 @@
                             <tr>
                                 <td style="padding: 5px">{!! QrCode::size(150)->generate($model->barcode) !!}</td>
                             </tr>
-                            {{-- <tr>
-                                <td style="text-align: center;">
-                                </td>
-                            </tr> --}}
                             <tr>
                                 <td style="text-align: center;">
                                     <b>SN : {{ $model->serial_number }}</b> <br>
