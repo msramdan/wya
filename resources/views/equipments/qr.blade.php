@@ -16,7 +16,11 @@
 <body>
     <center>
         <img style="width: {{ $widthQR }}px;" src="data:image/png;base64, {!! base64_encode(QrCode::generate($barcode)) !!} ">
-        <img style="width: 90%;" src="{{ public_path('logo.png') }}">
+        <center>
+            <p style="font-size:10px;">SN : {{$equipment->serial_number}}</p>
+            <p style="font-size:10px; margin-top:-20px">{{$equipment->location_name}}</p>
+        </center>
+        <img style="width: 90%;margin-top:-15px" src="{{ public_path('logo.png') }}">
     </center>
 </body>
 

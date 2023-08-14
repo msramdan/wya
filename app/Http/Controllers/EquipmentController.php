@@ -573,18 +573,22 @@ class EquipmentController extends Controller
 
     public function print_qr(Request $request, $id)
     {
-        $equipment = Equipment::findOrFail($id);
+        $equipment = DB::table('equipment')
+        ->join('equipment_locations', 'equipment.equipment_location_id', '=', 'equipment_locations.id')
+        ->select('equipment.*', 'equipment_locations.location_name')
+        ->where('equipment.id', '=', $id)
+        ->first();
         $settQR = Hospital::findOrFail($equipment->hospital_id);
-
         if ($settQR->paper_qr_code == '68.0315') {
             $widthQR = 80;
-            $hightPaper = 88;
+            $hightPaper = 115;
         } else {
             $widthQR = 114;
-            $hightPaper = 120;
+            $hightPaper = 147;
         }
         $pdf = PDF::loadview('equipments.qr', [
             'barcode' => $equipment->barcode,
+            'equipment' => $equipment,
             'widthQR' => $widthQR
         ])
             ->setPaper([0, 0, $hightPaper, $settQR->paper_qr_code], 'landscape');
