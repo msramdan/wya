@@ -1,6 +1,6 @@
 <?php
 return [
-  'barcode' => 'Kode Batang',
+  'barcode' => 'Kode Barang',
   'sparepart_name' => 'Nama Onderdil',
   'merk' => 'Merek',
   'sparepart_type' => 'Jenis Onderdil',

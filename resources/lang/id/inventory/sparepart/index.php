@@ -8,7 +8,7 @@ return [
     'download_format' => 'Unduh Format',
     'filter_hospital' => 'Pilih Rumah Sakit',
     'hospital' => 'Rumah Sakit',
-    'barcode' => 'Kode Batang',
+    'barcode' => 'Kode Barang',
     'sparepart_name' => 'Nama Onderdil',
     'merk' => 'Merek',
     'sparepart_type' => 'Jenis Onderdil',

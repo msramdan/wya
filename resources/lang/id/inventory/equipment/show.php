@@ -1,6 +1,6 @@
 <?php
 return [
-  'barcode' => 'Kode Batang',
+  'barcode' => 'Kode Barang',
   'nomenklatur' => 'Nomenklatur',
   'eq_category' => 'Kategori Peralatan',
   'manufacture' => 'Pabrikan',

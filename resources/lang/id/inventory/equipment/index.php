@@ -11,7 +11,7 @@ return [
 
   'total' => 'Total Nilai Buku Bulan Berjalan',
   'hospital' => 'Rumah Sakit',
-  'barcode' => 'Kode Batang',
+  'barcode' => 'Kode Barang',
   'nomenklatur' => 'Nomenklatur',
   'category' => 'Kategori',
   'manufacture' => 'Pabrikan',

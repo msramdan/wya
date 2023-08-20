@@ -3,7 +3,7 @@ return [
   // create
   'hospital' => 'Rumah Sakit',
   'select_hospital' => 'Pilih Rumah Sakit',
-  'barcode' => 'Kode Batang',
+  'barcode' => 'Kode Barang',
   'sparepart_name' => 'Nama Orderdil',
   'merk' => 'Merek',
   'sparepart_type' => 'Jenis Orderdil',

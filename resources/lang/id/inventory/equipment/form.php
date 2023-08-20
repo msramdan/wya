@@ -3,7 +3,7 @@ return [
   'general_information'=> 'Informasi Umum',
   'hospital' => 'Rumah Sakit',
   'select_hospital' => 'Pilih Rumah Sakit',
-  'barcode' => 'Kode Batang',
+  'barcode' => 'Kode Barang',
   'nomenklatur' => 'Nomenklatur',
   'select_nomenklatur' => 'Pilih Nomenklatur',
   'category' => 'Kategori',
@@ -22,7 +22,7 @@ return [
   'financing_code' => 'Kode Pembiayaan',
   'photo' => 'Foto',
   'action' => 'Aksi',
-  
+
   // price
   'price_reduction' => 'Penurunan Harga',
   'purchase_date' => 'Tanggal Pembelian',
