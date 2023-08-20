@@ -595,8 +595,11 @@
         </td>
         <td colspan="4" style="height: 100px; vertical-align: text-top">
             <center>
-                <img style="width: 120px;margin-top:5px" src="data:image/png;base64, {!! base64_encode(QrCode::generate(getUser($user_approved))) !!} ">
-                <p>{{ getUser($user_approved) }}</p>
+                @if ($user_approved != '')
+                    <img style="width: 120px;margin-top:5px" src="data:image/png;base64, {!! base64_encode(QrCode::generate(getUser($user_approved))) !!} ">
+                    <p>{{ getUser($user_approved) }}</p>
+                @else
+                @endif
             </center>
         </td>
     </tr>

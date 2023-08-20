@@ -362,6 +362,11 @@ class WorkOrderProcessController extends Controller
         $spareparts = Sparepart::get();
         $hospital = Hospital::find($workOrder->hospital_id);
         $dataUser = json_decode($hospital->work_order_has_access_approval_users_id);
+        if($dataUser != null){
+            $data_user = end($dataUser);
+        }else{
+             $data_user = '';
+        }
         $pdf = Pdf::loadView('work-order-process.wo-process-wo-print', [
             'workOrder' => $workOrder,
             'workOrderProcesess' => $workOrderProcesess,
@@ -369,7 +374,7 @@ class WorkOrderProcessController extends Controller
             'spareparts' => $spareparts,
             'employees' => Employee::get(),
             'logo' => $hospital->logo,
-            'user_approved' => end($dataUser),
+            'user_approved' => $data_user,
             'readonly' => true
         ]);
 
