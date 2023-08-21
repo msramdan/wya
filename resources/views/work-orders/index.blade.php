@@ -227,7 +227,7 @@
                 success: function(result) {
                     $('#modal_barcode').text(result['data']['barcode']);
                     $('#modal_nomenklatur').text(result['data']['nomenklatur']['name_nomenklatur']);
-                    $('#modal_sn').text(result['data']['barcode']);
+                    $('#modal_sn').text(result['data']['serial_number']);
                     $('#modal_category').text(result['data']['equipment_category']['category_name']);
                     $('#modal_manufacture').text(result['data']['manufacturer']);
                     $('#modal_type').text(result['data']['type']);
