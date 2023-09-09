@@ -181,6 +181,25 @@
 @endpush
 
 @section('content')
+    <!-- Modal -->
+    <div class="modal fade" id="modalScanner" tabindex="-1" aria-labelledby="modalScannerLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalScannerLabel">Modal Scanner</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="camera-scanner"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="page-content">
         <div class="container-fluid">
             <div class="row">
@@ -200,6 +219,17 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group mb-2">
+                                        <input readonly type="text" class="form-control" placeholder="Search Equipment by QR"
+                                            aria-label="Recipient's username">
+                                            <button onclick="showQrScanner()" class="btn btn-primary"
+                                            type="submit"><i class="fa fa-qrcode"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-md-6">
                                 <form method="get" action="/panel" id="form-date" class="row">
                                     @if (!Auth::user()->roles->first()->hospital_id)
@@ -231,12 +261,13 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <button type="button" id="btnExport" class="btn btn-primary">
                                     <i class="fa fa-file-word" aria-hidden="true"></i>
                                     General Report
                                 </button>
                             </div>
+
                         </div>
 
 
@@ -556,6 +587,12 @@
     </div>
     @include('modal-dashboard')
 @endsection
+@push('css-libs')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/frappe-gantt/0.6.1/frappe-gantt.min.css"
+        integrity="sha512-b6CPl1eORfMoZgwWGEYWNxYv79KG0dALXfVu4uReZJOXAfkINSK4UhA0ELwGcBBY7VJN7sykwrCGQnbS8qTKhQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+@endpush
+
 @push('js')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{{ asset('material/assets/jqvmap/dist/jquery.vmap.js') }}"></script>
@@ -567,6 +604,15 @@
     <script type="text/javascript" src="{{ asset('material/assets/js/moment.js') }}"></script>
     <script type="text/javascript" src="{{ asset('material/assets/js/daterangepicker.min.js') }}"></script>
     <script src="../dist/leaflet.awesome-markers.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
+        integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/frappe-gantt/0.6.1/frappe-gantt.min.js"
+        integrity="sha512-HyGTvFEibBWxuZkDsE2wmy0VQ0JRirYgGieHp0pUmmwyrcFkAbn55kZrSXzCgKga04SIti5jZQVjbTSzFpzMlg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"
+        integrity="sha512-r6rDA7W6ZeQhvl8S7yRVQUKVHdexq+GAlNkNNqVC7YyIV+NwqCTJe2hDWCiffTyRNOeGEzRRJ9ifvRm/HCzGYg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         $(document).ready(function() {
             var hospital_id = $('#hospital_id option:selected').val();
@@ -1196,11 +1242,12 @@
                 $('#form-date').submit();
             });
 
-            $('#btnExport').click(function(){
+            $('#btnExport').click(function() {
                 const hospital_id = $('#hospital_id').val()
                 const start_date = $('#start_date').val()
                 const end_date = $('#end_date').val()
-                window.open('/panel/generalReport' + '?hospital_id=' + hospital_id + '&start_date=' + start_date + '&end_date=' + end_date, '_blank')
+                window.open('/panel/generalReport' + '?hospital_id=' + hospital_id + '&start_date=' +
+                    start_date + '&end_date=' + end_date, '_blank')
             })
         });
     </script>
@@ -1489,5 +1536,28 @@
                 });
             }
         });
+    </script>
+    <script>
+        function showQrScanner() {
+            const modalScanner = new bootstrap.Modal(document.getElementById('modalScanner'));
+            modalScanner.show()
+
+            let html5QrcodeScanner = new Html5QrcodeScanner(
+                "camera-scanner", {
+                    fps: 10,
+                    qrbox: 250
+                }
+            );
+            html5QrcodeScanner.render((decodedText, decodedResult) => {
+                fetch('{{ url('/') }}/api/equipments/' + decodedText + '/barcode')
+                    .then((res) => res.json())
+                    .then((response) => {
+                        const data = response.data;
+                        modalScanner.hide();
+                        html5QrcodeScanner.clear();
+                        top.location.href = '../panel/equipment?id=' + data.id;
+                    });
+            });
+        }
     </script>
 @endpush
