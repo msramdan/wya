@@ -31,6 +31,25 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="modalScanner" tabindex="-1" aria-labelledby="modalScannerLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalScannerLabel">Modal Scanner</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="camera-scanner"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="page-content">
         <div class="container-fluid">
             <div class="row">
@@ -109,6 +128,27 @@
                                         </select>
                                     </div>
                                 </div>
+
+                                <div class="col-md-3 mb-2">
+                                    <div class="input-group mb-2 mr-sm-2">
+                                        <div class="form-group m-0">
+                                            <div class="input-group">
+                                                <input readonly name="equipment_id" value="{{ $equipment_id }}"
+                                                    id="equipment_id" type="text" class="form-control"
+                                                    placeholder="Search Equipment by QR"
+                                                    aria-label="Recipient's username">
+                                                <button onclick="showQrScanner()" class="btn btn-primary"
+                                                    type="submit"><i class="fa fa-qrcode"></i></button> &nbsp;
+
+                                                @if ($equipment_id != null || $equipment_id != '')
+                                                    <a href="/panel/equipment" class="btn btn-warning" type="submit">
+                                                        Clear</a>
+                                                @endif
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-md-4">
@@ -142,10 +182,27 @@
             </div>
         </div>
     </div>
+
 @endsection
 
+@push('css-libs')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/frappe-gantt/0.6.1/frappe-gantt.min.css"
+        integrity="sha512-b6CPl1eORfMoZgwWGEYWNxYv79KG0dALXfVu4uReZJOXAfkINSK4UhA0ELwGcBBY7VJN7sykwrCGQnbS8qTKhQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+@endpush
 
 @push('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
+        integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/frappe-gantt/0.6.1/frappe-gantt.min.js"
+        integrity="sha512-HyGTvFEibBWxuZkDsE2wmy0VQ0JRirYgGieHp0pUmmwyrcFkAbn55kZrSXzCgKga04SIti5jZQVjbTSzFpzMlg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"
+        integrity="sha512-r6rDA7W6ZeQhvl8S7yRVQUKVHdexq+GAlNkNNqVC7YyIV+NwqCTJe2hDWCiffTyRNOeGEzRRJ9ifvRm/HCzGYg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
     <script type="text/javascript">
         $(document).on('click', '#view_gambar', function() {
             var id = $(this).data('id');
@@ -282,6 +339,7 @@
                 url: "{{ route('equipment.index') }}",
                 data: function(s) {
                     s.hospital_id = $('select[name=hospital_id] option').filter(':selected').val()
+                    s.equipment_id = $('#equipment_id').val()
                     s.equipment_location_id = $('select[name=equipment_location_id] option').filter(':selected')
                         .val()
                 }
@@ -421,6 +479,30 @@
                         allowOutsideClick: false,
                     })
                 }
+            });
+        }
+    </script>
+
+    <script>
+        function showQrScanner() {
+            const modalScanner = new bootstrap.Modal(document.getElementById('modalScanner'));
+            modalScanner.show()
+
+            let html5QrcodeScanner = new Html5QrcodeScanner(
+                "camera-scanner", {
+                    fps: 10,
+                    qrbox: 250
+                }
+            );
+            html5QrcodeScanner.render((decodedText, decodedResult) => {
+                fetch('{{ url('/') }}/api/equipments/' + decodedText + '/barcode')
+                    .then((res) => res.json())
+                    .then((response) => {
+                        const data = response.data;
+                        modalScanner.hide();
+                        html5QrcodeScanner.clear();
+                        top.location.href = '../panel/equipment?id=' + data.id;
+                    });
             });
         }
     </script>
