@@ -567,6 +567,7 @@
     <script type="text/javascript" src="{{ asset('material/assets/js/moment.js') }}"></script>
     <script type="text/javascript" src="{{ asset('material/assets/js/daterangepicker.min.js') }}"></script>
     <script src="../dist/leaflet.awesome-markers.js"></script>
+
     <script>
         $(document).ready(function() {
             var hospital_id = $('#hospital_id option:selected').val();
@@ -1391,6 +1392,7 @@
             }
         });
     </script>
+
     <script>
         $(document).ready(function() {
             var i = 1;

@@ -91,7 +91,7 @@ class VendorController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'code_vendor' => 'required|string|min:1|max:20|unique:vendors,code_vendor',
+                'code_vendor' => 'required|string|min:1|max:20',
                 'name_vendor' => 'required|string|min:1|max:200',
                 'category_vendor_id' => 'required|exists:App\Models\CategoryVendor,id',
                 'email' => 'required|string|min:1|max:100',
@@ -226,7 +226,7 @@ class VendorController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'code_vendor' => "required|string||min:1|max:20|unique:vendors,code_vendor," . $vendor->id,
+                'code_vendor' => "required|string||min:1|max:20",
                 'name_vendor' => 'required|string|min:1|max:200',
                 'category_vendor_id' => 'required|exists:App\Models\CategoryVendor,id',
                 'email' => 'required|string|min:1|max:100',
