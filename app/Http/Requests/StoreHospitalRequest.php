@@ -28,7 +28,7 @@ class StoreHospitalRequest extends FormRequest
             'phone' => 'required|string|min:10|max:15',
             'email' => 'required|string|min:5|max:150',
             'address' => 'required|string|min:5|max:255',
-            'logo' => 'required|image|max:1024',
+            'logo' => 'required|image|max:3024',
             'notif_wa' => 'required|boolean',
             'url_wa_gateway' => 'required|string|min:1|max:150',
             'session_wa_gateway' => 'required|string|min:1|max:150',
