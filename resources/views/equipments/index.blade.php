@@ -2,13 +2,13 @@
 
 @section('title', __('Equipments'))
 
+@push('css')
 <style>
     .modal {
-        z-index: 1050;
-        /* or any value higher than other elements */
+        z-index: 1200 !important;
     }
 </style>
-
+@endpush
 @section('content')
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
