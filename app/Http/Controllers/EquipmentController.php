@@ -662,9 +662,11 @@ class EquipmentController extends Controller
     {
         $equipment = Equipment::with('equipment_location:id,location_name', 'equipment_category:id,category_name')->findOrFail($id);
         $hospital = Hospital::find($equipment->hospital_id);
+        $photo  = DB::table('equipment_photo')->where('equipment_id', $id)->get();
         $pdf = PDF::loadview('equipments.history_print', [
             'equipment' => $equipment,
             'hospital' => $hospital,
+            'photo' => $photo,
         ])->setPaper('a4', 'portrait');
         return $pdf->stream();
     }

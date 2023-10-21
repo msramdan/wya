@@ -7,6 +7,42 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
+<style>
+    /* Container untuk kartu-kartu */
+    .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        /* Atur gaya lainnya sesuai kebutuhan */
+        /* margin: 20px; */
+    }
+
+    /* Gaya untuk setiap kartu */
+    .card {
+        flex: 0 0 calc(33.33% - 10px);
+        /* Tiga kartu per baris dengan margin */
+        box-sizing: border-box;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        width: 100%
+    }
+
+    /* Gaya untuk header kartu */
+    .card-header {
+        background-color: #f1f1f1;
+        text-align: center;
+    }
+    .card-content {
+        height: 390px;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+</style>
+
 
 <body>
     <table style="line-height: 16px; font-size:12px">
@@ -297,8 +333,33 @@
                 </tbody>
             </table>
     </div>
+    <div class="page-break"></div>
+    <center>
+        <h3>Lampiran Lampiran</h3>
+        <hr>
+    </center>
+    <div class="card-container" style="100%">
+        @foreach ( $photo as $q )
+        <div class="card">
+            <div class="card-header">
+                <span style="font-size: 18px"><b>{{ $q->name_photo }}</b></span>
+            </div>
+            <div class="card-content">
+                <center>
+                    <img style="border: 1px solid #ddd;
+                    border-radius: 4px;
+                    padding: 5px;
+                    width:95%;
+                    margin-top:10px;
+                    height:90%;
+                    "src="../public/storage/img/file_photo/{{ $q->photo }}">
+                </center>
 
+            </div>
+        </div>
+        @endforeach
 
+    </div>
 </body>
 
 </html>
