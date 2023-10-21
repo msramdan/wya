@@ -431,6 +431,7 @@
             });
         }
     </script>
+
     <script>
         $(document).on('click', '#downloadFormat', function(event) {
             event.preventDefault();

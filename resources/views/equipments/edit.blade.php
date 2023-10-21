@@ -165,6 +165,17 @@
             // console.log(name_fittings);
         })
     </script>
+
+    <script type="text/javascript">
+        $(document).on('click', '#view_photo_eq', function() {
+            var photo_eq = $(this).data('photo_eq');
+            var name_photo = $(this).data('name_photo');
+            $('#largeModalPhoto #photo_eq').attr("src", "../../../storage/img/file_photo/" + photo_eq);
+            $('#largeModalPhoto #name_photo').text(name_photo);
+            // console.log(name_fittings);
+        })
+    </script>
+
     <script>
         $(document).ready(function() {
             var i = 1;

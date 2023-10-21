@@ -240,7 +240,6 @@ class EquipmentController extends Controller
                 $name_fittings = $request->name_fittings;
                 $qty = $request->qty;
                 $equipment_fittings = $request->file('equipment_fittings');
-
                 if ($request->hasFile('equipment_fittings')) {
                     foreach ($equipment_fittings as $key => $equipment_fittings) {
                         $equipment_fittings_name = $equipment_fittings->hashName();
@@ -254,13 +253,29 @@ class EquipmentController extends Controller
                         DB::table('equipment_fittings')->insert($data);
                     }
                 }
+
+                // photo
+                $name_photo = $request->name_photo;
+                $file_photo = $request->file('file_photo_eq');
+                if ($request->hasFile('file_photo_eq')) {
+                    foreach ($file_photo as $key => $a) {
+                        $file_photo_name = $a->hashName();
+                        $a->storeAs('public/img/file_photo', $file_photo_name);
+                        $dataPhoto = [
+                            'equipment_id' => $insertedId,
+                            'name_photo' => $name_photo[$key],
+                            'photo' => $file_photo_name,
+                        ];
+                        DB::table('equipment_photo')->insert($dataPhoto);
+                    }
+                }
             }
 
             Alert::toast('The equipment was created successfully.', 'success');
             return redirect()->route('equipment.index');
         } catch (\Throwable $th) {
             DB::rollBack();
-            Alert::toast('Data failed to save', 'error');
+            Alert::toast('Data failed to save' . $th->getMessage(), 'error');
             return redirect()->route('equipment.index');
         } finally {
             DB::commit();
@@ -291,10 +306,11 @@ class EquipmentController extends Controller
         $equipment->load('nomenklatur:id,code_nomenklatur', 'equipment_category:id,code_categoty', 'vendor:id,code_vendor', 'equipment_location:id,code_location');
         $file = DB::table('equipment_files')->where('equipment_id', $equipment->id)->get();
         $fittings  = DB::table('equipment_fittings')->where('equipment_id', $equipment->id)->get();
+        $photo  = DB::table('equipment_photo')->where('equipment_id', $equipment->id)->get();
         $equipmentCategories = EquipmentCategory::where('hospital_id', $equipment->hospital_id)->get();
         $vendors = Vendor::where('hospital_id', $equipment->hospital_id)->get();
         $equipmentLocations = EquipmentLocation::where('hospital_id', $equipment->hospital_id)->get();
-        return view('equipments.edit', compact('equipment', 'file', 'fittings', 'equipmentCategories', 'vendors', 'equipmentLocations'));
+        return view('equipments.edit', compact('equipment', 'file', 'fittings','photo','equipmentCategories', 'vendors', 'equipmentLocations'));
     }
 
     /**
@@ -544,6 +560,14 @@ class EquipmentController extends Controller
             foreach ($equipment_files as $value) {
                 Storage::disk('local')->delete('public/img/file_equipment/' . $value->file);
                 DB::table('equipment_files')->where('id', '=', $value->id)->delete();
+            }
+            // hapus equipment_photo
+            $equipment_photo = DB::table('equipment_photo')
+                ->where('equipment_id', '=', $equipment->id)
+                ->get();
+            foreach ($equipment_photo as $value) {
+                Storage::disk('local')->delete('public/img/file_photo/' . $value->photo);
+                DB::table('equipment_photo')->where('id', '=', $value->id)->delete();
             }
 
             Storage::disk('local')->delete('public/img/equipment/' . $equipment->photo);

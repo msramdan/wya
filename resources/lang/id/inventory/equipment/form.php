@@ -45,4 +45,11 @@ return [
   'add_doc' => 'Tambah Berkas',
   'file_name' => 'Nama Berkas',
   'file' => 'Berkas',
+
+  // eq document
+  'eq_photo' => 'Photo Peralatan',
+  'eqphoto_desc' => 'Rekomendasi gambar adalah jpg/png',
+  'add_photo' => 'Tambah Photo',
+  'desc' => 'Nama Photo',
+  'file' => 'File',
 ];

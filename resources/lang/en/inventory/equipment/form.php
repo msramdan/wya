@@ -22,7 +22,7 @@ return [
   'financing_code' => 'Financing Code',
   'photo' => 'Photo',
   'action' => 'Action',
-  
+
   // price
   'price_reduction' => 'Price Reduction',
   'purchase_date' => 'Purchase Date',
@@ -40,9 +40,16 @@ return [
   'photo' => 'Photo',
 
   // eq document
-  'eq_document' => 'Equipmetn Document',
+  'eq_document' => 'Equipment Document',
   'eqdoc_desc' => 'Recomended format  document is pdf',
   'add_doc' => 'Add Document',
   'file_name' => 'File Name',
+  'file' => 'File',
+
+  // eq document
+  'eq_photo' => 'Equipment Photo',
+  'eqphoto_desc' => 'Recomended format photo jpg/png',
+  'add_photo' => 'Add Photo',
+  'desc' => 'Photo Name',
   'file' => 'File',
 ];

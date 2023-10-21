@@ -3,7 +3,8 @@
         <div class="card">
             <div class="card-body">
                 <div class="alert alert-secondary" role="alert">
-                    <b> <i class="mdi mdi-information"></i> {{ trans('inventory/equipment/form.general_information') }}</b>
+                    <b> <i class="mdi mdi-information"></i>
+                        {{ trans('inventory/equipment/form.general_information') }}</b>
                 </div>
                 <hr>
                 @if (!Auth::user()->roles->first()->hospital_id)
@@ -14,7 +15,8 @@
                                 <select
                                     class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
                                     name="hospital_id" id="hospital_id" required>
-                                    <option value="" selected disabled>-- {{ trans('inventory/equipment/form.select_hispotal') }} --</option>
+                                    <option value="" selected disabled>--
+                                        {{ trans('inventory/equipment/form.select_hispotal') }} --</option>
 
                                     @foreach ($hispotals as $hispotal)
                                         <option value="{{ $hispotal->id }}"
@@ -54,7 +56,8 @@
                         <select
                             class="form-control js-example-basic-multiple @error('nomenklatur_id') is-invalid @enderror"
                             name="nomenklatur_id" id="nomenklatur-id" required>
-                            <option value="" selected disabled>-- {{ trans('inventory/equipment/form.select_nomenklatur') }} --</option>
+                            <option value="" selected disabled>--
+                                {{ trans('inventory/equipment/form.select_nomenklatur') }} --</option>
 
                             @foreach ($nomenklaturs as $nomenklatur)
                                 <option value="{{ $nomenklatur->id }}"
@@ -76,7 +79,8 @@
                         <select
                             class="form-control js-example-basic-multiple @error('equipment_category_id') is-invalid @enderror"
                             name="equipment_category_id" id="equipment-category-id" required>
-                            <option value="" selected disabled>-- {{ trans('inventory/equipment/form.select_category') }} --
+                            <option value="" selected disabled>--
+                                {{ trans('inventory/equipment/form.select_category') }} --
                             </option>
                         </select>
                         @error('equipment_category_id')
@@ -130,7 +134,8 @@
                         <label for="vendor-id">{{ trans('inventory/equipment/form.vendor') }}</label>
                         <select class="form-control js-example-basic-multiple @error('vendor_id') is-invalid @enderror"
                             name="vendor_id" id="vendor-id" required>
-                            <option value="" selected disabled>-- {{ trans('inventory/equipment/form.select_vendor') }} --</option>
+                            <option value="" selected disabled>--
+                                {{ trans('inventory/equipment/form.select_vendor') }} --</option>
                         </select>
                         @error('vendor_id')
                             <span class="text-danger">
@@ -143,7 +148,8 @@
                         <label for="condition">{{ trans('inventory/equipment/form.condition') }}</label>
                         <select class="form-control js-example-basic-multiple @error('condition') is-invalid @enderror"
                             name="condition" id="condition" required>
-                            <option value="" selected disabled>-- {{ trans('inventory/equipment/form.select_condition') }} --</option>
+                            <option value="" selected disabled>--
+                                {{ trans('inventory/equipment/form.select_condition') }} --</option>
                             <option value="Baik"
                                 {{ isset($equipment) && $equipment->condition == 'Baik' ? 'selected' : (old('condition') == 'Baik' ? 'selected' : '') }}>
                                 {{ __('Baik') }}</option>
@@ -163,7 +169,8 @@
                         <label for="risk-level">{{ trans('inventory/equipment/form.risk_level') }}</label>
                         <select class="form-control js-example-basic-multiple @error('risk_level') is-invalid @enderror"
                             name="risk_level" id="risk-level" required>
-                            <option value="" selected disabled>-- {{ trans('inventory/equipment/form.select_risk_level') }} --</option>
+                            <option value="" selected disabled>--
+                                {{ trans('inventory/equipment/form.select_risk_level') }} --</option>
                             <option value="Resiko Rendah"
                                 {{ isset($equipment) && $equipment->risk_level == 'Resiko Rendah' ? 'selected' : (old('risk_level') == 'Resiko Rendah' ? 'selected' : '') }}>
                                 {{ __('Resiko Rendah') }}</option>
@@ -191,7 +198,8 @@
                         <select
                             class="form-control js-example-basic-multiple @error('equipment_location_id') is-invalid @enderror"
                             name="equipment_location_id" id="equipment-location-id" required>
-                            <option value="" selected disabled>-- {{ trans('inventory/equipment/form.select_location') }} --
+                            <option value="" selected disabled>--
+                                {{ trans('inventory/equipment/form.select_location') }} --
                             </option>
                         </select>
                         @error('equipment_location_id')
@@ -234,7 +242,8 @@
         <div class="card">
             <div class="card-body">
                 <div class="alert alert-secondary" role="alert">
-                    <b> <i class="fa-solid fa-money-bill"></i> {{ trans('inventory/equipment/form.price_reduction') }}</b>
+                    <b> <i class="fa-solid fa-money-bill"></i>
+                        {{ trans('inventory/equipment/form.price_reduction') }}</b>
                 </div>
                 <hr>
                 <div class="row">
@@ -254,7 +263,8 @@
                         <label for="metode">{{ trans('inventory/equipment/form.method') }}</label>
                         <select class="form-control js-example-basic-multiple @error('metode') is-invalid @enderror"
                             name="metode" id="metode" required>
-                            <option value="" selected disabled>-- {{ trans('inventory/equipment/form.select_method') }} --</option>
+                            <option value="" selected disabled>--
+                                {{ trans('inventory/equipment/form.select_method') }} --</option>
                             <option value="Garis Lurus"
                                 {{ isset($equipment) && $equipment->metode == 'Garis Lurus' ? 'selected' : (old('metode') == 'Garis Lurus' ? 'selected' : '') }}>
                                 {{ __('Garis Lurus') }}</option>
@@ -314,14 +324,16 @@
         <div class="card">
             <div class="card-body">
                 <div class="alert alert-secondary" role="alert">
-                    <b> <i class="fa fa-list"></i> {{ trans('inventory/equipment/form.eq_fitting') }} <span style="color:red; font-size:11px">(
+                    <b> <i class="fa fa-list"></i> {{ trans('inventory/equipment/form.eq_fitting') }} <span
+                            style="color:red; font-size:11px">(
                             {{ trans('inventory/equipment/form.eq_desc') }} )</span></b>
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col-md-12 mb-3">
                         <button style="margin-bottom: 10px;" type="button" name="add_berkas" id="add_berkas"
-                            class="btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i> {{ trans('inventory/equipment/form.add_fiting') }}</button>
+                            class="btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i>
+                            {{ trans('inventory/equipment/form.add_fiting') }}</button>
                         <table class="table table-bordered " id="dynamic_field">
                             <thead>
                                 <tr>
@@ -344,17 +356,49 @@
             <div class="card-body">
                 <div class="alert alert-secondary" role="alert">
                     <b> <i class="fa fa-file" aria-hidden="true"></i>
-                        {{ trans('inventory/equipment/form.eq_document') }} <span style="color:red; font-size:11px">( {{ trans('inventory/equipment/form.eqdoc_desc') }} )</span></b>
+                        {{ trans('inventory/equipment/form.eq_document') }} <span style="color:red; font-size:11px">(
+                            {{ trans('inventory/equipment/form.eqdoc_desc') }} )</span></b>
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col-md-12 mb-2">
                         <button style="margin-bottom: 10px;" type="button" name="add_berkas2" id="add_berkas2"
-                            class="btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i> {{ trans('inventory/equipment/form.add_doc') }}</button>
+                            class="btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i>
+                            {{ trans('inventory/equipment/form.add_doc') }}</button>
                         <table class="table table-bordered" id="dynamic_field2">
                             <thead>
                                 <tr>
                                     <th>{{ trans('inventory/equipment/form.file_name') }}</th>
+                                    <th style="width: 200px">{{ trans('inventory/equipment/form.file') }}</th>
+                                    <th>{{ trans('inventory/equipment/form.action') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {{-- photo --}}
+        <div class="card">
+            <div class="card-body">
+                <div class="alert alert-secondary" role="alert">
+                    <b> <i class="fa fa-file" aria-hidden="true"></i>
+                        {{ trans('inventory/equipment/form.eq_photo') }} <span style="color:red; font-size:11px">(
+                            {{ trans('inventory/equipment/form.eqphoto_desc') }} )</span></b>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12 mb-2">
+                        <button style="margin-bottom: 10px;" type="button" name="add_berkas3" id="add_berkas3"
+                            class="btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i>
+                            {{ trans('inventory/equipment/form.add_photo') }}</button>
+                        <table class="table table-bordered" id="dynamic_field3">
+                            <thead>
+                                <tr>
+                                    <th>{{ trans('inventory/equipment/form.desc') }}</th>
                                     <th style="width: 200px">{{ trans('inventory/equipment/form.file') }}</th>
                                     <th>{{ trans('inventory/equipment/form.action') }}</th>
                                 </tr>
