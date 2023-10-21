@@ -468,9 +468,9 @@
                 <hr>
                 <div class="row">
                     <div class="col-md-12 mb-2">
-                        <button style="margin-bottom: 10px;" type="button" name="add_berkas2" id="add_berkas2"
+                        <button style="margin-bottom: 10px;" type="button" name="add_berkas3" id="add_berkas3"
                             class="btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i> {{ trans('inventory/equipment/form.add_photo') }}</button>
-                        <table class="table table-bordered" id="dynamic_field2">
+                        <table class="table table-bordered" id="dynamic_field3">
                             <thead>
                                 <tr>
                                     <th>{{ trans('inventory/equipment/form.desc') }}</th>
@@ -484,7 +484,7 @@
                                         <td>
                                             <input type="hidden" name="id_asal_photo[]" value="{{ $row->id }}"
                                                 class="form-control " />
-                                            <input required type="text" name="name_photo[]"
+                                            <input required type="text"
                                                 value="{{ $row->name_photo }}" placeholder="" class="form-control"
                                                 readonly />
                                         </td>
@@ -502,7 +502,7 @@
                                             </center>
                                         </td>
                                         <td><button type="button" name="" id=""
-                                                class="btn btn-danger btn_remove_data"><i class="fa fa-trash"
+                                                class="btn btn-danger btn_remove3"><i class="fa fa-trash"
                                                     aria-hidden="true"></i></button></td>
                                     </tr>
                                 @endforeach

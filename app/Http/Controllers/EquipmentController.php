@@ -55,7 +55,7 @@ class EquipmentController extends Controller
             if (Auth::user()->roles->first()->hospital_id) {
                 $equipments = $equipments->where('hospital_id', Auth::user()->roles->first()->hospital_id);
             }
-            if(isset($equipment_id) && !empty($equipment_id)){
+            if (isset($equipment_id) && !empty($equipment_id)) {
                 $equipments = $equipments->where('equipment.id', $equipment_id);
             }
 
@@ -83,7 +83,7 @@ class EquipmentController extends Controller
                 ->toJson();
         }
         $equipment_id = $request->id;
-        return view('equipments.index',[
+        return view('equipments.index', [
             'equipment_id' => $equipment_id
         ]);
     }
@@ -310,7 +310,7 @@ class EquipmentController extends Controller
         $equipmentCategories = EquipmentCategory::where('hospital_id', $equipment->hospital_id)->get();
         $vendors = Vendor::where('hospital_id', $equipment->hospital_id)->get();
         $equipmentLocations = EquipmentLocation::where('hospital_id', $equipment->hospital_id)->get();
-        return view('equipments.edit', compact('equipment', 'file', 'fittings','photo','equipmentCategories', 'vendors', 'equipmentLocations'));
+        return view('equipments.edit', compact('equipment', 'file', 'fittings', 'photo', 'equipmentCategories', 'vendors', 'equipmentLocations'));
     }
 
     /**
@@ -530,6 +530,37 @@ class EquipmentController extends Controller
             }
         }
 
+        // hapus photo
+        if ($request->id_asal_photo == null) {
+            $tidak_terhapus_fittings = [];
+        } else {
+            $tidak_terhapus_fittings = $request->id_asal_photo;
+        }
+        $hapus_equipment_photo = DB::table('equipment_photo')
+            ->where('equipment_id', '=', $equipment->id)
+            ->whereNotIn('id', $tidak_terhapus_fittings)
+            ->get();
+        foreach ($hapus_equipment_photo as $row) {
+            DB::table('equipment_photo')->where('id', $row->id)->delete();
+            Storage::disk('local')->delete('public/img/file_photo/' . $row->photo);
+        }
+        // upload photo baru
+        $name_photo = $request->name_photo;
+        $file_photo = $request->file('file_photo_eq');
+        if ($request->hasFile('file_photo_eq')) {
+            foreach ($file_photo as $key => $a) {
+                $file_photo_name = $a->hashName();
+                $a->storeAs('public/img/file_photo', $file_photo_name);
+                $dataPhoto = [
+                    'equipment_id' => $equipment->id,
+                    'name_photo' => $name_photo[$key],
+                    'photo' => $file_photo_name,
+                ];
+                DB::table('equipment_photo')->insert($dataPhoto);
+            }
+        }
+
+
         Alert::toast('The equipment was updated successfully.', 'success');
         return redirect()
             ->route('equipment.index');
@@ -606,10 +637,10 @@ class EquipmentController extends Controller
     public function print_qr(Request $request, $id)
     {
         $equipment = DB::table('equipment')
-        ->join('equipment_locations', 'equipment.equipment_location_id', '=', 'equipment_locations.id')
-        ->select('equipment.*', 'equipment_locations.location_name')
-        ->where('equipment.id', '=', $id)
-        ->first();
+            ->join('equipment_locations', 'equipment.equipment_location_id', '=', 'equipment_locations.id')
+            ->select('equipment.*', 'equipment_locations.location_name')
+            ->where('equipment.id', '=', $id)
+            ->first();
         $settQR = Hospital::findOrFail($equipment->hospital_id);
         if ($settQR->paper_qr_code == '68.0315') {
             $widthQR = 80;
