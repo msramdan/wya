@@ -1,155 +1,3 @@
-<td>
-    @can('equipment edit')
-        <a href="{{ route('equipment.edit', $model->id) }}" class="btn btn-success btn-sm">
-            <i class="mdi mdi-pencil"></i>
-        </a>
-    @endcan
-
-    @can('equipment delete')
-        <form action="{{ route('equipment.destroy', $model->id) }}" method="post" class="d-inline"
-            onsubmit="return confirm('Are you sure to delete this record?')">
-            @csrf
-            @method('delete')
-
-            <button class="btn btn-danger btn-sm">
-                <i class="mdi mdi-trash-can-outline"></i>
-            </button>
-        </form>
-    @endcan
-
-    {{-- @canany(['download qr', 'sparepart stock in', 'sparepart stock out', 'sparepart history']) --}}
-    <div class="btn-group">
-        <button class="btn btn-md btn-warning btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1"
-            data-bs-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-cog"></i>
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li>
-                <a href="#" type="button" class="dropdown-item" data-bs-toggle="modal"
-                    data-bs-target="#detailEquipment{{ $model->id }}" id="view_gambar"
-                    data-photo="{{ $model->photo }}" data-id="{{ $model->id }}">
-                    Detail
-                </a>
-            </li>
-            <li>
-                <a href="#" type="button" class="dropdown-item" data-bs-toggle="modal"
-                    data-bs-target="#qrcode-equipment{{ $model->id }}">
-                    QR Code
-                </a>
-            </li>
-            <li>
-                <a href="#" type="button" class="dropdown-item" data-bs-toggle="modal"
-                    data-bs-target="#table-history{{ $model->id }}">
-                    History WO Peralatan
-                </a>
-            </li>
-            <li>
-                <a href="#" type="button" class="dropdown-item" data-bs-toggle="modal"
-                    data-bs-target="#table-penyusutan{{ $model->id }}">
-                    Tabel Penyusutan
-                </a>
-            </li>
-
-        </ul>
-    </div>
-    {{-- @endcanany --}}
-
-
-</td>
-
-<!-- Modal Detail -->
-<div class="modal fade" id="detailEquipment{{ $model->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Detail</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <table class="table table-bordered table-sm">
-                    <tr>
-                        <th style="width: 200px">{{ trans('inventory/equipment/index.barcode') }}</th>
-                        <td>{{ $model->barcode }}</td>
-                    </tr>
-                    <tr>
-                        <th>{{ trans('inventory/equipment/index.nomenklatur') }}</th>
-                        <td>{{ $model->nomenklatur->name_nomenklatur }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>{{ trans('inventory/equipment/index.category') }}</th>
-                        <td>{{ $model->equipment_category->category_name }}</td>
-                    </tr>
-                    <tr>
-                        <th>{{ trans('inventory/equipment/index.manufacture') }}</th>
-                        <td>{{ $model->manufacturer }}</td>
-                    </tr>
-                    <tr>
-                        <th>{{ trans('inventory/equipment/index.type') }}</th>
-                        <td>{{ $model->type }}</td>
-                    </tr>
-                    <tr>
-                        <th>{{ trans('inventory/equipment/index.serial_number') }}</th>
-                        <td>{{ $model->serial_number }}</td>
-                    </tr>
-                    <tr>
-                        <th>{{ trans('inventory/equipment/index.vendor') }}</th>
-                        <td>{{ $model->vendor->name_vendor }}</td>
-                    </tr>
-                    <tr>
-                        <th>{{ trans('inventory/equipment/index.condition') }}</th>
-                        <td>{{ $model->condition }}</td>
-                    </tr>
-                    <tr>
-                        <th>{{ trans('inventory/equipment/index.risk_level') }}</th>
-                        <td>{{ $model->risk_level }}</td>
-                    </tr>
-                    <tr>
-                        <th>{{ trans('inventory/equipment/index.location') }}</th>
-                        <td>{{ $model->equipment_location->location_name }}</td>
-                    </tr>
-                    <tr>
-                        <th>{{ trans('inventory/equipment/index.financing_code') }}</th>
-                        <td>{{ $model->financing_code }}</td>
-                    </tr>
-                    <tr>
-                        <th>{{ trans('inventory/equipment/index.purchase_date') }}</th>
-                        <td>{{ $model->tgl_pembelian }}</td>
-                    </tr>
-                    <tr>
-                        <th>{{ trans('inventory/equipment/index.method') }}</th>
-                        <td>{{ $model->metode }}</td>
-                    </tr>
-                    <tr>
-                        <th>{{ trans('inventory/equipment/index.aq_value') }}</th>
-                        <td>{{ rupiah($model->nilai_perolehan) }}</td>
-                    </tr>
-                    <tr>
-                        <th>{{ trans('inventory/equipment/index.rsd_value') }}</th>
-                        <td>{{ rupiah($model->nilai_residu) }}</td>
-                    </tr>
-                    <tr>
-                        <th>{{ trans('inventory/equipment/index.useful') }}</th>
-                        <td>{{ $model->masa_manfaat }} Tahun</td>
-                    </tr>
-
-                    <tr>
-                        <th>{{ trans('inventory/equipment/form.photo') }}</th>
-                        <td><img class="img-thumbnail" src="" id="photo_alat_modal{{ $model->id }}"
-                                style="width: 100%;margin:0px" /></td>
-                    </tr>
-
-                </table>
-            </div>
-            <div class="modal-footer">
-                <a href="{{ route('print_history_equipment', $model->id) }}" type="button" class="btn btn-danger"
-                    target="_blank"><i class="fa fa-print" aria-hidden="true"></i>Print</a>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <!-- Modal -->
 <div class="modal fade" id="qrcode-equipment{{ $model->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -335,6 +183,160 @@
         </div>
     </div>
 </div>
+
+<td>
+    @can('equipment edit')
+        <a href="{{ route('equipment.edit', $model->id) }}" class="btn btn-success btn-sm">
+            <i class="mdi mdi-pencil"></i>
+        </a>
+    @endcan
+
+    @can('equipment delete')
+        <form action="{{ route('equipment.destroy', $model->id) }}" method="post" class="d-inline"
+            onsubmit="return confirm('Are you sure to delete this record?')">
+            @csrf
+            @method('delete')
+
+            <button class="btn btn-danger btn-sm">
+                <i class="mdi mdi-trash-can-outline"></i>
+            </button>
+        </form>
+    @endcan
+
+    {{-- @canany(['download qr', 'sparepart stock in', 'sparepart stock out', 'sparepart history']) --}}
+    <div class="btn-group">
+        <button class="btn btn-md btn-warning btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1"
+            data-bs-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-cog"></i>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li>
+                <a href="#" type="button" class="dropdown-item" data-bs-toggle="modal"
+                    data-bs-target="#detailEquipment{{ $model->id }}" id="view_gambar"
+                    data-photo="{{ $model->photo }}" data-id="{{ $model->id }}">
+                    Detail
+                </a>
+            </li>
+            <li>
+                <a href="#" type="button" class="dropdown-item" data-bs-toggle="modal"
+                    data-bs-target="#qrcode-equipment{{ $model->id }}">
+                    QR Code
+                </a>
+            </li>
+            <li>
+                <a href="#" type="button" class="dropdown-item" data-bs-toggle="modal"
+                    data-bs-target="#table-history{{ $model->id }}">
+                    History WO Peralatan
+                </a>
+            </li>
+            <li>
+                <a href="#" type="button" class="dropdown-item" data-bs-toggle="modal"
+                    data-bs-target="#table-penyusutan{{ $model->id }}">
+                    Tabel Penyusutan
+                </a>
+            </li>
+
+        </ul>
+    </div>
+    {{-- @endcanany --}}
+
+
+</td>
+
+<!-- Modal Detail -->
+<div class="modal fade" id="detailEquipment{{ $model->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detail</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-sm">
+                    <tr>
+                        <th style="width: 200px">{{ trans('inventory/equipment/index.barcode') }}</th>
+                        <td>{{ $model->barcode }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ trans('inventory/equipment/index.nomenklatur') }}</th>
+                        <td>{{ $model->nomenklatur->name_nomenklatur }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>{{ trans('inventory/equipment/index.category') }}</th>
+                        <td>{{ $model->equipment_category->category_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ trans('inventory/equipment/index.manufacture') }}</th>
+                        <td>{{ $model->manufacturer }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ trans('inventory/equipment/index.type') }}</th>
+                        <td>{{ $model->type }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ trans('inventory/equipment/index.serial_number') }}</th>
+                        <td>{{ $model->serial_number }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ trans('inventory/equipment/index.vendor') }}</th>
+                        <td>{{ $model->vendor->name_vendor }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ trans('inventory/equipment/index.condition') }}</th>
+                        <td>{{ $model->condition }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ trans('inventory/equipment/index.risk_level') }}</th>
+                        <td>{{ $model->risk_level }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ trans('inventory/equipment/index.location') }}</th>
+                        <td>{{ $model->equipment_location->location_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ trans('inventory/equipment/index.financing_code') }}</th>
+                        <td>{{ $model->financing_code }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ trans('inventory/equipment/index.purchase_date') }}</th>
+                        <td>{{ $model->tgl_pembelian }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ trans('inventory/equipment/index.method') }}</th>
+                        <td>{{ $model->metode }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ trans('inventory/equipment/index.aq_value') }}</th>
+                        <td>{{ rupiah($model->nilai_perolehan) }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ trans('inventory/equipment/index.rsd_value') }}</th>
+                        <td>{{ rupiah($model->nilai_residu) }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ trans('inventory/equipment/index.useful') }}</th>
+                        <td>{{ $model->masa_manfaat }} Tahun</td>
+                    </tr>
+
+                    <tr>
+                        <th>{{ trans('inventory/equipment/form.photo') }}</th>
+                        <td><img class="img-thumbnail" src="" id="photo_alat_modal{{ $model->id }}"
+                                style="width: 100%;margin:0px" /></td>
+                    </tr>
+
+                </table>
+            </div>
+            <div class="modal-footer">
+                <a href="{{ route('print_history_equipment', $model->id) }}" type="button" class="btn btn-danger"
+                    target="_blank"><i class="fa fa-print" aria-hidden="true"></i>Print</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <script>
     $('.dataTables-example').DataTable();
