@@ -92,7 +92,7 @@
                                         <div class="form-group">
                                             <input {{ $readonly ? 'disabled' : '' }} type="file" name="wo_doc_file[{{ $index }}]" id="wo_doc_file[{{ $index }}]" class="d-none">
                                             <input {{ $readonly ? 'disabled' : '' }} type="hidden" name="old_wo_doc_file[{{ $index }}]" value="{{ url('/storage/work-order-process-has-wo-document/file/' . $woDocument->file) }}">
-                                            <a class="btn btn-sm btn-outline-dark" href="{{ url('/storage/work-order-process-has-wo-document/file/' . $woDocument->file) }}" target="_blank"><i class="mdi mdi-file"></i> {{ $woDocument->file }}</a>
+                                            <a class="btn btn-sm btn-outline-dark" href="{{ url('/storage/work-order-process-has-wo-documents/file/' . $woDocument->file) }}" target="_blank"><i class="mdi mdi-file"></i> {{ $woDocument->file }}</a>
                                         </div>
                                     </td>
                                 </tr>

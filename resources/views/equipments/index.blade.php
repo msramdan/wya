@@ -3,11 +3,6 @@
 @section('title', __('Equipments'))
 
 @push('css')
-<style>
-    .modal {
-        z-index: 1200 !important;
-    }
-</style>
 @endpush
 @section('content')
     <!-- Modal -->
