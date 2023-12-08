@@ -46,9 +46,12 @@ class EquipmentImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
             '*.nilai_residu' => 'required|numeric',
             '*.masa_manfaat' => 'required|numeric'
         ])->validate();
-
         foreach ($collection as $row) {
-            $tgl_beli = self::convertTglFromExcel($row['tanggal_pembelian']);
+            if (is_numeric($row['tanggal_pembelian'])) {
+                $tgl_beli = self::convertTglFromExcel($row['tanggal_pembelian']);
+            } else {
+                $tgl_beli = null;
+            }
             $equipment = Equipment::create([
                 'barcode' => $row['barcode'],
                 'nomenklatur_id' => Nomenklatur::where('code_nomenklatur', $row['code_nomenklatur'])->first()->id,
@@ -131,11 +134,12 @@ class EquipmentImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
         }
     }
 
-    public static function convertTglFromExcel($num) {
-            $excel_date = $num; //here is that value 41621 or 41631
-            $unix_date = ($excel_date - 25569) * 86400;
-            $excel_date = 25569 + ($unix_date / 86400);
-            $unix_date = ($excel_date - 25569) * 86400;
-            return gmdate("Y-m-d", $unix_date);
+    public static function convertTglFromExcel($num)
+    {
+        $excel_date = $num; //here is that value 41621 or 41631
+        $unix_date = ($excel_date - 25569) * 86400;
+        $excel_date = 25569 + ($unix_date / 86400);
+        $unix_date = ($excel_date - 25569) * 86400;
+        return gmdate("Y-m-d", $unix_date);
     }
 }
