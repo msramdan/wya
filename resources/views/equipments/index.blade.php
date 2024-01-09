@@ -301,7 +301,7 @@
             },
             {
                 data: 'nomenklatur',
-                name: 'nomenklatur.code_nomenklatur'
+                name: 'nomenklatur.name_nomenklatur'
             },
             {
                 data: 'serial_number',
@@ -309,7 +309,7 @@
             },
             {
                 data: 'equipment_category',
-                name: 'equipment_category.code_categoty'
+                name: 'equipment_category.category_name'
             },
             {
                 data: 'manufacturer',
