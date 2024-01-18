@@ -16,7 +16,7 @@ return [
   'condition' => 'Kondisi',
   'select_condition' => 'Pilih Kondisi',
   'risk_level' => 'Tingkat Resiko',
-  'select_risk_level' => 'Pilih Tingkat Reiko',
+  'select_risk_level' => 'Pilih Tingkat Resiko',
   'location' => 'Lokasi',
   'select_location' => 'Pilih Lokasi',
   'financing_code' => 'Kode Pembiayaan',

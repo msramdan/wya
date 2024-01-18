@@ -110,7 +110,7 @@ class EquipmentController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'barcode' => 'required|string|min:1|max:100',
+                'barcode' => 'required|string|min:1|max:100|unique:equipment,barcode',
                 'nomenklatur_id' => 'required|exists:App\Models\Nomenklatur,id',
                 'equipment_category_id' => 'required|exists:App\Models\EquipmentCategory,id',
                 'manufacturer' => 'required|string|min:1|max:255',
@@ -326,7 +326,7 @@ class EquipmentController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'barcode' => 'required|string|min:1|max:100',
+                'barcode' => 'required|string|min:1|max:100|unique:equipment,barcode,' . $equipment->id,
                 'nomenklatur_id' => 'required|exists:App\Models\Nomenklatur,id',
                 'equipment_category_id' => 'required|exists:App\Models\EquipmentCategory,id',
                 'manufacturer' => 'required|string|min:1|max:255',

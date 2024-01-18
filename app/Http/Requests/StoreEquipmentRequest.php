@@ -24,7 +24,7 @@ class StoreEquipmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'barcode' => 'required|string|min:1|max:100',
+            'barcode' => 'required|string|min:1|max:100|unique:equipment,barcode',
 			'nomenklatur_id' => 'required|exists:App\Models\Nomenklatur,id',
 			'equipment_category_id' => 'required|exists:App\Models\EquipmentCategory,id',
 			'manufacturer' => 'required|string|min:1|max:255',
