@@ -29,7 +29,7 @@ class EquipmentImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
     public function collection(Collection $collection)
     {
         Validator::make($collection->toArray(), [
-            '*.barcode' => 'required|min:1|max:100',
+            '*.barcode' => 'required|min:1|max:100|unique:equipment,barcode',
             '*.code_nomenklatur' => 'required|exists:App\Models\Nomenklatur,code_nomenklatur',
             '*.equipment_category' => 'required|exists:App\Models\EquipmentCategory,category_name',
             '*.manufacturer' => 'required|min:1|max:255',
