@@ -239,7 +239,7 @@
             },
             {
                 data: 'hospital',
-                name: 'hospital'
+                name: 'hospital.name'
             },
             {
                 data: 'wo_number',
@@ -251,7 +251,7 @@
             },
             {
                 data: 'equipment',
-                name: 'equipment.id',
+                name: 'equipment.barcode',
                 render: function(datum, type, row) {
                     return `${row.equipment} <a id="view_data" href="#modal-dialog3" data-bs-toggle="modal" data-equipment="${row.equipment}">
 																<i style="color : #17a2b8" class="fas fa-info-circle fs-15 align-middle"></i>

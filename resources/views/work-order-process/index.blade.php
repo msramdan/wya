@@ -238,7 +238,7 @@
             },
             {
                 data: 'hospital',
-                name: 'hospital'
+                name: 'hospital.name'
             },
             {
                 data: 'wo_number',
