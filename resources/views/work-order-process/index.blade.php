@@ -242,7 +242,7 @@
             },
             {
                 data: 'wo_number',
-                name: 'wo_number'
+                name: 'work_orders.wo_number'
             },
             {
                 data: 'filed_date',
