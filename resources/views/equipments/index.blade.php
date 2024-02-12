@@ -293,7 +293,7 @@
             },
             {
                 data: 'hospital',
-                name: 'hospital',
+                name: 'hospital.name',
             },
             {
                 data: 'barcode',
