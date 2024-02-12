@@ -49,14 +49,14 @@
         @enderror
 
         <hr>
-        <div class="alert alert-success" role="alert">
+        {{-- <div class="alert alert-success" role="alert">
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="selectAllPermissions" style="width: 20px; height: 20px; border: 2px solid green; margin-top: 2px; margin-right: 5px;" />
                 <label class="form-check-label" for="selectAllPermissions" style="font-size: 18px;">
                     Select All Permissions
                 </label>
             </div>
-        </div>
+        </div> --}}
     </div>
 
     @foreach (config('permission.permissions') as $permission)
