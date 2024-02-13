@@ -130,7 +130,12 @@ class WorkOrderProcessController extends Controller
         $microTo = strtotime($to) * 1000;
         if (Auth::user()->roles->first()->hospital_id) {
             $equimentHospital = Equipment::where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
-            $dataUser = User::all();
+            $dataUser = DB::table('users')
+                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+                ->select('users.*', 'roles.hospital_id')
+                ->where('roles.hospital_id', Auth::user()->roles->first()->hospital_id)
+                ->get();
         } else {
             $equimentHospital = Equipment::all();
             $dataUser = User::all();
@@ -368,10 +373,10 @@ class WorkOrderProcessController extends Controller
         $spareparts = Sparepart::get();
         $hospital = Hospital::find($workOrder->hospital_id);
         $dataUser = json_decode($hospital->work_order_has_access_approval_users_id);
-        if($dataUser != null){
+        if ($dataUser != null) {
             $data_user = end($dataUser);
-        }else{
-             $data_user = '';
+        } else {
+            $data_user = '';
         }
         $pdf = Pdf::loadView('work-order-process.wo-process-wo-print', [
             'workOrder' => $workOrder,

@@ -140,7 +140,12 @@ class WorkOrderController extends Controller
 
         if (Auth::user()->roles->first()->hospital_id) {
             $equimentHospital = Equipment::where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
-            $dataUser = User::all();
+            $dataUser = DB::table('users')
+            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+            ->select('users.*', 'roles.hospital_id')
+            ->where('roles.hospital_id', Auth::user()->roles->first()->hospital_id)
+            ->get();
         } else {
             $equimentHospital = Equipment::all();
             $dataUser = User::all();
