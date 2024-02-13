@@ -137,11 +137,20 @@ class WorkOrderController extends Controller
         $to = date('Y-m-d') . " 23:59:59";
         $microFrom = strtotime($from) * 1000;
         $microTo = strtotime($to) * 1000;
+
+        if (Auth::user()->roles->first()->hospital_id) {
+            $equimentHospital = Equipment::where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
+            $dataUser = User::all();
+        } else {
+            $equimentHospital = Equipment::all();
+            $dataUser = User::all();
+        }
+
         return view('work-orders.index', [
             'microFrom' => $microFrom,
             'microTo' => $microTo,
-            'user' => User::all(),
-            'equipment' => Equipment::all(),
+            'user' => $dataUser,
+            'equipment' => $equimentHospital,
         ]);
     }
 
