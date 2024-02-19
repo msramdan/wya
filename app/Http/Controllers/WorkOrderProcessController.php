@@ -94,7 +94,7 @@ class WorkOrderProcessController extends Controller
                     $workOrders = $workOrders->where('created_by', $created_by);
                 }
             }
-
+            $workOrders = $workOrders->orderBy('wo_number', 'DESC');
             return DataTables::of($workOrders)
                 ->addIndexColumn()
                 ->addColumn('hospital', function ($row) {

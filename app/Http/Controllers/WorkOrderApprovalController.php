@@ -84,7 +84,7 @@ class WorkOrderApprovalController extends Controller
                     $workOrders = $workOrders->where('created_by', $created_by);
                 }
             }
-
+            $workOrders = $workOrders->orderBy('wo_number', 'DESC');
             return DataTables::of($workOrders)
                 ->addIndexColumn()
                 ->addColumn('hospital', function ($row) {
@@ -135,6 +135,7 @@ class WorkOrderApprovalController extends Controller
                 })
                 ->toJson();
         }
+
         $from = date('Y-m-d') . " 00:00:00";
         $to = date('Y-m-d') . " 23:59:59";
         $microFrom = strtotime($from) * 1000;
