@@ -141,21 +141,33 @@ class WorkOrderController extends Controller
         if (Auth::user()->roles->first()->hospital_id) {
             $equimentHospital = Equipment::where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
             $dataUser = DB::table('users')
-            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-            ->select('users.*', 'roles.hospital_id')
-            ->where('roles.hospital_id', Auth::user()->roles->first()->hospital_id)
-            ->get();
+                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+                ->select('users.*', 'roles.hospital_id')
+                ->where('roles.hospital_id', Auth::user()->roles->first()->hospital_id)
+                ->get();
         } else {
             $equimentHospital = Equipment::all();
             $dataUser = User::all();
         }
 
+        $start_date = $request->query('start_date') !== null ? intval($request->query('start_date')) : $microFrom;
+        $end_date = $request->query('end_date') !== null ? intval($request->query('end_date')) : $microTo;
+        $equipment_id = $request->query('equipment_id') ?? null;
+        $type_wo = $request->query('type_wo') ?? null;
+        $category_wo = $request->query('category_wo') ?? null;
+        $created_by = $request->query('created_by') !== null ? intval($request->query('created_by')) : null;
+        $hospital_id = $request->query('hospital_id') !== null ? intval($request->query('hospital_id')) : null;
         return view('work-orders.index', [
-            'microFrom' => $microFrom,
-            'microTo' => $microTo,
+            'microFrom' => $start_date,
+            'microTo' => $end_date,
             'user' => $dataUser,
             'equipment' => $equimentHospital,
+            'equipment_id' => $equipment_id,
+            'type_wo' => $type_wo,
+            'category_wo' => $category_wo,
+            'created_by' => $created_by,
+            'hospital_id' => $hospital_id,
         ]);
     }
 

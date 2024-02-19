@@ -47,8 +47,6 @@
         </div>
 
     </div>
-
-
     <div class="page-content">
         <div class="container-fluid">
             <div class="row">
@@ -74,7 +72,6 @@
                                         class="mdi mdi-plus"></i> {{ trans('work-order/submission/index.create') }}</a>
                             @endcan
                         </div>
-
                         <div class="card-body">
                             @if (!Auth::user()->roles->first()->hospital_id)
                                 <div class="row">
@@ -87,10 +84,10 @@
                                                     <option value="">--
                                                         {{ trans('work-order/submission/index.filter_hospital') }} --
                                                     </option>
-                                                    @foreach ($hispotals as $hispotal)
-                                                        <option value="{{ $hispotal->id }}"
-                                                            {{ isset($workOrders) && $workOrders->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
-                                                            {{ $hispotal->name }}
+                                                    @foreach ($hispotals as $hospital)
+                                                        <option value="{{ $hospital->id }}"
+                                                            {{ (isset($workOrders) && $workOrders->hospital_id == $hospital->id) || (old('hospital_id') == $hospital->id) || (isset($hospital_id) && $hospital_id == $hospital->id) ? 'selected' : '' }}>
+                                                            {{ $hospital->name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -107,8 +104,8 @@
                                         <input type="text" class="form-control" aria-describedby="addon-wrapping"
                                             id="daterange-btn" value="">
                                         <input type="hidden" name="start_date" id="start_date"
-                                            value="{{ $microFrom }}">
-                                        <input type="hidden" name="end_date" id="end_date" value="{{ $microTo }}">
+                                            value="{{ $microFrom ?? '' }}">
+                                        <input type="hidden" name="end_date" id="end_date" value="{{ $microTo ?? '' }}">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
@@ -117,8 +114,10 @@
                                             <option value="All">--
                                                 {{ trans('work-order/submission/index.filter_equipment') }} --</option>
                                             @foreach ($equipment as $row)
-                                                <option value="{{ $row->id }}">{{ $row->serial_number }} |
-                                                    {{ $row->barcode }} | {{ $row->manufacturer }}
+                                                <option value="{{ $row->id }}"
+                                                    {{ $equipment_id == $row->id ? 'selected' : '' }}>
+                                                    {{ $row->serial_number }} | {{ $row->barcode }} |
+                                                    {{ $row->manufacturer }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -129,11 +128,16 @@
                                         <select name="type_wo" id="type_wo" class="form-control select2-form">
                                             <option value="All">--
                                                 {{ trans('work-order/submission/index.filter_type') }} --</option>
-                                            <option value="Calibration">Calibration</option>
-                                            <option value="Service">Service</option>
-                                            <option value="Training">Training</option>
-                                            <option value="Inspection and Preventive Maintenance">Inspection and Preventive
-                                                Maintenance</option>
+                                            <option value="Calibration" {{ $type_wo == 'Calibration' ? 'selected' : '' }}>
+                                                Calibration</option>
+                                            <option value="Service" {{ $type_wo == 'Service' ? 'selected' : '' }}>Service
+                                            </option>
+                                            <option value="Training" {{ $type_wo == 'Training' ? 'selected' : '' }}>
+                                                Training</option>
+                                            <option value="Inspection and Preventive Maintenance"
+                                                {{ $type_wo == 'Inspection and Preventive Maintenance' ? 'selected' : '' }}>
+                                                Inspection and Preventive Maintenance
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -142,8 +146,10 @@
                                         <select name="category_wo" id="category_wo" class="form-control select2-form">
                                             <option value="All">--
                                                 {{ trans('work-order/submission/index.filter_category') }} --</option>
-                                            <option value="Rutin">Rutin</option>
-                                            <option value="Non Rutin">Non Rutin</option>
+                                            <option value="Rutin" {{ $category_wo == 'Rutin' ? 'selected' : '' }}>Rutin
+                                            </option>
+                                            <option value="Non Rutin" {{ $category_wo == 'Non Rutin' ? 'selected' : '' }}>
+                                                Non Rutin</option>
                                         </select>
                                     </div>
                                 </div>
@@ -153,7 +159,9 @@
                                             <option value="All">--
                                                 {{ trans('work-order/submission/index.filter_created') }} --</option>
                                             @foreach ($user as $row)
-                                                <option value="{{ $row->id }}">{{ $row->name }}
+                                                <option value="{{ $row->id }}"
+                                                    {{ $created_by == $row->id ? 'selected' : '' }}>
+                                                    {{ $row->name }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -353,24 +361,53 @@
             },
             columns: columns
         });
+
+        function replaceURLParams() {
+            var params = new URLSearchParams();
+            var startDate = $("#start_date").val();
+            var endDate = $("#end_date").val();
+            var equipmentId = $('select[name=equipment_id]').val();
+            var typeWo = $('select[name=type_wo]').val();
+            var categoryWo = $('select[name=category_wo]').val();
+            var createdBy = $('select[name=created_by]').val();
+            var hospitalId = $('select[name=hospital_id]').val();
+
+            if (startDate) params.set('start_date', startDate);
+            if (endDate) params.set('end_date', endDate);
+            if (equipmentId) params.set('equipment_id', equipmentId);
+            if (typeWo) params.set('type_wo', typeWo);
+            if (categoryWo) params.set('category_wo', categoryWo);
+            if (createdBy) params.set('created_by', createdBy);
+            if (hospitalId) params.set('hospital_id', hospitalId);
+            var newURL = "{{ route('work-orders.index') }}" + '?' + params.toString();
+            history.replaceState(null, null, newURL);
+        }
+
+
         $('#hospital_id').change(function() {
             table.draw();
+            replaceURLParams()
         })
         $('#equipment_id').change(function() {
             table.draw();
+            replaceURLParams()
         })
         $('#type_wo').change(function() {
             table.draw();
+            replaceURLParams()
         })
         $('#category_wo').change(function() {
             table.draw();
+            replaceURLParams()
         })
         $('#created_by').change(function() {
             table.draw();
+            replaceURLParams()
         })
 
         $('#daterange-btn').change(function() {
             table.draw();
+            replaceURLParams()
         })
     </script>
     <script>
