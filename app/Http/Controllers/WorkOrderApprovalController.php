@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
 
 class WorkOrderApprovalController extends Controller
@@ -162,15 +163,15 @@ class WorkOrderApprovalController extends Controller
 
 
         return view('work-order-approvals.index', [
-            'microFrom' => $microFrom,
-            'microTo' => $microTo,
+            'microFrom' => $start_date,
+            'microTo' => $end_date,
             'user' => $dataUser,
             'equipment' => $equimentHospital,
             'equipment_id' => $equipment_id,
             'type_wo' => $type_wo,
             'category_wo' => $category_wo,
             'created_by' => $created_by,
-            'hospital_id' => $hospital_id,
+
         ]);
     }
 
@@ -298,9 +299,7 @@ class WorkOrderApprovalController extends Controller
                 ]);
             }
         }
-
         Alert::toast('The workOrder was updated successfully.', 'success');
-        return redirect()
-            ->route('work-order-approvals.index');
+        return Redirect::to($request->currentUrl);
     }
 }

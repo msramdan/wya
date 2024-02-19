@@ -1,9 +1,11 @@
 <td>
-    <div class="modal fade" id="modalDetail{{ $model->id }}" tabindex="-1" aria-labelledby="modalDetail{{ $model->id }}Label" aria-hidden="true">
+    <div class="modal fade" id="modalDetail{{ $model->id }}" tabindex="-1"
+        aria-labelledby="modalDetail{{ $model->id }}Label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalDetail{{ $model->id }}Label">{{ trans('work-order/approval/index.detail_work_order') }}</h5>
+                    <h5 class="modal-title" id="modalDetail{{ $model->id }}Label">
+                        {{ trans('work-order/approval/index.detail_work_order') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -26,7 +28,8 @@
                         </tr>
                         <tr>
                             <th>{{ trans('work-order/approval/index.schedule_date') }}</th>
-                            <td>{{ date('Y-m-d', strtotime($model->schedule_date ? $model->schedule_date : $model->start_date)) }}</td>
+                            <td>{{ date('Y-m-d', strtotime($model->schedule_date ? $model->schedule_date : $model->start_date)) }}
+                            </td>
                         </tr>
                         <tr>
                             <th>{{ trans('work-order/approval/index.schedule_start_date') }}</th>
@@ -67,7 +70,9 @@
                                             }
                                         @endphp
 
-                                        <li style="white-space: nowrap">{{ $approvalUser->user_name }}: <span class="badge bg-{{ $rowStatus }}">{{ $approvalUser->status }}</span></li>
+                                        <li style="white-space: nowrap">{{ $approvalUser->user_name }}: <span
+                                                class="badge bg-{{ $rowStatus }}">{{ $approvalUser->status }}</span>
+                                        </li>
                                     @endforeach
                                 </ul>
                             </td>
@@ -94,29 +99,37 @@
                                             break;
                                     }
                                 @endphp
-                                <span class="badge bg-{{ $rowStatus }}">{{ in_array($model->status_wo, ['accepted', 'on-going', 'finished']) ? 'accepted' : $model->status_wo }}</span>
+                                <span
+                                    class="badge bg-{{ $rowStatus }}">{{ in_array($model->status_wo, ['accepted', 'on-going', 'finished']) ? 'accepted' : $model->status_wo }}</span>
                             </td>
                         </tr>
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-sm btn btn-secondary" data-bs-dismiss="modal"><i class="mdi mdi-arrow-up"></i> Close</button>
+                    <button type="button" class="btn-sm btn btn-secondary" data-bs-dismiss="modal"><i
+                            class="mdi mdi-arrow-up"></i> Close</button>
                     @can('work order approval')
                         @if ($displayAction)
-                            <form action="{{ route('work-order-approvals.update', $model->id) }}" method="post" class="d-inline" onsubmit="return confirm('Are you sure to reject this record?')">
+                            @php
+                                $currentUrl = url()->full();
+                            @endphp
+                            <form action="{{ route('work-order-approvals.update', $model->id) }}" method="post"
+                                class="d-inline" onsubmit="return confirm('Are you sure to reject this record?')">
                                 @csrf
                                 @method('put')
                                 <input type="hidden" name="status" value="rejected">
+                                <input type="hidden" name="currentUrl" value="{{$currentUrl }}">
 
                                 <button class="btn btn-danger btn-sm">
                                     <i class="mdi mdi-close"></i> Reject
                                 </button>
                             </form>
-                            <form action="{{ route('work-order-approvals.update', $model->id) }}" method="post" class="d-inline" onsubmit="return confirm('Are you sure to accept this record?')">
+                            <form action="{{ route('work-order-approvals.update', $model->id) }}" method="post"
+                                class="d-inline" onsubmit="return confirm('Are you sure to accept this record?')">
                                 @csrf
                                 @method('put')
                                 <input type="hidden" name="status" value="accepted">
-
+                                <input type="hidden" name="currentUrl" value="{{$currentUrl }}">
                                 <button class="btn btn-success btn-sm">
                                     <i class="mdi mdi-check"></i> Accept
                                 </button>
@@ -128,5 +141,6 @@
         </div>
     </div>
 
-    <button type="button" data-bs-toggle="modal" data-bs-target="#modalDetail{{ $model->id }}" class="btn btn-sm btn-primary"><i class="mdi mdi-format-float-center"></i></button>
+    <button type="button" data-bs-toggle="modal" data-bs-target="#modalDetail{{ $model->id }}"
+        class="btn btn-sm btn-primary"><i class="mdi mdi-format-float-center"></i></button>
 </td>

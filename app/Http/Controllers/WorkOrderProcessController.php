@@ -148,8 +148,8 @@ class WorkOrderProcessController extends Controller
         $created_by = $request->query('created_by') !== null ? intval($request->query('created_by')) : null;
         $hospital_id = $request->query('hospital_id') !== null ? intval($request->query('hospital_id')) : null;
         return view('work-order-process.index', [
-            'microFrom' => $microFrom,
-            'microTo' => $microTo,
+            'microFrom' => $start_date,
+            'microTo' => $end_date,
             'user' => $dataUser,
             'equipment' => $equimentHospital,
             'equipment_id' => $equipment_id,
