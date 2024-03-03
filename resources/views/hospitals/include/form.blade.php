@@ -139,12 +139,13 @@
         <select class="form-control js-example-basic-multiple  @error('paper_qr_code') is-invalid @enderror"
             name="paper_qr_code" id="paper-qr-code" required>
             <option value="" selected disabled>-- {{ __('Select QRcode Paper') }} --</option>
-            <option value="68.0315"
-                {{ isset($hospital) && $hospital->paper_qr_code == '68.0315' ? 'selected' : (old('paper_qr_code') == '68.0315' ? 'selected' : '') }}>
-                {{ __('24mm') }}</option>
             <option value="93.5433"
                 {{ isset($hospital) && $hospital->paper_qr_code == '93.5433' ? 'selected' : (old('paper_qr_code') == '93.5433' ? 'selected' : '') }}>
-                {{ __('36mm') }}</option>
+                {{ __('24mm') }}</option>
+            <option value="68.0315"
+                {{ isset($hospital) && $hospital->paper_qr_code == '68.0315' ? 'selected' : (old('paper_qr_code') == '68.0315' ? 'selected' : '') }}>
+                {{ __('18mm') }}</option>
+
         </select>
         @error('paper_qr_code')
             <span class="text-danger">

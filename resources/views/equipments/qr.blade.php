@@ -3,7 +3,18 @@
 
 <style>
     @page {
-        margin: 5px 0px 0px 0px
+        margin: 1mm 0mm 0mm 0mm
+    }
+
+    .fixed-image {
+        position: fixed;
+        width: 90%;
+        bottom: 1mm;
+        width: 90%;
+        left: 50%;
+        /* Menggeser elemen ke tengah */
+        transform: translateX(-50%);
+
     }
 </style>
 
@@ -17,10 +28,10 @@
     <center>
         <img style="width: {{ $widthQR }}px;" src="data:image/png;base64, {!! base64_encode(QrCode::generate($barcode)) !!} ">
         <center>
-            <p style="font-size:10px;">SN : {{$equipment->serial_number}}</p>
-            <p style="font-size:10px; margin-top:-20px">{{$equipment->location_name}}</p>
+            <p style="font-size:10px;"><b>SN : <br> {{ $equipment->serial_number }}</b> </p>
+            <p style="font-size:10px; margin-top:-20px"><b>{{ $equipment->location_name }}</b> </p>
         </center>
-        <img style="width: 90%;margin-top:-15px" src="{{ public_path('logo.png') }}">
+        <img class="fixed-image" src="{{ public_path('logo_print.png') }}">
     </center>
 </body>
 
