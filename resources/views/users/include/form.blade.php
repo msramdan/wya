@@ -137,7 +137,7 @@
                         <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($user->email))) }}&s=450"
                             alt="avatar">
                     @else
-                        <img src="{{ asset("uploads/images/avatars/$user->avatar") }}" alt="avatar">
+                        <img style="width: 70%" class="img-thumbnail" src="{{ asset("uploads/images/avatars/$user->avatar") }}" alt="avatar">
                     @endif
                 </div>
             </div>

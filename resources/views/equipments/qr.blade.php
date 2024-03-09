@@ -28,8 +28,8 @@
     <center>
         <img style="width: {{ $widthQR }}px;" src="data:image/png;base64, {!! base64_encode(QrCode::generate($barcode)) !!} ">
         <center>
-            <p style="font-size:10px;"><b>SN : <br> {{ $equipment->serial_number }}</b> </p>
-            <p style="font-size:10px; margin-top:-20px"><b>{{ $equipment->location_name }}</b> </p>
+            <p style="font-size:10px; margin-top:-5px"><b>SN : <br> {{ $equipment->serial_number }}</b> </p>
+            <p style="font-size:10px; margin-top:-15px"><b>{{ $equipment->location_name }}</b> </p>
         </center>
         <img class="fixed-image" src="{{ public_path('logo_print.png') }}">
     </center>
