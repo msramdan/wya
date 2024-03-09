@@ -3,7 +3,7 @@
 
 <style>
     @page {
-        margin: 1mm 0mm 0mm 0mm
+        margin: 10px 0px 0px 0px
     }
 
     .fixed-image {
@@ -16,6 +16,7 @@
         transform: translateX(-50%);
 
     }
+
 </style>
 
 <head>
@@ -28,8 +29,8 @@
     <center>
         <img style="width: {{ $widthQR }}px;" src="data:image/png;base64, {!! base64_encode(QrCode::generate($barcode)) !!} ">
         <center>
-            <p style="font-size:10px; margin-top:-5px"><b>SN : <br> {{ $equipment->serial_number }}</b> </p>
-            <p style="font-size:10px; margin-top:-15px"><b>{{ $equipment->location_name }}</b> </p>
+            <p style="font-size:10px;">SN {{$equipment->serial_number}}</p>
+            <p style="font-size:10px; margin-top:-15px">{{$equipment->location_name}}</p>
         </center>
         <img class="fixed-image" src="{{ public_path('logo_print.png') }}">
     </center>
