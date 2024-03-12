@@ -15,9 +15,7 @@
                                 <select
                                     class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
                                     name="hospital_id" id="hospital_id" required>
-                                    <option value="" selected disabled>--
-                                        {{ trans('inventory/equipment/form.select_hispotal') }} --</option>
-
+                                    <option value="" selected disabled>-- {{ trans('inventory/equipment/form.select_hispotal') }} --</option>
                                     @foreach ($hispotals as $hispotal)
                                         <option value="{{ $hispotal->id }}"
                                             {{ isset($equipment) && $equipment->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>

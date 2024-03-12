@@ -164,6 +164,22 @@ return [
             ]
         ],
         [
+            'header' => 'Loans',
+            'permissions' => [
+                'loan view'
+            ],
+            'menus' => [
+                [
+                    'title' => 'Loan Equipment',
+                    'icon' => '<i class="mdi mdi-book"></i>',
+                    'route' => '/loans',
+                    'permission' => 'loan view',
+                    'permissions' => [],
+                    'submenus' => []
+                ]
+            ]
+        ],
+        [
             'header' => 'Inventory',
             'permissions' => [
                 'sparepart view',

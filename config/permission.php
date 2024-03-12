@@ -199,5 +199,5 @@ return [
         ['group' => 'work orders', 'access' => ['work order view', 'work order create', 'work order edit', 'work order delete', 'work order approval', 'work order process']],
         ['group' => 'hospitals', 'access' => ['hospital view', 'hospital create', 'hospital edit', 'hospital delete']],
         ['group' => 'spareparts', 'access' => ['sparepart view', 'sparepart create', 'sparepart edit', 'sparepart delete', 'download qr', 'sparepart stock in', 'sparepart stock out', 'sparepart history']],
-    ],
-];
+  ['group' => 'loans', 'access' => ['loan view', 'loan create', 'loan edit', 'loan delete']], 
+		],];

@@ -22,6 +22,7 @@ return [
   'financing_code' => 'Kode Pembiayaan',
   'photo' => 'Foto',
   'action' => 'Aksi',
+  'select_hispotal' => 'Pilih Rumah Sakit',
 
   // price
   'price_reduction' => 'Penurunan Harga',

@@ -22,7 +22,7 @@ return [
   'financing_code' => 'Financing Code',
   'photo' => 'Photo',
   'action' => 'Action',
-
+  'select_hispotal' => 'Select Hispotal',
   // price
   'price_reduction' => 'Price Reduction',
   'purchase_date' => 'Purchase Date',

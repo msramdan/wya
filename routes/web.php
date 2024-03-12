@@ -103,3 +103,5 @@ Route::prefix('panel')->group(function () {
     Route::get('work-order-processes/{workOrderId}/{workOrderProcessId}/print', [App\Http\Controllers\WorkOrderProcessController::class, 'woProcessPrint'])->middleware('auth');
     Route::resource('hospitals', App\Http\Controllers\HospitalController::class)->middleware('auth');
 });
+
+Route::resource('loans', App\Http\Controllers\LoanController::class)->middleware('auth');

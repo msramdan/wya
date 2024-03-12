@@ -40,7 +40,7 @@ class ViewServiceProvider extends ServiceProvider
             );
         });
 
-        View::composer(['equipments.index'], function ($view) {
+        View::composer(['equipments.index','loans.create','loans.edit'], function ($view) {
 
             if (!Auth::user()->roles->first()->hospital_id) {
                 $data = EquipmentLocation::select('id', 'location_name')->get();
@@ -97,7 +97,7 @@ class ViewServiceProvider extends ServiceProvider
             );
         });
 
-        View::composer(['work-orders.create', 'work-orders.edit'], function ($view) {
+        View::composer(['work-orders.create', 'work-orders.edit','loans.create','loans.edit'], function ($view) {
             return $view->with(
                 'users',
                 \App\Models\User::select('id', 'name')->get()
@@ -135,6 +135,7 @@ class ViewServiceProvider extends ServiceProvider
                 'work-order-process.*',
                 'work-order-approvals.*',
                 'hospitals.*',
+                'loans.*',
             ],
             function ($view) {
                 return $view->with(
