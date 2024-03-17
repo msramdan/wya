@@ -1,4 +1,9 @@
 <td>
+    @can('loan view')
+        <a href="{{ route('loans.show', $model->id) }}" class="btn btn-primary btn-sm">
+            <i class="mdi mdi-eye"></i>
+        </a>
+    @endcan
     @can('loan edit')
         <a href="{{ route('loans.edit', $model->id) }}" class="btn btn-success btn-sm">
             <i class="mdi mdi-pencil"></i>
@@ -10,7 +15,6 @@
             onsubmit="return confirm('Are you sure to delete this record?')">
             @csrf
             @method('delete')
-
             <button class="btn btn-danger btn-sm">
                 <i class="mdi mdi-trash-can-outline"></i>
             </button>

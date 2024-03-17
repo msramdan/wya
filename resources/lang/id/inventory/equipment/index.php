@@ -34,7 +34,7 @@ return [
   'useful' => 'Masa Manfaat (Tahun)',
 
   // history
-  'title_history' => 'Riwayan PK Perlengkalpan',
+  'title_history' => 'Riwayan PK Perlengkapan',
   'wo_number' => 'Nomer PK',
   'filed_date' => 'Tanggal Pengajuan',
   'schedule_date' => 'Tanggal Terjadwal',
