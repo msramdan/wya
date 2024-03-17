@@ -32,12 +32,10 @@ class StoreLoanRequest extends FormRequest
 			'waktu_pinjam' => 'required',
 			'waktu_dikembalikan' => 'nullable',
 			'alasan_peminjaman' => 'required|string',
-			'status_peminjaman' => 'required|in:Sudah dikembalikan,Belum dikembalikan',
 			'catatan_pengembalian' => 'nullable|string',
 			'pic_penanggungjawab' => 'required|string|max:255',
 			'bukti_peminjaman' => 'required|image|max:3000',
 			'bukti_pengembalian' => 'nullable|image|max:3000',
-			'user_created' => 'required|exists:App\Models\User,id',
 			'user_updated' => 'nullable|exists:App\Models\User,id',
         ];
     }

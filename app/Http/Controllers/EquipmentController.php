@@ -729,4 +729,10 @@ class EquipmentController extends Controller
             'data'    => $data
         ]);
     }
+
+    public function getEquipment($hospitalId)
+    {
+        $data = DB::table('equipment')->where('hospital_id', $hospitalId)->get();
+        return response()->json(compact('data'));
+    }
 }

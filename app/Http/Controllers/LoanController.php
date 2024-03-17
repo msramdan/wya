@@ -7,6 +7,8 @@ use App\Http\Requests\{StoreLoanRequest, UpdateLoanRequest};
 use Yajra\DataTables\Facades\DataTables;
 use Image;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class LoanController extends Controller
 {
@@ -23,50 +25,27 @@ class LoanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (request()->ajax()) {
-            $loans = Loan::with('equipment:id,condition', 'hospital:id,bot_telegram', 'equipment_location:id,created_at', 'equipment_location:id,created_at', 'user:id,created_at', 'user:id,created_at', );
+            $loans = Loan::with('equipment:id,barcode', 'hospital:id,name', 'equipment_location:id,code_location', 'equipment_location:id,code_location');
+
+            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
+                $loans = $loans->where('hospital_id', $request->hospital_id);
+            }
+            if (Auth::user()->roles->first()->hospital_id) {
+                $loans = $loans->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+            }
+
 
             return Datatables::of($loans)
-                ->addColumn('alasan_peminjaman', function($row){
-                    return str($row->alasan_peminjaman)->limit(100);
-                })
-				->addColumn('catatan_pengembalian', function($row){
-                    return str($row->catatan_pengembalian)->limit(100);
-                })
-				->addColumn('bukti_peminjaman', function($row){
-                    return str($row->bukti_peminjaman)->limit(100);
-                })
-				->addColumn('bukti_pengembalian', function($row){
-                    return str($row->bukti_pengembalian)->limit(100);
-                })
-				->addColumn('equipment', function ($row) {
-                    return $row->equipment ? $row->equipment->condition : '';
-                })->addColumn('hospital', function ($row) {
-                    return $row->hospital ? $row->hospital->bot_telegram : '';
-                })->addColumn('equipment_location', function ($row) {
-                    return $row->equipment_location ? $row->equipment_location->created_at : '';
-                })->addColumn('equipment_location', function ($row) {
-                    return $row->equipment_location ? $row->equipment_location->created_at : '';
-                })->addColumn('user', function ($row) {
-                    return $row->user ? $row->user->created_at : '';
-                })->addColumn('user', function ($row) {
-                    return $row->user ? $row->user->created_at : '';
-                })
-                ->addColumn('bukti_peminjaman', function ($row) {
-                    if ($row->bukti_peminjaman == null) {
-                    return 'https://via.placeholder.com/350?text=No+Image+Avaiable';
-                }
-                    return asset('storage/uploads/bukti-peminjamen/' . $row->bukti_peminjaman);
-                })
-                ->addColumn('bukti_pengembalian', function ($row) {
-                    if ($row->bukti_pengembalian == null) {
-                    return 'https://via.placeholder.com/350?text=No+Image+Avaiable';
-                }
-                    return asset('storage/uploads/bukti-pengembalians/' . $row->bukti_pengembalian);
-                })
+                ->addIndexColumn()
 
+                ->addColumn('equipment', function ($row) {
+                    return $row->equipment ? $row->equipment->barcode : '';
+                })->addColumn('hospital', function ($row) {
+                    return $row->hospital ? $row->hospital->name : '';
+                })
                 ->addColumn('action', 'loans.include.action')
                 ->toJson();
         }
@@ -93,7 +72,7 @@ class LoanController extends Controller
     public function store(StoreLoanRequest $request)
     {
         $attr = $request->validated();
-        
+
         if ($request->file('bukti_peminjaman') && $request->file('bukti_peminjaman')->isValid()) {
 
             $path = storage_path('app/public/uploads/bukti_peminjamen/');
@@ -105,7 +84,7 @@ class LoanController extends Controller
 
             Image::make($request->file('bukti_peminjaman')->getRealPath())->resize(500, 500, function ($constraint) {
                 $constraint->upsize();
-				$constraint->aspectRatio();
+                $constraint->aspectRatio();
             })->save($path . $filename);
 
             $attr['bukti_peminjaman'] = $filename;
@@ -121,17 +100,17 @@ class LoanController extends Controller
 
             Image::make($request->file('bukti_pengembalian')->getRealPath())->resize(500, 500, function ($constraint) {
                 $constraint->upsize();
-				$constraint->aspectRatio();
+                $constraint->aspectRatio();
             })->save($path . $filename);
 
             $attr['bukti_pengembalian'] = $filename;
         }
-
+        $attr['status_peminjaman'] = 'Belum dikembalikan';
+        $attr['user_created'] = Auth::id();
         Loan::create($attr);
-
+        Alert::toast('The loan was created successfully.', 'success');
         return redirect()
-            ->route('loans.index')
-            ->with('success', __('The loan was created successfully.'));
+            ->route('loans.index');
     }
 
     /**
@@ -142,9 +121,9 @@ class LoanController extends Controller
      */
     public function show(Loan $loan)
     {
-        $loan->load('equipment:id,condition', 'hospital:id,bot_telegram', 'equipment_location:id,created_at', 'equipment_location:id,created_at', 'user:id,created_at', 'user:id,created_at', );
+        $loan->load('equipment:id,condition', 'hospital:id,bot_telegram', 'equipment_location:id,created_at', 'equipment_location:id,created_at', 'user:id,created_at', 'user:id,created_at',);
 
-		return view('loans.show', compact('loan'));
+        return view('loans.show', compact('loan'));
     }
 
     /**
@@ -155,9 +134,9 @@ class LoanController extends Controller
      */
     public function edit(Loan $loan)
     {
-        $loan->load('equipment:id,condition', 'hospital:id,bot_telegram', 'equipment_location:id,created_at', 'equipment_location:id,created_at', 'user:id,created_at', 'user:id,created_at', );
+        $loan->load('equipment:id,condition', 'hospital:id,bot_telegram', 'equipment_location:id,created_at', 'equipment_location:id,created_at', 'user:id,created_at', 'user:id,created_at',);
 
-		return view('loans.edit', compact('loan'));
+        return view('loans.edit', compact('loan'));
     }
 
     /**
@@ -170,7 +149,7 @@ class LoanController extends Controller
     public function update(UpdateLoanRequest $request, Loan $loan)
     {
         $attr = $request->validated();
-        
+
         if ($request->file('bukti_peminjaman') && $request->file('bukti_peminjaman')->isValid()) {
 
             $path = storage_path('app/public/uploads/bukti_peminjamen/');
@@ -182,7 +161,7 @@ class LoanController extends Controller
 
             Image::make($request->file('bukti_peminjaman')->getRealPath())->resize(500, 500, function ($constraint) {
                 $constraint->upsize();
-				$constraint->aspectRatio();
+                $constraint->aspectRatio();
             })->save($path . $filename);
 
             // delete old bukti_peminjaman from storage
@@ -203,7 +182,7 @@ class LoanController extends Controller
 
             Image::make($request->file('bukti_pengembalian')->getRealPath())->resize(500, 500, function ($constraint) {
                 $constraint->upsize();
-				$constraint->aspectRatio();
+                $constraint->aspectRatio();
             })->save($path . $filename);
 
             // delete old bukti_pengembalian from storage
@@ -235,7 +214,7 @@ class LoanController extends Controller
             if ($loan->bukti_peminjaman != null && file_exists($path . $loan->bukti_peminjaman)) {
                 unlink($path . $loan->bukti_peminjaman);
             }
-    $path = storage_path('app/public/uploads/bukti_pengembalians/');
+            $path = storage_path('app/public/uploads/bukti_pengembalians/');
 
             if ($loan->bukti_pengembalian != null && file_exists($path . $loan->bukti_pengembalian)) {
                 unlink($path . $loan->bukti_pengembalian);

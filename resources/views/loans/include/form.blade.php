@@ -1,4 +1,29 @@
 <div class="row mb-2">
+    @if (!Auth::user()->roles->first()->hospital_id)
+        <div class="col-md-6 mb-2">
+            <label for="hospital_id">{{ trans('main-data/unit-item/form.hospital') }}</label>
+            <select class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
+                name="hospital_id" id="hospital_id" required>
+                <option value="" selected disabled>-- {{ trans('main-data/unit-item/form.select_hospital') }} --
+                </option>
+
+                @foreach ($hispotals as $hispotal)
+                    <option value="{{ $hispotal->id }}"
+                        {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                        {{ $hispotal->name }}
+                    </option>
+                @endforeach
+            </select>
+            @error('hospital_id')
+                <span class="text-danger">
+                    {{ $message }}
+                </span>
+            @enderror
+        </div>
+    @else
+        <input type="hidden" readonly value="{{ Auth::user()->roles->first()->hospital_id }}" id="hospital_id"
+            name="hospital_id">
+    @endif
     <div class="col-md-6 mb-2">
         <label for="no-peminjaman">{{ __('No Peminjaman') }}</label>
         <input type="text" name="no_peminjaman" id="no-peminjaman"
@@ -11,57 +36,23 @@
             </span>
         @enderror
     </div>
-    {{-- <div class="col-md-6 mb-2">
+    <div class="col-md-6 mb-2">
         <label for="equipment-id">{{ __('Equipment') }}</label>
         <select class="form-control @error('equipment_id') is-invalid @enderror" name="equipment_id" id="equipment-id"
             required>
             <option value="" selected disabled>-- {{ __('Select equipment') }} --</option>
-
-            @foreach ($equipment as $equipment)
-                <option value="{{ $equipment->id }}"
-                    {{ isset($loan) && $loan->equipment_id == $equipment->id ? 'selected' : (old('equipment_id') == $equipment->id ? 'selected' : '') }}>
-                    {{ $equipment->condition }}
-                </option>
-            @endforeach
         </select>
         @error('equipment_id')
             <span class="text-danger">
                 {{ $message }}
             </span>
         @enderror
-    </div> --}}
-    <div class="col-md-6 mb-2">
-        <label for="hospital-id">{{ __('Hospital') }}</label>
-        <select class="form-control @error('hospital_id') is-invalid @enderror" name="hospital_id" id="hospital-id"
-            required>
-            <option value="" selected disabled>-- {{ __('Select hospital') }} --</option>
-
-            @foreach ($hispotals as $hospital)
-                <option value="{{ $hospital->id }}"
-                    {{ isset($loan) && $loan->hospital_id == $hospital->id ? 'selected' : (old('hospital_id') == $hospital->id ? 'selected' : '') }}>
-                    {{ $hospital->name }}
-                </option>
-            @endforeach
-        </select>
-        @error('hospital_id')
-            <span class="text-danger">
-                {{ $message }}
-            </span>
-        @enderror
     </div>
-
     <div class="col-md-6 mb-2">
         <label for="lokasi-asal-id">{{ __('Equipment Location') }}</label>
         <select class="form-control @error('lokasi_asal_id') is-invalid @enderror" name="lokasi_asal_id"
             id="lokasi-asal-id" required>
             <option value="" selected disabled>-- {{ __('Select equipment location') }} --</option>
-
-            @foreach ($equipmentLocations as $equipmentLocation)
-                <option value="{{ $equipmentLocation->id }}"
-                    {{ isset($loan) && $loan->lokasi_asal_id == $equipmentLocation->id ? 'selected' : (old('lokasi_asal_id') == $equipmentLocation->id ? 'selected' : '') }}>
-                    {{ $equipmentLocation->location_name }}
-                </option>
-            @endforeach
         </select>
         @error('lokasi_asal_id')
             <span class="text-danger">
@@ -75,13 +66,6 @@
         <select class="form-control @error('lokasi_peminjam_id') is-invalid @enderror" name="lokasi_peminjam_id"
             id="lokasi-peminjam-id" required>
             <option value="" selected disabled>-- {{ __('Select equipment location') }} --</option>
-
-            @foreach ($equipmentLocations as $equipmentLocation)
-                <option value="{{ $equipmentLocation->id }}"
-                    {{ isset($loan) && $loan->lokasi_peminjam_id == $equipmentLocation->id ? 'selected' : (old('lokasi_peminjam_id') == $equipmentLocation->id ? 'selected' : '') }}>
-                    {{ $equipmentLocation->location_name }}
-                </option>
-            @endforeach
         </select>
         @error('lokasi_peminjam_id')
             <span class="text-danger">
