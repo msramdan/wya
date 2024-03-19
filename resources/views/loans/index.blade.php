@@ -85,16 +85,16 @@
                 searchable: false
             },
             {
-                data: 'hospital',
-                name: 'hospital.name'
+                data: 'hospital_name',
+                name: 'hospital_name'
             },
             {
                 data: 'no_peminjaman',
                 name: 'no_peminjaman',
             },
             {
-                data: 'equipment',
-                name: 'equipment.barcode'
+                data: 'barcode',
+                name: 'barcode'
             },
             {
                 data: 'waktu_pinjam',
@@ -118,8 +118,8 @@
                 }
             },
             {
-                data: 'pic_penanggungjawab',
-                name: 'pic_penanggungjawab',
+                data: 'employee_name',
+                name: 'employee_name',
             },
             {
                 data: 'action',

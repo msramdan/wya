@@ -34,6 +34,7 @@ Route::get('getVendor/{hospitalId}', [App\Http\Controllers\VendorController::cla
 Route::get('getEquipmentCategory/{hospitalId}', [App\Http\Controllers\EquipmentCategoryController::class, 'getEquipmentCategory'])->name('api.getEquipmentCategory');
 Route::get('getEquipmentLocation/{hospitalId}', [App\Http\Controllers\EquipmentLocationController::class, 'getEquipmentLocation'])->name('api.getEquipmentLocation');
 Route::get('getEquipment/{hospitalId}', [App\Http\Controllers\EquipmentController::class, 'getEquipment'])->name('api.getEquipment');
+Route::get('getPic/{hospitalId}', [App\Http\Controllers\EmployeeController::class, 'getPic'])->name('api.getPic');
 
 Route::group([
     'as' => 'api.'

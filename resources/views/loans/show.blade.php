@@ -86,7 +86,7 @@
                                     </tr>
                                     <tr>
                                         <td class="fw-bold">{{ __('Pic Penanggungjawab') }}</td>
-                                        <td>{{ $loan->pic_penanggungjawab }}</td>
+                                        <td>{{ $loan->employee_name }}</td>
                                     </tr>
                                     <tr>
                                         <td class="fw-bold">{{ __('Bukti Peminjaman') }}</td>

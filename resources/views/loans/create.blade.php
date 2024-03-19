@@ -60,6 +60,7 @@
             if (cek != '' || cek != null) {
                 getEquipmentLocation(cek);
                 getEquipment(cek);
+                getPic(cek);
             }
         });
 
@@ -69,6 +70,7 @@
             if ($(this).val() != "") {
                 getEquipmentLocation($(this).val());
                 getEquipment($(this).val());
+                getPic($(this).val());
             }
         })
 
@@ -121,6 +123,31 @@
                 },
                 error: function(err) {
                     $('#equipment-id').prop('disabled', false);
+                    alert(JSON.stringify(err))
+                }
+
+            })
+        }
+
+        function getPic(hospitalId) {
+            let url = '{{ route('api.getPic', ':id') }}';
+            url = url.replace(':id', hospitalId)
+            $.ajax({
+                url,
+                method: 'GET',
+                beforeSend: function() {
+                    $('#pic-penanggungjawab').prop('disabled', true);
+                },
+                success: function(res) {
+                    const options = res.data.map(value => {
+                        return `<option value="${value.id}">${value.nid_employee} - ${value.name}</option>`
+                    });
+                    $('#pic-penanggungjawab').html(_temp + options)
+                    $('#pic-penanggungjawab').prop('disabled', false);
+
+                },
+                error: function(err) {
+                    $('#pic-penanggungjawab').prop('disabled', false);
                     alert(JSON.stringify(err))
                 }
 

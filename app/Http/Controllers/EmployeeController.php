@@ -310,4 +310,10 @@ class EmployeeController extends Controller
         Alert::toast('Employees has been successfully imported.', 'success');
         return back();
     }
+
+    public function getPic($hospitalId)
+    {
+        $data = DB::table('employees')->where('hospital_id', $hospitalId)->get();
+        return response()->json(compact('data'));
+    }
 }

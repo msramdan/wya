@@ -28,8 +28,8 @@
         <label for="no-peminjaman">{{ __('No Peminjaman') }}</label>
         <input type="text" name="no_peminjaman" id="no-peminjaman"
             class="form-control @error('no_peminjaman') is-invalid @enderror"
-            value="{{ isset($loan) ? $loan->no_peminjaman : old('no_peminjaman') }}"
-            placeholder="{{ __('No Peminjaman') }}" required />
+            value="{{ isset($loan) ? $loan->no_peminjaman : $noPeminjaman }}"
+            placeholder="{{ __('No Peminjaman') }}" required readonly />
         @error('no_peminjaman')
             <span class="text-danger">
                 {{ $message }}
@@ -99,18 +99,22 @@
             @enderror
         </div>
     </div>
+
     <div class="col-md-6 mb-2">
         <label for="pic-penanggungjawab">{{ __('Pic Penanggungjawab') }}</label>
-        <input type="text" name="pic_penanggungjawab" id="pic-penanggungjawab"
-            class="form-control @error('pic_penanggungjawab') is-invalid @enderror"
-            value="{{ isset($loan) ? $loan->pic_penanggungjawab : old('pic_penanggungjawab') }}"
-            placeholder="{{ __('Pic Penanggungjawab') }}" required />
+        <select class="form-control @error('pic_penanggungjawab') is-invalid @enderror" name="pic_penanggungjawab" id="pic-penanggungjawab"
+            required>
+            <option value="" selected disabled>-- {{ __('Select') }} --</option>
+        </select>
         @error('pic_penanggungjawab')
             <span class="text-danger">
                 {{ $message }}
             </span>
         @enderror
     </div>
+
+
+
     @isset($loan)
         <div class="col-md-6">
             <div class="row">

@@ -218,6 +218,7 @@
                                 'loans.*',
                                 'equipment.barcode',
                                 'hospitals.name as hospital_name',
+                                'employees.name as employee_name',
                                 'el1.code_location as resource_location',
                                 'el2.code_location as destination_location',
                                 'uc.name as user_created_name',
@@ -225,6 +226,7 @@
                             )
                             ->leftJoin('equipment', 'loans.equipment_id', '=', 'equipment.id')
                             ->leftJoin('hospitals', 'loans.hospital_id', '=', 'hospitals.id')
+                            ->leftJoin('employees', 'loans.pic_penanggungjawab', '=', 'employees.id')
                             ->leftJoin('equipment_locations as el1', 'loans.lokasi_asal_id', '=', 'el1.id')
                             ->leftJoin('equipment_locations as el2', 'loans.lokasi_peminjam_id', '=', 'el2.id')
                             ->leftJoin('users as uc', 'loans.user_created', '=', 'uc.id')
@@ -246,7 +248,7 @@
                                         <button class="btn btn-danger btn-sm">{{ __('Belum dikembalikan') }}</button>
                                     @endif
                                 </td>
-                                <td>{{ $row->pic_penanggungjawab }}</td>
+                                <td>{{ $row->employee_name }}</td>
                                 <td> <a href="{{ route('loans.show', $row->id) }}" target="_blank"
                                         class="btn btn-primary btn-sm">
                                         <i class="mdi mdi-eye"></i>
