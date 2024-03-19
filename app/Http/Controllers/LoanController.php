@@ -181,10 +181,28 @@ class LoanController extends Controller
      * @param  \App\Models\Loan $loan
      * @return \Illuminate\Http\Response
      */
-    public function edit(Loan $loan)
+    public function edit($id)
     {
-        $loan->load('equipment:id,condition', 'hospital:id,bot_telegram', 'equipment_location:id,created_at', 'equipment_location:id,created_at', 'user:id,created_at', 'user:id,created_at',);
-
+        $loan = DB::table('loans')
+            ->select(
+                'loans.*',
+                'equipment.barcode',
+                'hospitals.name as hospital_name',
+                'employees.name as employee_name',
+                'el1.code_location as resource_location',
+                'el2.code_location as destination_location',
+                'uc.name as user_created_name',
+                'uu.name as user_updated_name',
+            )
+            ->leftJoin('equipment', 'loans.equipment_id', '=', 'equipment.id')
+            ->leftJoin('hospitals', 'loans.hospital_id', '=', 'hospitals.id')
+            ->leftJoin('employees', 'loans.pic_penanggungjawab', '=', 'employees.id')
+            ->leftJoin('equipment_locations as el1', 'loans.lokasi_asal_id', '=', 'el1.id')
+            ->leftJoin('equipment_locations as el2', 'loans.lokasi_peminjam_id', '=', 'el2.id')
+            ->leftJoin('users as uc', 'loans.user_created', '=', 'uc.id')
+            ->leftJoin('users as uu', 'loans.user_updated', '=', 'uu.id')
+            ->where('loans.id', $id)
+            ->first();
         return view('loans.edit', compact('loan'));
     }
 

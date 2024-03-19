@@ -36,11 +36,11 @@
                                 @csrf
                                 @method('PUT')
 
-                                @include('loans.include.form')
+                                @include('loans.include.form_edit')
 
                                 <a href="{{ url()->previous() }}" class="btn btn-secondary"><i class="mdi mdi-arrow-left-thin"></i> {{ __('Back') }}</a>
 
-                                <button type="submit" class="btn btn-primary"><i class="mdi mdi-content-save"></i> {{ __('Update') }}</button>
+                                <button type="submit" class="btn btn-success"><i class="mdi mdi-cached"></i> {{ __('Return Equipment') }}</button>
                             </form>
                         </div>
                     </div>
