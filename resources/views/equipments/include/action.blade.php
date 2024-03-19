@@ -1,4 +1,3 @@
-
 <!-- Modal -->
 <div class="modal fade" id="qrcode-equipment{{ $model->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
@@ -126,7 +125,6 @@
     </div>
 </div>
 
-
 <!-- Modal History WO -->
 <div class="modal fade" id="table-history{{ $model->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
@@ -153,7 +151,15 @@
                             ->join('work_orders', 'work_order_processes.work_order_id', '=', 'work_orders.id')
                             ->where('work_orders.equipment_id', $model->id)
                             ->where('work_order_processes.status', 'finished')
-                            ->select('work_order_processes.executor', 'work_order_processes.schedule_date', 'work_order_processes.work_date', 'work_orders.filed_date', 'work_orders.wo_number', 'work_orders.type_wo', 'work_orders.category_wo')
+                            ->select(
+                                'work_order_processes.executor',
+                                'work_order_processes.schedule_date',
+                                'work_order_processes.work_date',
+                                'work_orders.filed_date',
+                                'work_orders.wo_number',
+                                'work_orders.type_wo',
+                                'work_orders.category_wo',
+                            )
                             ->get();
                     @endphp
                     <tbody>
@@ -183,6 +189,81 @@
         </div>
     </div>
 </div>
+
+
+<!-- Modal History LOAN -->
+<div class="modal fade" id="table-loan{{ $model->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{ trans('inventory/equipment/index.title_loan') }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-sm dataTables-example2">
+                    <thead>
+                        <th>{{ trans('inventory/equipment/index.no_peminjaman') }}</th>
+                        <th>{{ trans('inventory/equipment/index.lokasi_asal') }}</th>
+                        <th>{{ trans('inventory/equipment/index.lokasi_tujuan') }}</th>
+                        <th>{{ trans('inventory/equipment/index.waktu') }}</th>
+                        <th>{{ trans('inventory/equipment/index.status') }}</th>
+                        <th>{{ trans('inventory/equipment/index.penangung_jawab') }}</th>
+                        <th style="width: 5%">Detail</th>
+                    </thead>
+                    @php
+                        $data = DB::table('loans')
+                            ->select(
+                                'loans.*',
+                                'equipment.barcode',
+                                'hospitals.name as hospital_name',
+                                'el1.code_location as resource_location',
+                                'el2.code_location as destination_location',
+                                'uc.name as user_created_name',
+                                'uu.name as user_updated_name',
+                            )
+                            ->leftJoin('equipment', 'loans.equipment_id', '=', 'equipment.id')
+                            ->leftJoin('hospitals', 'loans.hospital_id', '=', 'hospitals.id')
+                            ->leftJoin('equipment_locations as el1', 'loans.lokasi_asal_id', '=', 'el1.id')
+                            ->leftJoin('equipment_locations as el2', 'loans.lokasi_peminjam_id', '=', 'el2.id')
+                            ->leftJoin('users as uc', 'loans.user_created', '=', 'uc.id')
+                            ->leftJoin('users as uu', 'loans.user_updated', '=', 'uu.id')
+                            ->where('loans.equipment_id', $model->id)
+                            ->get();
+                    @endphp
+                    <tbody>
+                        @foreach ($data as $row)
+                            <tr>
+                                <td>{{ $row->no_peminjaman }}</td>
+                                <td>{{ $row->resource_location }}</td>
+                                <td>{{ $row->destination_location }}</td>
+                                <td>{{ $row->waktu_pinjam }}</td>
+                                <td>
+                                    @if ($row->status_peminjaman == 'Sudah dikembalikan')
+                                        <button class="btn btn-success  btn-sm">{{ __('Sudah dikembalikan') }}</button>
+                                    @elseif($row->status_peminjaman == 'Belum dikembalikan')
+                                        <button class="btn btn-danger btn-sm">{{ __('Belum dikembalikan') }}</button>
+                                    @endif
+                                </td>
+                                <td>{{ $row->pic_penanggungjawab }}</td>
+                                <td> <a href="{{ route('loans.show', $row->id) }}" target="_blank"
+                                        class="btn btn-primary btn-sm">
+                                        <i class="mdi mdi-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <td>
     @can('equipment edit')
@@ -226,6 +307,12 @@
                 <a href="#" type="button" class="dropdown-item" data-bs-toggle="modal"
                     data-bs-target="#table-history{{ $model->id }}">
                     History WO Peralatan
+                </a>
+            </li>
+            <li>
+                <a href="#" type="button" class="dropdown-item" data-bs-toggle="modal"
+                    data-bs-target="#table-loan{{ $model->id }}">
+                    History Peminjaman
                 </a>
             </li>
             <li>
@@ -340,4 +427,5 @@
 
 <script>
     $('.dataTables-example').DataTable();
+    $('.dataTables-example2').DataTable();
 </script>
