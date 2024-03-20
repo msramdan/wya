@@ -72,7 +72,7 @@
                             </div>
                         </div>
                         <div class="ms-1 header-item  d-sm-flex">
-                            <a href="" target="_blank"
+                            <a href="{{route('monitoring')}}" target="_blank"
                                 class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none">
                                 <i class="bx bx-desktop fs-22"></i>
                             </a>
@@ -174,7 +174,6 @@
             </div>
             {{-- sidebar --}}
             @include('layouts.sidebar')
-
         </div>
         <div class="vertical-overlay"></div>
         <div class="main-content">
