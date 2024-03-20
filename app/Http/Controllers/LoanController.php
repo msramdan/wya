@@ -216,28 +216,6 @@ class LoanController extends Controller
     public function update(UpdateLoanRequest $request, Loan $loan)
     {
         $attr = $request->validated();
-
-        if ($request->file('bukti_peminjaman') && $request->file('bukti_peminjaman')->isValid()) {
-
-            $path = storage_path('app/public/uploads/bukti_peminjamen/');
-            $filename = $request->file('bukti_peminjaman')->hashName();
-
-            if (!file_exists($path)) {
-                mkdir($path, 0777, true);
-            }
-
-            Image::make($request->file('bukti_peminjaman')->getRealPath())->resize(500, 500, function ($constraint) {
-                $constraint->upsize();
-                $constraint->aspectRatio();
-            })->save($path . $filename);
-
-            // delete old bukti_peminjaman from storage
-            if ($loan->bukti_peminjaman != null && file_exists($path . $loan->bukti_peminjaman)) {
-                unlink($path . $loan->bukti_peminjaman);
-            }
-
-            $attr['bukti_peminjaman'] = $filename;
-        }
         if ($request->file('bukti_pengembalian') && $request->file('bukti_pengembalian')->isValid()) {
 
             $path = storage_path('app/public/uploads/bukti_pengembalians/');
@@ -246,25 +224,21 @@ class LoanController extends Controller
             if (!file_exists($path)) {
                 mkdir($path, 0777, true);
             }
-
             Image::make($request->file('bukti_pengembalian')->getRealPath())->resize(500, 500, function ($constraint) {
                 $constraint->upsize();
                 $constraint->aspectRatio();
             })->save($path . $filename);
 
-            // delete old bukti_pengembalian from storage
             if ($loan->bukti_pengembalian != null && file_exists($path . $loan->bukti_pengembalian)) {
                 unlink($path . $loan->bukti_pengembalian);
             }
-
             $attr['bukti_pengembalian'] = $filename;
         }
-
+        $attr['status_peminjaman'] = 'Sudah dikembalikan';
+        $attr['user_updated'] =Auth::id();
         $loan->update($attr);
-
-        return redirect()
-            ->route('loans.index')
-            ->with('success', __('The loan was updated successfully.'));
+        Alert::toast('The loan was updated successfully.', 'success');
+        return redirect()->back();
     }
 
     /**
