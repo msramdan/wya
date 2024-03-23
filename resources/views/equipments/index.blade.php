@@ -164,7 +164,9 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>{{ trans('inventory/equipment/index.hospital') }}</th>
+                                            @if (!Auth::user()->roles->first()->hospital_id)
+                                                <th>{{ trans('inventory/equipment/index.hospital') }}</th>
+                                            @endif
                                             <th>{{ trans('inventory/equipment/index.barcode') }}</th>
                                             <th>{{ trans('inventory/equipment/index.nomenklatur') }}</th>
                                             <th>{{ __('SN') }}</th>
@@ -291,11 +293,12 @@
                 orderable: false,
                 searchable: false
             },
-            {
-                data: 'hospital',
-                name: 'hospital.name',
-            },
-            {
+            @if (!Auth::user()->roles->first()->hospital_id)
+                {
+                    data: 'hospital',
+                    name: 'hospital.name',
+                },
+            @endif {
                 data: 'barcode',
                 name: 'barcode',
             },

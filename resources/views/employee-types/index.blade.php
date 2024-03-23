@@ -38,7 +38,8 @@
                                             <div class="input-group mb-2 mr-sm-2">
                                                 <select name="hospital_id" id="hospital_id"
                                                     class="form-control js-example-basic-multiple">
-                                                    <option value="">-- {{ trans('employee/type/index.select_hospital') }} --</option>
+                                                    <option value="">--
+                                                        {{ trans('employee/type/index.select_hospital') }} --</option>
                                                     @foreach ($hispotals as $hispotal)
                                                         <option value="{{ $hispotal->id }}"
                                                             {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
@@ -57,7 +58,9 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>{{ trans('employee/type/index.hospital') }}</th>
+                                            @if (!Auth::user()->roles->first()->hospital_id)
+                                                <th>{{ trans('employee/type/index.hospital') }}</th>
+                                            @endif
                                             <th>{{ trans('employee/type/index.name') }}</th>
                                             <th>{{ trans('employee/type/index.action') }}</th>
                                         </tr>
@@ -81,22 +84,15 @@
                 orderable: false,
                 searchable: false
             },
-            {
-                data: 'hospital',
-                name: 'hospital',
-            },
-            {
+            @if (!Auth::user()->roles->first()->hospital_id)
+                {
+                    data: 'hospital',
+                    name: 'hospital',
+                },
+            @endif {
                 data: 'name_employee_type',
                 name: 'name_employee_type',
             },
-            // {
-            //     data: 'created_at',
-            //     name: 'created_at'
-            // },
-            // {
-            //     data: 'updated_at',
-            //     name: 'updated_at'
-            // },
             {
                 data: 'action',
                 name: 'action',

@@ -12,7 +12,8 @@
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="/panel">Dashboard</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">{{ trans('utilities/users/index.head') }}</li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    {{ trans('utilities/users/index.head') }}</li>
                             </ol>
                         </div>
 
@@ -39,7 +40,8 @@
                                             <div class="input-group mb-2 mr-sm-2">
                                                 <select name="hospital_id" id="hospital_id"
                                                     class="form-control js-example-basic-multiple">
-                                                    <option value="">-- {{ trans('utilities/users/index.filter_hospital') }}--</option>
+                                                    <option value="">--
+                                                        {{ trans('utilities/users/index.filter_hospital') }}--</option>
                                                     <option value="mta">User MTA</option>
                                                     @foreach ($hispotals as $hispotal)
                                                         <option value="{{ $hispotal->id }}"
@@ -59,7 +61,9 @@
                                         <tr>
                                             <th>#</th>
                                             <th>{{ trans('utilities/users/index.avatar') }}</th>
-                                            <th>{{ trans('utilities/users/index.hospital') }}</th>
+                                            @if (!Auth::user()->roles->first()->hospital_id)
+                                                <th>{{ trans('utilities/users/index.hospital') }}</th>
+                                            @endif
                                             <th>{{ trans('utilities/users/index.role') }}</th>
                                             <th>{{ trans('utilities/users/index.name') }}</th>
                                             <th>{{ trans('utilities/users/index.email') }}</th>
@@ -97,10 +101,13 @@
                         </div>`;
                 }
             },
-            {
-                data: 'hospital',
-                name: 'hospital'
-            },
+            @if (!Auth::user()->roles->first()->hospital_id)
+                {
+                    data: 'hospital',
+                    name: 'hospital',
+                },
+            @endif
+
             {
                 data: 'role',
                 name: 'role'

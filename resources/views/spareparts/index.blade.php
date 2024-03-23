@@ -115,7 +115,9 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>{{ trans('inventory/sparepart/index.hospital') }}</th>
+                                            @if (!Auth::user()->roles->first()->hospital_id)
+                                                <th>{{ trans('inventory/sparepart/index.hospital') }}</th>
+                                            @endif
                                             <th>{{ trans('inventory/sparepart/index.barcode') }}</th>
                                             <th>{{ trans('inventory/sparepart/index.sparepart_name') }}</th>
                                             <th>{{ trans('inventory/sparepart/index.merk') }}</th>
@@ -174,10 +176,13 @@
                 orderable: false,
                 searchable: false
             },
-            {
-                data: 'hospital',
-                name: 'hospital',
-            },
+            @if (!Auth::user()->roles->first()->hospital_id)
+                {
+                    data: 'hospital',
+                    name: 'hospital',
+                },
+            @endif
+
             {
                 data: 'barcode',
                 name: 'barcode',

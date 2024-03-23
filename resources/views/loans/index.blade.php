@@ -56,7 +56,9 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>{{ __('Hospital') }}</th>
+                                            @if (!Auth::user()->roles->first()->hospital_id)
+                                                <th>{{ __('Hospital') }}</th>
+                                            @endif
                                             <th>{{ __('No Peminjaman') }}</th>
                                             <th>{{ __('Equipment') }}</th>
                                             <th>{{ __('Waktu') }}</th>
@@ -84,11 +86,12 @@
                 orderable: false,
                 searchable: false
             },
-            {
-                data: 'hospital_name',
-                name: 'hospital_name'
-            },
-            {
+            @if (!Auth::user()->roles->first()->hospital_id)
+                {
+                    data: 'hospital_name',
+                    name: 'hospital_name',
+                },
+            @endif {
                 data: 'no_peminjaman',
                 name: 'no_peminjaman',
             },

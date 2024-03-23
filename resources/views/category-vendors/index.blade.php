@@ -38,7 +38,8 @@
                                             <div class="input-group mb-2 mr-sm-2">
                                                 <select name="hospital_id" id="hospital_id"
                                                     class="form-control js-example-basic-multiple">
-                                                    <option value="">-- {{ trans('category-vendor/index.filter_hospital') }} --</option>
+                                                    <option value="">--
+                                                        {{ trans('category-vendor/index.filter_hospital') }} --</option>
                                                     @foreach ($hispotals as $hispotal)
                                                         <option value="{{ $hispotal->id }}"
                                                             {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
@@ -56,10 +57,10 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>{{ trans('category-vendor/index.hospital') }}</th>
+                                            @if (!Auth::user()->roles->first()->hospital_id)
+                                                <th>{{ trans('category-vendor/index.hospital') }}</th>
+                                            @endif
                                             <th>{{ trans('category-vendor/index.name') }}</th>
-                                            {{-- <th>{{ trans('Created At') }}</th>
-                                            <th>{{ trans('Updated At') }}</th> --}}
                                             <th>{{ trans('category-vendor/index.action') }}</th>
                                         </tr>
                                     </thead>
@@ -82,22 +83,15 @@
                 orderable: false,
                 searchable: false
             },
-            {
-                data: 'hospital',
-                name: 'hospital',
-            },
-            {
+            @if (!Auth::user()->roles->first()->hospital_id)
+                {
+                    data: 'hospital',
+                    name: 'hospital',
+                },
+            @endif {
                 data: 'name_category_vendors',
                 name: 'name_category_vendors',
             },
-            // {
-            //     data: 'created_at',
-            //     name: 'created_at'
-            // },
-            // {
-            //     data: 'updated_at',
-            //     name: 'updated_at'
-            // },
             {
                 data: 'action',
                 name: 'action',

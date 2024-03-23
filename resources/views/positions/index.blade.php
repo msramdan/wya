@@ -38,7 +38,8 @@
                                             <div class="input-group mb-2 mr-sm-2">
                                                 <select name="hospital_id" id="hospital_id"
                                                     class="form-control js-example-basic-multiple">
-                                                    <option value="">-- {{ trans('employee/position/index.select_hospital') }} --</option>
+                                                    <option value="">--
+                                                        {{ trans('employee/position/index.select_hospital') }} --</option>
                                                     @foreach ($hispotals as $hispotal)
                                                         <option value="{{ $hispotal->id }}"
                                                             {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
@@ -56,7 +57,9 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>{{ trans('employee/position/index.hospital') }}</th>
+                                            @if (!Auth::user()->roles->first()->hospital_id)
+                                                <th>{{ trans('employee/position/index.hospital') }}</th>
+                                            @endif
                                             <th>{{ trans('employee/position/index.code') }}</th>
                                             <th>{{ trans('employee/position/index.name') }}</th>
                                             <th>{{ trans('employee/position/index.action') }}</th>
@@ -80,11 +83,13 @@
                 name: 'DT_RowIndex',
                 orderable: false,
                 searchable: false
-            }, {
-                data: 'hospital',
-                name: 'hospital',
             },
-            {
+            @if (!Auth::user()->roles->first()->hospital_id)
+                {
+                    data: 'hospital',
+                    name: 'hospital',
+                },
+            @endif {
                 data: 'code_position',
                 name: 'code_position',
             },
@@ -92,14 +97,6 @@
                 data: 'name_position',
                 name: 'name_position',
             },
-            // {
-            //     data: 'created_at',
-            //     name: 'created_at'
-            // },
-            // {
-            //     data: 'updated_at',
-            //     name: 'updated_at'
-            // },
             {
                 data: 'action',
                 name: 'action',

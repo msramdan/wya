@@ -107,7 +107,8 @@
                                             <div class="input-group mb-2 mr-sm-2">
                                                 <select name="hospital_id" id="hospital_id"
                                                     class="form-control js-example-basic-multiple">
-                                                    <option value="">-- {{ trans('vendor/index.filter_hospital') }} --</option>
+                                                    <option value="">-- {{ trans('vendor/index.filter_hospital') }}
+                                                        --</option>
                                                     @foreach ($hispotals as $hispotal)
                                                         <option value="{{ $hispotal->id }}"
                                                             {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
@@ -125,7 +126,9 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>{{ trans('vendor/index.hospital') }}</th>
+                                            @if (!Auth::user()->roles->first()->hospital_id)
+                                                <th>{{ trans('vendor/index.hospital') }}</th>
+                                            @endif
                                             <th>{{ trans('vendor/index.code_vendor') }}</th>
                                             <th>{{ trans('vendor/index.name_vendor') }}</th>
                                             <th>{{ trans('vendor/index.category_vendor') }}</th>
@@ -172,11 +175,12 @@
                 orderable: false,
                 searchable: false
             },
-            {
-                data: 'hospital',
-                name: 'hospital',
-            },
-            {
+            @if (!Auth::user()->roles->first()->hospital_id)
+                {
+                    data: 'hospital',
+                    name: 'hospital',
+                },
+            @endif {
                 data: 'code_vendor',
                 name: 'code_vendor',
             },

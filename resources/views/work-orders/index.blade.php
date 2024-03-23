@@ -86,7 +86,7 @@
                                                     </option>
                                                     @foreach ($hispotals as $hospital)
                                                         <option value="{{ $hospital->id }}"
-                                                            {{ (isset($workOrders) && $workOrders->hospital_id == $hospital->id) || (old('hospital_id') == $hospital->id) || (isset($hospital_id) && $hospital_id == $hospital->id) ? 'selected' : '' }}>
+                                                            {{ (isset($workOrders) && $workOrders->hospital_id == $hospital->id) || old('hospital_id') == $hospital->id || (isset($hospital_id) && $hospital_id == $hospital->id) ? 'selected' : '' }}>
                                                             {{ $hospital->name }}
                                                         </option>
                                                     @endforeach
@@ -174,8 +174,10 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th style="white-space: nowrap">
-                                                {{ trans('work-order/submission/index.hospital') }}</th>
+                                            @if (!Auth::user()->roles->first()->hospital_id)
+                                                <th style="white-space: nowrap">
+                                                    {{ trans('work-order/submission/index.hospital') }}</th>
+                                            @endif
                                             <th style="white-space: nowrap">
                                                 {{ trans('work-order/submission/index.wo_number') }}</th>
                                             <th style="white-space: nowrap">
@@ -252,11 +254,12 @@
                 orderable: false,
                 searchable: false
             },
-            {
-                data: 'hospital',
-                name: 'hospital.name'
-            },
-            {
+            @if (!Auth::user()->roles->first()->hospital_id)
+                {
+                    data: 'hospital',
+                    name: 'hospital.name',
+                },
+            @endif {
                 data: 'wo_number',
                 name: 'work_orders.wo_number'
             },
