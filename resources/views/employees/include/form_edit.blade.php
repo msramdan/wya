@@ -14,12 +14,22 @@
                                 <select name="hospital_id" id="hospital_id"
                                     class="form-control js-example-basic-multiple">
                                     <option value="">-- {{ trans('employee/form.select_hospital') }} --</option>
-                                    @foreach ($hispotals as $hispotal)
-                                        <option value="{{ $hispotal->id }}"
-                                            {{ isset($employee) && $employee->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
-                                            {{ $hispotal->name }}
-                                        </option>
-                                    @endforeach
+                                    @if (isset($employee))
+                                        @foreach ($hispotals as $hispotal)
+                                            <option value="{{ $hispotal->id }}"
+                                                {{ $employee->hospital_id == $hispotal->id ? 'selected' : '' }}
+                                                {{ $employee->hospital_id != $hispotal->id ? 'disabled' : '' }}>
+                                                {{ $hispotal->name }}
+                                            </option>
+                                        @endforeach
+                                    @else
+                                        @foreach ($hispotals as $hispotal)
+                                            <option value="{{ $hispotal->id }}"
+                                                {{ isset($employee) && $employee->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                                                {{ $hispotal->name }}
+                                            </option>
+                                        @endforeach
+                                    @endif
                                 </select>
                             </div>
                         </div>
@@ -61,7 +71,8 @@
                         <select
                             class="form-control js-example-basic-multiple @error('employee_type_id') is-invalid @enderror"
                             name="employee_type_id" id="employee-type-id" required>
-                            <option value="" selected disabled>-- {{ trans('employee/form.select_type') }} --</option>
+                            <option value="" selected disabled>-- {{ trans('employee/form.select_type') }} --
+                            </option>
 
                             @foreach ($employeeTypes as $employeeType)
                                 <option value="{{ $employeeType->id }}"
@@ -82,7 +93,8 @@
                         <select
                             class="form-control js-example-basic-multiple @error('employee_status') is-invalid @enderror"
                             name="employee_status" id="employee-status" required>
-                            <option value="" selected disabled>-- {{ trans('employee/form.select_status') }} --</option>
+                            <option value="" selected disabled>-- {{ trans('employee/form.select_status') }} --
+                            </option>
                             <option value="1"
                                 {{ isset($employee) && $employee->employee_status == '1' ? 'selected' : (old('employee_status') == '1' ? 'selected' : '') }}>
                                 {{ __('Aktif') }}</option>
@@ -104,7 +116,8 @@
                         <select
                             class="form-control js-example-basic-multiple @error('departement_id') is-invalid @enderror"
                             name="departement_id" id="departement-id" required>
-                            <option value="" selected disabled>-- {{ trans('employee/form.select_departement') }} --</option>
+                            <option value="" selected disabled>-- {{ trans('employee/form.select_departement') }}
+                                --</option>
 
                             @foreach ($departments as $department)
                                 <option value="{{ $department->id }}"
@@ -125,7 +138,8 @@
                         <select
                             class="form-control js-example-basic-multiple @error('position_id') is-invalid @enderror"
                             name="position_id" id="position-id" required>
-                            <option value="" selected disabled>-- {{ trans('employee/form.select_position') }} --</option>
+                            <option value="" selected disabled>-- {{ trans('employee/form.select_position') }} --
+                            </option>
 
                             @foreach ($positions as $position)
                                 <option value="{{ $position->id }}"
@@ -226,7 +240,8 @@
                         <select
                             class="form-control js-example-basic-multiple @error('provinsi_id') is-invalid @enderror"
                             name="provinsi_id" id="provinsi-id" required>
-                            <option value="" selected disabled>-- {{ trans('employee/form.select_province') }} --</option>
+                            <option value="" selected disabled>-- {{ trans('employee/form.select_province') }}
+                                --</option>
 
                             @foreach ($provinces as $province)
                                 <option value="{{ $province->id }}"
@@ -271,7 +286,8 @@
                         <select
                             class="form-control js-example-basic-multiple @error('kecamatan_id') is-invalid @enderror"
                             name="kecamatan_id" id="kecamatan-id" required>
-                            <option value="" selected disabled>-- {{ trans('employee/form.select_subdistrict') }} --</option>
+                            <option value="" selected disabled>--
+                                {{ trans('employee/form.select_subdistrict') }} --</option>
 
                             @foreach ($kecamatan as $kecamatan)
                                 <option value="{{ $kecamatan->id }}"
@@ -292,7 +308,8 @@
                         <select
                             class="form-control js-example-basic-multiple @error('kelurahan_id') is-invalid @enderror"
                             name="kelurahan_id" id="kelurahan-id" required>
-                            <option value="" selected disabled>-- {{ trans('employee/form.select_ward') }} --</option>
+                            <option value="" selected disabled>-- {{ trans('employee/form.select_ward') }} --
+                            </option>
 
                             @foreach ($kelurahan as $kelurahan)
                                 <option value="{{ $kelurahan->id }}"
@@ -368,7 +385,8 @@
                 <div class="col-md-12 mb-2">
                     <div class="mb-3 search-box">
                         <input type="text" class="form-control @error('place') is-invalid @enderror"
-                            name="place" id="search_place" placeholder="{{ trans('employee/form.search_location') }}" value="{{ old('place') }}"
+                            name="place" id="search_place"
+                            placeholder="{{ trans('employee/form.search_location') }}" value="{{ old('place') }}"
                             autocomplete="off">
                         <span class="d-none" style="color: red;" id="error-place"></span>
                         @error('place')

@@ -5,13 +5,22 @@
             <select class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
                 name="hospital_id" id="hospital_id" required>
                 <option value="" selected disabled>-- {{ trans('inventory/sparepart/form.select_hospital') }} --</option>
-
-                @foreach ($hispotals as $hispotal)
-                    <option value="{{ $hispotal->id }}"
-                        {{ isset($sparepart) && $sparepart->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
-                        {{ $hispotal->name }}
-                    </option>
-                @endforeach
+                @if (isset($sparepart))
+                    @foreach ($hispotals as $hispotal)
+                        <option value="{{ $hispotal->id }}"
+                            {{ $sparepart->hospital_id == $hispotal->id ? 'selected' : '' }}
+                            {{ $sparepart->hospital_id != $hispotal->id ? 'disabled' : '' }}>
+                            {{ $hispotal->name }}
+                        </option>
+                    @endforeach
+                @else
+                    @foreach ($hispotals as $hispotal)
+                        <option value="{{ $hispotal->id }}"
+                            {{ isset($sparepart) && $sparepart->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                            {{ $hispotal->name }}
+                        </option>
+                    @endforeach
+                @endif
             </select>
             @error('hospital_id')
                 <span class="text-danger">

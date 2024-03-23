@@ -15,12 +15,24 @@
                                 <select name="hospital_id" id="hospital_id"
                                     class="form-control js-example-basic-multiple">
                                     <option value="">-- {{ trans('inventory/equipment/form.select_hispotal') }} --</option>
+                                    @if (isset($equipment))
+                                    @foreach ($hispotals as $hispotal)
+                                        <option value="{{ $hispotal->id }}"
+                                            {{ $equipment->hospital_id == $hispotal->id ? 'selected' : '' }}
+                                            {{ $equipment->hospital_id != $hispotal->id ? 'disabled' : '' }}>
+                                            {{ $hispotal->name }}
+                                        </option>
+                                    @endforeach
+                                @else
                                     @foreach ($hispotals as $hispotal)
                                         <option value="{{ $hispotal->id }}"
                                             {{ isset($equipment) && $equipment->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
                                             {{ $hispotal->name }}
                                         </option>
                                     @endforeach
+                                @endif
+
+
                                 </select>
                             </div>
                         </div>

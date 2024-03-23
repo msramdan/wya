@@ -5,14 +5,24 @@
             <label for="hospital_id">{{ trans('main-data/unit-item/form.hospital') }}</label>
             <select class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
                 name="hospital_id" id="hospital_id" required>
-                <option value="" selected disabled>-- {{ trans('main-data/unit-item/form.select_hospital') }} --</option>
-
-                @foreach ($hispotals as $hispotal)
-                    <option value="{{ $hispotal->id }}"
-                        {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
-                        {{ $hispotal->name }}
-                    </option>
-                @endforeach
+                <option value="" selected disabled>-- {{ trans('main-data/unit-item/form.select_hospital') }} --
+                </option>
+                @if (isset($unitItem))
+                    @foreach ($hispotals as $hispotal)
+                        <option value="{{ $hispotal->id }}"
+                            {{ $unitItem->hospital_id == $hispotal->id ? 'selected' : '' }}
+                            {{ $unitItem->hospital_id != $hispotal->id ? 'disabled' : '' }}>
+                            {{ $hispotal->name }}
+                        </option>
+                    @endforeach
+                @else
+                    @foreach ($hispotals as $hispotal)
+                        <option value="{{ $hispotal->id }}"
+                            {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                            {{ $hispotal->name }}
+                        </option>
+                    @endforeach
+                @endif
             </select>
             @error('hospital_id')
                 <span class="text-danger">
@@ -30,8 +40,8 @@
         <label for="code-unit">{{ trans('main-data/unit-item/form.unit_code') }}</label>
         <input type="text" name="code_unit" id="code-unit"
             class="form-control @error('code_unit') is-invalid @enderror"
-            value="{{ isset($unitItem) ? $unitItem->code_unit : old('code_unit') }}" placeholder="{{ trans('main-data/unit-item/form.unit_code') }}"
-            required />
+            value="{{ isset($unitItem) ? $unitItem->code_unit : old('code_unit') }}"
+            placeholder="{{ trans('main-data/unit-item/form.unit_code') }}" required />
         @error('code_unit')
             <span class="text-danger">
                 {{ $message }}

@@ -15,13 +15,24 @@
                                 class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
                                 name="hospital_id" id="hospital_id" required>
                                 <option value="" selected disabled>-- {{ trans('work-order/submission/form.filter_hospital') }} --</option>
+                                @if (isset($workOrder))
+                                    @foreach ($hispotals as $hispotal)
+                                        <option value="{{ $hispotal->id }}"
+                                            {{ $workOrder->hospital_id == $hispotal->id ? 'selected' : '' }}
+                                            {{ $workOrder->hospital_id != $hispotal->id ? 'disabled' : '' }}>
+                                            {{ $hispotal->name }}
+                                        </option>
+                                    @endforeach
+                                @else
+                                    @foreach ($hispotals as $hispotal)
+                                        <option value="{{ $hispotal->id }}"
+                                            {{ isset($workOrder) && $workOrder->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                                            {{ $hispotal->name }}
+                                        </option>
+                                    @endforeach
+                                @endif
 
-                                @foreach ($hispotals as $hispotal)
-                                    <option value="{{ $hispotal->id }}"
-                                        {{ isset($workOrder) && $workOrder->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
-                                        {{ $hispotal->name }}
-                                    </option>
-                                @endforeach
+
                             </select>
                             @error('hospital_id')
                                 <span class="text-danger">
