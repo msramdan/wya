@@ -298,40 +298,14 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="table-responsive">
-                                                    <table class="table table-bordered table-sm" id="data-table">
-                                                            <tr>
-                                                                <th>#</th>
-                                                                <th style="white-space: nowrap">
-                                                                    {{ trans('work-order/submission/index.hospital') }}
-                                                                </th>
-                                                                <th style="white-space: nowrap">
-                                                                    {{ trans('work-order/submission/index.wo_number') }}
-                                                                </th>
-                                                                <th style="white-space: nowrap">
-                                                                    {{ trans('work-order/submission/index.filed_date') }}
-                                                                </th>
-                                                                <th style="white-space: nowrap">
-                                                                    {{ trans('work-order/submission/index.equipment') }}
-                                                                </th>
-                                                                <th style="white-space: nowrap">
-                                                                    {{ trans('work-order/submission/index.type') }}
-                                                                </th>
-                                                                <th style="white-space: nowrap">
-                                                                    {{ trans('work-order/submission/index.category') }}
-                                                                </th>
-                                                                <th style="white-space: nowrap">
-                                                                    {{ trans('work-order/submission/index.created_by') }}
-                                                                </th>
-                                                                <th style="white-space: nowrap">
-                                                                    {{ trans('work-order/submission/index.approval_user') }}
-                                                                </th>
-                                                                <th style="white-space: nowrap">
-                                                                    {{ trans('work-order/submission/index.status') }}
-                                                                </th>
-                                                            </tr>
-                                                    </table>
-                                                </div>
+                                                <table class="table table-bordered table-sm" id="data-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
@@ -364,7 +338,6 @@
     <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
         <i class="ri-arrow-up-line"></i>
     </button>
-
     <script type="text/javascript" src="//code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('material/assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('material/assets/libs/simplebar/simplebar.min.js') }}"></script>
@@ -383,6 +356,82 @@
             $('.select2-form').select2();
         });
     </script>
+
+    <script>
+        let columns = [{
+            data: 'DT_RowIndex',
+            name: 'DT_RowIndex',
+            orderable: false,
+            searchable: false
+        }];
+
+        var table = $('#data-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "{{ route('monitoring') }}",
+                data: function(s) {
+                    s.start_date = $("#start_date").val();
+                    s.end_date = $("#end_date").val();
+                    s.equipment_id = $('select[name=equipment_id] option').filter(':selected').val()
+                    s.type_wo = $('select[name=type_wo] option').filter(':selected').val()
+                    s.category_wo = $('select[name=category_wo] option').filter(':selected').val()
+                    s.created_by = $('select[name=created_by] option').filter(':selected').val()
+                    s.hospital_id = $('select[name=hospital_id] option').filter(':selected').val()
+                }
+            },
+            columns: columns
+        });
+
+        function replaceURLParams() {
+            var params = new URLSearchParams();
+            var startDate = $("#start_date").val();
+            var endDate = $("#end_date").val();
+            var equipmentId = $('select[name=equipment_id]').val();
+            var typeWo = $('select[name=type_wo]').val();
+            var categoryWo = $('select[name=category_wo]').val();
+            var createdBy = $('select[name=created_by]').val();
+            var hospitalId = $('select[name=hospital_id]').val();
+
+            if (startDate) params.set('start_date', startDate);
+            if (endDate) params.set('end_date', endDate);
+            if (equipmentId) params.set('equipment_id', equipmentId);
+            if (typeWo) params.set('type_wo', typeWo);
+            if (categoryWo) params.set('category_wo', categoryWo);
+            if (createdBy) params.set('created_by', createdBy);
+            if (hospitalId) params.set('hospital_id', hospitalId);
+            var newURL = "{{ route('monitoring') }}" + '?' + params.toString();
+            history.replaceState(null, null, newURL);
+        }
+
+
+        $('#hospital_id').change(function() {
+            table.draw();
+            replaceURLParams()
+        })
+        $('#equipment_id').change(function() {
+            table.draw();
+            replaceURLParams()
+        })
+        $('#type_wo').change(function() {
+            table.draw();
+            replaceURLParams()
+        })
+        $('#category_wo').change(function() {
+            table.draw();
+            replaceURLParams()
+        })
+        $('#created_by').change(function() {
+            table.draw();
+            replaceURLParams()
+        })
+
+        $('#daterange-btn').change(function() {
+            table.draw();
+            replaceURLParams()
+        })
+    </script>
+
 
     <script>
         var start = {{ $microFrom }}
