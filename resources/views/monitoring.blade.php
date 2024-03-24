@@ -23,6 +23,11 @@
     <link href="{{ asset('material/assets/css/select2.css') }}" rel="stylesheet" />
     <link href="{{ asset('material/assets/css/daterangepicker.min.css') }}" rel="stylesheet" />
 </head>
+<style>
+    .table td button {
+        width: 100%;
+    }
+</style>
 
 <body>
     <div id="layout-wrapper">
@@ -105,7 +110,6 @@
                                 <i class=" bx bx-arrow-back fs-22"></i>
                             </a>
                         </div>
-
                         <div class="ms-1 header-item  d-sm-flex">
                             <button type="button"
                                 class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none"
@@ -113,7 +117,6 @@
                                 <i class='bx bx-fullscreen fs-22'></i>
                             </button>
                         </div>
-
                         <div class="ms-1 header-item  d-sm-flex">
                             <button type="button"
                                 class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle light-dark-mode shadow-none">
@@ -133,8 +136,6 @@
                                             src="{{ asset('uploads/images/avatars/' . auth()->user()->avatar) }}"
                                             alt="">
                                     @endif
-
-
                                     <span class="text-start ms-xl-2">
                                         <span
                                             class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ Auth::user()->name }}</span>
@@ -147,8 +148,6 @@
                                 <a class="dropdown-item" href="{{ route('profile') }}"><i
                                         class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span
                                         class="align-middle">{{ trans('navbar.profile') }}</span></a>
-
-
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
@@ -159,7 +158,6 @@
                                     class="d-none">
                                     @csrf
                                 </form>
-
                             </div>
                         </div>
                     </div>
@@ -178,147 +176,129 @@
             </div>
         </div>
         <div class="main-content">
-            <div class="page-content">
+            <div class="page-content" style="margin-top: 30px">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-xxl-12">
-                            <div class="d-flex flex-column h-100">
-                                <div class="row h-100">
-                                    <div class="col-12">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h4>Monitoring Work Order</h3>
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    @if (!Auth::user()->roles->first()->hospital_id)
+                                        <div class="row">
+                                            <div class="col-md-3 mb-2">
+                                                <form class="form-inline" method="get">
+                                                    @csrf
+                                                    <div class="input-group mb-2 mr-sm-2">
+                                                        <select name="hospital_id" id="hospital_id"
+                                                            class="form-control js-example-basic-multiple">
+                                                            <option value="">--
+                                                                {{ trans('work-order/submission/index.filter_hospital') }}
+                                                                --
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </form>
                                             </div>
-                                            <div class="card-body">
-                                                @if (!Auth::user()->roles->first()->hospital_id)
-                                                    <div class="row">
-                                                        <div class="col-md-3 mb-2">
-                                                            <form class="form-inline" method="get">
-                                                                @csrf
-                                                                <div class="input-group mb-2 mr-sm-2">
-                                                                    <select name="hospital_id" id="hospital_id"
-                                                                        class="form-control js-example-basic-multiple">
-                                                                        <option value="">--
-                                                                            {{ trans('work-order/submission/index.filter_hospital') }}
-                                                                            --
-                                                                        </option>
-                                                                    </select>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <div class="input-group mb-4">
-                                                            <span class="input-group-text" id="addon-wrapping"><i
-                                                                    class="fa fa-calendar"></i></span>
-                                                            <input type="text" class="form-control"
-                                                                aria-describedby="addon-wrapping" id="daterange-btn"
-                                                                value="">
-                                                            <input type="hidden" name="start_date" id="start_date"
-                                                                value="{{ $microFrom ?? '' }}">
-                                                            <input type="hidden" name="end_date" id="end_date"
-                                                                value="{{ $microTo ?? '' }}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <div class="input-group mb-4">
-                                                            <select name="equipment_id" id="equipment_id"
-                                                                class="form-control select2-form">
-                                                                <option value="All">--
-                                                                    {{ trans('work-order/submission/index.filter_equipment') }}
-                                                                    --</option>
-                                                                @foreach ($equipment as $row)
-                                                                    <option value="{{ $row->id }}"
-                                                                        {{ $equipment_id == $row->id ? 'selected' : '' }}>
-                                                                        {{ $row->serial_number }} |
-                                                                        {{ $row->barcode }} |
-                                                                        {{ $row->manufacturer }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <div class="input-group mb-4">
-                                                            <select name="type_wo" id="type_wo"
-                                                                class="form-control select2-form">
-                                                                <option value="All">--
-                                                                    {{ trans('work-order/submission/index.filter_type') }}
-                                                                    --</option>
-                                                                <option value="Calibration"
-                                                                    {{ $type_wo == 'Calibration' ? 'selected' : '' }}>
-                                                                    Calibration</option>
-                                                                <option value="Service"
-                                                                    {{ $type_wo == 'Service' ? 'selected' : '' }}>
-                                                                    Service
-                                                                </option>
-                                                                <option value="Training"
-                                                                    {{ $type_wo == 'Training' ? 'selected' : '' }}>
-                                                                    Training</option>
-                                                                <option value="Inspection and Preventive Maintenance"
-                                                                    {{ $type_wo == 'Inspection and Preventive Maintenance' ? 'selected' : '' }}>
-                                                                    Inspection and Preventive Maintenance
-                                                                </option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <div class="input-group mb-4">
-                                                            <select name="category_wo" id="category_wo"
-                                                                class="form-control select2-form">
-                                                                <option value="All">--
-                                                                    {{ trans('work-order/submission/index.filter_category') }}
-                                                                    --</option>
-                                                                <option value="Rutin"
-                                                                    {{ $category_wo == 'Rutin' ? 'selected' : '' }}>
-                                                                    Rutin
-                                                                </option>
-                                                                <option value="Non Rutin"
-                                                                    {{ $category_wo == 'Non Rutin' ? 'selected' : '' }}>
-                                                                    Non Rutin</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <div class="input-group mb-4">
-                                                            <select name="created_by" id="created_by"
-                                                                class="form-control select2-form">
-                                                                <option value="All">--
-                                                                    {{ trans('work-order/submission/index.filter_created') }}
-                                                                    --</option>
-                                                                @foreach ($user as $row)
-                                                                    <option value="{{ $row->id }}"
-                                                                        {{ $created_by == $row->id ? 'selected' : '' }}>
-                                                                        {{ $row->name }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <table class="table table-bordered table-sm" id="data-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>#</th>
-                                                            @if (!Auth::user()->roles->first()->hospital_id)
-                                                                <th>{{ __('Hospital') }}</th>
-                                                            @endif
-                                                            <th>No WO</th>
-                                                            <th>Peralatan</th>
-                                                            <th>Jenis</th>
-                                                            <th>Kategori</th>
-                                                            <th>Jadwal</th>
-                                                            <th>Status</th>
-                                                            <th>Dibuat oleh</th>
-                                                        </tr>
-                                                    </thead>
-
-                                                </table>
+                                        </div>
+                                    @endif
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="input-group mb-4">
+                                                <span class="input-group-text" id="addon-wrapping"><i
+                                                        class="fa fa-calendar"></i></span>
+                                                <input type="text" class="form-control"
+                                                    aria-describedby="addon-wrapping" id="daterange-btn"
+                                                    value="">
+                                                <input type="hidden" name="start_date" id="start_date"
+                                                    value="{{ $microFrom ?? '' }}">
+                                                <input type="hidden" name="end_date" id="end_date"
+                                                    value="{{ $microTo ?? '' }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="input-group mb-4">
+                                                <select name="equipment_id" id="equipment_id"
+                                                    class="form-control select2-form">
+                                                    <option value="All">--
+                                                        {{ trans('work-order/submission/index.filter_equipment') }}
+                                                        --</option>
+                                                    @foreach ($equipment as $row)
+                                                        <option value="{{ $row->id }}"
+                                                            {{ $equipment_id == $row->id ? 'selected' : '' }}>
+                                                            {{ $row->serial_number }} |
+                                                            {{ $row->barcode }} |
+                                                            {{ $row->manufacturer }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="input-group mb-4">
+                                                <select name="type_wo" id="type_wo"
+                                                    class="form-control select2-form">
+                                                    <option value="All">--
+                                                        {{ trans('work-order/submission/index.filter_type') }}
+                                                        --</option>
+                                                    <option value="Calibration"
+                                                        {{ $type_wo == 'Calibration' ? 'selected' : '' }}>
+                                                        Calibration</option>
+                                                    <option value="Service"
+                                                        {{ $type_wo == 'Service' ? 'selected' : '' }}>
+                                                        Service
+                                                    </option>
+                                                    <option value="Training"
+                                                        {{ $type_wo == 'Training' ? 'selected' : '' }}>
+                                                        Training</option>
+                                                    <option value="Inspection and Preventive Maintenance"
+                                                        {{ $type_wo == 'Inspection and Preventive Maintenance' ? 'selected' : '' }}>
+                                                        Inspection and Preventive Maintenance
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="input-group mb-4">
+                                                <select name="category_wo" id="category_wo"
+                                                    class="form-control select2-form">
+                                                    <option value="All">--
+                                                        {{ trans('work-order/submission/index.filter_category') }}
+                                                        --</option>
+                                                    <option value="Rutin"
+                                                        {{ $category_wo == 'Rutin' ? 'selected' : '' }}>
+                                                        Rutin
+                                                    </option>
+                                                    <option value="Non Rutin"
+                                                        {{ $category_wo == 'Non Rutin' ? 'selected' : '' }}>
+                                                        Non Rutin</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="input-group mb-4">
+                                                <select name="created_by" id="created_by"
+                                                    class="form-control select2-form">
+                                                    <option value="All">-- Semua Status --</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
+                                    <table class="table table-bordered table-sm" id="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                @if (!Auth::user()->roles->first()->hospital_id)
+                                                    <th>{{ __('Hospital') }}</th>
+                                                @endif
+                                                <th>No WO</th>
+                                                <th>Jadwal</th>
+                                                <th>Peralatan</th>
+                                                <th>Jenis</th>
+                                                <th>Kategori</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -379,10 +359,13 @@
                     data: 'hospital_name',
                     name: 'hospital_name',
                 },
-            @endif
-            {
+            @endif {
                 data: 'wo_number',
                 name: 'wo_number'
+            },
+            {
+                data: 'schedule_date',
+                name: 'schedule_date'
             },
             {
                 data: 'barcode',
@@ -397,16 +380,25 @@
                 name: 'category_wo'
             },
             {
-                data: 'schedule_date',
-                name: 'schedule_date'
-            },
-            {
                 data: 'status',
-                name: 'status'
-            },
-            {
-                data: 'user_name',
-                name: 'user_name'
+                render: function(datum, type, row) {
+                    switch (row.status) {
+                        case 'finished':
+                            rowStatus = 'success';
+                            break;
+                        case 'on-progress':
+                            rowStatus = 'secondary';
+                            break;
+                        case 'ready-to-start':
+                            rowStatus = 'danger';
+                            break;
+                        default:
+                            rowStatus = 'danger';
+                            break;
+                    }
+                    return `<button class="btn btn-${rowStatus} btn-block">${row.status}</button>`;
+
+                }
             }
         ];
 

@@ -20,8 +20,6 @@ use Illuminate\Support\Facades\DB;
 
 class MonitoringController extends Controller
 {
-
-
     public function index(Request $request)
     {
         if (request()->ajax()) {
@@ -34,12 +32,10 @@ class MonitoringController extends Controller
                     'work_orders.category_wo',
                     'equipment.barcode',
                     'hospitals.name as hospital_name',
-                    'users.name as user_name',
                 )
                 ->leftJoin('work_orders', 'work_order_processes.work_order_id', '=', 'work_orders.id')
                 ->leftJoin('equipment', 'work_orders.equipment_id', '=', 'equipment.id')
-                ->leftJoin('hospitals', 'work_orders.hospital_id', '=', 'hospitals.id')
-                ->leftJoin('users', 'work_orders.created_by', '=', 'users.id');
+                ->leftJoin('hospitals', 'work_orders.hospital_id', '=', 'hospitals.id');
             // $start_date = intval($request->query('start_date'));
             // $end_date = intval($request->query('end_date'));
             // $equipment_id = intval($request->query('equipment_id'));
@@ -87,7 +83,6 @@ class MonitoringController extends Controller
             //         $work_order_processes = $work_order_processes->where('created_by', $created_by);
             //     }
             // }
-
             $work_order_processes = $work_order_processes->orderBy('work_order_processes.schedule_wo', 'ASC');
             return DataTables::of($work_order_processes)
                 ->addIndexColumn()
@@ -100,15 +95,8 @@ class MonitoringController extends Controller
 
         if (Auth::user()->roles->first()->hospital_id) {
             $equimentHospital = Equipment::where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
-            $dataUser = DB::table('users')
-                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-                ->select('users.*', 'roles.hospital_id')
-                ->where('roles.hospital_id', Auth::user()->roles->first()->hospital_id)
-                ->get();
         } else {
             $equimentHospital = Equipment::all();
-            $dataUser = User::all();
         }
 
         $start_date = $request->query('start_date') !== null ? intval($request->query('start_date')) : $microFrom;
@@ -121,7 +109,6 @@ class MonitoringController extends Controller
         return view('monitoring', [
             'microFrom' => $start_date,
             'microTo' => $end_date,
-            'user' => $dataUser,
             'equipment' => $equimentHospital,
             'equipment_id' => $equipment_id,
             'type_wo' => $type_wo,
