@@ -36,53 +36,57 @@ class MonitoringController extends Controller
                 ->leftJoin('work_orders', 'work_order_processes.work_order_id', '=', 'work_orders.id')
                 ->leftJoin('equipment', 'work_orders.equipment_id', '=', 'equipment.id')
                 ->leftJoin('hospitals', 'work_orders.hospital_id', '=', 'hospitals.id');
-            // $start_date = intval($request->query('start_date'));
-            // $end_date = intval($request->query('end_date'));
-            // $equipment_id = intval($request->query('equipment_id'));
-            // $type_wo = $request->query('type_wo');
-            // $category_wo = $request->query('category_wo');
-            // $created_by = intval($request->query('created_by'));
 
-            // if ($request->has('hospital_id') && !empty($request->hospital_id)) {
-            //     $work_order_processes = $work_order_processes->where('hospital_id', $request->hospital_id);
-            // }
-            // if (Auth::user()->roles->first()->hospital_id) {
-            //     $work_order_processes = $work_order_processes->where('hospital_id', Auth::user()->roles->first()->hospital_id);
-            // }
-            // if (isset($start_date) && !empty($start_date)) {
-            //     $from = date("Y-m-d H:i:s", substr($request->query('start_date'), 0, 10));
-            //     $work_order_processes = $work_order_processes->where('filed_date', '>=', $from);
-            // } else {
-            //     $from = date('Y-m-d') . " 00:00:00";
-            //     $work_order_processes = $work_order_processes->where('filed_date', '>=', $from);
-            // }
-            // if (isset($end_date) && !empty($end_date)) {
-            //     $to = date("Y-m-d H:i:s", substr($request->query('end_date'), 0, 10));
-            //     $work_order_processes = $work_order_processes->where('filed_date', '<=', $to);
-            // } else {
-            //     $to = date('Y-m-d') . " 23:59:59";
-            //     $work_order_processes = $work_order_processes->where('filed_date', '<=', $to);
-            // }
-            // if (isset($equipment_id) && !empty($equipment_id)) {
-            //     if ($equipment_id != 'All') {
-            //         $work_order_processes = $work_order_processes->where('equipment_id', $equipment_id);
-            //     }
-            // }
-            // if (isset($type_wo) && !empty($type_wo)) {
-            //     if ($type_wo != 'All') {
-            //         $work_order_processes = $work_order_processes->where('type_wo', $type_wo);
-            //     }
-            // }
-            // if (isset($category_wo) && !empty($category_wo)) {
-            //     if ($category_wo != 'All') {
-            //         $work_order_processes = $work_order_processes->where('category_wo', $category_wo);
-            //     }
-            // }
-            // if (isset($created_by) && !empty($created_by)) {
-            //     if ($created_by != 'All') {
-            //         $work_order_processes = $work_order_processes->where('created_by', $created_by);
-            //     }
-            // }
+
+            $start_date = intval($request->query('start_date'));
+            $end_date = intval($request->query('end_date'));
+            $equipment_id = intval($request->query('equipment_id'));
+            $type_wo = $request->query('type_wo');
+            $category_wo = $request->query('category_wo');
+            $status_wo =$request->query('status_wo');
+
+            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
+                $work_order_processes = $work_order_processes->where('work_orders.hospital_id', $request->hospital_id);
+            }
+
+            if (Auth::user()->roles->first()->hospital_id) {
+                $work_order_processes = $work_order_processes->where('work_orders.hospital_id', Auth::user()->roles->first()->hospital_id);
+            }
+
+            if (isset($start_date) && !empty($start_date)) {
+                $from = date("Y-m-d H:i:s", substr($request->query('start_date'), 0, 10));
+                $work_order_processes = $work_order_processes->where('work_order_processes.schedule_wo', '>=', $from);
+            } else {
+                $from = date('Y-m-d') . " 00:00:00";
+                $work_order_processes = $work_order_processes->where('work_order_processes.schedule_wo', '>=', $from);
+            }
+            if (isset($end_date) && !empty($end_date)) {
+                $to = date("Y-m-d H:i:s", substr($request->query('end_date'), 0, 10));
+                $work_order_processes = $work_order_processes->where('work_order_processes.schedule_wo', '<=', $to);
+            } else {
+                $to = date('Y-m-d') . " 23:59:59";
+                $work_order_processes = $work_order_processes->where('work_order_processes.schedule_wo', '<=', $to);
+            }
+            if (isset($equipment_id) && !empty($equipment_id)) {
+                if ($equipment_id != 'All') {
+                    $work_order_processes = $work_order_processes->where('work_orders.equipment_id', $equipment_id);
+                }
+            }
+            if (isset($type_wo) && !empty($type_wo)) {
+                if ($type_wo != 'All') {
+                    $work_order_processes = $work_order_processes->where('work_orders.type_wo', $type_wo);
+                }
+            }
+            if (isset($category_wo) && !empty($category_wo)) {
+                if ($category_wo != 'All') {
+                    $work_order_processes = $work_order_processes->where('work_orders.category_wo', $category_wo);
+                }
+            }
+            if (isset($status_wo) && !empty($status_wo)) {
+                if ($status_wo != 'All') {
+                    $work_order_processes = $work_order_processes->where('work_order_processes.status', $status_wo);
+                }
+            }
             $work_order_processes = $work_order_processes->orderBy('work_order_processes.schedule_wo', 'ASC');
             return DataTables::of($work_order_processes)
                 ->addIndexColumn()
@@ -104,7 +108,7 @@ class MonitoringController extends Controller
         $equipment_id = $request->query('equipment_id') ?? null;
         $type_wo = $request->query('type_wo') ?? null;
         $category_wo = $request->query('category_wo') ?? null;
-        $created_by = $request->query('created_by') !== null ? intval($request->query('created_by')) : null;
+        $status_wo = $request->query('status_wo') !== null ? intval($request->query('status_wo')) : null;
         $hospital_id = $request->query('hospital_id') !== null ? intval($request->query('hospital_id')) : null;
         return view('monitoring', [
             'microFrom' => $start_date,
@@ -113,7 +117,7 @@ class MonitoringController extends Controller
             'equipment_id' => $equipment_id,
             'type_wo' => $type_wo,
             'category_wo' => $category_wo,
-            'created_by' => $created_by,
+            'status_wo' => $status_wo,
             'hospital_id' => $hospital_id,
         ]);
     }

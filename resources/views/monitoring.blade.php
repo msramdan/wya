@@ -273,14 +273,29 @@
                                                 </select>
                                             </div>
                                         </div>
+
                                         <div class="col-md-2">
                                             <div class="input-group mb-4">
-                                                <select name="created_by" id="created_by"
+                                                <select name="status_wo" id="status_wo"
                                                     class="form-control select2-form">
                                                     <option value="All">-- Semua Status --</option>
+                                                    <option value="finished"
+                                                        {{ $category_wo == 'finished' ? 'selected' : '' }}>
+                                                        Finished
+                                                    </option>
+                                                    <option value="on-progress"
+                                                        {{ $category_wo == 'on-progress' ? 'selected' : '' }}>
+                                                        On-progress</option>
+                                                    <option value="ready-to-start"
+                                                        {{ $category_wo == 'ready-to-start' ? 'selected' : '' }}>
+                                                        Ready-to-start</option>
                                                 </select>
                                             </div>
                                         </div>
+
+
+
+
                                     </div>
                                     <table class="table table-bordered table-sm" id="data-table">
                                         <thead>
@@ -358,29 +373,36 @@
                 {
                     data: 'hospital_name',
                     name: 'hospital_name',
+                    orderable: false,
                 },
             @endif {
                 data: 'wo_number',
-                name: 'wo_number'
+                name: 'wo_number',
+                orderable: false,
             },
             {
                 data: 'schedule_date',
-                name: 'schedule_date'
+                name: 'schedule_date',
+                orderable: false,
             },
             {
                 data: 'barcode',
-                name: 'barcode'
+                name: 'barcode',
+                orderable: false,
             },
             {
                 data: 'type_wo',
-                name: 'type_wo'
+                name: 'type_wo',
+                orderable: false,
             },
             {
                 data: 'category_wo',
-                name: 'category_wo'
+                name: 'category_wo',
+                orderable: false,
             },
             {
                 data: 'status',
+                orderable: false,
                 render: function(datum, type, row) {
                     switch (row.status) {
                         case 'finished':
@@ -413,7 +435,7 @@
                     s.equipment_id = $('select[name=equipment_id] option').filter(':selected').val()
                     s.type_wo = $('select[name=type_wo] option').filter(':selected').val()
                     s.category_wo = $('select[name=category_wo] option').filter(':selected').val()
-                    s.created_by = $('select[name=created_by] option').filter(':selected').val()
+                    s.status_wo = $('select[name=status_wo] option').filter(':selected').val()
                     s.hospital_id = $('select[name=hospital_id] option').filter(':selected').val()
                 }
             },
@@ -427,7 +449,7 @@
             var equipmentId = $('select[name=equipment_id]').val();
             var typeWo = $('select[name=type_wo]').val();
             var categoryWo = $('select[name=category_wo]').val();
-            var createdBy = $('select[name=created_by]').val();
+            var statusWo = $('select[name=status_wo]').val();
             var hospitalId = $('select[name=hospital_id]').val();
 
             if (startDate) params.set('start_date', startDate);
@@ -435,7 +457,7 @@
             if (equipmentId) params.set('equipment_id', equipmentId);
             if (typeWo) params.set('type_wo', typeWo);
             if (categoryWo) params.set('category_wo', categoryWo);
-            if (createdBy) params.set('created_by', createdBy);
+            if (statusWo) params.set('status_wo', statusWo);
             if (hospitalId) params.set('hospital_id', hospitalId);
             var newURL = "{{ route('monitoring') }}" + '?' + params.toString();
             history.replaceState(null, null, newURL);
@@ -458,7 +480,7 @@
             table.draw();
             replaceURLParams()
         })
-        $('#created_by').change(function() {
+        $('#status_wo').change(function() {
             table.draw();
             replaceURLParams()
         })
@@ -503,5 +525,13 @@
             return Date.parse(val);
         }
     </script>
+
+    {{-- <script>
+        function autoReload() {
+            location.reload();
+        }
+        setInterval(autoReload, 30000);
+    </script> --}}
+
 
 </html>
