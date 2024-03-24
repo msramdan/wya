@@ -53,20 +53,21 @@ class MonitoringController extends Controller
                 $work_order_processes = $work_order_processes->where('work_orders.hospital_id', Auth::user()->roles->first()->hospital_id);
             }
 
-            if (isset($start_date) && !empty($start_date)) {
-                $from = date("Y-m-d H:i:s", substr($request->query('start_date'), 0, 10));
-                $work_order_processes = $work_order_processes->where('work_order_processes.schedule_wo', '>=', $from);
-            } else {
-                $from = date('Y-m-d') . " 00:00:00";
-                $work_order_processes = $work_order_processes->where('work_order_processes.schedule_wo', '>=', $from);
-            }
-            if (isset($end_date) && !empty($end_date)) {
-                $to = date("Y-m-d H:i:s", substr($request->query('end_date'), 0, 10));
-                $work_order_processes = $work_order_processes->where('work_order_processes.schedule_wo', '<=', $to);
-            } else {
-                $to = date('Y-m-d') . " 23:59:59";
-                $work_order_processes = $work_order_processes->where('work_order_processes.schedule_wo', '<=', $to);
-            }
+            // if (isset($start_date) && !empty($start_date)) {
+            //     $from = date("Y-m-d", substr($request->query('start_date'), 0, 10));
+            //     $work_order_processes = $work_order_processes->whereDate('work_order_processes.schedule_wo', '>=', $from);
+            // } else {
+            //     $from = date('Y-m-d');
+            //     $work_order_processes = $work_order_processes->where('work_order_processes.schedule_wo', '>=', $from);
+            // }
+            // if (isset($end_date) && !empty($end_date)) {
+            //     $to = date("Y-m-d", substr($request->query('end_date'), 0, 10));
+            //     $work_order_processes = $work_order_processes->where('work_order_processes.schedule_wo', '<=', $to);
+            // } else {
+            //     $to = date('Y-m-d');
+            //     $work_order_processes = $work_order_processes->where('work_order_processes.schedule_wo', '<=', $to);
+            // }
+
             if (isset($equipment_id) && !empty($equipment_id)) {
                 if ($equipment_id != 'All') {
                     $work_order_processes = $work_order_processes->where('work_orders.equipment_id', $equipment_id);

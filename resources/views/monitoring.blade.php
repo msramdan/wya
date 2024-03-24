@@ -418,7 +418,8 @@
                             rowStatus = 'danger';
                             break;
                     }
-                    return `<button class="btn btn-${rowStatus} btn-block">${row.status}</button>`;
+                    return `<button class="btn btn-${rowStatus} btn-block">${row.status.charAt(0).toUpperCase() + row.status.slice(1)}</button>`;
+
 
                 }
             }
