@@ -302,6 +302,16 @@
                                                     <thead>
                                                         <tr>
                                                             <th>#</th>
+                                                            @if (!Auth::user()->roles->first()->hospital_id)
+                                                                <th>{{ __('Hospital') }}</th>
+                                                            @endif
+                                                            <th>No WO</th>
+                                                            <th>Peralatan</th>
+                                                            <th>Jenis</th>
+                                                            <th>Kategori</th>
+                                                            <th>Jadwal</th>
+                                                            <th>Status</th>
+                                                            <th>Dibuat oleh</th>
                                                         </tr>
                                                     </thead>
 
@@ -359,11 +369,46 @@
 
     <script>
         let columns = [{
-            data: 'DT_RowIndex',
-            name: 'DT_RowIndex',
-            orderable: false,
-            searchable: false
-        }];
+                data: 'DT_RowIndex',
+                name: 'DT_RowIndex',
+                orderable: false,
+                searchable: false
+            },
+            @if (!Auth::user()->roles->first()->hospital_id)
+                {
+                    data: 'hospital_name',
+                    name: 'hospital_name',
+                },
+            @endif
+            {
+                data: 'wo_number',
+                name: 'wo_number'
+            },
+            {
+                data: 'barcode',
+                name: 'barcode'
+            },
+            {
+                data: 'type_wo',
+                name: 'type_wo'
+            },
+            {
+                data: 'category_wo',
+                name: 'category_wo'
+            },
+            {
+                data: 'schedule_date',
+                name: 'schedule_date'
+            },
+            {
+                data: 'status',
+                name: 'status'
+            },
+            {
+                data: 'user_name',
+                name: 'user_name'
+            }
+        ];
 
         var table = $('#data-table').DataTable({
             processing: true,
