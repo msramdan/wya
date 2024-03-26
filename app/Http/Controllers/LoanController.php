@@ -49,10 +49,10 @@ class LoanController extends Controller
                 ->leftJoin('users as uu', 'loans.user_updated', '=', 'uu.id');
 
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
-                $loans = $loans->where('hospital_id', $request->hospital_id);
+                $loans = $loans->where('loans.hospital_id', $request->hospital_id);
             }
             if (Auth::user()->roles->first()->hospital_id) {
-                $loans = $loans->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+                $loans = $loans->where('loans.hospital_id', Auth::user()->roles->first()->hospital_id);
             }
             $loans = $loans->orderBy('loans.id', 'DESC')->get();
             return Datatables::of($loans)
