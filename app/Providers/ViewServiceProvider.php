@@ -136,6 +136,7 @@ class ViewServiceProvider extends ServiceProvider
                 'work-order-approvals.*',
                 'hospitals.*',
                 'loans.*',
+                'monitoring',
             ],
             function ($view) {
                 return $view->with(

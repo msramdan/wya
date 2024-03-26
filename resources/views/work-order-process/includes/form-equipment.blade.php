@@ -9,6 +9,10 @@
                 <input type="text" name="equipment" id="equipment" value="{{ $workOrder->equipment->serial_number }} | {{ $workOrder->equipment->manufacturer }} | {{ $workOrder->equipment->type }}" class="form-control" readonly>
             </div>
             <div class="form-group mb-3">
+                <label for="equipment">Nomenklatur</label>
+                <input type="text" name="" id="" value="{{ $workOrder->equipment->nomenklatur_id  }} | {{ $workOrder->equipment->nomenklatur->name_nomenklatur  }} " class="form-control" readonly>
+            </div>
+            <div class="form-group mb-3">
                 <label for="category">Category</label>
                 <input type="text" name="category" id="category" value="{{ $workOrder->equipment->equipment_category->category_name }}" class="form-control" readonly>
             </div>

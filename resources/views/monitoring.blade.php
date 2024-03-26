@@ -194,13 +194,19 @@
                                                                 {{ trans('work-order/submission/index.filter_hospital') }}
                                                                 --
                                                             </option>
+                                                            @foreach ($hispotals as $hispotal)
+                                                                <option value="{{ $hispotal->id }}"
+                                                                    {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
+                                                                    {{ $hispotal->name }}
+                                                                </option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </form>
                                             </div>
                                         </div>
                                     @endif
-                                    <div class="row">
+                                    {{-- <div class="row">
                                         <div class="col-md-3">
                                             <div class="input-group mb-4">
                                                 <span class="input-group-text" id="addon-wrapping"><i
@@ -296,7 +302,7 @@
 
 
 
-                                    </div>
+                                    </div> --}}
                                     <table class="table table-bordered table-sm" id="data-table">
                                         <thead>
                                             <tr>
@@ -426,7 +432,7 @@
         ];
 
         var table = $('#data-table').DataTable({
-            processing: true,
+            processing: false,
             serverSide: true,
             ajax: {
                 url: "{{ route('monitoring') }}",
@@ -443,96 +449,38 @@
             columns: columns
         });
 
-        function replaceURLParams() {
-            var params = new URLSearchParams();
-            var startDate = $("#start_date").val();
-            var endDate = $("#end_date").val();
-            var equipmentId = $('select[name=equipment_id]').val();
-            var typeWo = $('select[name=type_wo]').val();
-            var categoryWo = $('select[name=category_wo]').val();
-            var statusWo = $('select[name=status_wo]').val();
-            var hospitalId = $('select[name=hospital_id]').val();
-
-            if (startDate) params.set('start_date', startDate);
-            if (endDate) params.set('end_date', endDate);
-            if (equipmentId) params.set('equipment_id', equipmentId);
-            if (typeWo) params.set('type_wo', typeWo);
-            if (categoryWo) params.set('category_wo', categoryWo);
-            if (statusWo) params.set('status_wo', statusWo);
-            if (hospitalId) params.set('hospital_id', hospitalId);
-            var newURL = "{{ route('monitoring') }}" + '?' + params.toString();
-            history.replaceState(null, null, newURL);
-        }
-
-
         $('#hospital_id').change(function() {
             table.draw();
-            replaceURLParams()
-        })
-        $('#equipment_id').change(function() {
-            table.draw();
-            replaceURLParams()
-        })
-        $('#type_wo').change(function() {
-            table.draw();
-            replaceURLParams()
-        })
-        $('#category_wo').change(function() {
-            table.draw();
-            replaceURLParams()
-        })
-        $('#status_wo').change(function() {
-            table.draw();
-            replaceURLParams()
-        })
-
-        $('#daterange-btn').change(function() {
-            table.draw();
-            replaceURLParams()
         })
     </script>
-
-
     <script>
-        var start = {{ $microFrom }}
-        var end = {{ $microTo }}
-        var label = '';
-        $('#daterange-btn').daterangepicker({
-                locale: {
-                    format: 'DD MMM YYYY'
-                },
-                startDate: moment(start),
-                endDate: moment(end),
-                ranges: {
-                    'Today': [moment(), moment()],
-                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                    'This Month': [moment().startOf('month'), moment().endOf('month')],
-                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf(
-                        'month')],
-                }
-            },
-            function(start, end, label) {
-                $('#start_date').val(Date.parse(start));
-                $('#end_date').val(Date.parse(end));
-                if (isDate(start)) {
-                    $('#daterange-btn span').html(start.format('DD MMM YYYY') + ' - ' + end.format('DD MMM YYYY'));
-                }
-            });
-
-        function isDate(val) {
-            var d = Date.parse(val);
-            return Date.parse(val);
-        }
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+        });
     </script>
+<script>
+    var timer; // variabel global untuk menyimpan timer
 
-    {{-- <script>
-        function autoReload() {
-            location.reload();
-        }
-        setInterval(autoReload, 30000);
-    </script> --}}
+    function resetTimer() {
+        clearTimeout(timer); // Menghapus timer saat ada aktivitas baru
+        timer = setTimeout(function() {
+            location.reload(); // Me-reload halaman setelah 5 menit idle
+        }, 300000); // 5 menit dalam milidetik
+    }
+
+    // Fungsi untuk melakukan reload jika tidak ada aktivitas
+    function autoReload() {
+        resetTimer(); // Reset timer setiap kali fungsi ini dipanggil
+        location.reload(); // Me-reload halaman
+    }
+
+    // Memulai timer saat halaman dimuat
+    resetTimer();
+
+    // Mendengarkan aktivitas mouse
+    document.addEventListener('mousemove', resetTimer);
+    document.addEventListener('keypress', resetTimer);
+</script>
 
 
 </html>

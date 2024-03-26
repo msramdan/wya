@@ -10,7 +10,7 @@ return [
   'filter_type_wo' => 'Select Type Wo',
   'category_wo' => 'Category Wo',
   'filter_category_wo' => 'Select Category Wo',
-  'note' => 'Note',
+  'note' => 'Equipment Constraints',
   'search_qr' => 'Search By Qrcode',
   'search_location' => 'Search by Location',
   'select_location' => 'Select Location',
@@ -29,5 +29,5 @@ return [
   'financing_code' => 'Financing Code',
   'manufacture' => 'Manufacture',
   'condition' => 'Condition',
-  'equipment_location' => 'Equipment Location' 
+  'equipment_location' => 'Equipment Location'
 ];

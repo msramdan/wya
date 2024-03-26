@@ -1,7 +1,7 @@
 <div class="col-12">
     <div class="card">
         <div class="card-header">
-            <h3>Equipment Inspection Check</h3>
+            <h3>Pemeriksaan Kelengkapan Alat</h3>
         </div>
         <div class="card-body">
             <div class="row">

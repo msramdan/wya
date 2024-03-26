@@ -10,7 +10,7 @@ return [
   'filter_type_wo' => 'Pilih Jenis PK',
   'category_wo' => 'Kategori PK',
   'filter_category_wo' => 'Pilih Kategori PK',
-  'note' => 'Catatan',
+  'note' => 'Keluhan',
   'search_qr' => 'Cari dengan Qr Code',
   'search_location' => 'Cari Dengan Lokasi',
   'filter_location' => 'Pilih Lokasi',
@@ -30,5 +30,5 @@ return [
   'financing_code' => 'Kode Pembiayaan',
   'manufacture' => 'Pembuat',
   'condition' => 'Kondisi',
-  'equipment_location' => 'Lokasi Peralatan' 
+  'equipment_location' => 'Lokasi Peralatan'
 ];

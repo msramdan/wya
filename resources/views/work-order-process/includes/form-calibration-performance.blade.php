@@ -1,7 +1,7 @@
 <div class="col-12">
     <div class="card">
         <div class="card-header">
-            <h3>Calibration Performance</h3>
+            <h3>Pengukuran Kalibrasi</h3>
         </div>
         <div class="card-body">
             <div class="row">

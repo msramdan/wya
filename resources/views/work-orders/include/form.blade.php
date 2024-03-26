@@ -115,8 +115,7 @@
                             </span>
                         @enderror
                     </div>
-
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="note">{{ trans('work-order/submission/form.note') }}</label>
                             <textarea name="note" id="note" class="form-control @error('note') is-invalid @enderror"
