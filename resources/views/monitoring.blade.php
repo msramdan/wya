@@ -338,7 +338,7 @@
                 } else if (status === 'finished') {
                     $(row).addClass('table-success');
                 } else if (status === 'on-progress') {
-                    $(row).addClass('table-primary');
+                    $(row).addClass('table-info');
                 }
             }
         });
