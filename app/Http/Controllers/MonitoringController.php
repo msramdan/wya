@@ -28,13 +28,17 @@ class MonitoringController extends Controller
                     'work_order_processes.schedule_date',
                     'work_order_processes.status',
                     'work_orders.wo_number',
+                    'work_orders.filed_date',
                     'work_orders.type_wo',
                     'work_orders.category_wo',
-                    'equipment.barcode',
+                    'nomenklaturs.name_nomenklatur',
+                    'equipment_locations.location_name',
                     'hospitals.name as hospital_name',
                 )
                 ->leftJoin('work_orders', 'work_order_processes.work_order_id', '=', 'work_orders.id')
                 ->leftJoin('equipment', 'work_orders.equipment_id', '=', 'equipment.id')
+                ->leftJoin('nomenklaturs', 'equipment.nomenklatur_id', '=', 'nomenklaturs.id')
+                ->leftJoin('equipment_locations', 'equipment.equipment_location_id', '=', 'equipment_locations.id')
                 ->leftJoin('hospitals', 'work_orders.hospital_id', '=', 'hospitals.id');
 
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {

@@ -206,120 +206,24 @@
                                             </div>
                                         </div>
                                     @endif
-                                    {{-- <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="input-group mb-4">
-                                                <span class="input-group-text" id="addon-wrapping"><i
-                                                        class="fa fa-calendar"></i></span>
-                                                <input type="text" class="form-control"
-                                                    aria-describedby="addon-wrapping" id="daterange-btn"
-                                                    value="">
-                                                <input type="hidden" name="start_date" id="start_date"
-                                                    value="{{ $microFrom ?? '' }}">
-                                                <input type="hidden" name="end_date" id="end_date"
-                                                    value="{{ $microTo ?? '' }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="input-group mb-4">
-                                                <select name="equipment_id" id="equipment_id"
-                                                    class="form-control select2-form">
-                                                    <option value="All">--
-                                                        {{ trans('work-order/submission/index.filter_equipment') }}
-                                                        --</option>
-                                                    @foreach ($equipment as $row)
-                                                        <option value="{{ $row->id }}"
-                                                            {{ $equipment_id == $row->id ? 'selected' : '' }}>
-                                                            {{ $row->serial_number }} |
-                                                            {{ $row->barcode }} |
-                                                            {{ $row->manufacturer }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="input-group mb-4">
-                                                <select name="type_wo" id="type_wo"
-                                                    class="form-control select2-form">
-                                                    <option value="All">--
-                                                        {{ trans('work-order/submission/index.filter_type') }}
-                                                        --</option>
-                                                    <option value="Calibration"
-                                                        {{ $type_wo == 'Calibration' ? 'selected' : '' }}>
-                                                        Calibration</option>
-                                                    <option value="Service"
-                                                        {{ $type_wo == 'Service' ? 'selected' : '' }}>
-                                                        Service
-                                                    </option>
-                                                    <option value="Training"
-                                                        {{ $type_wo == 'Training' ? 'selected' : '' }}>
-                                                        Training</option>
-                                                    <option value="Inspection and Preventive Maintenance"
-                                                        {{ $type_wo == 'Inspection and Preventive Maintenance' ? 'selected' : '' }}>
-                                                        Inspection and Preventive Maintenance
-                                                    </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="input-group mb-4">
-                                                <select name="category_wo" id="category_wo"
-                                                    class="form-control select2-form">
-                                                    <option value="All">--
-                                                        {{ trans('work-order/submission/index.filter_category') }}
-                                                        --</option>
-                                                    <option value="Rutin"
-                                                        {{ $category_wo == 'Rutin' ? 'selected' : '' }}>
-                                                        Rutin
-                                                    </option>
-                                                    <option value="Non Rutin"
-                                                        {{ $category_wo == 'Non Rutin' ? 'selected' : '' }}>
-                                                        Non Rutin</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-2">
-                                            <div class="input-group mb-4">
-                                                <select name="status_wo" id="status_wo"
-                                                    class="form-control select2-form">
-                                                    <option value="All">-- Semua Status --</option>
-                                                    <option value="finished"
-                                                        {{ $category_wo == 'finished' ? 'selected' : '' }}>
-                                                        Finished
-                                                    </option>
-                                                    <option value="on-progress"
-                                                        {{ $category_wo == 'on-progress' ? 'selected' : '' }}>
-                                                        On-progress</option>
-                                                    <option value="ready-to-start"
-                                                        {{ $category_wo == 'ready-to-start' ? 'selected' : '' }}>
-                                                        Ready-to-start</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-
-
-
-                                    </div> --}}
-                                    <table class="table table-bordered table-sm" id="data-table">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                @if (!Auth::user()->roles->first()->hospital_id)
-                                                    <th>{{ __('Hospital') }}</th>
-                                                @endif
-                                                <th>No WO</th>
-                                                <th>Jadwal</th>
-                                                <th>Peralatan</th>
-                                                <th>Jenis</th>
-                                                <th>Kategori</th>
-                                                <th>Status</th>
-                                            </tr>
-                                        </thead>
-
-                                    </table>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-sm" id="data-table">
+                                            <thead>
+                                                <tr class="table-success">
+                                                    <th>#</th>
+                                                    @if (!Auth::user()->roles->first()->hospital_id)
+                                                        <th>{{ __('Hospital') }}</th>
+                                                    @endif
+                                                    <th>No WO</th>
+                                                    <th>Ruangan</th>
+                                                    <th>Tgl Pengajuan</th>
+                                                    <th>Tgl Pelaksanaan</th>
+                                                    <th>Peralatan</th>
+                                                    <th>Jenis Kegiatan</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -387,47 +291,29 @@
                 orderable: false,
             },
             {
+                data: 'location_name',
+                name: 'location_name',
+                orderable: false,
+            },
+            {
+                data: 'filed_date',
+                name: 'filed_date',
+                orderable: false,
+            },
+            {
                 data: 'schedule_date',
                 name: 'schedule_date',
                 orderable: false,
             },
             {
-                data: 'barcode',
-                name: 'barcode',
+                data: 'name_nomenklatur',
+                name: 'name_nomenklatur',
                 orderable: false,
             },
             {
                 data: 'type_wo',
                 name: 'type_wo',
                 orderable: false,
-            },
-            {
-                data: 'category_wo',
-                name: 'category_wo',
-                orderable: false,
-            },
-            {
-                data: 'status',
-                orderable: false,
-                render: function(datum, type, row) {
-                    switch (row.status) {
-                        case 'finished':
-                            rowStatus = 'success';
-                            break;
-                        case 'on-progress':
-                            rowStatus = 'secondary';
-                            break;
-                        case 'ready-to-start':
-                            rowStatus = 'danger';
-                            break;
-                        default:
-                            rowStatus = 'danger';
-                            break;
-                    }
-                    return `<button class="btn btn-${rowStatus} btn-block">${row.status.charAt(0).toUpperCase() + row.status.slice(1)}</button>`;
-
-
-                }
             }
         ];
 
@@ -458,29 +344,29 @@
             $('.js-example-basic-multiple').select2();
         });
     </script>
-<script>
-    var timer; // variabel global untuk menyimpan timer
+    <script>
+        var timer; // variabel global untuk menyimpan timer
 
-    function resetTimer() {
-        clearTimeout(timer); // Menghapus timer saat ada aktivitas baru
-        timer = setTimeout(function() {
-            location.reload(); // Me-reload halaman setelah 5 menit idle
-        }, 300000); // 5 menit dalam milidetik
-    }
+        function resetTimer() {
+            clearTimeout(timer); // Menghapus timer saat ada aktivitas baru
+            timer = setTimeout(function() {
+                location.reload(); // Me-reload halaman setelah 5 menit idle
+            }, 300000); // 5 menit dalam milidetik
+        }
 
-    // Fungsi untuk melakukan reload jika tidak ada aktivitas
-    function autoReload() {
-        resetTimer(); // Reset timer setiap kali fungsi ini dipanggil
-        location.reload(); // Me-reload halaman
-    }
+        // Fungsi untuk melakukan reload jika tidak ada aktivitas
+        function autoReload() {
+            resetTimer(); // Reset timer setiap kali fungsi ini dipanggil
+            location.reload(); // Me-reload halaman
+        }
 
-    // Memulai timer saat halaman dimuat
-    resetTimer();
+        // Memulai timer saat halaman dimuat
+        resetTimer();
 
-    // Mendengarkan aktivitas mouse
-    document.addEventListener('mousemove', resetTimer);
-    document.addEventListener('keypress', resetTimer);
-</script>
+        // Mendengarkan aktivitas mouse
+        document.addEventListener('mousemove', resetTimer);
+        document.addEventListener('keypress', resetTimer);
+    </script>
 
 
 </html>
