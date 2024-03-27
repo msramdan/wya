@@ -209,7 +209,7 @@
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-sm" id="data-table">
                                             <thead>
-                                                <tr class="table-success">
+                                                <tr class="table-dark">
                                                     <th>#</th>
                                                     @if (!Auth::user()->roles->first()->hospital_id)
                                                         <th>{{ __('Hospital') }}</th>
@@ -320,19 +320,27 @@
         var table = $('#data-table').DataTable({
             processing: false,
             serverSide: true,
+            lengthChange: false,
+            searching: false,
+            info: false,
+            pageLength: 25,
             ajax: {
                 url: "{{ route('monitoring') }}",
                 data: function(s) {
-                    s.start_date = $("#start_date").val();
-                    s.end_date = $("#end_date").val();
-                    s.equipment_id = $('select[name=equipment_id] option').filter(':selected').val()
-                    s.type_wo = $('select[name=type_wo] option').filter(':selected').val()
-                    s.category_wo = $('select[name=category_wo] option').filter(':selected').val()
-                    s.status_wo = $('select[name=status_wo] option').filter(':selected').val()
                     s.hospital_id = $('select[name=hospital_id] option').filter(':selected').val()
                 }
             },
-            columns: columns
+            columns: columns,
+            rowCallback: function(row, data) {
+                var status = data.status; // Assuming "status" is the name of the column
+                if (status === 'ready-to-start') {
+                    $(row).addClass('table-danger');
+                } else if (status === 'finished') {
+                    $(row).addClass('table-success');
+                } else if (status === 'on-progress') {
+                    $(row).addClass('table-primary');
+                }
+            }
         });
 
         $('#hospital_id').change(function() {
