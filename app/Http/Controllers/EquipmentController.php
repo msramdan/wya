@@ -730,9 +730,9 @@ class EquipmentController extends Controller
         ]);
     }
 
-    public function getEquipment($hospitalId)
+    public function getEquipment($locationId)
     {
-        $data = DB::table('equipment')->where('hospital_id', $hospitalId)->get();
+        $data = DB::table('equipment')->where('equipment_location_id', $locationId)->get();
         return response()->json(compact('data'));
     }
 }

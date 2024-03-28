@@ -36,9 +36,36 @@
             </span>
         @enderror
     </div>
+    <div class="col-md-3 mb-2">
+        <label for="lokasi-asal-id">{{ __('Resource location') }}</label>
+        <select class="form-control js-example-basic-multiple @error('lokasi_asal_id') is-invalid @enderror" name="lokasi_asal_id"
+            id="lokasi-asal-id" required>
+            <option value="" selected disabled>-- {{ __('Select Resource location') }} --</option>
+        </select>
+        @error('lokasi_asal_id')
+            <span class="text-danger">
+                {{ $message }}
+            </span>
+        @enderror
+    </div>
+
+    <div class="col-md-3 mb-2">
+        <label for="lokasi-peminjam-id">{{ __('Destination location') }}</label>
+        <select class="form-control js-example-basic-multiple @error('lokasi_peminjam_id') is-invalid @enderror" name="lokasi_peminjam_id"
+            id="lokasi-peminjam-id" required>
+            <option value="" selected disabled>-- {{ __('Select Destination location') }} --</option>
+        </select>
+        @error('lokasi_peminjam_id')
+            <span class="text-danger">
+                {{ $message }}
+            </span>
+        @enderror
+    </div>
+
+
     <div class="col-md-6 mb-2">
         <label for="equipment-id">{{ __('Equipment') }}</label>
-        <select class="form-control @error('equipment_id') is-invalid @enderror" name="equipment_id" id="equipment-id"
+        <select class="form-control js-example-basic-multiple @error('equipment_id') is-invalid @enderror" name="equipment_id" id="equipment-id"
             required>
             <option value="" selected disabled>-- {{ __('Select equipment') }} --</option>
         </select>
@@ -48,31 +75,8 @@
             </span>
         @enderror
     </div>
-    <div class="col-md-6 mb-2">
-        <label for="lokasi-asal-id">{{ __('Equipment Location') }}</label>
-        <select class="form-control @error('lokasi_asal_id') is-invalid @enderror" name="lokasi_asal_id"
-            id="lokasi-asal-id" required>
-            <option value="" selected disabled>-- {{ __('Select equipment location') }} --</option>
-        </select>
-        @error('lokasi_asal_id')
-            <span class="text-danger">
-                {{ $message }}
-            </span>
-        @enderror
-    </div>
 
-    <div class="col-md-6 mb-2">
-        <label for="lokasi-peminjam-id">{{ __('Equipment Location') }}</label>
-        <select class="form-control @error('lokasi_peminjam_id') is-invalid @enderror" name="lokasi_peminjam_id"
-            id="lokasi-peminjam-id" required>
-            <option value="" selected disabled>-- {{ __('Select equipment location') }} --</option>
-        </select>
-        @error('lokasi_peminjam_id')
-            <span class="text-danger">
-                {{ $message }}
-            </span>
-        @enderror
-    </div>
+
 
     <div class="col-md-6 mb-2">
         <label for="waktu-pinjam">{{ __('Waktu Pinjam') }}</label>
@@ -102,7 +106,7 @@
 
     <div class="col-md-6 mb-2">
         <label for="pic-penanggungjawab">{{ __('Pic Penanggungjawab') }}</label>
-        <select class="form-control @error('pic_penanggungjawab') is-invalid @enderror" name="pic_penanggungjawab" id="pic-penanggungjawab"
+        <select class="form-control js-example-basic-multiple @error('pic_penanggungjawab') is-invalid @enderror" name="pic_penanggungjawab" id="pic-penanggungjawab"
             required>
             <option value="" selected disabled>-- {{ __('Select') }} --</option>
         </select>

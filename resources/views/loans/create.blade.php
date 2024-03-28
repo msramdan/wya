@@ -59,7 +59,6 @@
             console.log(cek)
             if (cek != '' || cek != null) {
                 getEquipmentLocation(cek);
-                getEquipment(cek);
                 getPic(cek);
             }
         });
@@ -69,10 +68,17 @@
             $('#lokasi-peminjam-id, #lokasi-asal-id').html(_temp);
             if ($(this).val() != "") {
                 getEquipmentLocation($(this).val());
-                getEquipment($(this).val());
                 getPic($(this).val());
             }
         })
+
+        $('#lokasi-asal-id').change(function() {
+            $('#equipment-id').html(_temp);
+            if ($(this).val() != "") {
+                getEquipment($(this).val());
+            }
+        })
+
 
         function getEquipmentLocation(hospitalId) {
             let url = '{{ route('api.getEquipmentLocation', ':id') }}';
@@ -104,9 +110,9 @@
             })
         }
 
-        function getEquipment(hospitalId) {
+        function getEquipment(locationId) {
             let url = '{{ route('api.getEquipment', ':id') }}';
-            url = url.replace(':id', hospitalId)
+            url = url.replace(':id', locationId)
             $.ajax({
                 url,
                 method: 'GET',
