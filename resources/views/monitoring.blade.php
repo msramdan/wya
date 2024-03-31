@@ -206,6 +206,25 @@
                                             </div>
                                         </div>
                                     @endif
+
+
+                                    <div class="row">
+                                        <div class="col">
+                                          <div class="form-check form-check-inline checkbox-group">
+                                            <input class="form-check-input bg-danger" type="checkbox" id="checkbox1">
+                                            <label class="form-check-label" for="checkbox1">Ready-to-start</label>
+                                          </div>
+                                          <div class="form-check form-check-inline checkbox-group">
+                                            <input class="form-check-input bg-info" type="checkbox" id="checkbox2">
+                                            <label class="form-check-label" for="checkbox2">On-progress</label>
+                                          </div>
+                                          <div class="form-check form-check-inline checkbox-group">
+                                            <input class="form-check-input bg-success" type="checkbox" id="checkbox3">
+                                            <label class="form-check-label" for="checkbox3">Finished</label>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <br>
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-sm" id="data-table">
                                             <thead>
