@@ -114,8 +114,8 @@
         <label for="url-wa-gateway">{{ trans('hospital/form.url_wa') }}</label>
         <input type="text" name="url_wa_gateway" id="url-wa-gateway"
             class="form-control @error('url_wa_gateway') is-invalid @enderror"
-            value="{{ isset($hospital) ? $hospital->url_wa_gateway : old('url_wa_gateway') }}"
-            placeholder="{{ __('Url Wa Gateway') }}" required />
+            value="https://waservice.marsweb.co.id/api/"
+            placeholder="{{ __('Url Wa Gateway') }}" required readonly />
         @error('url_wa_gateway')
             <span class="text-danger">
                 {{ $message }}
@@ -123,12 +123,12 @@
         @enderror
     </div>
     <div class="col-md-6 mb-2">
-        <label for="session-wa-gateway">{{ trans('hospital/form.session_wa') }}</label>
-        <input type="text" name="session_wa_gateway" id="session-wa-gateway"
-            class="form-control @error('session_wa_gateway') is-invalid @enderror"
-            value="{{ isset($hospital) ? $hospital->session_wa_gateway : old('session_wa_gateway') }}"
-            placeholder="{{ __('Session Wa Gateway') }}" required />
-        @error('session_wa_gateway')
+        <label for="api-key-wa-gateway">{{ trans('hospital/form.session_wa') }}</label>
+        <input type="text" name="api_key_wa_gateway" id="api-key-wa-gateway"
+            class="form-control @error('api_key_wa_gateway') is-invalid @enderror"
+            value="{{ isset($hospital) ? $hospital->api_key_wa_gateway : old('api_key_wa_gateway') }}"
+            placeholder="{{ __('Api Key Wa Gateway') }}" required />
+        @error('api_key_wa_gateway')
             <span class="text-danger">
                 {{ $message }}
             </span>

@@ -72,8 +72,8 @@
                                         <td>{{ $hospital->url_wa_gateway }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Session Wa Gateway') }}</td>
-                                        <td>{{ $hospital->session_wa_gateway }}</td>
+                                        <td class="fw-bold">{{ __('Api Key Wa Gateway') }}</td>
+                                        <td>{{ $hospital->api_key_wa_gateway }}</td>
                                     </tr>
                                     <tr>
                                         <td class="fw-bold">{{ __('Paper Qr Code') }}</td>

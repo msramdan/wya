@@ -31,7 +31,7 @@ class UpdateHospitalRequest extends FormRequest
             'logo' => 'nullable|image|max:3024',
             'notif_wa' => 'required|boolean',
             'url_wa_gateway' => 'required|string|min:1|max:150',
-            'session_wa_gateway' => 'required|string|min:1|max:150',
+            'api_key_wa_gateway' => 'required|string|min:1|max:150',
             'paper_qr_code' => 'required',
             'bot_telegram' => 'required|boolean',
             // 'work_order_has_access_approval_users_id' => 'required',

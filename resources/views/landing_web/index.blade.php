@@ -39,6 +39,7 @@
                     <li><a class="nav-link scrollto" href="#dokumen">Dokumen</a></li>
                     <li><a class="nav-link scrollto" href="#report">General Report</a></li>
                     <li><a class="nav-link scrollto" href="#gallery">Gallery</a></li>
+                    <li><a class="nav-link scrollto" href="https://wa.marsweb.co.id/app/index.php/dashboard" target="_blank">WA Blast</a></li>
                     <li><a class="getstarted scrollto" href="/login">Login</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
