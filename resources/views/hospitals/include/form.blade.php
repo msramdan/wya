@@ -9,7 +9,7 @@
             </span>
         @enderror
     </div>
-    <div class="col-md-6 mb-2">
+    <div class="col-md-3 mb-2">
         <label for="phone">{{ trans('hospital/form.phone') }}</label>
         <input type="text" name="phone" id="phone" class="form-control @error('phone') is-invalid @enderror"
             value="{{ isset($hospital) ? $hospital->phone : old('phone') }}" placeholder="{{ __('Phone') }}"
@@ -20,7 +20,7 @@
             </span>
         @enderror
     </div>
-    <div class="col-md-6 mb-2">
+    <div class="col-md-3 mb-2">
         <label for="email">{{ trans('hospital/form.email') }}</label>
         <input type="text" name="email" id="email" class="form-control @error('email') is-invalid @enderror"
             value="{{ isset($hospital) ? $hospital->email : old('email') }}" placeholder="{{ __('Email') }}"
@@ -91,17 +91,17 @@
         </div>
     @endisset
 
-    <div class="col-6 mb-2">
+    <div class="col-3 mb-2">
         <label for="notif-wa">{{ trans('hospital/form.notif_wa') }}</label>
         <select class="form-control js-example-basic-multiple @error('notif_wa') is-invalid @enderror" name="notif_wa"
             id="notif-wa" required>
             <option value="" selected disabled>-- {{ __('Select notif wa') }} --</option>
             <option value="1"
                 {{ isset($hospital) && $hospital->notif_wa == '1' ? 'selected' : (old('notif_wa') == '1' ? 'selected' : '') }}>
-                {{ __('True') }}</option>
+                {{ __('Yes') }}</option>
             <option value="0"
                 {{ isset($hospital) && $hospital->notif_wa == '0' ? 'selected' : (old('notif_wa') == '0' ? 'selected' : '') }}>
-                {{ __('False') }}</option>
+                {{ __('No') }}</option>
         </select>
         @error('notif_wa')
             <span class="text-danger">
@@ -110,7 +110,7 @@
         @enderror
     </div>
 
-    <div class="col-md-6 mb-2">
+    <div class="col-md-3 mb-2">
         <label for="url-wa-gateway">{{ trans('hospital/form.url_wa') }}</label>
         <input type="text" name="url_wa_gateway" id="url-wa-gateway"
             class="form-control @error('url_wa_gateway') is-invalid @enderror"
@@ -122,7 +122,7 @@
             </span>
         @enderror
     </div>
-    <div class="col-md-6 mb-2">
+    <div class="col-md-3 mb-2">
         <label for="api-key-wa-gateway">{{ trans('hospital/form.session_wa') }}</label>
         <input type="text" name="api_key_wa_gateway" id="api-key-wa-gateway"
             class="form-control @error('api_key_wa_gateway') is-invalid @enderror"
@@ -134,6 +134,25 @@
             </span>
         @enderror
     </div>
+    <div class="col-3 mb-2">
+        <label for="bot-telegram">{{ trans('hospital/form.bot_telegram') }}</label>
+        <select class="form-control js-example-basic-multiple @error('bot_telegram') is-invalid @enderror"
+            name="bot_telegram" id="bot-telegram" required>
+            <option value="" selected disabled>-- {{ __('Select bot telegram') }} --</option>
+            <option value="1"
+                {{ isset($hospital) && $hospital->bot_telegram == '1' ? 'selected' : (old('bot_telegram') == '1' ? 'selected' : '') }}>
+                {{ __('Yes') }}</option>
+            <option value="0"
+                {{ isset($hospital) && $hospital->bot_telegram == '0' ? 'selected' : (old('bot_telegram') == '0' ? 'selected' : '') }}>
+                {{ __('No') }}</option>
+        </select>
+        @error('bot_telegram')
+            <span class="text-danger">
+                {{ $message }}
+            </span>
+        @enderror
+    </div>
+
     <div class="col-6 mb-2">
         <label for="paper-qr-code">{{ trans('hospital/form.qrcode') }}</label>
         <select class="form-control js-example-basic-multiple  @error('paper_qr_code') is-invalid @enderror"
@@ -154,24 +173,6 @@
         @enderror
     </div>
 
-    <div class="col-6 mb-2">
-        <label for="bot-telegram">{{ trans('hospital/form.bot_telegram') }}</label>
-        <select class="form-control js-example-basic-multiple @error('bot_telegram') is-invalid @enderror"
-            name="bot_telegram" id="bot-telegram" required>
-            <option value="" selected disabled>-- {{ __('Select bot telegram') }} --</option>
-            <option value="1"
-                {{ isset($hospital) && $hospital->bot_telegram == '1' ? 'selected' : (old('bot_telegram') == '1' ? 'selected' : '') }}>
-                {{ __('True') }}</option>
-            <option value="0"
-                {{ isset($hospital) && $hospital->bot_telegram == '0' ? 'selected' : (old('bot_telegram') == '0' ? 'selected' : '') }}>
-                {{ __('False') }}</option>
-        </select>
-        @error('bot_telegram')
-            <span class="text-danger">
-                {{ $message }}
-            </span>
-        @enderror
-    </div>
     @if (Request::segment(3) != 'create')
         <div class="col-6 mb-2">
             <label for="work-order-has-access-approval-users">{{ trans('hospital/form.wo_has_access') }}</label>
