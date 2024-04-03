@@ -14,6 +14,11 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
+use App\Models\Hospital;
+use App\Marsweb\Notifications\NotifWhatsappWorkOrderApproved;
+use App\Marsweb\Notifications\NotifWhatsappWorkOrderRejected;
+
+
 
 class WorkOrderApprovalController extends Controller
 {
@@ -208,6 +213,35 @@ class WorkOrderApprovalController extends Controller
             'status_wo' => $request->status == 'rejected' ? 'rejected' : ($existsPendingStatus ? 'pending' : $request->status),
             'approved_at' => $request->status == 'rejected' ? null : ($existsPendingStatus ? null : date('Y-m-d H:i:s')),
         ]);
+
+        // send notif wa ke all user
+        $settingApp = Hospital::findOrFail(Auth::user()->roles->first()->hospital_id);
+        if ($settingApp->notif_wa == 1) {
+            $receiverUsers = json_decode($workOrder->approval_users_id, true);
+            foreach ($receiverUsers as $receiverUserId) {
+                $receiverUser = User::find($receiverUserId);
+                if ($receiverUser) {
+                    try {
+                        if ($receiverUser->no_hp) {
+                            if($request->status == 'accepted'){
+                                new NotifWhatsappWorkOrderApproved($receiverUser->no_hp, $workOrder, Auth::user()->roles->first()->hospital_id);
+                            }else{
+                                new NotifWhatsappWorkOrderRejected($receiverUser[0]->no_hp, $workOrder, Auth::user()->roles->first()->hospital_id);
+                            }
+
+                        }
+                    } catch (\Throwable $th) {
+                        if ($receiverUser[0]->no_hp) {
+                            if($request->status == 'accepted'){
+                                new NotifWhatsappWorkOrderApproved($receiverUser[0]->no_hp, $workOrder, Auth::user()->roles->first()->hospital_id);
+                            }else{
+                                new NotifWhatsappWorkOrderRejected($receiverUser[0]->no_hp, $workOrder, Auth::user()->roles->first()->hospital_id);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         if ($workOrder->status_wo == 'accepted') {
             if ($workOrder->category_wo == 'Rutin') {
