@@ -24,7 +24,7 @@ class NotifWhatsappWorkOrderRejected
 
     public function buildMessage()
     {
-        $this->message = "❌ Work Order with No. " . $this->workOrder->wo_number . "Success Rejected ❌";
+        $this->message = "❌ Work Order with No. " . $this->workOrder->wo_number . " Success Rejected ❌";
         $this->message .= "\nUser Rejected: " . Auth::user()->name;
         $this->message .= "\n\nFor WO details, you can visit the following link: \n" .url('/panel/work-orders/'.$this->workOrder->id.'/edit');
     }

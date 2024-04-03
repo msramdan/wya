@@ -412,28 +412,73 @@ class DashboardController extends Controller
     {
         $start_date = intval($request->query('start_date'));
         $end_date = intval($request->query('end_date'));
-        
+
         if (isset($start_date) && !empty($start_date)) {
-            $from = date("Y-m-d H:i:s", substr($request->query('start_date'), 0, 10));
+            $from = date("Y-m-d", substr($request->query('start_date'), 0, 10));
         } else {
-            // $from = date('Y-m-d') . " 00:00:00";
-            $from = date('d l Y');
+            $from = date('Y-m-d');
         }
         if (isset($end_date) && !empty($end_date)) {
-            $to = date("Y-m-d H:i:s", substr($request->query('end_date'), 0, 10));
+            $to = date("Y-m-d", substr($request->query('end_date'), 0, 10));
         } else {
-            // $to = date('Y-m-d') . " 23:59:59";
-            $to = date('d l Y');
+            $to = date('Y-m-d');
         }
         $get_hospital_id = Auth::user()->roles->first()->hospital_id;
         $penyaji = '';
         if ($get_hospital_id == null) {
             $hospital = Hospital::firstWhere('id', $request->hospital_id);
             $penyaji = $hospital->name;
-        }else{
+        } else {
             $hospital = Hospital::firstWhere('id', Auth::user()->roles->first()->hospital_id);
             $penyaji = $hospital->name;
         }
+
+        // Bab 1
+
+        $array = DB::table('work_order_processes')
+            ->select('work_order_processes.schedule_date', 'work_order_processes.status', 'work_orders.type_wo')
+            ->join('work_orders', 'work_order_processes.work_order_id', '=', 'work_orders.id')
+            ->where('work_orders.hospital_id', Auth::user()->roles->first()->hospital_id)
+            ->whereBetween('work_order_processes.schedule_date', [$from, $to])
+            ->get()
+            ->toArray();
+        // Bab 1
+        // Inspection and Preventive Maintenance
+        $countIpm = count(array_filter($array, function ($item) {
+            return $item->type_wo === 'Inspection and Preventive Maintenance';
+        }));
+        $countIpmFinished = count(array_filter($array, function ($item) {
+            return $item->type_wo === 'Inspection and Preventive Maintenance' && $item->status === 'finished';
+        }));
+        $persentaseIpm = ($countIpm != 0) ? ($countIpmFinished / $countIpm) * 100 : 0;
+
+        // Service
+        $countService = count(array_filter($array, function ($item) {
+            return $item->type_wo === 'Service';
+        }));
+        $countServiceFinished = count(array_filter($array, function ($item) {
+            return $item->type_wo === 'Service' && $item->status === 'finished';
+        }));
+        $persentaseService = ($countService != 0) ? ($countServiceFinished / $countService) * 100 : 0;
+
+        // Kalibrasi
+        $countCalibration = count(array_filter($array, function ($item) {
+            return $item->type_wo === 'Calibration';
+        }));
+        $countCalibrationFinished = count(array_filter($array, function ($item) {
+            return $item->type_wo === 'Calibration' && $item->status === 'finished';
+        }));
+        $persentaseCalibration = ($countCalibration != 0) ? ($countCalibrationFinished / $countCalibration) * 100 : 0;
+
+        // Traning
+        $countTraining = count(array_filter($array, function ($item) {
+            return $item->type_wo === 'Training';
+        }));
+        $countTrainingFinished = count(array_filter($array, function ($item) {
+            return $item->type_wo === 'Training' && $item->status === 'finished';
+        }));
+        $persentaseTraining = ($countTraining != 0) ? ($countTrainingFinished / $countTraining) * 100 : 0;
+
 
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $fontStyleName = 'oneUserDefinedStyle';
@@ -483,7 +528,7 @@ class DashboardController extends Controller
         $section->addTitle('PENDAHULUAN', 4);
         $section->addTextBreak();
         $section->addText('             Infrastruktur Pelayanan Kesehatan adalah suatu alat dan/atau tempat yang digunakan untuk menyelenggarakan upaya kesehatan, baik promotif, preventif, kuratif maupun rehabilitatif yang dilakukan oleh pemerintah maupun masyarakat. Infrastruktur pada sebuah institusi Rumah Sakit pada umumnya dapat di klasifikasikan menjadi 5 sektor, diantaranya adalah Medical Equipment, Non Medical Equipment, Building, Human Resource dan Operational', $fontStyleName, $paragraphStyleName);
-        $section->addImage(public_path('gr.png'), array('width' => 250, 'height' => 150));
+        $section->addImage(public_path('gr.png'), array('width' => 470, 'height' => 230));
         $section->addText('             Medical Equipment adalah infrastruktur terbesar dengan capaian persentase sekitar 37%. Sebagai infrastruktur Rumah Sakit terbesar tentu diharapkan agar peralatan medik tetap dalam kinerja optimal sehingga pelayan Rumah Sakit tidak terhambat. Terkait dengan peraturan Kementrian Kesehatan RI No.35 tentang pentingnya pemeliharaan dan panduan pemeliharaan untuk asset Rumah Sakit bahwa menjamin tersedianya alat kesehatan sesuai standar pelayanan, persyaratan mutu, keamanan, manfaat, keselamatan, dan laik pakai perlu adanya pemeliharaan secara periodik.', $fontStyleName, $paragraphStyleName);
         $section->addText('             Untuk itu perlu dilakukan Program Inspeksi, Pengujian dan Pemeliharaan Peralatan Medik (Inspection Preventive Maintenance). Dimana program ini merupakan suatu pengamatan secara sistematik yang disertai analisis teknis dan ekonomis untuk menjamin berfungsinya suatu alat kesehatan dan memperpanjang usia alat itu sendiri. Tujuannya untuk memastikan keandalan asset agar memperoleh suatu kualitas alat yang aman, laik pakai, serta menghilangkan potensi kegagalan peralatan.', $fontStyleName, $paragraphStyleName);
         $section->addText('             Berdasarkan hasil pengolahan data pada pemeliharaan periodik, diperoleh statistik yang dapat dimanfaatkan untuk program manajemen peralatan medik, sebagai perencanaan jangka panjang untuk upgrade dan penggantian alat. Dalam upaya pelaksanaannya, diperlukan aplikasi penunjang untuk melakukan pengelolaan peralatan medik.', $fontStyleName, $paragraphStyleName);
@@ -506,20 +551,20 @@ class DashboardController extends Controller
         $section->addText('             Secara umum, Manajemen Inspection Preventive Maintenance (IPM) meliputi 4 (empat) jenis kegiatan yaitu: Preventive Maintenace, Service, Kalibrasi dan Training Berdasarkan hasil pengamatan berkala dalam periode 01 Maret – 31 Maret 2023 dilaporkan statistik sebagai berikut:', $fontStyleName, $paragraphStyleName);
 
         $section->addListItem('Preventive Maintenance', 2, null, $multilevelNumberingStyleName);
-        $section->addText("Pada periode tersebut tercatat 1 kegiatan Preventive Maintenance Peralatan Medik yang telah terlaksana dari 10 jadwal kegiatan Preventive Maintenance yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
-        $section->addText("Pencapaian pelaksanaan kegiatan Preventive Maintenance adalah sebesar 10% (Sepuluh Persen) dari JAdwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("Pada periode tersebut tercatat " . $countIpmFinished . " kegiatan Preventive Maintenance Peralatan Medik yang telah terlaksana dari " . $countIpm . " jadwal kegiatan Preventive Maintenance yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("Pencapaian pelaksanaan kegiatan Preventive Maintenance adalah sebesar " . $persentaseIpm . "% dari JAdwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
 
         $section->addListItem('Service', 2, null, $multilevelNumberingStyleName);
-        $section->addText("Pada periode tersebut kami mencatat terdapat 5 kegiatan Service Peralatan Medik yang telah terlaksana dari 5 jadwal kegiatan Service yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
-        $section->addText("Pencapaian pelaksanaan kegiatan Service adalah sebesar 100% (Seratus Persen) dari JAdwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("Pada periode tersebut kami mencatat terdapat " . $countServiceFinished . " kegiatan Service Peralatan Medik yang telah terlaksana dari " . $countService . " jadwal kegiatan Service yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("Pencapaian pelaksanaan kegiatan Service adalah sebesar " . $persentaseService . "% dari JAdwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
 
         $section->addListItem('Kalibrasi', 2, null, $multilevelNumberingStyleName);
-        $section->addText("Pada periode tersebut kami mencatat terdapat 4 kegiatan kalibrasi Peralatan Medik yang terlaksana dari 8 jadwal kegiatan Kalibrasi yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
-        $section->addText("Pencapaian pelaksanaan kegiatan Kalibrasi adalah sebesar 50% (Lima puluh Persen) dari JAdwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("Pada periode tersebut kami mencatat terdapat " . $countCalibrationFinished . " kegiatan kalibrasi Peralatan Medik yang terlaksana dari " . $countCalibration . " jadwal kegiatan Kalibrasi yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("Pencapaian pelaksanaan kegiatan Kalibrasi adalah sebesar " . $persentaseCalibration . "% dari JAdwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
 
         $section->addListItem('Training', 2, null, $multilevelNumberingStyleName);
-        $section->addText("Pada periode tersebut kami mencatat terdapat 2 kegiatan Training terlaksana dari 8 jadwal kegiatan Training yang telah di rencanakan, baik itu kegiatan Training yang dilakukan secara internal ataupun kegiatan yang di selenggarakan oleh Pihak Ketiga.", $fontStyleName, $paragraphStyleName);
-        $section->addText("Pencapaian pelaksanaan kegiatan Training adalah sebesar 25% (Seratus Persen) dari JAdwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("Pada periode tersebut kami mencatat terdapat " . $countTrainingFinished . " kegiatan Training terlaksana dari " . $countTraining . " jadwal kegiatan Training yang telah di rencanakan, baik itu kegiatan Training yang dilakukan secara internal ataupun kegiatan yang di selenggarakan oleh Pihak Ketiga.", $fontStyleName, $paragraphStyleName);
+        $section->addText("Pencapaian pelaksanaan kegiatan Training adalah sebesar " . $persentaseTraining . "% dari JAdwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
 
         // Create a five page
         $section->addPageBreak();
