@@ -141,6 +141,9 @@
         </div>
     </div>
 
+    <a href="{{ route('work-orders.edit', $model->id) }}" class="btn btn-success btn-sm" title="View Detail">
+        <i class="mdi mdi-eye"></i>
+    </a>
     <button type="button" data-bs-toggle="modal" data-bs-target="#modalDetail{{ $model->id }}"
         class="btn btn-sm btn-primary"><i class="mdi mdi-format-float-center"></i></button>
 </td>

@@ -17,7 +17,8 @@
                                     <a href="/panel">Dashboard</a>
                                 </li>
                                 <li class="breadcrumb-item">
-                                    <a href="{{ route('work-orders.index') }}">{{ trans('work-order/submission/index.head') }}</a>
+                                    <a
+                                        href="{{ route('work-orders.index') }}">{{ trans('work-order/submission/index.head') }}</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
                                     {{ __('Edit') }}
@@ -40,9 +41,12 @@
 
                                 <a href="{{ url()->previous() }}" class="btn btn-secondary"><i
                                         class="mdi mdi-arrow-left-thin"></i> {{ __('Back') }}</a>
-
-                                <button type="submit" class="btn btn-primary"><i class="mdi mdi-content-save"></i>
-                                    {{ __('Update') }}</button>
+                                @can('work order edit')
+                                    @if ($workOrder->status_wo == 'pending')
+                                        <button type="submit" class="btn btn-primary"><i class="mdi mdi-content-save"></i>
+                                            {{ __('Update') }}</button>
+                                    @endif
+                                @endcan
                             </form>
                         </div>
                     </div>

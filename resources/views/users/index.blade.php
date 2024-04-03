@@ -25,7 +25,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            @can('department create')
+                            @can('user create')
                                 <a href="{{ route('users.create') }}" class="btn btn-md btn-primary"> <i
                                         class="mdi mdi-plus"></i> {{ trans('utilities/users/index.create') }}</a>
                             @endcan
