@@ -12,6 +12,7 @@ use App\Models\WorkOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+use Carbon\Carbon;
 
 
 
@@ -415,13 +416,21 @@ class DashboardController extends Controller
 
         if (isset($start_date) && !empty($start_date)) {
             $from = date("Y-m-d", substr($request->query('start_date'), 0, 10));
+            $carbonFromDate = Carbon::parse($from);
+            $dateFromIndonesia = $carbonFromDate->isoFormat('D MMMM YYYY');
         } else {
             $from = date('Y-m-d');
+            $carbonFromDate = Carbon::parse($from);
+            $dateFromIndonesia = $carbonFromDate->isoFormat('D MMMM YYYY');
         }
         if (isset($end_date) && !empty($end_date)) {
             $to = date("Y-m-d", substr($request->query('end_date'), 0, 10));
+            $carbonToDate = Carbon::parse($to);
+            $dateToIndonesia = $carbonToDate->isoFormat('D MMMM YYYY');
         } else {
             $to = date('Y-m-d');
+            $carbonToDate = Carbon::parse($to);
+            $dateToIndonesia = $carbonToDate->isoFormat('D MMMM YYYY');
         }
         $get_hospital_id = Auth::user()->roles->first()->hospital_id;
         $penyaji = '';
@@ -548,23 +557,23 @@ class DashboardController extends Controller
         $section->addTextBreak();
 
         $section->addText("2.1      MANAJEMEN INSPECTION PREVENTIVE MAINTENANCE (IPM)", $styleFont2, $paragraphStyleName);
-        $section->addText('             Secara umum, Manajemen Inspection Preventive Maintenance (IPM) meliputi 4 (empat) jenis kegiatan yaitu: Preventive Maintenace, Service, Kalibrasi dan Training Berdasarkan hasil pengamatan berkala dalam periode 01 Maret – 31 Maret 2023 dilaporkan statistik sebagai berikut:', $fontStyleName, $paragraphStyleName);
+        $section->addText('             Secara umum, Manajemen Inspection Preventive Maintenance (IPM) meliputi 4 (empat) jenis kegiatan yaitu: Preventive Maintenace, Service, Kalibrasi dan Training Berdasarkan hasil pengamatan berkala dalam periode '.$dateFromIndonesia.' - '.$dateToIndonesia. ' dilaporkan statistik sebagai berikut:', $fontStyleName, $paragraphStyleName);
 
         $section->addListItem('Preventive Maintenance', 2, null, $multilevelNumberingStyleName);
         $section->addText("Pada periode tersebut tercatat " . $countIpmFinished . " kegiatan Preventive Maintenance Peralatan Medik yang telah terlaksana dari " . $countIpm . " jadwal kegiatan Preventive Maintenance yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
-        $section->addText("Pencapaian pelaksanaan kegiatan Preventive Maintenance adalah sebesar " . $persentaseIpm . "% dari JAdwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("Pencapaian pelaksanaan kegiatan Preventive Maintenance adalah sebesar " . $persentaseIpm . "% dari Jadwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
 
         $section->addListItem('Service', 2, null, $multilevelNumberingStyleName);
         $section->addText("Pada periode tersebut kami mencatat terdapat " . $countServiceFinished . " kegiatan Service Peralatan Medik yang telah terlaksana dari " . $countService . " jadwal kegiatan Service yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
-        $section->addText("Pencapaian pelaksanaan kegiatan Service adalah sebesar " . $persentaseService . "% dari JAdwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("Pencapaian pelaksanaan kegiatan Service adalah sebesar " . $persentaseService . "% dari Jadwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
 
         $section->addListItem('Kalibrasi', 2, null, $multilevelNumberingStyleName);
         $section->addText("Pada periode tersebut kami mencatat terdapat " . $countCalibrationFinished . " kegiatan kalibrasi Peralatan Medik yang terlaksana dari " . $countCalibration . " jadwal kegiatan Kalibrasi yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
-        $section->addText("Pencapaian pelaksanaan kegiatan Kalibrasi adalah sebesar " . $persentaseCalibration . "% dari JAdwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("Pencapaian pelaksanaan kegiatan Kalibrasi adalah sebesar " . $persentaseCalibration . "% dari Jadwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
 
         $section->addListItem('Training', 2, null, $multilevelNumberingStyleName);
         $section->addText("Pada periode tersebut kami mencatat terdapat " . $countTrainingFinished . " kegiatan Training terlaksana dari " . $countTraining . " jadwal kegiatan Training yang telah di rencanakan, baik itu kegiatan Training yang dilakukan secara internal ataupun kegiatan yang di selenggarakan oleh Pihak Ketiga.", $fontStyleName, $paragraphStyleName);
-        $section->addText("Pencapaian pelaksanaan kegiatan Training adalah sebesar " . $persentaseTraining . "% dari JAdwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("Pencapaian pelaksanaan kegiatan Training adalah sebesar " . $persentaseTraining . "% dari Jadwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
 
         // Create a five page
         $section->addPageBreak();
