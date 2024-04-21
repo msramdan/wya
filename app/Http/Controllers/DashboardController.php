@@ -37,10 +37,9 @@ class DashboardController extends Controller
         $countVendor = Vendor::where('hospital_id', $ids)->count();
         $countEmployee = Employee::where('hospital_id', $ids)->count();
         $countEquipment = Equipment::where('hospital_id', $ids)->count();
-        $countWorkOrder = WorkOrder::where('hospital_id', $ids)->count();
+        $countWorkOrder = WorkOrder::where('hospital_id', $ids);
         $vendor = Vendor::where('hospital_id', $ids)->get();
         $employees = Employee::where('hospital_id', $ids)->get();
-
         $in = DB::table('sparepart_trace')
             ->join('spareparts', 'sparepart_trace.sparepart_id', '=', 'spareparts.id')
             ->select('sparepart_trace.*', 'spareparts.hospital_id')
@@ -58,24 +57,29 @@ class DashboardController extends Controller
             $microFrom = $start_date;
             $in = $in->where('sparepart_trace.created_at', '>=', $from);
             $out = $out->where('sparepart_trace.created_at', '>=', $from);
+            $countWorkOrder = $countWorkOrder->where('filed_date', '>=', $from);
         } else {
             $from = date('Y-m-d') . " 00:00:00";
             $microFrom = strtotime($from) * 1000;
             $in = $in->where('sparepart_trace.created_at', '>=', $from);
             $out = $out->where('sparepart_trace.created_at', '>=', $from);
+            $countWorkOrder = $countWorkOrder->where('filed_date', '>=', $from);
         }
         if (isset($end_date) && !empty($end_date)) {
             $to = date("Y-m-d H:i:s", substr($request->query('end_date'), 0, 10));
             $microTo = $end_date;
             $in = $in->where('sparepart_trace.created_at', '<=', $to);
             $out = $out->where('sparepart_trace.created_at', '<=', $to);
+            $countWorkOrder = $countWorkOrder->where('filed_date', '<=', $to);
         } else {
             $to = date('Y-m-d') . " 23:59:59";
             $microTo = strtotime($to) * 1000;
             $in = $in->where('sparepart_trace.created_at', '<=', $to);
             $out = $out->where('sparepart_trace.created_at', '<=', $to);
+            $countWorkOrder = $countWorkOrder->where('filed_date', '<=', $to);
         }
         $sql = "SELECT * FROM `spareparts` WHERE hospital_id='$ids' and stock < opname limit 10";
+        $countWorkOrder = $countWorkOrder->count();
         return view('dashboard', [
             'vendor' => $vendor,
             'employees' => $employees,
