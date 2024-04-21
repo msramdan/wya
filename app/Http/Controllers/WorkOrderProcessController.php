@@ -26,6 +26,8 @@ use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\Equipment;
+use App\Marsweb\Notifications\NotifWhatsappWorkOrderProcessDoing;
+use App\Marsweb\Notifications\NotifWhatsappWorkOrderProcessFinish;
 
 class WorkOrderProcessController extends Controller
 {
@@ -178,7 +180,13 @@ class WorkOrderProcessController extends Controller
     public function update(UpdateWorkOrderProcesessRequest $request, $workOrderProcessId)
     {
         $workOrderProcess = WorkOrderProcess::find($workOrderProcessId);
-        $workOrder = WorkOrder::find($workOrderProcess->work_order_id);
+        $workOrder = DB::table('work_orders')
+            ->select('work_orders.*', 'equipment.barcode','equipment.serial_number','equipment.manufacturer','equipment.type', 'hospitals.name as hospital_name')
+            ->join('equipment', 'work_orders.equipment_id', '=', 'equipment.id')
+            ->join('hospitals', 'work_orders.hospital_id', '=', 'hospitals.id')
+            ->where('work_orders.id', $workOrderProcess->work_order_id)
+            ->first();
+
         $workOrderProcess->update([
             'status' => $request->status == 'Doing' ? 'on-progress' : 'finished',
             'initial_temperature' => $request->initial_temperature,
@@ -343,6 +351,34 @@ class WorkOrderProcessController extends Controller
             'date_time' => date('Y-m-d H:i:s'),
             'updated_by' => Auth::user()->id
         ]);
+        // send notif wa ke all user
+        $settingApp = Hospital::findOrFail(Auth::user()->roles->first()->hospital_id);
+        if ($settingApp->notif_wa == 1) {
+            $receiverUsers = json_decode($workOrder->approval_users_id, true);
+            foreach ($receiverUsers as $receiverUserId) {
+                $receiverUser = User::find($receiverUserId);
+                if ($receiverUser) {
+                    try {
+                        if ($receiverUser->no_hp) {
+                            if ($request->status == 'Doing') {
+                                new NotifWhatsappWorkOrderProcessDoing($receiverUser->no_hp, $workOrder, $request, Auth::user()->roles->first()->hospital_id);
+                            } else {
+                                new NotifWhatsappWorkOrderProcessFinish($receiverUser->no_hp, $workOrder, $request, Auth::user()->roles->first()->hospital_id);
+                            }
+                        }
+                    } catch (\Throwable $th) {
+                        if ($receiverUser[0]->no_hp) {
+                            if ($request->status == 'Doing') {
+                                new NotifWhatsappWorkOrderProcessDoing($receiverUser[0]->no_hp, $workOrder, $request, Auth::user()->roles->first()->hospital_id);
+                            } else {
+                                new NotifWhatsappWorkOrderProcessFinish($receiverUser[0]->no_hp, $workOrder, $request, Auth::user()->roles->first()->hospital_id);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
 
         Alert::toast('The Work Order Process status was updated successfully.', 'success');
         return redirect('/panel/work-order-processes/' . $workOrder->id);

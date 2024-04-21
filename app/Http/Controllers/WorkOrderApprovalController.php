@@ -226,7 +226,7 @@ class WorkOrderApprovalController extends Controller
                             if($request->status == 'accepted'){
                                 new NotifWhatsappWorkOrderApproved($receiverUser->no_hp, $workOrder, Auth::user()->roles->first()->hospital_id);
                             }else{
-                                new NotifWhatsappWorkOrderRejected($receiverUser[0]->no_hp, $workOrder, Auth::user()->roles->first()->hospital_id);
+                                new NotifWhatsappWorkOrderRejected($receiverUser->no_hp, $workOrder, Auth::user()->roles->first()->hospital_id);
                             }
 
                         }
