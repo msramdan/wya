@@ -648,19 +648,16 @@ class DashboardController extends Controller
 
 
         $section->addText("2.5      MANAJEMEN DOKUMEN", $styleFont2, $paragraphStyleName);
-        $section->addText("             Marsweb juga memberikan fasilitas kepada pengguna untuk dapat menyimpan dokumen dokumen penting peralatan, seperti user manual, service manual, sop, service report, tanda terima ataupun foto peralatan. ", $fontStyleName, $paragraphStyleName);
+        $section->addText("            Marsweb juga memberikan fasilitas kepada pengguna untuk dapat menyimpan dokumen dokumen penting peralatan, seperti user manual, service manual, sop, service report, tanda terima ataupun foto peralatan. ", $fontStyleName, $paragraphStyleName);
         $section->addText("2.6      GENERAL REPORT", $styleFont2, $paragraphStyleName);
-        $section->addText("             Dari statistik yang tercatat selama periode 01 Maret 2023 sampai dengan 31 Maret 2023, dapat dilaporkan bahwa:", $fontStyleName, $paragraphStyleName);
+        $section->addText("             Dari statistik yang tercatat selama periode ".$from." sampai dengan ".$to.", dapat dilaporkan bahwa:", $fontStyleName, $paragraphStyleName);
 
-        $section->addText("     1.  Program Inspection Preventive Maintenance (IPM) telah terlaksana dengan presentase 0% dari total asset peralatan Rumah Sakit.", $fontStyleName, $paragraphStyleName);
-        $section->addText("     2.   Pemeliharaan pada program Inspection Preventive Maintenance (IPM) yang telah dilakukan mencapai 0% dari Work Order yang diajukan.", $fontStyleName, $paragraphStyleName);
-
-        $section->addText("Dengan rincian 4 kategori Status Work Order sebagai berikut:", $fontStyleName, $paragraphStyleName);
-
-        $section->addText("     1.   Approved terdapat 0 kasus", $fontStyleName, $paragraphStyleName);
-        $section->addText("     2.   Rejected terdapat 0 kasus", $fontStyleName, $paragraphStyleName);
-        $section->addText("     3.   On Progress terdapat 0 kasus", $fontStyleName, $paragraphStyleName);
-        $section->addText("     4.   Finished/Closed terdapat 0 kasus", $fontStyleName, $paragraphStyleName);
+        $section->addText("     1. Program Inspection Preventive Maintenance (IPM) telah terlaksana dengan presentase 10% dari program preventive maintenance yang telah di jadwalkan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("     2. Program service telah terlaksana dengan presentase 11.1% dari program service yang telah di jadwalkan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("     3. Program kalibrasi telah terlaksana dengan presentase 22.2% dari program kalibrasi yang telah di jadwalkan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("     4. Program training telah terlaksana dengan presentase 25% dari program training yang telah di jadwalkan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("     5. Secara keseluruhan program kegiatan yang telah di tetapkan selama masa periode berjalan rata-rata tercapai 17.07 %.", $fontStyleName, $paragraphStyleName);
+        $section->addText("     6. Sesuai hasil catatan di dalam marsweb ini, tercatat biaya biaya maintenance, service, kalibrasi dan penggantian part/ asessoris dalam pelaksanaan work order sebesar Rp. 1.296.000,-, merupakan 0.1% dari Total Asset yang di miliki oleh rumah sakit sebesar Rp. 1.196.120.911,-", $fontStyleName, $paragraphStyleName);
 
         // Create a seventh page
         $section->addPageBreak();
@@ -671,10 +668,10 @@ class DashboardController extends Controller
         $section->addTextBreak(0);
         $section->addText('             Demikian Laporan ini dapat kami sampaikan, semoga bermanfaat dalam upaya peningkatan mutu pelayanan Rumah Sakit.', $fontStyleName, $paragraphStyleName);
         $section->addTextBreak(2);
-        $section->addText("                                                                                                                     Jakarta, " . date('d') . ' ' . getMonthIndo(date('m')) . ' ' . date('Y'));
-        $section->addText("                                                                                                                     PT. Mitra Tera Akurasi");
+        $section->addText("                                                                                                                      Jakarta, " . date('d') . ' ' . getMonthIndo(date('m')) . ' ' . date('Y'));
+        $section->addText("                                                                                                                $penyaji");
         $section->addTextBreak(4);
-        $section->addText("                                                                                                                         (Manager Teknik)");
+        $section->addText("                                                                                                                           (Manager Teknik)");
 
 
 
