@@ -447,14 +447,6 @@ class DashboardController extends Controller
             $penyaji = $hospital->name;
             $hospital_id  = Auth::user()->roles->first()->hospital_id;
         }
-        // total asset spare part
-        $totalSparePart =  "SELECT SUM(estimated_price * stock) AS total FROM spareparts WHERE hospital_id='$hospital_id'";
-        $data = DB::select($totalSparePart);
-        if ($data[0]->total != null) {
-            $totalSparePart =  rupiah($data[0]->total);
-        } else {
-            $totalSparePart =  rupiah(0);
-        }
 
         // Bab 1
         $array = DB::table('work_order_processes')
@@ -522,6 +514,18 @@ class DashboardController extends Controller
                 $countByCategory[$categoryName] = 1;
             }
         }
+
+        // 2.3      MANAJEMEN PERALATAN DAN SPAREPART
+        // total asset spare part
+        $totalSparePart =  "SELECT SUM(estimated_price * stock) AS total FROM spareparts WHERE hospital_id='$hospital_id'";
+        $data = DB::select($totalSparePart);
+        if ($data[0]->total != null) {
+            $totalSparePart =  rupiah($data[0]->total);
+        } else {
+            $totalSparePart =  rupiah(0);
+        }
+
+        // 2.4       MANAJEMEN EXPENSES
 
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $fontStyleName = 'oneUserDefinedStyle';
@@ -615,7 +619,7 @@ class DashboardController extends Controller
         $section->addText("             Inventarisasi peralatan kesehatan telah dilaksanan dan mencatat total asset sebanyak " . $totalAsset . " units telah di lakukan pendataan dan penempelan label QR-Code, Label QR-Code ini bermanfaat dalam pencarian data peralatan dengan cepat, dengan memanfaatkan teknologi camera pada smartphone ataupun menggunakan barcode scanner.", $fontStyleName, $paragraphStyleName);
         $section->addText('             Inventory Peralatan terbagi menjadi beberapa kategori Peralatan, dengan rincian sebagai berikut :', $fontStyleName, $paragraphStyleName);
         foreach ($countByCategory as $categoryName => $count) {
-        $section->addText("             •   ". $categoryName . " terdapat " . $count . " unit Peralatan", $fontStyleName, $paragraphStyleName);
+            $section->addText("             •   " . $categoryName . " terdapat " . $count . " unit Peralatan", $fontStyleName, $paragraphStyleName);
         }
         $section->addText("             •   Dengan Akumulasi Total Aset yang di miliki Rumah Sakit sebanyak " . $totalAsset . " units Peralatan", $fontStyleName, $paragraphStyleName);
 
@@ -623,7 +627,7 @@ class DashboardController extends Controller
         $section->addText("1.       Asset Peralatan", $fontStyleName, $paragraphStyleName);
         $section->addText("Sampai dengan periode dibuat nya laporan ini, dapat kami sajikan data Inventory beserta Total Asset yang dimiliki :", $fontStyleName, $paragraphStyleName);
         foreach ($countByCategory as $categoryName => $count) {
-        $section->addText("             •   ". $categoryName . " terdapat " . $count . " unit Peralatan dengan Total Asset Rp 1.196.120.911,-", $fontStyleName, $paragraphStyleName);
+            $section->addText("             •   " . $categoryName . " terdapat " . $count . " unit Peralatan dengan Total Asset Rp 1.196.120.911,-", $fontStyleName, $paragraphStyleName);
         }
         $section->addText("             •   Dengan Akumulasi Total Aset yang di miliki Rumah Sakit sebanyak " . $totalAsset . " units Peralatan dengan nilai asset Peralatan sejumlah Rp 1.206.120.911,-", $fontStyleName, $paragraphStyleName);
 
@@ -631,19 +635,20 @@ class DashboardController extends Controller
         $section->addText("Selain menyajikan jumlah peralatan yang dimiliki, marsweb juga menyajikan riwayat peralatan masing-masing peralatannya, riwayat yang disajikan merupakan riwayat service, riwayat kalibrasi, riwayat maintenance, riwayat training, riwayat penggantian sparepart hingga riwayat pengeluaran biaya-biaya selama peralatan tersebut beroperasi. Riwayat Peralatan dapat dicetak secara terpisah sebagai lampiran.", $fontStyleName, $paragraphStyleName);
         $section->addText("3.       Asset Sparepart", $fontStyleName, $paragraphStyleName);
 
-        $section->addText("Selain asset Peralatan kesehatan, marsweb juga menyajikan total asset sparepart/ asessoris,  dimana tercatat Aset Sparepart yang di miliki oleh Rumah Sakit dan tercatat memiliki Total Aset Sparepart sebesar " .$totalSparePart, $fontStyleName, $paragraphStyleName);
+        $section->addText("Selain asset Peralatan kesehatan, marsweb juga menyajikan total asset sparepart/ asessoris,  dimana tercatat Aset Sparepart yang di miliki oleh Rumah Sakit dan tercatat memiliki Total Aset Sparepart sebesar " . $totalSparePart, $fontStyleName, $paragraphStyleName);
         $section->addText("4.       Riwayat Sparepart", $fontStyleName, $paragraphStyleName);
         $section->addText("Selain riwayat peralatan kesehatan, marsweb juga menyajikan data riwayat  keluar masuk nya sparepart dan asesoris yang kami sajikan terpisah sebagai lampiran. Keluar dan masuk nya sparepart dapat dilakukan secara manual, stock sparepart akan terupdate secara otomatis apabila di dalam kegiatan work order menggunakan stock sparepart dari gudang.", $fontStyleName, $paragraphStyleName);
 
 
         $section->addText("2.4      MANAJEMEN EXPENSES", $styleFont2, $paragraphStyleName);
         $section->addText("             Di dalam pelaksanaan kegiatan Work Order, marsweb juga akan mencatat biaya biaya yang muncul selama pelaksanaan diantaranya adalah biaya kalibrasi, biaya service dan biaya penggantian sparepart.", $fontStyleName, $paragraphStyleName);
-        $section->addText("             •   Pada periode ini tercatat biaya pengeluaran untuk kegiatan Service sebesar Rp. 30.000.000,-", $fontStyleName, $paragraphStyleName);
-        $section->addText("             •   Pada periode ini tercatat biaya pengeluaran untuk kegiatan Kalibrasi sebesar Rp. 10.000.000,-", $fontStyleName, $paragraphStyleName);
-        $section->addText("             •   Pada periode ini tercatat biaya pengeluaran untuk kegiatan Penggantian Sparepart dan Asesoris sebesar Rp. 20.000.000,-", $fontStyleName, $paragraphStyleName);
+        $section->addText("             •   Pada periode ini tercatat biaya pengeluaran untuk kegiatan Service sebesar " . rupiah(Expense('Service', $start_date, $end_date, $hospital_id)), $fontStyleName, $paragraphStyleName);
+        $section->addText("             •   Pada periode ini tercatat biaya pengeluaran untuk kegiatan Kalibrasi sebesar " . rupiah( Expense('Calibration', $start_date, $end_date, $hospital_id)), $fontStyleName, $paragraphStyleName);
+        $section->addText("             •   Pada periode ini tercatat biaya pengeluaran untuk kegiatan Penggantian Sparepart dan Asesoris sebesar " . rupiah(Expense('Replacement', $start_date, $end_date, $hospital_id)), $fontStyleName, $paragraphStyleName);
 
 
         $section->addText("2.5      MANAJEMEN DOKUMEN", $styleFont2, $paragraphStyleName);
+        $section->addText("             Marsweb juga memberikan fasilitas kepada pengguna untuk dapat menyimpan dokumen dokumen penting peralatan, seperti user manual, service manual, sop, service report, tanda terima ataupun foto peralatan. ", $fontStyleName, $paragraphStyleName);
         $section->addText("2.6      GENERAL REPORT", $styleFont2, $paragraphStyleName);
         $section->addText("             Dari statistik yang tercatat selama periode 01 Maret 2023 sampai dengan 31 Maret 2023, dapat dilaporkan bahwa:", $fontStyleName, $paragraphStyleName);
 
