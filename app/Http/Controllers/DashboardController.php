@@ -441,17 +441,26 @@ class DashboardController extends Controller
         if ($get_hospital_id == null) {
             $hospital = Hospital::firstWhere('id', $request->hospital_id);
             $penyaji = $hospital->name;
+            $hospital_id  = $request->hospital_id;
         } else {
             $hospital = Hospital::firstWhere('id', Auth::user()->roles->first()->hospital_id);
             $penyaji = $hospital->name;
+            $hospital_id  = Auth::user()->roles->first()->hospital_id;
+        }
+        // total asset spare part
+        $totalSparePart =  "SELECT SUM(estimated_price * stock) AS total FROM spareparts WHERE hospital_id='$hospital_id'";
+        $data = DB::select($totalSparePart);
+        if ($data[0]->total != null) {
+            $totalSparePart =  rupiah($data[0]->total);
+        } else {
+            $totalSparePart =  rupiah(0);
         }
 
         // Bab 1
-
         $array = DB::table('work_order_processes')
             ->select('work_order_processes.schedule_date', 'work_order_processes.status', 'work_orders.type_wo')
             ->join('work_orders', 'work_order_processes.work_order_id', '=', 'work_orders.id')
-            ->where('work_orders.hospital_id', Auth::user()->roles->first()->hospital_id)
+            ->where('work_orders.hospital_id', $hospital_id)
             ->whereBetween('work_order_processes.schedule_date', [$from, $to])
             ->get()
             ->toArray();
@@ -496,7 +505,7 @@ class DashboardController extends Controller
         $arryInventory = DB::table('equipment')
             ->select('equipment.barcode', 'equipment_categories.category_name')
             ->join('equipment_categories', 'equipment.equipment_category_id', '=', 'equipment_categories.id')
-            ->where('equipment.hospital_id', Auth::user()->roles->first()->hospital_id)
+            ->where('equipment.hospital_id', $hospital_id)
             ->get()
             ->toArray();
         $totalAsset = count($arryInventory);
@@ -582,7 +591,7 @@ class DashboardController extends Controller
         $section->addTextBreak();
 
         $section->addText("2.1      MANAJEMEN INSPECTION PREVENTIVE MAINTENANCE (IPM)", $styleFont2, $paragraphStyleName);
-        $section->addText('             Secara umum, Manajemen Inspection Preventive Maintenance (IPM) meliputi 4 (empat) jenis kegiatan yaitu: Preventive Maintenace, Service, Kalibrasi dan Training Berdasarkan hasil pengamatan berkala dalam periode '.$dateFromIndonesia.' - '.$dateToIndonesia. ' dilaporkan statistik sebagai berikut:', $fontStyleName, $paragraphStyleName);
+        $section->addText('             Secara umum, Manajemen Inspection Preventive Maintenance (IPM) meliputi 4 (empat) jenis kegiatan yaitu: Preventive Maintenace, Service, Kalibrasi dan Training Berdasarkan hasil pengamatan berkala dalam periode ' . $dateFromIndonesia . ' - ' . $dateToIndonesia . ' dilaporkan statistik sebagai berikut:', $fontStyleName, $paragraphStyleName);
 
         $section->addListItem('Preventive Maintenance', 2, null, $multilevelNumberingStyleName);
         $section->addText("Pada periode tersebut tercatat " . $countIpmFinished . " kegiatan Preventive Maintenance Peralatan Medik yang telah terlaksana dari " . $countIpm . " jadwal kegiatan Preventive Maintenance yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
@@ -600,36 +609,38 @@ class DashboardController extends Controller
         $section->addText("Pada periode tersebut kami mencatat terdapat " . $countTrainingFinished . " kegiatan Training terlaksana dari " . $countTraining . " jadwal kegiatan Training yang telah di rencanakan, baik itu kegiatan Training yang dilakukan secara internal ataupun kegiatan yang di selenggarakan oleh Pihak Ketiga.", $fontStyleName, $paragraphStyleName);
         $section->addText("Pencapaian pelaksanaan kegiatan Training adalah sebesar " . $persentaseTraining . "% dari Jadwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
 
-        // Create a five page ramdan
+        // Create a five page
         $section->addPageBreak();
         $section->addText("2.2      MANAJEMEN INVENTORY", $styleFont2, $paragraphStyleName);
         $section->addText("             Inventarisasi peralatan kesehatan telah dilaksanan dan mencatat total asset sebanyak " . $totalAsset . " units telah di lakukan pendataan dan penempelan label QR-Code, Label QR-Code ini bermanfaat dalam pencarian data peralatan dengan cepat, dengan memanfaatkan teknologi camera pada smartphone ataupun menggunakan barcode scanner.", $fontStyleName, $paragraphStyleName);
         $section->addText('             Inventory Peralatan terbagi menjadi beberapa kategori Peralatan, dengan rincian sebagai berikut :', $fontStyleName, $paragraphStyleName);
         foreach ($countByCategory as $categoryName => $count) {
-        $section->addText("             •    " . $categoryName . " terdapat " . $count . " unit Peralatan", $fontStyleName, $paragraphStyleName);
+        $section->addText("             •   ". $categoryName . " terdapat " . $count . " unit Peralatan", $fontStyleName, $paragraphStyleName);
         }
-        $section->addText("             •    Dengan Akumulasi Total Aset yang di miliki Rumah Sakit sebanyak " . $totalAsset . " Peralatan", $fontStyleName, $paragraphStyleName);
+        $section->addText("             •   Dengan Akumulasi Total Aset yang di miliki Rumah Sakit sebanyak " . $totalAsset . " units Peralatan", $fontStyleName, $paragraphStyleName);
 
         $section->addText("2.3      MANAJEMEN PERALATAN DAN SPAREPART", $styleFont2, $paragraphStyleName);
         $section->addText("1.       Asset Peralatan", $fontStyleName, $paragraphStyleName);
         $section->addText("Sampai dengan periode dibuat nya laporan ini, dapat kami sajikan data Inventory beserta Total Asset yang dimiliki :", $fontStyleName, $paragraphStyleName);
-        $section->addText("             •    Alat Medis terdapat 11 unit Peralatan dengan Total Asset Rp 1.196.120.911,-", $fontStyleName, $paragraphStyleName);
-        $section->addText("             •    Alat Non Medis terdapat 1 unit Peralatan dengan Total Asset Rp 10.000.000,-", $fontStyleName, $paragraphStyleName);
-        $section->addText("             •    Dengan Akumulasi Total Aset Peralatan sejumlah Rp 1.206.120.911,-", $fontStyleName, $paragraphStyleName);
+        foreach ($countByCategory as $categoryName => $count) {
+        $section->addText("             •   ". $categoryName . " terdapat " . $count . " unit Peralatan dengan Total Asset Rp 1.196.120.911,-", $fontStyleName, $paragraphStyleName);
+        }
+        $section->addText("             •   Dengan Akumulasi Total Aset yang di miliki Rumah Sakit sebanyak " . $totalAsset . " units Peralatan dengan nilai asset Peralatan sejumlah Rp 1.206.120.911,-", $fontStyleName, $paragraphStyleName);
 
         $section->addText("2.       Riwayat Peralatan", $fontStyleName, $paragraphStyleName);
         $section->addText("Selain menyajikan jumlah peralatan yang dimiliki, marsweb juga menyajikan riwayat peralatan masing-masing peralatannya, riwayat yang disajikan merupakan riwayat service, riwayat kalibrasi, riwayat maintenance, riwayat training, riwayat penggantian sparepart hingga riwayat pengeluaran biaya-biaya selama peralatan tersebut beroperasi. Riwayat Peralatan dapat dicetak secara terpisah sebagai lampiran.", $fontStyleName, $paragraphStyleName);
         $section->addText("3.       Asset Sparepart", $fontStyleName, $paragraphStyleName);
-        $section->addText("Selain asset Peralatan kesehatan, marsweb juga menyajikan total asset sparepart/ asessoris,  dimana tercatat Aset Sparepart yang di miliki oleh Rumah Sakit dan tercatat memiliki Total Aset Sparepart sebesar Rp 8.253.000,- ", $fontStyleName, $paragraphStyleName);
+
+        $section->addText("Selain asset Peralatan kesehatan, marsweb juga menyajikan total asset sparepart/ asessoris,  dimana tercatat Aset Sparepart yang di miliki oleh Rumah Sakit dan tercatat memiliki Total Aset Sparepart sebesar " .$totalSparePart, $fontStyleName, $paragraphStyleName);
         $section->addText("4.       Riwayat Sparepart", $fontStyleName, $paragraphStyleName);
-        $section->addText("Selain riwayat peralatan kesehatan, marsweb juga menyajikan data riwayat  keluar masuk nya sparepart dan asesoris yang kami sajikan terpisah sebagai lampiran. Keluar dan masuk nya sparepart dapat dilakukan secara manual, stock sparepart akan terupdate secara otomatis apabila di dalam kegiatan work order menggunakan stock sparepart dari gudang", $fontStyleName, $paragraphStyleName);
+        $section->addText("Selain riwayat peralatan kesehatan, marsweb juga menyajikan data riwayat  keluar masuk nya sparepart dan asesoris yang kami sajikan terpisah sebagai lampiran. Keluar dan masuk nya sparepart dapat dilakukan secara manual, stock sparepart akan terupdate secara otomatis apabila di dalam kegiatan work order menggunakan stock sparepart dari gudang.", $fontStyleName, $paragraphStyleName);
 
 
         $section->addText("2.4      MANAJEMEN EXPENSES", $styleFont2, $paragraphStyleName);
-        $section->addText("             Selain pencatatan dan pelaporan kegiatan Inspection Preventive Maintenance, tercatat juga biaya-biaya pengeluaran untuk kegiatan Service, Kalibrasi dan Penggantian Sparepart yang secara otomatis tersimpan pada Riwayat Peralatan masing-masing. ", $fontStyleName, $paragraphStyleName);
-        $section->addText("             Pada periode ini tercatat biaya pengeluaran untuk kegiatan Service sebesar Rp. 30.000.000,-", $fontStyleName, $paragraphStyleName);
-        $section->addText("             Pada periode ini tercatat biaya pengeluaran untuk kegiatan Kalibrasi sebesar Rp. 10.000.000,-", $fontStyleName, $paragraphStyleName);
-        $section->addText("             Pada periode ini tercatat biaya pengeluaran untuk kegiatan Penggantian Sparepart dan Asesoris sebesar Rp. 20.000.000,-", $fontStyleName, $paragraphStyleName);
+        $section->addText("             Di dalam pelaksanaan kegiatan Work Order, marsweb juga akan mencatat biaya biaya yang muncul selama pelaksanaan diantaranya adalah biaya kalibrasi, biaya service dan biaya penggantian sparepart.", $fontStyleName, $paragraphStyleName);
+        $section->addText("             •   Pada periode ini tercatat biaya pengeluaran untuk kegiatan Service sebesar Rp. 30.000.000,-", $fontStyleName, $paragraphStyleName);
+        $section->addText("             •   Pada periode ini tercatat biaya pengeluaran untuk kegiatan Kalibrasi sebesar Rp. 10.000.000,-", $fontStyleName, $paragraphStyleName);
+        $section->addText("             •   Pada periode ini tercatat biaya pengeluaran untuk kegiatan Penggantian Sparepart dan Asesoris sebesar Rp. 20.000.000,-", $fontStyleName, $paragraphStyleName);
 
 
         $section->addText("2.5      MANAJEMEN DOKUMEN", $styleFont2, $paragraphStyleName);

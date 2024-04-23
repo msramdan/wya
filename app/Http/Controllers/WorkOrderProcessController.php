@@ -181,7 +181,7 @@ class WorkOrderProcessController extends Controller
     {
         $workOrderProcess = WorkOrderProcess::find($workOrderProcessId);
         $workOrder = DB::table('work_orders')
-            ->select('work_orders.*', 'equipment.barcode','equipment.serial_number','equipment.manufacturer','equipment.type', 'hospitals.name as hospital_name')
+            ->select('work_orders.*', 'equipment.barcode', 'equipment.serial_number', 'equipment.manufacturer', 'equipment.type', 'hospitals.name as hospital_name')
             ->join('equipment', 'work_orders.equipment_id', '=', 'equipment.id')
             ->join('hospitals', 'work_orders.hospital_id', '=', 'hospitals.id')
             ->where('work_orders.id', $workOrderProcess->work_order_id)
@@ -331,16 +331,18 @@ class WorkOrderProcessController extends Controller
         }
 
         if ($request->status == 'Doing') {
-            $workOrder->update([
-                'status_wo' => 'on-going'
-            ]);
+            DB::table('work_orders')
+                ->where('work_orders.id', $workOrder->id)
+                ->update(['status_wo' => 'on-going']);
         } else if ($request->status == 'Finish') {
             if ($workOrder->countWoProcess('ready-to-start') == 0) {
                 if ($workOrder->countWoProcess('on-progress') == 0) {
-                    $workOrder->update([
-                        'status_wo' => 'finished',
-                        'end_date' => date('Y-m-d')
-                    ]);
+                    DB::table('work_orders')
+                        ->where('work_orders.id', $workOrder->id)
+                        ->update([
+                            'status_wo' => 'finished',
+                            'end_date' => date('Y-m-d')
+                        ]);
                 }
             }
         }
@@ -351,9 +353,11 @@ class WorkOrderProcessController extends Controller
             'date_time' => date('Y-m-d H:i:s'),
             'updated_by' => Auth::user()->id
         ]);
+
         // send notif wa ke all user
         $settingApp = Hospital::findOrFail(Auth::user()->roles->first()->hospital_id);
         if ($settingApp->notif_wa == 1) {
+            dd('here');
             $receiverUsers = json_decode($workOrder->approval_users_id, true);
             foreach ($receiverUsers as $receiverUserId) {
                 $receiverUser = User::find($receiverUserId);
@@ -378,7 +382,6 @@ class WorkOrderProcessController extends Controller
                 }
             }
         }
-
 
         Alert::toast('The Work Order Process status was updated successfully.', 'success');
         return redirect('/panel/work-order-processes/' . $workOrder->id);
