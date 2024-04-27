@@ -71,6 +71,58 @@ function totalWoByTypeDetail($type, $microFrom, $microTo, $ids)
     return  $totalTypeDetail;
 }
 
+function persentaseWoType($type, $microFrom, $microTo, $ids)
+{
+    $from = date("Y-m-d H:i:s", substr($microFrom, 0, 10));
+    $to = date("Y-m-d H:i:s", substr($microTo, 0, 10));
+    $total = DB::table('work_order_processes')
+        ->join('work_orders', 'work_orders.id', '=', 'work_order_processes.work_order_id')
+        ->where('work_orders.hospital_id', $ids)
+        ->where('work_orders.type_wo', $type)
+        ->where('work_order_processes.schedule_date', '>=', $from)
+        ->where('work_order_processes.schedule_date', '<=', $to)
+        ->count();
+    $totalByType = DB::table('work_order_processes')
+        ->join('work_orders', 'work_orders.id', '=', 'work_order_processes.work_order_id')
+        ->where('work_orders.hospital_id', $ids)
+        ->where('work_orders.type_wo', $type)
+        ->where('work_order_processes.status', 'finished')
+        ->where('work_order_processes.schedule_date', '>=', $from)
+        ->where('work_order_processes.schedule_date', '<=', $to)
+        ->count();
+    if ($totalByType == 0) {
+        return 0;
+    } else {
+        return ($totalByType / $total) * 100;
+    }
+}
+
+
+
+function persentaseAllType($microFrom, $microTo, $ids)
+{
+    $from = date("Y-m-d H:i:s", substr($microFrom, 0, 10));
+    $to = date("Y-m-d H:i:s", substr($microTo, 0, 10));
+    $total = DB::table('work_order_processes')
+        ->join('work_orders', 'work_orders.id', '=', 'work_order_processes.work_order_id')
+        ->where('work_orders.hospital_id', $ids)
+        ->where('work_order_processes.schedule_date', '>=', $from)
+        ->where('work_order_processes.schedule_date', '<=', $to)
+        ->count();
+    $totalByType = DB::table('work_order_processes')
+        ->join('work_orders', 'work_orders.id', '=', 'work_order_processes.work_order_id')
+        ->where('work_orders.hospital_id', $ids)
+        ->where('work_order_processes.status', 'finished')
+        ->where('work_order_processes.schedule_date', '>=', $from)
+        ->where('work_order_processes.schedule_date', '<=', $to)
+        ->count();
+    if ($totalByType == 0) {
+        return 0;
+    } else {
+        return ($totalByType / $total) * 100;
+    }
+}
+
 function Expense($type, $microFrom, $microTo, $ids)
 {
     $from = date("Y-m-d H:i:s", substr($microFrom, 0, 10));

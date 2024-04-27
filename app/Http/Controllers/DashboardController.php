@@ -525,8 +525,6 @@ class DashboardController extends Controller
             $totalSparePart =  rupiah(0);
         }
 
-        // 2.4       MANAJEMEN EXPENSES
-
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $fontStyleName = 'oneUserDefinedStyle';
         $phpWord->addFontStyle(
@@ -619,17 +617,17 @@ class DashboardController extends Controller
         $section->addText("             Inventarisasi peralatan kesehatan telah dilaksanan dan mencatat total asset sebanyak " . $totalAsset . " units telah di lakukan pendataan dan penempelan label QR-Code, Label QR-Code ini bermanfaat dalam pencarian data peralatan dengan cepat, dengan memanfaatkan teknologi camera pada smartphone ataupun menggunakan barcode scanner.", $fontStyleName, $paragraphStyleName);
         $section->addText('             Inventory Peralatan terbagi menjadi beberapa kategori Peralatan, dengan rincian sebagai berikut :', $fontStyleName, $paragraphStyleName);
         foreach ($countByCategory as $categoryName => $count) {
-            $section->addText("             •   " . $categoryName . " terdapat " . $count . " unit Peralatan", $fontStyleName, $paragraphStyleName);
+        $section->addText("• " . $categoryName . " terdapat " . $count . " unit Peralatan", $fontStyleName, $paragraphStyleName);
         }
-        $section->addText("             •   Dengan Akumulasi Total Aset yang di miliki Rumah Sakit sebanyak " . $totalAsset . " units Peralatan", $fontStyleName, $paragraphStyleName);
+        $section->addText("• Dengan Akumulasi Total Aset yang di miliki Rumah Sakit sebanyak " . $totalAsset . " units Peralatan", $fontStyleName, $paragraphStyleName);
 
         $section->addText("2.3      MANAJEMEN PERALATAN DAN SPAREPART", $styleFont2, $paragraphStyleName);
         $section->addText("1.       Asset Peralatan", $fontStyleName, $paragraphStyleName);
         $section->addText("Sampai dengan periode dibuat nya laporan ini, dapat kami sajikan data Inventory beserta Total Asset yang dimiliki :", $fontStyleName, $paragraphStyleName);
         foreach ($countByCategory as $categoryName => $count) {
-            $section->addText("             •   " . $categoryName . " terdapat " . $count . " unit Peralatan dengan Total Asset Rp 1.196.120.911,-", $fontStyleName, $paragraphStyleName);
+        $section->addText("• ".$categoryName . " terdapat " . $count . " unit Peralatan dengan Total Asset Rp 1.196.120.911,-", $fontStyleName, $paragraphStyleName);
         }
-        $section->addText("             •   Dengan Akumulasi Total Aset yang di miliki Rumah Sakit sebanyak " . $totalAsset . " units Peralatan dengan nilai asset Peralatan sejumlah Rp 1.206.120.911,-", $fontStyleName, $paragraphStyleName);
+        $section->addText("• Dengan Akumulasi Total Aset yang di miliki Rumah Sakit sebanyak " . $totalAsset . " units Peralatan dengan nilai asset Peralatan sejumlah Rp 1.206.120.911,-", $fontStyleName, $paragraphStyleName);
 
         $section->addText("2.       Riwayat Peralatan", $fontStyleName, $paragraphStyleName);
         $section->addText("Selain menyajikan jumlah peralatan yang dimiliki, marsweb juga menyajikan riwayat peralatan masing-masing peralatannya, riwayat yang disajikan merupakan riwayat service, riwayat kalibrasi, riwayat maintenance, riwayat training, riwayat penggantian sparepart hingga riwayat pengeluaran biaya-biaya selama peralatan tersebut beroperasi. Riwayat Peralatan dapat dicetak secara terpisah sebagai lampiran.", $fontStyleName, $paragraphStyleName);
@@ -642,22 +640,17 @@ class DashboardController extends Controller
 
         $section->addText("2.4      MANAJEMEN EXPENSES", $styleFont2, $paragraphStyleName);
         $section->addText("             Di dalam pelaksanaan kegiatan Work Order, marsweb juga akan mencatat biaya biaya yang muncul selama pelaksanaan diantaranya adalah biaya kalibrasi, biaya service dan biaya penggantian sparepart.", $fontStyleName, $paragraphStyleName);
-        $section->addText("             •   Pada periode ini tercatat biaya pengeluaran untuk kegiatan Service sebesar " . rupiah(Expense('Service', $start_date, $end_date, $hospital_id)), $fontStyleName, $paragraphStyleName);
-        $section->addText("             •   Pada periode ini tercatat biaya pengeluaran untuk kegiatan Kalibrasi sebesar " . rupiah( Expense('Calibration', $start_date, $end_date, $hospital_id)), $fontStyleName, $paragraphStyleName);
-        $section->addText("             •   Pada periode ini tercatat biaya pengeluaran untuk kegiatan Penggantian Sparepart dan Asesoris sebesar " . rupiah(Expense('Replacement', $start_date, $end_date, $hospital_id)), $fontStyleName, $paragraphStyleName);
+        $section->addText("• Pada periode ini tercatat biaya pengeluaran untuk kegiatan Service sebesar " . rupiah(Expense('Service', $start_date, $end_date, $hospital_id)), $fontStyleName, $paragraphStyleName);
+        $section->addText("• Pada periode ini tercatat biaya pengeluaran untuk kegiatan Kalibrasi sebesar " . rupiah( Expense('Calibration', $start_date, $end_date, $hospital_id)), $fontStyleName, $paragraphStyleName);
+        $section->addText("• Pada periode ini tercatat biaya pengeluaran untuk kegiatan Penggantian Sparepart dan Asesoris sebesar " . rupiah(Expense('Replacement', $start_date, $end_date, $hospital_id)), $fontStyleName, $paragraphStyleName);
 
 
         $section->addText("2.5      MANAJEMEN DOKUMEN", $styleFont2, $paragraphStyleName);
-        $section->addText("            Marsweb juga memberikan fasilitas kepada pengguna untuk dapat menyimpan dokumen dokumen penting peralatan, seperti user manual, service manual, sop, service report, tanda terima ataupun foto peralatan. ", $fontStyleName, $paragraphStyleName);
-        $section->addText("2.6      GENERAL REPORT", $styleFont2, $paragraphStyleName);
-        $section->addText("             Dari statistik yang tercatat selama periode ".$from." sampai dengan ".$to.", dapat dilaporkan bahwa:", $fontStyleName, $paragraphStyleName);
+        $section->addText("            Marsweb juga memberikan fasilitas kepada pengguna untuk dapat menyimpan dokumen penting peralatan, seperti user manual, service manual, sop, service report, tanda terima dan lain lain ataupun menyimpan foto-foto peralatan. Untuk menyimpan dan mengunduh dokumen dapat di lakukan pada menu peralatan.", $fontStyleName, $paragraphStyleName);
 
-        $section->addText("     1. Program Inspection Preventive Maintenance (IPM) telah terlaksana dengan presentase 10% dari program preventive maintenance yang telah di jadwalkan.", $fontStyleName, $paragraphStyleName);
-        $section->addText("     2. Program service telah terlaksana dengan presentase 11.1% dari program service yang telah di jadwalkan.", $fontStyleName, $paragraphStyleName);
-        $section->addText("     3. Program kalibrasi telah terlaksana dengan presentase 22.2% dari program kalibrasi yang telah di jadwalkan.", $fontStyleName, $paragraphStyleName);
-        $section->addText("     4. Program training telah terlaksana dengan presentase 25% dari program training yang telah di jadwalkan.", $fontStyleName, $paragraphStyleName);
-        $section->addText("     5. Secara keseluruhan program kegiatan yang telah di tetapkan selama masa periode berjalan rata-rata tercapai 17.07 %.", $fontStyleName, $paragraphStyleName);
-        $section->addText("     6. Sesuai hasil catatan di dalam marsweb ini, tercatat biaya biaya maintenance, service, kalibrasi dan penggantian part/ asessoris dalam pelaksanaan work order sebesar Rp. 1.296.000,-, merupakan 0.1% dari Total Asset yang di miliki oleh rumah sakit sebesar Rp. 1.196.120.911,-", $fontStyleName, $paragraphStyleName);
+        $section->addText("2.6      GENERAL REPORT", $styleFont2, $paragraphStyleName);
+        $section->addText("            Marsweb menyajikan General Report dengan template sederhana dalam bentuk file microsoft word sehingga template yang di sajikan dapat dengan mudah di lakukan penambahan data-data yang belum tercatat di dalam aplikasi.", $fontStyleName, $paragraphStyleName);
+        $section->addText("            Format general report yang di sajikan merupakan ringkasan dari semua kegiatan yang tercatat di dalam aplikasi marsweb.", $fontStyleName, $paragraphStyleName);
 
         // Create a seventh page
         $section->addPageBreak();
@@ -666,7 +659,14 @@ class DashboardController extends Controller
         $section->addTextBreak(1);
         $section->addText('             Berdasarkan ukuran statistik yang menunjukkan pemeliharaan atas peralatan medik, manajemen dapat menarik kesimpulan bahwa program Inspection Preventive Maintenance (IPM) memiliki peranan dan manfaat yang sangat penting dalam upaya peningkatan mutu pelayanan Rumah Sakit. Statistik tersebut dapat digunakan sebagai bahan acuan perencanaan program IPM berikutnya ataupun perencanaan penambahan peralatan medik.', $fontStyleName, $paragraphStyleName);
         $section->addTextBreak(0);
-        $section->addText('             Demikian Laporan ini dapat kami sampaikan, semoga bermanfaat dalam upaya peningkatan mutu pelayanan Rumah Sakit.', $fontStyleName, $paragraphStyleName);
+        $section->addText('             Dari statistik yang tercatat selama periode 01 April 2024 sampai dengan 30 April 2024, dapat dilaporkan bahwa:', $fontStyleName, $paragraphStyleName);
+        $section->addText("1. Program Inspection Preventive Maintenance (IPM) telah terlaksana dengan presentase ". persentaseWoType('Inspection and Preventive Maintenance', $start_date, $end_date, $hospital_id). "% dari program preventive maintenance yang telah di jadwalkan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("2. Program service telah terlaksana dengan presentase ". persentaseWoType('Service', $start_date, $end_date, $hospital_id). "% dari program service yang telah di jadwalkan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("3. Program kalibrasi telah terlaksana dengan presentase ". persentaseWoType('Calibration', $start_date, $end_date, $hospital_id). "% dari program kalibrasi yang telah di jadwalkan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("4. Program training telah terlaksana dengan presentase ". persentaseWoType('Training', $start_date, $end_date, $hospital_id). "% dari program training yang telah di jadwalkan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("5. Secara keseluruhan program kegiatan yang telah di tetapkan selama masa periode berjalan rata-rata tercapai ". persentaseAllType($start_date, $end_date, $hospital_id). " %.", $fontStyleName, $paragraphStyleName);
+        $section->addText("6. Sesuai hasil catatan di dalam marsweb ini, tercatat biaya biaya maintenance, service, kalibrasi dan penggantian part/ asessoris dalam pelaksanaan work order sebesar Rp. 1.296.000,-, merupakan 0.1% dari Total Asset yang di miliki oleh rumah sakit sebesar Rp. 1.196.120.911,-", $fontStyleName, $paragraphStyleName);
+
         $section->addTextBreak(2);
         $section->addText("                                                                                                                      Jakarta, " . date('d') . ' ' . getMonthIndo(date('m')) . ' ' . date('Y'));
         $section->addText("                                                                                                                $penyaji");
