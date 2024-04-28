@@ -82,6 +82,7 @@ function persentaseWoType($type, $microFrom, $microTo, $ids)
         ->where('work_order_processes.schedule_date', '>=', $from)
         ->where('work_order_processes.schedule_date', '<=', $to)
         ->count();
+
     $totalByType = DB::table('work_order_processes')
         ->join('work_orders', 'work_orders.id', '=', 'work_order_processes.work_order_id')
         ->where('work_orders.hospital_id', $ids)
@@ -128,7 +129,7 @@ function Expense($type, $microFrom, $microTo, $ids)
     $from = date("Y-m-d H:i:s", substr($microFrom, 0, 10));
     $to = date("Y-m-d H:i:s", substr($microTo, 0, 10));
     if ($type == 'Calibration') {
-        $query = "SELECT SUM(calibration_performance_calibration_price) AS total FROM work_order_processes join work_orders on work_orders.id = work_order_processes.work_order_id WHERE work_orders.hospital_id= $ids and work_order_processes.work_date >= '$from' AND work_order_processes.work_date <= '$to'";
+        $query = "SELECT SUM(calibration_performance_calibration_price) AS total FROM work_order_processes join work_orders on work_orders.id = work_order_processes.work_order_id WHERE work_orders.hospital_id= $ids and work_order_processes.schedule_date >= '$from' AND work_order_processes.schedule_date <= '$to'";
         $data = DB::select($query);
         if ($data[0]->total != null) {
             return $data[0]->total;
@@ -136,7 +137,7 @@ function Expense($type, $microFrom, $microTo, $ids)
             return 0;
         }
     } else if ($type == 'Service') {
-        $query = "SELECT SUM(replacement_of_part_service_price) AS total FROM work_order_processes join work_orders on work_orders.id = work_order_processes.work_order_id WHERE work_orders.hospital_id= $ids and work_order_processes.work_date >= '$from' AND work_order_processes.work_date <= '$to'";
+        $query = "SELECT SUM(replacement_of_part_service_price) AS total FROM work_order_processes join work_orders on work_orders.id = work_order_processes.work_order_id WHERE work_orders.hospital_id= $ids and work_order_processes.schedule_date >= '$from' AND work_order_processes.schedule_date <= '$to'";
         $data = DB::select($query);
         if ($data[0]->total != null) {
             return $data[0]->total;
@@ -144,7 +145,7 @@ function Expense($type, $microFrom, $microTo, $ids)
             return 0;
         }
     } else {
-        $query = "SELECT SUM(amount) AS total FROM work_order_process_has_replacement_of_parts join work_order_processes on work_order_processes.id = work_order_process_has_replacement_of_parts.work_order_process_id join work_orders on work_orders.id = work_order_processes.work_order_id WHERE work_orders.hospital_id= $ids and work_order_processes.work_date >= '$from' AND work_order_processes.work_date <= '$to'";
+        $query = "SELECT SUM(amount) AS total FROM work_order_process_has_replacement_of_parts join work_order_processes on work_order_processes.id = work_order_process_has_replacement_of_parts.work_order_process_id join work_orders on work_orders.id = work_order_processes.work_order_id WHERE work_orders.hospital_id= $ids and work_order_processes.schedule_date >= '$from' AND work_order_processes.schedule_date <= '$to'";
         $data = DB::select($query);
         if ($data[0]->total != null) {
             return $data[0]->total;
@@ -166,13 +167,18 @@ function ExpenseTable($ids)
     }
 }
 
-function statusProsesWo($type, $ids)
+function statusProsesWo($type,$microFrom, $microTo, $ids)
 {
+    $from = date("Y-m-d H:i:s", substr($microFrom, 0, 10));
+    $to = date("Y-m-d H:i:s", substr($microTo, 0, 10));
+
     if ($type == 'Finish') {
         $statusProsesWo = DB::table('work_order_processes')
             ->join('work_orders', 'work_order_processes.work_order_id', '=', 'work_orders.id')
             ->where('status', 'finished')
             ->where('work_orders.hospital_id', $ids)
+            ->where('work_order_processes.schedule_date', '>=', $from)
+            ->where('work_order_processes.schedule_date', '<=', $to)
             ->get();
         return  $statusProsesWo->count();
     } else if ($type == 'Progress') {
@@ -180,6 +186,8 @@ function statusProsesWo($type, $ids)
             ->join('work_orders', 'work_order_processes.work_order_id', '=', 'work_orders.id')
             ->where('status', 'on-progress')
             ->where('work_orders.hospital_id', $ids)
+            ->where('work_order_processes.schedule_date', '>=', $from)
+            ->where('work_order_processes.schedule_date', '<=', $to)
             ->get();
         return  $statusProsesWo->count();
     } else if ($type == 'Ready to Start') {
@@ -187,6 +195,8 @@ function statusProsesWo($type, $ids)
             ->join('work_orders', 'work_order_processes.work_order_id', '=', 'work_orders.id')
             ->where('status', 'ready-to-start')
             ->where('work_orders.hospital_id', $ids)
+            ->where('work_order_processes.schedule_date', '>=', $from)
+            ->where('work_order_processes.schedule_date', '<=', $to)
             ->get();
         return  $statusProsesWo->count();
     }

@@ -1376,9 +1376,9 @@
                 labels: ['Finish', 'Progress', 'Ready to Start'],
                 datasets: [{
                     label: '# Total',
-                    data: [{{ statusProsesWo('Finish', $ids) }},
-                        {{ statusProsesWo('Progress', $ids) }},
-                        {{ statusProsesWo('Ready to Start', $ids) }},
+                    data: [{{ statusProsesWo('Finish',$microFrom, $microTo, $ids) }},
+                        {{ statusProsesWo('Progress',$microFrom, $microTo, $ids) }},
+                        {{ statusProsesWo('Ready to Start',$microFrom, $microTo, $ids) }},
                     ],
 
                     backgroundColor: [
