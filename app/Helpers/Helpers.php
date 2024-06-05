@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Vendor;
 use App\Models\Employee;
+use App\Models\WorkOrderProcess;
+
 
 function totalWoByStatus($status, $microFrom, $microTo, $ids)
 {
@@ -167,7 +169,7 @@ function ExpenseTable($ids)
     }
 }
 
-function statusProsesWo($type,$microFrom, $microTo, $ids)
+function statusProsesWo($type, $microFrom, $microTo, $ids)
 {
     $from = date("Y-m-d H:i:s", substr($microFrom, 0, 10));
     $to = date("Y-m-d H:i:s", substr($microTo, 0, 10));
@@ -299,4 +301,11 @@ function getMonthIndo($month)
             return 'Desember';
             break;
     }
+}
+
+function countWoProcess($id, $status = null)
+{
+    return WorkOrderProcess::where('work_order_id', $id)->when($status, function ($query, $status) {
+        $query->where('status', $status);
+    })->count();
 }

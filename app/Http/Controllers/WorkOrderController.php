@@ -133,6 +133,7 @@ class WorkOrderController extends Controller
                 })
                 ->toJson();
         }
+
         $from = date('Y-m-d') . " 00:00:00";
         $to = date('Y-m-d') . " 23:59:59";
         $microFrom = strtotime($from) * 1000;
