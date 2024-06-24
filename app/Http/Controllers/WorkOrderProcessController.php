@@ -357,7 +357,6 @@ class WorkOrderProcessController extends Controller
         // send notif wa ke all user
         $settingApp = Hospital::findOrFail(Auth::user()->roles->first()->hospital_id);
         if ($settingApp->notif_wa == 1) {
-            dd('here');
             $receiverUsers = json_decode($workOrder->approval_users_id, true);
             foreach ($receiverUsers as $receiverUserId) {
                 $receiverUser = User::find($receiverUserId);
