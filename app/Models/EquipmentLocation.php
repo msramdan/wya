@@ -48,6 +48,6 @@ class EquipmentLocation extends Model
         } else {
             $user = "Super Admin";
         }
-        return "Equipment location " . $this->nama_asrama . " {$eventName} By "  . $user;
+        return "Equipment location " . $this->location_name . " {$eventName} By "  . $user;
     }
 }

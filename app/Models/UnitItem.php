@@ -48,6 +48,6 @@ class UnitItem extends Model
         } else {
             $user = "Super Admin";
         }
-        return "Unit item " . $this->nama_asrama . " {$eventName} By "  . $user;
+        return "Unit item " . $this->unit_name . " {$eventName} By "  . $user;
     }
 }
