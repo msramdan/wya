@@ -109,4 +109,3 @@ Route::prefix('panel')->group(function () {
         Route::get('/activity-log', 'index')->name('activity-log.index');
     });
 });
-
