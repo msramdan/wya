@@ -200,5 +200,6 @@ return [
         ['group' => 'hospitals', 'access' => ['hospital view', 'hospital create', 'hospital edit', 'hospital delete']],
         ['group' => 'spareparts', 'access' => ['sparepart view', 'sparepart create', 'sparepart edit', 'sparepart delete', 'download qr', 'sparepart stock in', 'sparepart stock out', 'sparepart history']],
         ['group' => 'loans', 'access' => ['loan view', 'loan create', 'loan edit', 'loan delete']],
+        ['group' => 'activity log', 'access' => ['activity log view']],
     ],
 ];

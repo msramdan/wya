@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
+    ActivityLogController,
     DashboardController,
     UserController,
     ProfileController,
@@ -104,5 +105,8 @@ Route::prefix('panel')->group(function () {
     Route::resource('hospitals', App\Http\Controllers\HospitalController::class)->middleware('auth');
     Route::resource('loans', App\Http\Controllers\LoanController::class)->middleware('auth');
     Route::get('monitoring', [App\Http\Controllers\MonitoringController::class, 'index'])->name('monitoring')->middleware('auth');
+    Route::controller(ActivityLogController::class)->group(function () {
+        Route::get('/activity-log', 'index')->name('activity-log.index');
+    });
 });
 

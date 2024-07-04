@@ -407,7 +407,8 @@ return [
                 'setting view',
                 'role & permission view',
                 'user view',
-                'setting app view'
+                'setting app view',
+                'activity log view',
             ],
             'menus' => [
                 [
@@ -418,13 +419,15 @@ return [
                         'settings*',
                         'users*',
                         'roles*',
-                        'setting-apps*'
+                        'setting-apps*',
+                        'activity-log*'
                     ],
                     'permissions' => [
                         'setting view',
                         'role & permission view',
                         'user view',
-                        'setting app view'
+                        'setting app view',
+                        'activity log view',
                     ],
                     'submenus' => [
                         [
@@ -446,6 +449,11 @@ return [
                             'title' => 'Setting Apps',
                             'route' => '/setting-apps',
                             'permission' => 'setting app view'
+                        ],
+                        [
+                            'title' => 'Log activity',
+                            'route' => '/activity-log',
+                            'permission' => 'activity log view'
                         ]
                     ]
                 ]
