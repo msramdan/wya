@@ -400,8 +400,8 @@
                                         </h4>
                                     </div>
 
-                                    <div class="card-body">
-                                        <canvas id="myChart1"></canvas>
+                                    <div class="card-body" style="width: 90%">
+                                        <canvas id="myChart1" ></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -414,7 +414,7 @@
                                         </h4>
                                     </div>
 
-                                    <div class="card-body">
+                                    <div class="card-body" style="width: 90%">
                                         <canvas id="myChart2"></canvas>
                                     </div>
                                 </div>
@@ -428,7 +428,7 @@
                                         </h4>
                                     </div>
 
-                                    <div class="card-body">
+                                    <div class="card-body" style="width: 90%">
                                         <canvas id="myChart3"></canvas>
                                     </div>
                                 </div>
