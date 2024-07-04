@@ -30,9 +30,9 @@
                         </div>
 
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-sm" id="data-table">
-                                    <thead>
+                            <div class="table-responsive p-1">
+                                <table class="table table-striped" id="data-table">
+                                    <thead class="table-dark">
                                         <tr>
                                             <th>#</th>
                                             <th>{{ trans('region-data/kelurahan/index.subdistrict') }}</th>
