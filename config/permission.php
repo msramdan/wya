@@ -201,5 +201,6 @@ return [
         ['group' => 'spareparts', 'access' => ['sparepart view', 'sparepart create', 'sparepart edit', 'sparepart delete', 'download qr', 'sparepart stock in', 'sparepart stock out', 'sparepart history']],
         ['group' => 'loans', 'access' => ['loan view', 'loan create', 'loan edit', 'loan delete']],
         ['group' => 'activity log', 'access' => ['activity log view']],
+        ['group' => 'backup database', 'access' => ['backup database view']],
     ],
 ];

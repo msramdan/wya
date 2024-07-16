@@ -9,6 +9,7 @@ use App\Http\Controllers\{
     RoleAndPermissionController,
     TelegramBotController,
     WilayahController,
+    BackupController
 };
 use App\Http\Controllers\LandingWeb\LandingWebController;
 use App\Http\Controllers\LocalizationController;
@@ -108,4 +109,6 @@ Route::prefix('panel')->group(function () {
     Route::controller(ActivityLogController::class)->group(function () {
         Route::get('/activity-log', 'index')->name('activity-log.index');
     });
+    Route::get('/backup', [BackupController::class, 'index'])->name('backup.index');
+    Route::get('/backup/download', [BackupController::class, 'downloadBackup'])->name('backup.download');
 });

@@ -409,6 +409,7 @@ return [
                 'user view',
                 'setting app view',
                 'activity log view',
+                'backup database view',
             ],
             'menus' => [
                 [
@@ -420,7 +421,8 @@ return [
                         'users*',
                         'roles*',
                         'setting-apps*',
-                        'activity-log*'
+                        'activity-log*',
+                        'backup*'
                     ],
                     'permissions' => [
                         'setting view',
@@ -428,6 +430,7 @@ return [
                         'user view',
                         'setting app view',
                         'activity log view',
+                        'backup database view',
                     ],
                     'submenus' => [
                         [
@@ -451,9 +454,14 @@ return [
                             'permission' => 'setting app view'
                         ],
                         [
-                            'title' => 'Log activity',
+                            'title' => 'Log Activity',
                             'route' => '/activity-log',
                             'permission' => 'activity log view'
+                        ],
+                        [
+                            'title' => 'Backup Database',
+                            'route' => '/backup',
+                            'permission' => 'backup database view'
                         ]
                     ]
                 ]
