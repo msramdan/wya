@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class Equipment extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     /**
      * The attributes that are mass assignable.

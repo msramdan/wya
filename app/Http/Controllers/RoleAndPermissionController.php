@@ -118,10 +118,25 @@ class RoleAndPermissionController extends Controller
     public function update(UpdateRoleRequest $request, $id)
     {
         $role = Role::findOrFail($id);
+        $oldPermissions = $role->permissions->pluck('name')->toArray();
         $hospital_id = $request->hospital_id != 'user_mta' ? $request->hospital_id : null;
         $role->update(['name' => $request->name, 'hospital_id' => $hospital_id]);
-
         $role->syncPermissions($request->permissions);
+
+        $newPermissions = $role->permissions->pluck('name')->toArray();
+        if ($oldPermissions !== $newPermissions) {
+            activity()
+                ->useLog('log_role')
+                ->causedBy(auth()->user())
+                ->performedOn($role)
+                ->withProperties([
+                    'old' => ['permissions' => $oldPermissions],
+                    'attributes' => ['permissions' => $newPermissions],
+                ])
+                ->event('updated')
+                ->log("Role {$role->name} permissions updated");
+        }
+
         Alert::toast('The role was updated successfully.', 'success');
         return redirect()->route('roles.index');
     }

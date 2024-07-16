@@ -11,6 +11,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -53,9 +54,25 @@ class User extends Authenticatable
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->useLogName('log_user')
-            ->logOnly(['name', 'email'])
+            ->useLogName('log_users')
+            ->logOnly([
+                'name',
+                'email',
+                'password',
+                'avatar',
+                'no_hp'
+            ])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
+    }
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        if (isset(Auth::user()->name)) {
+            $user = Auth::user()->name;
+        } else {
+            $user = "System";
+        }
+        return "User " . $this->name . " {$eventName} By "  . $user;
     }
 }

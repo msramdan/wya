@@ -4,10 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+use Illuminate\Support\Facades\Auth;
+
 
 class Loan extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -40,5 +45,24 @@ class Loan extends Model
     public function user()
     {
         return $this->belongsTo(\App\Models\User::class);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName('log_loan')
+            ->logOnly(['no_peminjaman', 'equipment_id', 'hospital_id', 'lokasi_asal_id', 'lokasi_peminjam_id', 'waktu_pinjam', 'waktu_dikembalikan', 'alasan_peminjaman', 'status_peminjaman', 'catatan_pengembalian', 'pic_penanggungjawab', 'bukti_peminjaman', 'bukti_pengembalian', 'user_created', 'user_updated'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        if (isset(Auth::user()->name)) {
+            $user = Auth::user()->name;
+        } else {
+            $user = "Super Admin";
+        }
+        return "Loan " . $this->no_peminjaman . " {$eventName} By "  . $user;
     }
 }
