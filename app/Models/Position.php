@@ -4,10 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+use Illuminate\Support\Facades\Auth;
+
 
 class Position extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -26,5 +31,24 @@ class Position extends Model
     public function hospital()
     {
         return $this->belongsTo(\App\Models\Hospital::class);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName('log_position')
+            ->logOnly(['code_position', 'name_position', 'hospital_id'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        if (isset(Auth::user()->name)) {
+            $user = Auth::user()->name;
+        } else {
+            $user = "Super Admin";
+        }
+        return "Position " . $this->name_position . " {$eventName} By "  . $user;
     }
 }

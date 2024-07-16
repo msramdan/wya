@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+use Illuminate\Support\Facades\Auth;
 
 class Employee extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -57,5 +61,24 @@ class Employee extends Model
     public function hospital()
     {
         return $this->belongsTo(\App\Models\Hospital::class);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName('log_employee')
+            ->logOnly(['name', 'nid_employee', 'employee_type_id', 'employee_status', 'departement_id', 'position_id', 'email', 'phone', 'provinsi_id', 'kabkot_id', 'kecamatan_id', 'kelurahan_id', 'zip_kode', 'address', 'longitude', 'latitude', 'join_date', 'photo', 'hospital_id'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        if (isset(Auth::user()->name)) {
+            $user = Auth::user()->name;
+        } else {
+            $user = "Super Admin";
+        }
+        return "Employee " . $this->name . " {$eventName} By "  . $user;
     }
 }

@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+use Illuminate\Support\Facades\Auth;
 
 class Nomenklatur extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +27,22 @@ class Nomenklatur extends Model
      */
     protected $casts = ['code_nomenklatur' => 'string', 'name_nomenklatur' => 'string', 'created_at' => 'datetime:d/m/Y H:i', 'updated_at' => 'datetime:d/m/Y H:i'];
 
-    
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName('log_nomenklature')
+            ->logOnly(['code_nomenklatur', 'name_nomenklatur'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
 
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        if (isset(Auth::user()->name)) {
+            $user = Auth::user()->name;
+        } else {
+            $user = "Super Admin";
+        }
+        return "Nomenklatur " . $this->name_nomenklatur . " {$eventName} By "  . $user;
+    }
 }
