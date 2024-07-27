@@ -10,7 +10,13 @@ class ActivityLog extends Model
     use HasFactory;
     protected $table = 'activity_log';
 
-    public function user (){
-        return $this->belongsTo(User::class,'causer_id');
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'causer_id');
+    }
+
+    public function hospital()
+    {
+        return $this->belongsTo(Hospital::class, 'hospital_id'); // Tambahkan relasi ke Hospital
     }
 }

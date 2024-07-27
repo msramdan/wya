@@ -1,31 +1,25 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Models\Activity;
 use Illuminate\Support\Facades\Auth;
 
 class UnitItem extends Model
 {
-    use HasFactory;
-    use LogsActivity;
+    use HasFactory, LogsActivity;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var string[]
-     */
     protected $fillable = ['code_unit', 'unit_name', 'hospital_id'];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var string[]
-     */
-    protected $casts = ['code_unit' => 'string', 'unit_name' => 'string', 'created_at' => 'datetime:d/m/Y H:i', 'updated_at' => 'datetime:d/m/Y H:i'];
+    protected $casts = [
+        'code_unit' => 'string',
+        'unit_name' => 'string',
+        'created_at' => 'datetime:d/m/Y H:i',
+        'updated_at' => 'datetime:d/m/Y H:i'
+    ];
 
     public function hospital()
     {
@@ -43,11 +37,23 @@ class UnitItem extends Model
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        if (isset(Auth::user()->name)) {
-            $user = Auth::user()->name;
-        } else {
-            $user = "Super Admin";
-        }
+        $user = Auth::user()->name ?? "Super Admin";
         return "Unit item " . $this->unit_name . " {$eventName} By "  . $user;
+    }
+
+    protected static function booted()
+    {
+        static::saved(function ($model) {
+            $lastLog = Activity::where('log_name', 'log_unit_item')
+                ->where('subject_id', $model->id)
+                ->where('subject_type', get_class($model))
+                ->latest()
+                ->first();
+
+            if ($lastLog) {
+                $lastLog->hospital_id = $model->hospital_id;
+                $lastLog->save();
+            }
+        });
     }
 }

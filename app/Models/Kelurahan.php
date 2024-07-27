@@ -37,7 +37,7 @@ class Kelurahan extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->useLogName('lod_kelurahan')
+            ->useLogName('log_kelurahan')
             ->logOnly(['kecamatan_id', 'kelurahan', 'kd_pos'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();

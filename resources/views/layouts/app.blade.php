@@ -72,7 +72,7 @@
                             </div>
                         </div>
                         <div class="ms-1 header-item  d-sm-flex">
-                            <a href="{{route('monitoring')}}" target="_blank"
+                            <a href="{{ route('monitoring') }}" target="_blank"
                                 class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none">
                                 <i class="bx bx-desktop fs-22"></i>
                             </a>
@@ -140,31 +140,62 @@
         <div class="app-menu navbar-menu">
             <div class="navbar-brand-box">
                 <a href="#" class="logo logo-dark">
-                    <span class="logo-sm">
+                    {{-- <span class="logo-sm">
                         @if (setting_web()->favicon != null)
                             <img src="{{ Storage::url('public/img/setting_app/') . setting_web()->favicon }}"
                                 alt="" height="30">
                         @endif
-                    </span>
+                    </span> --}}
                     <span class="logo-lg">
-                        @if (setting_web()->logo != null)
-                            <img src="{{ Storage::url('public/img/setting_app/') . setting_web()->logo }}"
-                                alt="">
-                        @endif
+                        @php
+                            if (Auth::user()->roles->first()->hospital_id) {
+                                $hospitalId = Auth::user()->roles->first()->hospital_id;
+                                $hospital = DB::table('hospitals')->where('id', $hospitalId)->first();
+                                if ($hospital->logo != null) {
+                                    echo '<img  style="width:150px; padding:5px" src="' .
+                                        Storage::url('uploads/logos/') .
+                                        $hospital->logo .
+                                        '" alt="">';
+                                }
+                            } else {
+                                if (setting_web()->logo != null) {
+                                    echo '<img src="' .
+                                        Storage::url('public/img/setting_app/') .
+                                        setting_web()->logo .
+                                        '" alt="">';
+                                }
+                            }
+                        @endphp
                     </span>
                 </a>
                 <a href="#" class="logo logo-light">
-                    <span class="logo-sm">
+                    {{-- <span class="logo-sm">
                         @if (setting_web()->favicon != null)
                             <img src="{{ Storage::url('public/img/setting_app/') . setting_web()->favicon }}"
                                 alt="" height="30">
                         @endif
-                    </span>
+                    </span> --}}
                     <span class="logo-lg">
-                        @if (setting_web()->logo != null)
-                            <img src="{{ Storage::url('public/img/setting_app/') . setting_web()->logo }}"
-                                alt="">
-                        @endif
+                        <span style="margin-top: 2px; margin-bottom: 2px; font-size: 28px; color: #dddddd; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);"><b>Manajem Aset</b></span>
+                        @php
+                            if (Auth::user()->roles->first()->hospital_id) {
+                                $hospitalId = Auth::user()->roles->first()->hospital_id;
+                                $hospital = DB::table('hospitals')->where('id', $hospitalId)->first();
+                                if ($hospital->logo != null) {
+                                    echo '<img  style="width:150px; padding:5px" src="' .
+                                        Storage::url('uploads/logos/') .
+                                        $hospital->logo .
+                                        '" alt="">';
+                                }
+                            } else {
+                                if (setting_web()->logo != null) {
+                                    echo '<img src="' .
+                                        Storage::url('public/img/setting_app/') .
+                                        setting_web()->logo .
+                                        '" alt="">';
+                                }
+                            }
+                        @endphp
                     </span>
                 </a>
                 <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"

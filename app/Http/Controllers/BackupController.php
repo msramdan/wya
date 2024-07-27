@@ -60,7 +60,7 @@ class BackupController extends Controller
 
         // Log activity
         activity('log_backup_database')
-            ->performedOn($user) // Assuming you want to associate the activity with the user model
+            ->performedOn($user)
             ->causedBy($user)
             ->event('Backup database')
             ->withProperties(['attributes' => $attributes])
