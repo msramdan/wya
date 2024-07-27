@@ -38,6 +38,6 @@ class LogSuccessfulLogin
             ->tap(function (Activity $activity) use ($hospital_id) {
                 $activity->hospital_id = $hospital_id;
             })
-            ->log("User {$user->name} berhasil login dengan hospital ID {$hospital_id}");
+            ->log("User {$user->name} berhasil login");
     }
 }

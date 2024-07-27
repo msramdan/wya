@@ -25,7 +25,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            @can('department create')
+                            @can('role & permission create')
                                 <a href="{{ route('roles.create') }}" class="btn btn-md btn-primary"> <i
                                         class="mdi mdi-plus"></i> {{ trans('utilities/rolepermission/index.create') }}</a>
                             @endcan
