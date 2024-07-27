@@ -5,6 +5,8 @@ namespace App\Listeners;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\Models\Activity;
 
 class LogSuccessfulLogin
 {
@@ -17,6 +19,7 @@ class LogSuccessfulLogin
     public function handle(Login $event)
     {
         $user = $event->user;
+        $hospital_id = Auth::user()->roles->first()->hospital_id;
         $userAgent = request()->header('User-Agent');
         $ipAddress = request()->ip();
 
@@ -32,6 +35,9 @@ class LogSuccessfulLogin
             ->causedBy($user)
             ->event('Login')
             ->withProperties(['attributes' => $attributes])
-            ->log("User {$user->name} berhasil login");
+            ->tap(function (Activity $activity) use ($hospital_id) {
+                $activity->hospital_id = $hospital_id;
+            })
+            ->log("User {$user->name} berhasil login dengan hospital ID {$hospital_id}");
     }
 }
