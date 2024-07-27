@@ -15,7 +15,8 @@
                                     <a href="/panel">Dashboard</a>
                                 </li>
                                 <li class="breadcrumb-item">
-                                    <a href="{{ route('work-orders.index') }}">{{ trans('work-order/submission/index.head') }}</a>
+                                    <a
+                                        href="{{ route('work-orders.index') }}">{{ trans('work-order/submission/index.head') }}</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
                                     {{ __('Create') }}
@@ -460,28 +461,32 @@
                             case 'Tahunan':
                                 scheduleWoFormatted = 'years';
                                 break;
+                            default:
+                                scheduleWoFormatted = 'months'; // Nilai default jika tidak ada yang cocok
+                                viewMode = 'Month';
+                                break;
                         }
 
-                        while (startDateValue <= endDateValue) {
+                        while (moment(startDateValue).isSameOrBefore(moment(endDateValue))) {
                             let tempEndData = moment(startDateValue).add(stepModeAmount, scheduleWoFormatted).format(
                                 "YYYY-MM-DD");
 
-                            if (moment(tempEndData).subtract(1, 'days').format("YYYY-MM-DD") <= endDateValue) {
-                                workOrderSchedules.push({
-                                    id: 'Schedule ' + counter,
-                                    name: 'Schedule Rutin ' + counter,
-                                    start: startDateValue,
-                                    end: moment(tempEndData).subtract(1, 'days').format("YYYY-MM-DD"),
-                                    progress: 100,
-                                });
-                            }
+                            workOrderSchedules.push({
+                                id: 'Schedule ' + counter,
+                                name: 'Schedule Rutin ' + counter,
+                                start: startDateValue,
+                                end: moment(tempEndData).subtract(1, 'days').format("YYYY-MM-DD"),
+                                progress: 100,
+                            });
 
-                            startDateValue = tempEndData;
+                            startDateValue = moment(tempEndData).format("YYYY-MM-DD");
                             counter++;
                         }
                     }
                 }
             }
+
+            console.log(workOrderSchedules);
 
             if (workOrderSchedules.length > 0) {
                 if (['Harian', 'Mingguan'].includes($('#schedule-wo').val())) {
