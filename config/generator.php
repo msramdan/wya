@@ -170,7 +170,7 @@ return [
             ],
             'menus' => [
                 [
-                    'title' => 'Loan Equipment',
+                    'title' => 'Moving Equipment',
                     'icon' => '<i class="mdi mdi-book"></i>',
                     'route' => '/loans',
                     'permission' => 'loan view',

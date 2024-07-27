@@ -139,7 +139,7 @@ class LoanController extends Controller
         $attr['status_peminjaman'] = 'Belum dikembalikan';
         $attr['user_created'] = Auth::id();
         Loan::create($attr);
-        Alert::toast('The loan was created successfully.', 'success');
+        Alert::toast('The Moving Equipment was created successfully.', 'success');
         return redirect()
             ->route('loans.index');
     }
@@ -237,7 +237,7 @@ class LoanController extends Controller
         $attr['status_peminjaman'] = 'Sudah dikembalikan';
         $attr['user_updated'] =Auth::id();
         $loan->update($attr);
-        Alert::toast('The loan was updated successfully.', 'success');
+        Alert::toast('The Moving Equipment was updated successfully.', 'success');
         return redirect()->back();
     }
 
@@ -265,11 +265,11 @@ class LoanController extends Controller
 
             return redirect()
                 ->route('loans.index')
-                ->with('success', __('The loan was deleted successfully.'));
+                ->with('success', __('The Moving Equipment was deleted successfully.'));
         } catch (\Throwable $th) {
             return redirect()
                 ->route('loans.index')
-                ->with('error', __("The loan can't be deleted because it's related to another table."));
+                ->with('error', __("The Moving Equipment can't be deleted because it's related to another table."));
         }
     }
 }
