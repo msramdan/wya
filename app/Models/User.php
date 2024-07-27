@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,6 +11,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\Models\Activity;
 
 class User extends Authenticatable
 {
@@ -74,5 +74,21 @@ class User extends Authenticatable
             $user = "System";
         }
         return "User " . $this->name . " {$eventName} By "  . $user;
+    }
+
+    protected static function booted()
+    {
+        static::saved(function ($model) {
+            $lastLog = Activity::where('log_name', 'log_users')
+                ->where('subject_id', $model->id)
+                ->where('subject_type', get_class($model))
+                ->latest()
+                ->first();
+
+            if ($lastLog) {
+                $lastLog->hospital_id = $model->hospital_id;
+                $lastLog->save();
+            }
+        });
     }
 }
