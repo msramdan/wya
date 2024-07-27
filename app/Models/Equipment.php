@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\Models\Activity;
 
 class Equipment extends Model
 {
@@ -58,5 +59,21 @@ class Equipment extends Model
             $user = "Super Admin";
         }
         return "Equipment " . $this->barcode . " {$eventName} By "  . $user;
+    }
+
+    protected static function booted()
+    {
+        static::saved(function ($model) {
+            $lastLog = Activity::where('log_name', 'log_equipment')
+                ->where('subject_id', $model->id)
+                ->where('subject_type', get_class($model))
+                ->latest()
+                ->first();
+
+            if ($lastLog) {
+                $lastLog->hospital_id = $model->hospital_id;
+                $lastLog->save();
+            }
+        });
     }
 }

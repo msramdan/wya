@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\Models\Activity;
 
 
 class EmployeeType extends Model
@@ -52,5 +53,21 @@ class EmployeeType extends Model
             $user = "Super Admin";
         }
         return "Employee type " . $this->name_employee_type . " {$eventName} By "  . $user;
+    }
+
+    protected static function booted()
+    {
+        static::saved(function ($model) {
+            $lastLog = Activity::where('log_name', 'log_employee_type')
+                ->where('subject_id', $model->id)
+                ->where('subject_type', get_class($model))
+                ->latest()
+                ->first();
+
+            if ($lastLog) {
+                $lastLog->hospital_id = $model->hospital_id;
+                $lastLog->save();
+            }
+        });
     }
 }

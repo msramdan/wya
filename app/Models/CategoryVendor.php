@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\Models\Activity;
 
 class CategoryVendor extends Model
 {
@@ -49,5 +50,21 @@ class CategoryVendor extends Model
             $user = "Super Admin";
         }
         return "Category vendor " . $this->name_category_vendors . " {$eventName} By "  . $user;
+    }
+
+    protected static function booted()
+    {
+        static::saved(function ($model) {
+            $lastLog = Activity::where('log_name', 'log_category_vendor')
+                ->where('subject_id', $model->id)
+                ->where('subject_type', get_class($model))
+                ->latest()
+                ->first();
+
+            if ($lastLog) {
+                $lastLog->hospital_id = $model->hospital_id;
+                $lastLog->save();
+            }
+        });
     }
 }
