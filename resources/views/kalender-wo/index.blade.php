@@ -96,8 +96,8 @@
                                 <div class="col-sm-6">
                                     <div id='calendar'></div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <table class="table table-striped" id="data-table">
+                                <div class="col-sm-6" style="max-height: 400px; overflow-y: auto;">
+                                    <table class="table table-striped" id="data-table" style="line-height: 5px">
                                         <thead class="table-dark">
                                             <tr>
                                                 <th>#</th>
@@ -167,11 +167,6 @@
 @endsection
 
 @push('js')
-    <script>
-        $(document).ready(function() {
-            $('#data-table').DataTable({});
-        });
-    </script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.js'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
         integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
@@ -203,7 +198,6 @@
                         _token: $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(data) {
-                        console.log(data);
                         calendar.removeAllEvents();
                         calendar.addEventSource(data);
                         var tableBody = $('#data-table tbody');
