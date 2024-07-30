@@ -3,6 +3,51 @@
 @section('title', __('Moving Equipment'))
 
 @section('content')
+
+<div class="modal fade" id="modal-dialog3">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{ trans('work-order/submission/index.informasi') }}</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <td width="25%">{{ trans('inventory/equipment/index.barcode') }}</td>
+                        <td><span id="modal_barcode"></span></td>
+                    </tr>
+                    <tr>
+                        <td>{{ trans('inventory/equipment/index.nomenklatur') }}</td>
+                        <td><span id="modal_nomenklatur"></span></td>
+                    </tr>
+                    <tr>
+                        <td>{{ __('SN') }}</td>
+                        <td><span id="modal_sn"></span></td>
+                    </tr>
+                    <tr>
+                        <td>{{ trans('inventory/equipment/index.category') }}</td>
+                        <td><span id="modal_category"></span></td>
+                    </tr>
+                    <tr>
+                        <td>{{ trans('inventory/equipment/index.manufacture') }}</td>
+                        <td><span id="modal_manufacture"></span></td>
+                    </tr>
+                    <tr>
+                        <td>{{ trans('inventory/equipment/index.type') }}</td>
+                        <td><span id="modal_type"></span></td>
+                    </tr>
+                    <tr>
+                        <td>{{ trans('inventory/equipment/index.location') }}</td>
+                        <td><span id="modal_location"></span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
     <div class="page-content">
         <div class="container-fluid">
             <div class="row">
@@ -97,8 +142,15 @@
             },
             {
                 data: 'barcode',
-                name: 'barcode'
+                name: 'barcode',
+                render: function(datum, type, row) {
+                    return `${row.equipment} <a id="view_data" href="#modal-dialog3" data-bs-toggle="modal" data-equipment="${row.equipment}">
+																<i style="color : #17a2b8" class="fas fa-info-circle fs-15 align-middle"></i>
+															</a>`;
+                }
             },
+
+
             {
                 data: 'waktu_pinjam',
                 name: 'waktu_pinjam',
@@ -147,4 +199,30 @@
             table.draw();
         })
     </script>
+
+
+<script>
+    $(document).on('click', '#view_data', function() {
+        var barcode = $(this).data('equipment');
+        var url = '/panel/getDetailEquipment/' + barcode;
+        $.ajax({
+            url: url,
+            type: 'GET',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+            data: {},
+            dataType: 'json',
+            success: function(result) {
+                $('#modal_barcode').text(result['data']['barcode']);
+                $('#modal_nomenklatur').text(result['data']['nomenklatur']['name_nomenklatur']);
+                $('#modal_sn').text(result['data']['serial_number']);
+                $('#modal_category').text(result['data']['equipment_category']['category_name']);
+                $('#modal_manufacture').text(result['data']['manufacturer']);
+                $('#modal_type').text(result['data']['type']);
+                $('#modal_location').text(result['data']['equipment_location']['location_name']);
+            }
+        });
+    })
+</script>
 @endpush

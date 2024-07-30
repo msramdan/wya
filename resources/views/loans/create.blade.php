@@ -120,8 +120,9 @@
                     $('#equipment-id').prop('disabled', true);
                 },
                 success: function(res) {
+                    console.log(res);
                     const options = res.data.map(value => {
-                        return `<option value="${value.id}">${value.barcode}</option>`
+                        return `<option value="${value.id}">${value.serial_number} | ${value.type} | ${value.manufacturer}</option>`
                     });
                     $('#equipment-id').html(_temp + options)
                     $('#equipment-id').prop('disabled', false);

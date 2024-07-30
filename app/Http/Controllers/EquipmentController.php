@@ -735,4 +735,34 @@ class EquipmentController extends Controller
         $data = DB::table('equipment')->where('equipment_location_id', $locationId)->get();
         return response()->json(compact('data'));
     }
+
+    public function getEquipmentByBarcode($barcode)
+    {
+        $equipment = Equipment::where('barcode', $barcode)->first();
+
+        if ($equipment) {
+            return response()->json([
+                'barcode' => $equipment->barcode,
+                'nomenklatur_id' => $equipment->nomenklatur_id,
+                'equipment_category_id' => $equipment->equipment_category_id,
+                'manufacturer' => $equipment->manufacturer,
+                'type' => $equipment->type,
+                'serial_number' => $equipment->serial_number,
+                'vendor_id' => $equipment->vendor_id,
+                'condition' => $equipment->condition,
+                'risk_level' => $equipment->risk_level,
+                'equipment_location_id' => $equipment->equipment_location_id,
+                'financing_code' => $equipment->financing_code,
+                'photo' => $equipment->photo,
+                'tgl_pembelian' => $equipment->tgl_pembelian,
+                'metode' => $equipment->metode,
+                'nilai_perolehan' => $equipment->nilai_perolehan,
+                'nilai_residu' => $equipment->nilai_residu,
+                'masa_manfaat' => $equipment->masa_manfaat,
+                'hospital_id' => $equipment->hospital_id,
+            ]);
+        } else {
+            return response()->json(['message' => 'Equipment not found'], 404);
+        }
+    }
 }
