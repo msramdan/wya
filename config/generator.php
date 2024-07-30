@@ -163,6 +163,22 @@ return [
                 ]
             ]
         ],
+        // [
+        //     'header' => 'Kalender',
+        //     'permissions' => [
+        //         'department view'
+        //     ],
+        //     'menus' => [
+        //         [
+        //             'title' => 'Kalender Work Order',
+        //             'icon' => '<i class="fa fa-calendar" aria-hidden="true"></i>',
+        //             'route' => 'calendars',
+        //             'permission' => 'department view',
+        //             'permissions' => [],
+        //             'submenus' => []
+        //         ]
+        //     ]
+        // ],
         [
             'header' => 'Loans',
             'permissions' => [

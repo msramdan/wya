@@ -149,7 +149,7 @@
                     <span class="logo-lg">
                         @if (Auth::user()->roles->first()->hospital_id)
                             <span
-                                style="margin-top: 2px; margin-bottom: 2px; font-size: 28px; color: #dddddd; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);"><b>Manajem
+                                style="margin-top: 2px; margin-bottom: 2px; font-size: 24px; color: #dddddd; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);"><b>Manajemen
                                     Aset</b></span>
                         @endif
                         @php
@@ -183,7 +183,7 @@
                     <span class="logo-lg">
                         @if (Auth::user()->roles->first()->hospital_id)
                             <span
-                                style="margin-top: 2px; margin-bottom: 2px; font-size: 28px; color: #dddddd; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);"><b>Manajem
+                                style="margin-top: 2px; margin-bottom: 2px; font-size: 24px; color: #dddddd; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);"><b>Manajemen
                                     Aset</b></span>
                         @endif
                         @php

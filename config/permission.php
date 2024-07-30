@@ -202,5 +202,6 @@ return [
         ['group' => 'loans', 'access' => ['loan view', 'loan create', 'loan edit', 'loan delete']],
         ['group' => 'activity log', 'access' => ['activity log view']],
         ['group' => 'backup database', 'access' => ['backup database view']],
+        ['group' => 'kalender wo', 'access' => ['kalender wo view']],
     ],
 ];

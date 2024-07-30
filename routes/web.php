@@ -9,7 +9,8 @@ use App\Http\Controllers\{
     RoleAndPermissionController,
     TelegramBotController,
     WilayahController,
-    BackupController
+    BackupController,
+    KalenderWoController
 };
 use App\Http\Controllers\LandingWeb\LandingWebController;
 use App\Http\Controllers\LocalizationController;
@@ -111,4 +112,9 @@ Route::prefix('panel')->group(function () {
     });
     Route::get('/backup', [BackupController::class, 'index'])->name('backup.index');
     Route::get('/backup/download', [BackupController::class, 'downloadBackup'])->name('backup.download');
+
+    Route::controller(KalenderWoController::class)->group(function () {
+        Route::get('/kalender-wo/{tahun}/{jenis}', 'index')->name('kalender-wo.index');
+        Route::get('/events', 'getEvents')->name('getEvents');
+    });
 });

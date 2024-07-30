@@ -11,6 +11,20 @@
                     <i class="mdi mdi-speedometer"></i> <span data-key="t-widgets">Dashboard</span>
                 </a>
             </li>
+            @if (Auth::user()->roles->first()->hospital_id)
+                @can('kalender wo view')
+                    @php
+                        $currentYear = date('Y');
+                        $defaultJenis = 'All';
+                    @endphp
+                    <li class="nav-item">
+                        <a class="nav-link menu-link {{ request()->routeIs('kalender-wo*') ? 'active' : '' }}"
+                            href="{{ route('kalender-wo.index', ['tahun' => $currentYear, 'jenis' => $defaultJenis]) }}">
+                            <i class="fa fa-calendar"></i> <span data-key="t-widgets">Kalender Work Order</span>
+                        </a>
+                    </li>
+                @endcan
+            @endif
             <?php $i = 0; ?>
             @foreach (config('generator.sidebars') as $sidebar)
                 @if (isset($sidebar['permissions']))
@@ -18,7 +32,9 @@
                         @foreach ($sidebar['menus'] as $menu)
                             @php
                                 $i++;
-                                $permissions = empty($menu['permission']) ? $menu['permissions'] : [$menu['permission']];
+                                $permissions = empty($menu['permission'])
+                                    ? $menu['permissions']
+                                    : [$menu['permission']];
                             @endphp
                             @canany($permissions)
                                 @if (empty($menu['submenus']))
