@@ -351,21 +351,37 @@
                             break;
                     }
 
-                    while (startDateValue <= endDateValue) {
+                    // while (startDateValue <= endDateValue) {
+                    //     let tempEndData = moment(startDateValue).add(stepModeAmount, scheduleWoFormatted).format(
+                    //         "YYYY-MM-DD");
+
+                    //     if (moment(tempEndData).subtract(1, 'days').format("YYYY-MM-DD") <= endDateValue) {
+                    //         workOrderSchedules.push({
+                    //             id: 'Schedule ' + counter,
+                    //             name: 'Schedule Rutin ' + counter,
+                    //             start: startDateValue,
+                    //             end: moment(tempEndData).subtract(1, 'days').format("YYYY-MM-DD"),
+                    //             progress: 100,
+                    //         });
+                    //     }
+
+                    //     startDateValue = tempEndData;
+                    //     counter++;
+                    // }
+
+                    while (moment(startDateValue).isSameOrBefore(moment(endDateValue))) {
                         let tempEndData = moment(startDateValue).add(stepModeAmount, scheduleWoFormatted).format(
                             "YYYY-MM-DD");
 
-                        if (moment(tempEndData).subtract(1, 'days').format("YYYY-MM-DD") <= endDateValue) {
-                            workOrderSchedules.push({
-                                id: 'Schedule ' + counter,
-                                name: 'Schedule Rutin ' + counter,
-                                start: startDateValue,
-                                end: moment(tempEndData).subtract(1, 'days').format("YYYY-MM-DD"),
-                                progress: 100,
-                            });
-                        }
+                        workOrderSchedules.push({
+                            id: 'Schedule ' + counter,
+                            name: 'Schedule Rutin ' + counter,
+                            start: startDateValue,
+                            end: moment(tempEndData).subtract(1, 'days').format("YYYY-MM-DD"),
+                            progress: 100,
+                        });
 
-                        startDateValue = tempEndData;
+                        startDateValue = moment(tempEndData).format("YYYY-MM-DD");
                         counter++;
                     }
                 }
