@@ -105,7 +105,7 @@
                                                 <th>{{ __('Hospital') }}</th>
                                             @endif
                                             <th>{{ __('No Peminjaman') }}</th>
-                                            <th>{{ __('Barcode') }}</th>
+                                            <th>{{ __('PIC') }}</th>
                                             <th>{{ __('Merk') }}</th>
                                             <th>{{ __('Type') }}</th>
                                             <th>{{ __('SN') }}</th>
@@ -145,8 +145,8 @@
                 name: 'no_peminjaman',
             },
             {
-                data: 'barcode',
-                name: 'barcode',
+                data: 'employee_name',
+                name: 'employee_name',
             },
             {
                 data: 'manufacturer',
