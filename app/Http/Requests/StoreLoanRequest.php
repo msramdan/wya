@@ -27,7 +27,7 @@ class StoreLoanRequest extends FormRequest
             'no_peminjaman' => 'required|string|max:100',
 			'equipment_id' => 'required|exists:App\Models\Equipment,id',
 			'hospital_id' => 'required|exists:App\Models\Hospital,id',
-			'lokasi_asal_id' => 'required|exists:App\Models\EquipmentLocation,id',
+			'location_id' => 'required|exists:App\Models\EquipmentLocation,id',
 			'lokasi_peminjam_id' => 'required|exists:App\Models\EquipmentLocation,id',
 			'waktu_pinjam' => 'required',
 			'waktu_dikembalikan' => 'nullable',
