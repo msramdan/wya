@@ -33,6 +33,9 @@ class LoanController extends Controller
                 ->select(
                     'loans.*',
                     'equipment.barcode',
+                    'equipment.manufacturer',
+                    'equipment.type',
+                    'equipment.serial_number',
                     'hospitals.name as hospital_name',
                     'employees.name as employee_name',
                     'el1.code_location as resource_location',
@@ -64,6 +67,9 @@ class LoanController extends Controller
                 })
                 ->addColumn('employee_name', function ($row) {
                     return $row->employee_name ? $row->employee_name : '';
+                })
+                ->addColumn('waktu_pinjam', function ($row) {
+                    return \Carbon\Carbon::parse($row->waktu_pinjam)->format('Y-m-d');
                 })
                 ->addColumn('action', 'loans.include.action')
                 ->toJson();

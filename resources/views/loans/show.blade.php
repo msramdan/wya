@@ -66,11 +66,11 @@
                                     <tr>
                                         <td class="fw-bold">{{ __('Hospital') }}</td>
                                         <td>{{ $loan->hospital_name }}</td>
-                                        <td class="fw-bold">{{ __('Resource location') }}</td>
+                                        <td class="fw-bold">{{ __('Lokasi Asal') }}</td>
                                         <td>{{ $loan->resource_location }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="fw-bold">{{ __('Destination location') }}</td>
+                                        <td class="fw-bold">{{ __('Lokasi Tujuan') }}</td>
                                         <td>{{ $loan->destination_location }}</td>
                                         <td class="fw-bold">{{ __('Waktu Pinjam') }}</td>
                                         <td>{{ $loan->waktu_pinjam }}</td>

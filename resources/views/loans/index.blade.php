@@ -105,10 +105,14 @@
                                                 <th>{{ __('Hospital') }}</th>
                                             @endif
                                             <th>{{ __('No Peminjaman') }}</th>
-                                            <th>{{ __('Equipment') }}</th>
+                                            <th>{{ __('Barcode') }}</th>
+                                            <th>{{ __('Merk') }}</th>
+                                            <th>{{ __('Type') }}</th>
+                                            <th>{{ __('SN') }}</th>
+                                            <th>{{ __('Lokasi Awal') }}</th>
+                                            <th>{{ __('Lokasi Tujuan') }}</th>
                                             <th>{{ __('Waktu') }}</th>
                                             <th>{{ __('Status') }}</th>
-                                            <th>{{ __('Penanggungjawab') }}</th>
                                             <th>{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
@@ -143,14 +147,27 @@
             {
                 data: 'barcode',
                 name: 'barcode',
-                render: function(datum, type, row) {
-                    return `${row.equipment} <a id="view_data" href="#modal-dialog3" data-bs-toggle="modal" data-equipment="${row.equipment}">
-																<i style="color : #17a2b8" class="fas fa-info-circle fs-15 align-middle"></i>
-															</a>`;
-                }
             },
-
-
+            {
+                data: 'manufacturer',
+                name: 'manufacturer',
+            },
+            {
+                data: 'type',
+                name: 'type',
+            },
+            {
+                data: 'serial_number',
+                name: 'serial_number',
+            },
+            {
+                data: 'resource_location',
+                name: 'resource_location',
+            },
+            {
+                data: 'destination_location',
+                name: 'destination_location',
+            },
             {
                 data: 'waktu_pinjam',
                 name: 'waktu_pinjam',
@@ -171,10 +188,6 @@
                     }
                     return `<span class="badge bg-${rowStatus}">${row.status_peminjaman}</span>`;
                 }
-            },
-            {
-                data: 'employee_name',
-                name: 'employee_name',
             },
             {
                 data: 'action',
