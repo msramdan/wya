@@ -119,7 +119,7 @@
                                         </div>
                                     </div>
                                 @endif
-                                <div class="col-md-3 mb-2">
+                                <div class="col-md-2 mb-2">
                                     <div class="input-group mb-2 mr-sm-2">
                                         <select
                                             class="form-control js-example-basic-multiple @error('equipment_location_id') is-invalid @enderror"
@@ -131,6 +131,16 @@
                                     </div>
                                 </div>
 
+                                <div class="col-md-2 mb-2">
+                                    <div class="input-group mb-2 mr-sm-2">
+                                        <select name="commisioning" id="commisioning"
+                                            class="form-control js-example-basic-multiple">
+                                            <option value="" selected>-- Pilih De-commisioning --</option>
+                                            <option value="Yes">Yes</option>
+                                            <option value="No">No</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="col-md-3 mb-2">
                                     <div class="input-group mb-2 mr-sm-2">
                                         <div class="form-group m-0">
@@ -175,6 +185,7 @@
                                             <th>{{ trans('inventory/equipment/index.type') }}</th>
                                             <th>{{ trans('inventory/equipment/index.location') }}</th>
                                             <th>{{ trans('inventory/equipment/index.book_value') }}</th>
+                                            <th>De-commisioning</th>
                                             <th>{{ trans('inventory/equipment/index.action') }}</th>
                                         </tr>
                                     </thead>
@@ -223,7 +234,10 @@
         function hitungAsset() {
             var cek = $('#hospital_id').val()
             var equipment_location_id = $('#equipment_location_id').val()
+            var commisioning = $('#commisioning').val()
             var url = '../panel/totalAsset';
+            // console.log(commisioning);
+
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -232,10 +246,12 @@
                 },
                 data: {
                     id: cek,
+                    commisioning: commisioning,
                     equipment_location_id: equipment_location_id,
                 },
                 success: function(data) {
                     $('#hitungAsset').text(data)
+
                 },
                 error: function(data) {
                     console.log('ada error kaka')
@@ -331,6 +347,10 @@
                 name: 'nilai_buku'
             },
             {
+                data: 'is_decommissioning',
+                name: 'is_decommissioning'
+            },
+            {
                 data: 'action',
                 name: 'action',
                 orderable: false,
@@ -345,8 +365,8 @@
                 data: function(s) {
                     s.hospital_id = $('select[name=hospital_id] option').filter(':selected').val()
                     s.equipment_id = $('#equipment_id').val()
-                    s.equipment_location_id = $('select[name=equipment_location_id] option').filter(':selected')
-                        .val()
+                    s.equipment_location_id = $('select[name=equipment_location_id] option').filter(':selected').val()
+                    s.commisioning = $('select[name=commisioning] option').filter(':selected').val()
                 }
             },
             columns: columns
@@ -357,6 +377,11 @@
         })
 
         $('#equipment_location_id').change(function() {
+            table.draw();
+            hitungAsset()
+        })
+
+        $('#commisioning').change(function() {
             table.draw();
             hitungAsset()
         })

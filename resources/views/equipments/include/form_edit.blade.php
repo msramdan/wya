@@ -249,25 +249,17 @@
                                 class="form-control @error('photo') is-invalid @enderror"
                                 value="{{ isset($employee) ? $employee->photo : old('photo') }}"
                                 placeholder="{{ trans('inventory/equipment/form.photo') }}" />
-
-                            {{--
-                            <button class="btn btn-primary" type="button"><i class="mdi mdi-image"
-                                    aria-hidden="true"></i></button> --}}
-
-
                             <a href="#" class="btn btn-primary" data-bs-toggle="modal" id="view_photo_alat"
                                 data-photo="{{ $equipment->photo }}" data-bs-target="#modalPhotoAlat"
                                 title="View Photo"><i class="mdi mdi-image" aria-hidden="true"></i>
                             </a>
-
-
-                            <p style="color: red">* Choose a photo if you want to change it</p>
-                            @error('photo')
-                                <span class="text-danger">
-                                    {{ $message }}
-                                </span>
-                            @enderror
                         </div>
+                        <p style="color: red">* Choose a photo if you want to change it</p>
+                        @error('photo')
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
                     </div>
                 </div>
             </div>

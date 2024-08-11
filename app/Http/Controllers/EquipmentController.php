@@ -44,6 +44,7 @@ class EquipmentController extends Controller
             $equipments = Equipment::with('nomenklatur:id,name_nomenklatur', 'equipment_category:id,category_name', 'vendor:id,name_vendor', 'equipment_location:id,location_name', 'hospital:id,name')->orderBy('equipment.id', 'DESC');
             $equipment_location_id = intval($request->query('equipment_location_id'));
             $equipment_id = intval($request->query('equipment_id'));
+            $commisioning = $request->query('commisioning');
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
                 $equipments = $equipments->where('hospital_id', $request->hospital_id);
             }
@@ -55,6 +56,10 @@ class EquipmentController extends Controller
             if (Auth::user()->roles->first()->hospital_id) {
                 $equipments = $equipments->where('hospital_id', Auth::user()->roles->first()->hospital_id);
             }
+            if (isset($commisioning) && !empty($commisioning)) {
+                $equipments = $equipments->where('equipment.is_decommissioning', $commisioning);
+            }
+
             if (isset($equipment_id) && !empty($equipment_id)) {
                 $equipments = $equipments->where('equipment.id', $equipment_id);
             }
@@ -686,19 +691,33 @@ class EquipmentController extends Controller
     {
         $month = date('Y-m');
         $location = $request->equipment_location_id;
+        $isDecommissioning = $request->commisioning;
         if (Auth::user()->roles->first()->hospital_id == null) {
             $id = $request->id;
             if ($id != null && $location == null || $id != '' && $location == null) {
                 $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
                 join equipment on equipment_reduction_price.equipment_id = equipment.id
                 WHERE equipment.hospital_id='$id' and month='$month'";
+
+                if ($isDecommissioning !== null) {
+                    $query .= " and equipment.is_decommissioning='$isDecommissioning'";
+                }
             } else if ($id != null && $location != null || $id != '' && $location != null) {
                 $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
                 join equipment on equipment_reduction_price.equipment_id = equipment.id
                 WHERE equipment.hospital_id='$id' and month='$month' and equipment.equipment_location_id='$location'";
+
+                if ($isDecommissioning !== null) {
+                    $query .= " and equipment.is_decommissioning='$isDecommissioning'";
+                }
             } else {
                 $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
-            WHERE month='$month'";
+                join equipment on equipment_reduction_price.equipment_id = equipment.id
+                WHERE month='$month'";
+
+                if ($isDecommissioning !== null) {
+                    $query .= " and equipment.is_decommissioning='$isDecommissioning'";
+                }
             }
         } else {
             $id = Auth::user()->roles->first()->hospital_id;
@@ -706,10 +725,18 @@ class EquipmentController extends Controller
                 $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
                 join equipment on equipment_reduction_price.equipment_id = equipment.id
                 WHERE equipment.hospital_id='$id' and month='$month' and equipment.equipment_location_id='$location'";
+
+                if ($isDecommissioning !== null) {
+                    $query .= " and equipment.is_decommissioning='$isDecommissioning'";
+                }
             } else {
                 $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
                 join equipment on equipment_reduction_price.equipment_id = equipment.id
                 WHERE equipment.hospital_id='$id' and month='$month'";
+
+                if ($isDecommissioning !== null) {
+                    $query .= " and equipment.is_decommissioning='$isDecommissioning'";
+                }
             }
         }
 

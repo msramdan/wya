@@ -34,12 +34,13 @@
         background-color: #f1f1f1;
         text-align: center;
     }
+
     .card-content {
         height: 390px;
     }
 
     .page-break {
-      page-break-before: always;
+        page-break-before: always;
     }
 </style>
 
@@ -166,7 +167,15 @@
                         ->where('work_orders.equipment_id', $equipment->id)
                         ->where('work_order_processes.status', 'finished')
                         ->where('work_orders.type_wo', 'Calibration')
-                        ->select('work_order_processes.id as ids', 'work_order_processes.work_date', 'work_order_processes.calibration_performance_calibration_price', 'work_order_processes.replacement_of_part_service_price', 'work_orders.wo_number', 'work_orders.type_wo', 'work_orders.category_wo')
+                        ->select(
+                            'work_order_processes.id as ids',
+                            'work_order_processes.work_date',
+                            'work_order_processes.calibration_performance_calibration_price',
+                            'work_order_processes.replacement_of_part_service_price',
+                            'work_orders.wo_number',
+                            'work_orders.type_wo',
+                            'work_orders.category_wo',
+                        )
                         ->get();
                 @endphp
                 <tbody>
@@ -212,7 +221,15 @@
                         ->where('work_orders.equipment_id', $equipment->id)
                         ->where('work_order_processes.status', 'finished')
                         ->where('work_orders.type_wo', 'Service')
-                        ->select('work_order_processes.id as ids', 'work_order_processes.work_date', 'work_order_processes.calibration_performance_calibration_price', 'work_order_processes.replacement_of_part_service_price', 'work_orders.wo_number', 'work_orders.type_wo', 'work_orders.category_wo')
+                        ->select(
+                            'work_order_processes.id as ids',
+                            'work_order_processes.work_date',
+                            'work_order_processes.calibration_performance_calibration_price',
+                            'work_order_processes.replacement_of_part_service_price',
+                            'work_orders.wo_number',
+                            'work_orders.type_wo',
+                            'work_orders.category_wo',
+                        )
                         ->get();
                 @endphp
                 <tbody>
@@ -259,7 +276,15 @@
                         ->where('work_orders.equipment_id', $equipment->id)
                         ->where('work_order_processes.status', 'finished')
                         ->where('work_orders.type_wo', 'Training')
-                        ->select('work_order_processes.id as ids', 'work_order_processes.work_date', 'work_order_processes.calibration_performance_calibration_price', 'work_order_processes.replacement_of_part_service_price', 'work_orders.wo_number', 'work_orders.type_wo', 'work_orders.category_wo')
+                        ->select(
+                            'work_order_processes.id as ids',
+                            'work_order_processes.work_date',
+                            'work_order_processes.calibration_performance_calibration_price',
+                            'work_order_processes.replacement_of_part_service_price',
+                            'work_orders.wo_number',
+                            'work_orders.type_wo',
+                            'work_orders.category_wo',
+                        )
                         ->get();
                 @endphp
                 <tbody>
@@ -307,7 +332,15 @@
                         ->where('work_orders.equipment_id', $equipment->id)
                         ->where('work_order_processes.status', 'finished')
                         ->where('work_orders.type_wo', 'Inspection and Preventive Maintenance')
-                        ->select('work_order_processes.id as ids', 'work_order_processes.work_date', 'work_order_processes.calibration_performance_calibration_price', 'work_order_processes.replacement_of_part_service_price', 'work_orders.wo_number', 'work_orders.type_wo', 'work_orders.category_wo')
+                        ->select(
+                            'work_order_processes.id as ids',
+                            'work_order_processes.work_date',
+                            'work_order_processes.calibration_performance_calibration_price',
+                            'work_order_processes.replacement_of_part_service_price',
+                            'work_orders.wo_number',
+                            'work_orders.type_wo',
+                            'work_orders.category_wo',
+                        )
                         ->get();
                 @endphp
                 <tbody>
@@ -332,6 +365,66 @@
                     @endforelse
                 </tbody>
             </table>
+
+
+            <h6 style="margin-left: 10px">VII. History Moving Equipment
+            </h6>
+            <table class="table table-bordered" style="line-height: 4px; margin-left: 5px;font-size:11px;width:100%;">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;">{{ __('No Peminjaman') }}</th>
+                        <th style="text-align: center;">{{ __('PIC') }}</th>
+                        <th style="text-align: center;">{{ __('Lokasi Awal') }}</th>
+                        <th style="text-align: center;">{{ __('Lokasi Tujuan') }}</th>
+                        <th style="text-align: center;">{{ __('Waktu') }}</th>
+                        <th style="text-align: center;">{{ __('Status') }}</th>
+                    </tr>
+                </thead>
+                @php
+                    $loans = DB::table('loans')
+                        ->select(
+                            'loans.*',
+                            'equipment.barcode',
+                            'equipment.manufacturer',
+                            'equipment.type',
+                            'equipment.serial_number',
+                            'employees.name as employee_name',
+                            'el1.code_location as resource_location',
+                            'el2.code_location as destination_location',
+                        )
+                        ->leftJoin('equipment', 'loans.equipment_id', '=', 'equipment.id')
+                        ->leftJoin('employees', 'loans.pic_penanggungjawab', '=', 'employees.id')
+                        ->leftJoin('equipment_locations as el1', 'loans.lokasi_asal_id', '=', 'el1.id')
+                        ->leftJoin('equipment_locations as el2', 'loans.lokasi_peminjam_id', '=', 'el2.id')
+                        ->leftJoin('users as uc', 'loans.user_created', '=', 'uc.id')
+                        ->leftJoin('users as uu', 'loans.user_updated', '=', 'uu.id')
+                        ->where('loans.equipment_id', '=', $equipment->id)
+                        ->orderBy('loans.waktu_pinjam', 'asc')
+                        ->get();
+                @endphp
+                <tbody>
+                    @forelse ($loans as $row)
+                        <tr>
+                            <td>{{ $row->no_peminjaman }}</td>
+                            <td>{{ $row->employee_name }}</td>
+                            <td>{{ $row->resource_location }}</td>
+                            <td>{{ $row->destination_location }}</td>
+                            <td>{{ $row->waktu_pinjam }}</td>
+                            <td>{{ $row->status_peminjaman }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td style="text-align: center;">-</td>
+                            <td style="text-align: center;">-</td>
+                            <td style="text-align: center;">-</td>
+                            <td style="text-align: center;">-</td>
+                            <td style="text-align: center;">-</td>
+                            <td style="text-align: center;">-</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+
     </div>
     <div class="page-break"></div>
     <center>
@@ -339,24 +432,25 @@
         <hr>
     </center>
     <div class="card-container" style="100%">
-        @foreach ( $photo as $q )
-        <div class="card">
-            <div class="card-header">
-                <span style="font-size: 18px"><b>{{ $q->name_photo }}</b></span>
-            </div>
-            <div class="card-content">
-                <center>
-                    <img style="border: 1px solid #ddd;
+        @foreach ($photo as $q)
+            <div class="card">
+                <div class="card-header">
+                    <span style="font-size: 18px"><b>{{ $q->name_photo }}</b></span>
+                </div>
+                <div class="card-content">
+                    <center>
+                        <img
+                            style="border: 1px solid #ddd;
                     border-radius: 4px;
                     padding: 5px;
                     width:95%;
                     margin-top:10px;
                     height:90%;
                     "src="../public/storage/img/file_photo/{{ $q->photo }}">
-                </center>
+                    </center>
 
+                </div>
             </div>
-        </div>
         @endforeach
 
     </div>

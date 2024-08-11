@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sparepart_ins');
+        Schema::dropIfExists('sparepart_trace');
     }
 };

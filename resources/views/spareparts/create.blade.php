@@ -92,4 +92,28 @@
             })
         }
     </script>
+    <script>
+        $(document).ready(function() {
+            var i = 1;
+            $('#add_berkas3').click(function() {
+                i++;
+                $('#dynamic_field3').append('<tr id="row3' + i +
+                    '"><td><input required type="text" name="name_photo[]" placeholder="" class="form-control " /></td><td><input type="file" name="file_photo_sparepart[]" class="form-control" required="" /></td><td><button type="button" name="remove" id="' +
+                    i +
+                    '" class="btn btn-danger btn_remove3"><i class="fa fa-trash" aria-hidden="true"></i></button></td></tr>'
+                );
+            });
+
+            $(document).on('click', '.btn_remove3', function() {
+                var button_id = $(this).attr("id");
+                $('#row3' + button_id + '').remove();
+            });
+
+            $(document).on('click', '.btn_remove3', function() {
+                var bid = this.id;
+                var trid = $(this).closest('tr').attr('id');
+                $('#' + trid + '').remove();
+            });
+        });
+    </script>
 @endpush

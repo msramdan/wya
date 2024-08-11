@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('equipment_files', function (Blueprint $table) {
+        Schema::create('sparepart_photo', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('equipment_id')->nullable()->constrained('equipment')->restrictOnUpdate()->nullOnDelete();
-            $table->string('name_file', 200);
-            $table->string('file', 200);
+            $table->foreignId('sparepart_id')->nullable()->constrained('spareparts')->restrictOnUpdate()->nullOnDelete();
+            $table->string('name_photo', 200);
+            $table->string('photo', 200);
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('equipment_files');
+        Schema::dropIfExists('sparepart_photo');
     }
 };

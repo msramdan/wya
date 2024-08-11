@@ -105,7 +105,7 @@ class SparepartController extends Controller
         DB::beginTransaction();
         try {
             //upload QR
-            Sparepart::create([
+            $sparepart = Sparepart::create([
                 'barcode' => $request->barcode,
                 'sparepart_name' => $request->sparepart_name,
                 'merk' => $request->merk,
@@ -116,6 +116,24 @@ class SparepartController extends Controller
                 'stock' => $request->stock,
                 'hospital_id' => $request->hospital_id,
             ]);
+            $insertedId = $sparepart->id;
+            if ($sparepart) {
+                // photo
+                $name_photo = $request->name_photo;
+                $file_photo = $request->file('file_photo_sparepart');
+                if ($request->hasFile('file_photo_sparepart')) {
+                    foreach ($file_photo as $key => $a) {
+                        $file_photo_name = $a->hashName();
+                        $a->storeAs('public/img/sparepart_photo', $file_photo_name);
+                        $dataPhoto = [
+                            'equipment_id' => $insertedId,
+                            'name_photo' => $name_photo[$key],
+                            'photo' => $file_photo_name,
+                        ];
+                        DB::table('sparepart_photo')->insert($dataPhoto);
+                    }
+                }
+            }
             Alert::toast('The sparepart was created successfully.', 'success');
             return redirect()->route('spareparts.index');
         } catch (\Throwable $th) {
