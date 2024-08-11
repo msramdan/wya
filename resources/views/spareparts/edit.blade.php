@@ -33,7 +33,8 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{ route('spareparts.update', $sparepart->id) }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('spareparts.update', $sparepart->id) }}" method="POST"
+                                enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
 
@@ -85,5 +86,40 @@
 
             })
         }
+    </script>
+    <script type="text/javascript">
+        $(document).on('click', '#view_photo_eq', function() {
+            var photo_eq = $(this).data('photo_eq');
+            var name_photo = $(this).data('name_photo');
+            $('#largeModalPhoto #photo_eq').attr("src", "../../../storage/img/sparepart_photo/" + photo_eq);
+            $('#largeModalPhoto #name_photo').text(name_photo);
+            // console.log(name_fittings);
+        })
+    </script>
+
+    {{-- photo --}}
+    <script>
+        $(document).ready(function() {
+            var i = 1;
+            $('#add_berkas3').click(function() {
+                i++;
+                $('#dynamic_field3').append('<tr id="row3' + i +
+                    '"><td><input required type="text" name="name_photo[]" placeholder="" class="form-control " /></td><td><input type="file" name="file_photo_sparepart[]" class="form-control" required="" /></td><td><button type="button" name="remove" id="' +
+                    i +
+                    '" class="btn btn-danger btn_remove_photo"><i class="fa fa-trash" aria-hidden="true"></i></button></td></tr>'
+                );
+            });
+
+            $(document).on('click', '.btn_remove_photo', function() {
+                var button_id = $(this).attr("id");
+                $('#row3' + button_id + '').remove();
+            });
+
+            $(document).on('click', '.btn_remove3', function() {
+                var bid = this.id;
+                var trid = $(this).closest('tr').attr('id');
+                $('#' + trid + '').remove();
+            });
+        });
     </script>
 @endpush

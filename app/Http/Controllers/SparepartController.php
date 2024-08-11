@@ -170,7 +170,8 @@ class SparepartController extends Controller
         $sparepart->load('unit_item:id,code_unit');
         $unitItems = UnitItem::where('hospital_id', $sparepart->hospital_id)
             ->get();
-        return view('spareparts.edit', compact('sparepart', 'unitItems'));
+        $photo  = DB::table('sparepart_photo')->where('sparepart_id', $sparepart->id)->get();
+        return view('spareparts.edit', compact('sparepart', 'unitItems', 'photo'));
     }
 
     /**
@@ -211,6 +212,39 @@ class SparepartController extends Controller
             'stock' => $request->stock,
             'hospital_id' => $request->hospital_id,
         ]);
+
+        // hapus photo
+        if ($request->id_asal_photo == null) {
+            $tidak_terhapus_fittings = [];
+        } else {
+            $tidak_terhapus_fittings = $request->id_asal_photo;
+        }
+        $hapus_sparepart_photo = DB::table('sparepart_photo')
+            ->where('sparepart_id', '=', $sparepart->id)
+            ->whereNotIn('id', $tidak_terhapus_fittings)
+            ->get();
+        foreach ($hapus_sparepart_photo as $row) {
+            DB::table('sparepart_photo')->where('id', $row->id)->delete();
+            Storage::disk('local')->delete('public/img/sparepart_photo/' . $row->photo);
+        }
+        // upload photo baru
+        if ($request->hasFile('file_photo_sparepart')) {
+            $name_photo = $request->name_photo;
+            $file_photo = $request->file('file_photo_sparepart');
+            foreach ($file_photo as $key => $a) {
+                $file_photo_name = $a->hashName();
+                $a->storeAs('public/img/sparepart_photo', $file_photo_name);
+                $dataPhoto = [
+                    'sparepart_id' => $sparepart->id,
+                    'name_photo' => $name_photo[$key],
+                    'photo' => $file_photo_name,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ];
+                DB::table('sparepart_photo')->insert($dataPhoto);
+            }
+        }
+
 
         Alert::toast('The sparepart was updated successfully.', 'success');
         return redirect()
