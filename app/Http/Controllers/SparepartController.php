@@ -17,6 +17,7 @@ use PDF;
 use App\Models\UnitItem;
 use App\Models\Hospital;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 
 class SparepartController extends Controller
@@ -81,9 +82,9 @@ class SparepartController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
-
         $validator = Validator::make(
             $request->all(),
             [
@@ -96,15 +97,16 @@ class SparepartController extends Controller
                 'opname' => 'required|numeric',
                 'stock' => 'nullable',
                 'hospital_id' => 'required|exists:App\Models\Hospital,id',
-            ],
+            ]
         );
+
         if ($validator->fails()) {
             return redirect()->back()->withInput($request->all())->withErrors($validator);
         }
 
         DB::beginTransaction();
         try {
-            //upload QR
+            // Buat Sparepart baru
             $sparepart = Sparepart::create([
                 'barcode' => $request->barcode,
                 'sparepart_name' => $request->sparepart_name,
@@ -116,32 +118,37 @@ class SparepartController extends Controller
                 'stock' => $request->stock,
                 'hospital_id' => $request->hospital_id,
             ]);
+
             $insertedId = $sparepart->id;
+
             if ($sparepart) {
-                // photo
-                $name_photo = $request->name_photo;
-                $file_photo = $request->file('file_photo_sparepart');
+                // Upload foto jika ada
                 if ($request->hasFile('file_photo_sparepart')) {
+                    $name_photo = $request->name_photo;
+                    $file_photo = $request->file('file_photo_sparepart');
                     foreach ($file_photo as $key => $a) {
                         $file_photo_name = $a->hashName();
                         $a->storeAs('public/img/sparepart_photo', $file_photo_name);
                         $dataPhoto = [
-                            'equipment_id' => $insertedId,
+                            'sparepart_id' => $insertedId,
                             'name_photo' => $name_photo[$key],
                             'photo' => $file_photo_name,
+                            'created_at' => date('Y-m-d H:i:s'),
+                            'updated_at' => date('Y-m-d H:i:s'),
                         ];
                         DB::table('sparepart_photo')->insert($dataPhoto);
                     }
                 }
             }
+
+            DB::commit(); // Panggil commit setelah semua operasi berhasil
+
             Alert::toast('The sparepart was created successfully.', 'success');
             return redirect()->route('spareparts.index');
         } catch (\Throwable $th) {
             DB::rollBack();
             Alert::toast('Data failed to save', 'error');
             return redirect()->route('spareparts.index');
-        } finally {
-            DB::commit();
         }
     }
 
@@ -218,12 +225,35 @@ class SparepartController extends Controller
      */
     public function destroy(Sparepart $sparepart)
     {
+        DB::beginTransaction();
+
         try {
+            // Ambil daftar foto yang terkait dengan sparepart
+            $sparepart_photos = DB::table('sparepart_photo')
+                ->where('sparepart_id', $sparepart->id)
+                ->pluck('photo', 'id');
+
+            // Hapus file dari storage
+            foreach ($sparepart_photos as $id => $photo) {
+                Storage::disk('local')->delete('public/img/sparepart_photo/' . $photo);
+            }
+
+            // Hapus record dari database
+            DB::table('sparepart_photo')
+                ->whereIn('id', $sparepart_photos->keys())
+                ->delete();
+
+            // Hapus sparepart
             $sparepart->delete();
+
+            DB::commit();
+
             Alert::toast('The sparepart was deleted successfully.', 'success');
             return redirect()->route('spareparts.index');
         } catch (\Throwable $th) {
-            Alert::toast('The sparepart cant be deleted because its related to another table.', 'error');
+            DB::rollBack();
+
+            Alert::toast('The sparepart can\'t be deleted because it\'s related to another table.', 'error');
             return redirect()->route('spareparts.index');
         }
     }
