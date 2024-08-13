@@ -11,33 +11,21 @@
                     </div>
                     <div class="col-md-8">
                         <div class="col-md-12 mb-2">
-                            {{-- <label for="lokasi-asal-id">{{ __('Resource location') }}</label>
+                            <label for="lokasi_asal_id">{{ __('Resource location') }}</label>
                             <select
-                                class="form-control js-example-basic-multiple @error('lokasi_asal_id') is-invalid @enderror"
-                                name="lokasi_asal_id" id="lokasi-asal-id" required>
-                                <option value="" selected disabled>-- {{ __('Select Resource location') }} --
-                                </option>
-                            </select>
-                            @error('lokasi_asal_id')
-                                <span class="text-danger">
-                                    {{ $message }}
-                                </span>
-                            @enderror --}}
-                            <label for="location_id">{{ __('Resource location') }}</label>
-                            <select
-                                class="form-control js-example-basic-multiple  @error('location_id') is-invalid @enderror"
-                                name="location_id" id="location_id" required>
+                                class="form-control js-example-basic-multiple  @error('lokasi_asal_id') is-invalid @enderror"
+                                name="lokasi_asal_id" id="lokasi_asal_id" required>
                                 <option value="" selected disabled>-- Select --</option>
                                 @foreach ($equipmentLocations as $equipmentLocation)
                                     <option value="{{ $equipmentLocation->id }}"
-                                        @if (old('location_id')) {{ old('location_id') == $equipmentLocation->id ? 'selected' : '' }}
+                                        @if (old('lokasi_asal_id')) {{ old('lokasi_asal_id') == $equipmentLocation->id ? 'selected' : '' }}
                                         @elseif(isset($workOrder))
                                         {{ $workOrderObj->equipment->equipment_location_id == $equipmentLocation->id ? 'selected' : '' }} @endif>
                                         {{ $equipmentLocation->location_name }}
                                     </option>
                                 @endforeach
                             </select>
-                            @error('location_id')
+                            @error('lokasi_asal_id')
                                 <span class="text-danger">
                                     {{ $message }}
                                 </span>
@@ -175,58 +163,32 @@
                     @enderror
                 </div>
 
-
-
-                @isset($loan)
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-4 text-center">
-                                @if ($loan->bukti_peminjaman == null)
-                                    <img src="https://via.placeholder.com/350?text=No+Image+Avaiable" alt="Bukti Peminjaman"
-                                        class="rounded mb-2 mt-2" alt="Bukti Peminjaman" width="200" height="150"
-                                        style="object-fit: cover">
-                                @else
-                                    <img src="{{ asset('storage/uploads/bukti_peminjamen/' . $loan->bukti_peminjaman) }}"
-                                        alt="Bukti Peminjaman" class="rounded mb-2 mt-2" width="200" height="150"
-                                        style="object-fit: cover">
-                                @endif
-                            </div>
-
-                            <div class="col-md-8">
-                                <div class="form-group ms-3">
-                                    <label for="bukti_peminjaman">{{ __('Bukti Peminjaman') }}</label>
-                                    <input type="file" name="bukti_peminjaman"
-                                        class="form-control @error('bukti_peminjaman') is-invalid @enderror"
-                                        id="bukti_peminjaman">
-
-                                    @error('bukti_peminjaman')
-                                        <span class="text-danger">
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
-                                    <div id="bukti_peminjamanHelpBlock" class="form-text">
-                                        {{ __('Leave the bukti peminjaman blank if you don`t want to change it.') }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                {{-- photo --}}
+                <div class="alert alert-secondary" role="alert">
+                    <b> <i class="fa fa-file" aria-hidden="true"></i> Bukti peminjaman <span
+                            style="color:red; font-size:11px">(
+                            Rekomendasi gambar adalah jpg/png ) </span></b>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12 mb-2">
+                        <button style="margin-bottom: 10px;" type="button" name="add_berkas3" id="add_berkas3"
+                            class="btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i>
+                            {{ trans('inventory/equipment/form.add_photo') }}</button>
+                        <table class="table table-bordered" id="dynamic_field3">
+                            <thead>
+                                <tr>
+                                    <th>{{ trans('inventory/equipment/form.desc') }}</th>
+                                    <th style="width: 200px">{{ trans('inventory/equipment/form.file') }}</th>
+                                    <th>{{ trans('inventory/equipment/form.action') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
                     </div>
-                @else
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="bukti_peminjaman">{{ __('Bukti Peminjaman') }}</label>
-                            <input type="file" name="bukti_peminjaman"
-                                class="form-control @error('bukti_peminjaman') is-invalid @enderror"
-                                id="bukti_peminjaman" required>
 
-                            @error('bukti_peminjaman')
-                                <span class="text-danger">
-                                    {{ $message }}
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                @endisset
+                </div>
             </div>
         </div>
     </div>
@@ -252,7 +214,7 @@
 
 @push('js')
     <script>
-        $('#location_id').on("select2:select", function(e) {
+        $('#lokasi_asal_id').on("select2:select", function(e) {
             eventChangeLocationId();
         });
 
@@ -260,14 +222,14 @@
             eventChangeEquipmentId();
         });
 
-        if ($('#location_id').val() != null) {
+        if ($('#lokasi_asal_id').val() != null) {
             eventChangeLocationId(() => {
                 eventChangeEquipmentId();
             });
         }
 
         function eventChangeLocationId(cb = null) {
-            const equipmentLocationId = $('#location_id').val();
+            const equipmentLocationId = $('#lokasi_asal_id').val();
             const valueEquipmentId = '{{ old('equipment_id') }}';
 
             fetch(`{{ route('api.equipment.index') }}?equipment_location_id=${equipmentLocationId}`)
@@ -385,7 +347,7 @@
                     .then((res) => res.json())
                     .then((response) => {
                         const data = response.data;
-                        $('#location_id').val(data.equipment_location_id).trigger('change');
+                        $('#lokasi_asal_id').val(data.equipment_location_id).trigger('change');
                         eventChangeLocationId(() => {
                             $('#equipment-id').val(data.id).trigger('change');
                             eventChangeEquipmentId();

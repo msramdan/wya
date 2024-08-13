@@ -93,3 +93,15 @@
         </div>
     </div>
 @endsection
+
+
+@push('js')
+    <script type="text/javascript">
+        $(document).on('click', '#view_photo_eq', function() {
+            var photo_eq = $(this).data('photo_eq');
+            var name_photo = $(this).data('name_photo');
+            $('#largeModalPhoto #photo_eq').attr("src", "../../../storage/img/moving_photo/" + photo_eq);
+            $('#largeModalPhoto #name_photo').text(name_photo);
+        })
+    </script>
+@endpush

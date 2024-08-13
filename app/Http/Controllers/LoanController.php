@@ -109,42 +109,30 @@ class LoanController extends Controller
     public function store(StoreLoanRequest $request)
     {
         $attr = $request->validated();
-
-        if ($request->file('bukti_peminjaman') && $request->file('bukti_peminjaman')->isValid()) {
-
-            $path = storage_path('app/public/uploads/bukti_peminjamen/');
-            $filename = $request->file('bukti_peminjaman')->hashName();
-
-            if (!file_exists($path)) {
-                mkdir($path, 0777, true);
-            }
-
-            Image::make($request->file('bukti_peminjaman')->getRealPath())->resize(500, 500, function ($constraint) {
-                $constraint->upsize();
-                $constraint->aspectRatio();
-            })->save($path . $filename);
-
-            $attr['bukti_peminjaman'] = $filename;
-        }
-        if ($request->file('bukti_pengembalian') && $request->file('bukti_pengembalian')->isValid()) {
-
-            $path = storage_path('app/public/uploads/bukti_pengembalians/');
-            $filename = $request->file('bukti_pengembalian')->hashName();
-
-            if (!file_exists($path)) {
-                mkdir($path, 0777, true);
-            }
-
-            Image::make($request->file('bukti_pengembalian')->getRealPath())->resize(500, 500, function ($constraint) {
-                $constraint->upsize();
-                $constraint->aspectRatio();
-            })->save($path . $filename);
-
-            $attr['bukti_pengembalian'] = $filename;
-        }
         $attr['status_peminjaman'] = 'Belum dikembalikan';
         $attr['user_created'] = Auth::id();
-        Loan::create($attr);
+        $loan =  Loan::create($attr);
+
+        if ($loan) {
+            $insertedId = $loan->id;
+            if ($request->hasFile('file_photo_sparepart')) {
+                $name_photo = $request->name_photo;
+                $file_photo = $request->file('file_photo_sparepart');
+                foreach ($file_photo as $key => $a) {
+                    $file_photo_name = $a->hashName();
+                    $a->storeAs('public/img/moving_photo', $file_photo_name);
+                    $dataPhoto = [
+                        'loan_id' => $insertedId,
+                        'name_photo' => $name_photo[$key],
+                        'photo' => $file_photo_name,
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s'),
+                    ];
+                    DB::table('loans_photo')->insert($dataPhoto);
+                }
+            }
+        }
+
         Alert::toast('The Moving Equipment was created successfully.', 'success');
         return redirect()
             ->route('loans.index');
@@ -178,7 +166,8 @@ class LoanController extends Controller
             ->leftJoin('users as uu', 'loans.user_updated', '=', 'uu.id')
             ->where('loans.id', $id)
             ->first();
-        return view('loans.show', compact('loan'));
+        $photo  = DB::table('loans_photo')->where('loan_id', $id)->get();
+        return view('loans.show', compact('loan', 'photo'));
     }
 
     /**
@@ -209,7 +198,8 @@ class LoanController extends Controller
             ->leftJoin('users as uu', 'loans.user_updated', '=', 'uu.id')
             ->where('loans.id', $id)
             ->first();
-        return view('loans.edit', compact('loan'));
+        $photo  = DB::table('loans_photo')->where('loan_id', $id)->get();
+        return view('loans.edit', compact('loan', 'photo'));
     }
 
     /**
@@ -241,7 +231,7 @@ class LoanController extends Controller
             $attr['bukti_pengembalian'] = $filename;
         }
         $attr['status_peminjaman'] = 'Sudah dikembalikan';
-        $attr['user_updated'] =Auth::id();
+        $attr['user_updated'] = Auth::id();
         $loan->update($attr);
         Alert::toast('The Moving Equipment was updated successfully.', 'success');
         return redirect()->back();

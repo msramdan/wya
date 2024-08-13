@@ -1,5 +1,4 @@
 <div class="row">
-
     <div class="col-md-6">
         @if (!Auth::user()->roles->first()->hospital_id)
             <div class="col-md-12 mb-2">

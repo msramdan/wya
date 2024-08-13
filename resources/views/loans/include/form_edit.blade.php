@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
         <div class="table-responsive">
             <table class="table table-hover table-striped table-sm">
                 <tr>
@@ -50,32 +50,65 @@
                     <td></td>
                     <td></td>
                 </tr>
-                <tr>
-                    <td class="fw-bold">{{ __('Bukti Peminjaman') }}</td>
-                    <td>
-                        @if ($loan->bukti_peminjaman == null)
-                            <img src="https://via.placeholder.com/350?text=No+Image+Avaiable" alt="Bukti Peminjaman"
-                                class="rounded" width="200" height="150" style="object-fit: cover">
-                        @else
-                            <img src="{{ asset('storage/uploads/bukti_peminjamen/' . $loan->bukti_peminjaman) }}"
-                                alt="Bukti Peminjaman" class="img-thumbnail" width="200" height="150"
-                                style="object-fit: cover">
-                        @endif
-                    </td>
-                    <td class="fw-bold">{{ __('Bukti Pengembalian') }}</td>
-                    <td>
-                        @if ($loan->bukti_pengembalian == null)
-                            -
-                        @else
-                            <img src="{{ asset('storage/uploads/bukti_pengembalians/' . $loan->bukti_pengembalian) }}"
-                                alt="Bukti Pengembalian" class="img-thumbnail" width="200" height="150"
-                                style="object-fit: cover">
-                        @endif
-                    </td>
-
-                </tr>
             </table>
         </div>
 
+    </div>
+
+    <div class="col-md-6">
+        <div class="alert alert-secondary" role="alert">
+            <b> <i class="fa fa-file" aria-hidden="true"></i> Bukti peminjaman</b>
+        </div>
+        <table class="table table-bordered" id="dynamic_field3">
+            <thead>
+                <tr>
+                    <th>{{ trans('inventory/equipment/form.desc') }}</th>
+                    <th>{{ trans('inventory/equipment/form.file') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($photo as $row)
+                    <tr id="detail_photo<?= $row->id ?>">
+                        <td>
+                            <input type="hidden" name="id_asal_photo[]" value="{{ $row->id }}"
+                                class="form-control " />
+                            <input required type="text" value="{{ $row->name_photo }}" placeholder=""
+                                class="form-control" readonly />
+                        </td>
+                        <td style="width: 200px">
+                            <center>
+                                <a href="#" style="width: 160px" class="btn btn-primary" data-bs-toggle="modal"
+                                    id="view_photo_eq" data-id="{{ $row->id }}"
+                                    data-photo_eq="{{ $row->photo }}" data-name_photo="{{ $row->name_photo }}"
+                                    data-bs-target="#largeModalPhoto" title="View Gambar"><i class="mdi mdi-file"></i>
+                                    View File
+                                </a>
+
+                            </center>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="largeModalPhoto" tabindex="-1" role="dialog" aria-labelledby="basicModal"
+    aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Name Photo : <span id="name_photo"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <hr>
+            </div>
+            <div class="modal-body">
+                <center><img src="" id="photo_eq" style="width: 100%;margin:0px" />
+                </center>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
 </div>
