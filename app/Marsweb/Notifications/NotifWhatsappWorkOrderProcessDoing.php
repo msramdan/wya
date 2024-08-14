@@ -30,7 +30,7 @@ class NotifWhatsappWorkOrderProcessDoing
         $this->message .= "\n\nHospital: " . $this->workOrder->hospital_name;
         $this->message .= "\nUser Updated: " . Auth::user()->name;
         $this->message .= "\nEquipment: " .  $this->workOrder->serial_number." | " . $this->workOrder->manufacturer." | " .$this->workOrder->type;
-        $this->message .= "\nType: " . $this->workOrder->type_wo;
+        $this->message .= "\nType Wo: " . ($this->workOrder->type_wo == 'Training' ? 'Training/Uji fungsi' : $this->workOrder->type_wo);
         $this->message .= "\nCategory Wo: " . $this->workOrder->category_wo;
         $this->message .= "\nWork Date: " . $this->request->work_date;
         $this->message .= "\nStatus: " . $this->request->status;

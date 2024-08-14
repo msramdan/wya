@@ -70,7 +70,7 @@ class WorkOrder extends Model
         } else {
             $user = "Super Admin";
         }
-        return "Work Order " . $this->type_wo . " {$eventName} By "  . $user;
+        return "Work Order " . ($this->type_wo == 'Training' ? 'Training/Uji fungsi' : $this->type_wo) . " {$eventName} By " . $user;
     }
 
     protected static function booted()

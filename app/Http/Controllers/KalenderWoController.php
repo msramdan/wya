@@ -46,9 +46,9 @@ class KalenderWoController extends Controller
         $events = $query->orderBy('work_order_processes.schedule_date', 'ASC')->get();
         $events = $events->map(function ($event) {
             return [
-                'title' => $event->wo_number . ' - ' . $event->type_wo . ' - ' . $event->barcode,
+                'title' => $event->wo_number . ' - ' . ($event->type_wo == 'Training' ? 'Training/Uji fungsi' : $event->type_wo) . ' - ' . $event->barcode,
                 'wo_number' => $event->wo_number,
-                'type_wo' => $event->type_wo,
+                'type_wo' => $event->type_wo == 'Training' ? 'Training/Uji fungsi' : $event->type_wo,
                 'barcode' => $event->barcode,
                 'manufacturer' => $event->manufacturer,
                 'serial_number' => $event->serial_number,

@@ -166,7 +166,7 @@
                         @foreach ($data as $row)
                             <tr>
                                 <td>{{ $row->wo_number }}</td>
-                                <td>{{ $row->type_wo }}</td>
+                                <td>{{ $row->type_wo == 'Training' ? 'Training/Uji fungsi' : $row->type_wo }}</td>
                                 <td>{{ $row->category_wo }}</td>
                                 <td>{{ $row->filed_date }}</td>
                                 <td>{{ $row->schedule_date }}</td>

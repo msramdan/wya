@@ -11,7 +11,8 @@
                 <div class="col-lg-6">
                     <div class="form-group mb-3">
                         <label for="type_wo">WO Type</label>
-                        <input type="text" name="type_wo" id="type_wo" class="form-control" value="{{ $workOrder->type_wo }}" readonly>
+                        <input type="hidden" name="type_wo" id="type_wo" class="form-control" value="{{ $workOrder->type_wo }}" readonly>
+                        <input type="text" name="type_wo" id="type_wo_text" class="form-control" value="{{ $workOrder->type_wo == 'Training' ? 'Training/Uji fungsi' : $workOrder->type_wo }}" readonly>
                     </div>
                     <div class="form-group mb-3">
                         <label for="executor">Executor</label>
