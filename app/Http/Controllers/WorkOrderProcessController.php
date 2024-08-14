@@ -117,6 +117,8 @@ class WorkOrderProcessController extends Controller
                 })
                 ->addColumn('equipment', function ($row) {
                     return $row->equipment ? $row->equipment->barcode : '';
+                })->addColumn('type_wo', function ($row) {
+                    return $row->type_wo == 'Training' ? 'Training/Uji fungsi' : $row->type_wo;
                 })->addColumn('user', function ($row) {
                     return $row->user ? $row->user->name : '';
                 })
@@ -181,7 +183,7 @@ class WorkOrderProcessController extends Controller
     {
         $workOrderProcess = WorkOrderProcess::find($workOrderProcessId);
         $workOrder = DB::table('work_orders')
-            ->select('work_orders.*','work_orders.id as work_orders_id', 'equipment.barcode', 'equipment.serial_number', 'equipment.manufacturer', 'equipment.type', 'hospitals.name as hospital_name')
+            ->select('work_orders.*', 'work_orders.id as work_orders_id', 'equipment.barcode', 'equipment.serial_number', 'equipment.manufacturer', 'equipment.type', 'hospitals.name as hospital_name')
             ->join('equipment', 'work_orders.equipment_id', '=', 'equipment.id')
             ->join('hospitals', 'work_orders.hospital_id', '=', 'hospitals.id')
             ->where('work_orders.id', $workOrderProcess->work_order_id)
@@ -335,8 +337,8 @@ class WorkOrderProcessController extends Controller
                 ->where('work_orders.id', $workOrder->id)
                 ->update(['status_wo' => 'on-going']);
         } else if ($request->status == 'Finish') {
-            if (countWoProcess($workOrder->work_orders_id,'ready-to-start') == 0) {
-                if (countWoProcess($workOrder->work_orders_id,'on-progress') == 0) {
+            if (countWoProcess($workOrder->work_orders_id, 'ready-to-start') == 0) {
+                if (countWoProcess($workOrder->work_orders_id, 'on-progress') == 0) {
                     DB::table('work_orders')
                         ->where('work_orders.id', $workOrder->id)
                         ->update([

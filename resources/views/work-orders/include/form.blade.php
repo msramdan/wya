@@ -84,7 +84,7 @@
                                 {{ __('Service') }}</option>
                             <option value="Training"
                                 {{ isset($workOrder) && $workOrder->type_wo == 'Training' ? 'selected' : (old('type_wo') == 'Training' ? 'selected' : '') }}>
-                                {{ __('Training') }}</option>
+                                {{ __('Training/Uji fungsi') }}</option>
                             <option value="Inspection and Preventive Maintenance"
                                 {{ isset($workOrder) && $workOrder->type_wo == 'Inspection and Preventive Maintenance' ? 'selected' : (old('type_wo') == 'Inspection and Preventive Maintenance' ? 'selected' : '') }}>
                                 {{ __('Inspection and Preventive Maintenance') }}</option>`

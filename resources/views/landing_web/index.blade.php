@@ -93,7 +93,7 @@
                             <li><i class="bi bi-check"></i> Service
                             </li>
                             <li><i class="bi bi-check"></i> Kalibrasi </li>
-                            <li><i class="bi bi-check"></i> Training</li>
+                            <li><i class="bi bi-check"></i> Training/Uji fungsi</li>
                         </ul>
                         <p style="text-align: justify">
                             Pengelolaan program tersebut adalah berupa penjadwalan program-program yang di rencanakan
@@ -147,7 +147,7 @@
                             </li>
                             <li><i class="bi bi-check"></i> kegiatan Service
                             </li>
-                            <li><i class="bi bi-check"></i> kegiatan Training
+                            <li><i class="bi bi-check"></i> kegiatan Training/Uji fungsi
                             </li>
                             <li><i class="bi bi-check"></i> penggantian part/ asessoris
                         </ul>
@@ -218,7 +218,7 @@
                         </p>
                         <p style="text-align: justify">
                             Beberapa data yang di tampilkan di dalam Laporan ini adalah Total Kegiatan IPM (di dalamnya
-                            ada Preventive Maintenance, Service, Kalibrasi dan Training), Informasi Status Work Order
+                            ada Preventive Maintenance, Service, Kalibrasi dan Training/Uji fungsi), Informasi Status Work Order
                             (Waiing for Approval, Approved, on Progress dan Finish), informasi Expense (Service,
                             Kalibrasi dan Part/ Asessoris), Total Asset yang dimiliki oleh Rumah Sakit)
                         </p>

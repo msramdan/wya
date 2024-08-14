@@ -45,7 +45,6 @@
                 </div>
             </div>
         </div>
-
     </div>
     <div class="page-content">
         <div class="container-fluid">
@@ -133,7 +132,7 @@
                                             <option value="Service" {{ $type_wo == 'Service' ? 'selected' : '' }}>Service
                                             </option>
                                             <option value="Training" {{ $type_wo == 'Training' ? 'selected' : '' }}>
-                                                Training</option>
+                                                Training/Uji fungsi</option>
                                             <option value="Inspection and Preventive Maintenance"
                                                 {{ $type_wo == 'Inspection and Preventive Maintenance' ? 'selected' : '' }}>
                                                 Inspection and Preventive Maintenance

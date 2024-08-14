@@ -1335,7 +1335,7 @@
         new Chart(ctx3, {
             type: 'pie',
             data: {
-                labels: ['Calibration', 'Service', 'Training', 'Inspection and Preventive Maintenance'],
+                labels: ['Calibration', 'Service', 'Training/Uji fungsi', 'Inspection and Preventive Maintenance'],
                 datasets: [{
                     label: '# Total',
                     data: [{{ totalWoByType('Calibration', $microFrom, $microTo, $ids) }},

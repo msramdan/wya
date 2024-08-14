@@ -41,7 +41,7 @@
                         </tr>
                         <tr>
                             <th>{{ trans('work-order/submission/index.type') }}</th>
-                            <td>{{ $model->type_wo }}</td>
+                            <td>{{ $model->type_wo == 'Training' ? 'Training/Uji fungsi' : $model->type_wo }}</td>
                         </tr>
                         <tr>
                             <th>{{ trans('work-order/submission/index.category') }}</th>

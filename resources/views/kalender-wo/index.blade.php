@@ -81,7 +81,7 @@
                                                 Service
                                             </option>
                                             <option value="Training" {{ $selectedJenis == 'Training' ? 'selected' : '' }}>
-                                                Training</option>
+                                                Training/Uji fungsi</option>
                                             <option value="Inspection and Preventive Maintenance"
                                                 {{ $selectedJenis == 'Inspection and Preventive Maintenance' ? 'selected' : '' }}>
                                                 Inspection and Preventive Maintenance

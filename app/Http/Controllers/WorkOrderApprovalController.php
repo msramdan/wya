@@ -109,6 +109,8 @@ class WorkOrderApprovalController extends Controller
                 })
                 ->addColumn('equipment', function ($row) {
                     return $row->equipment ? $row->equipment->barcode : '';
+                })->addColumn('type_wo', function ($row) {
+                    return $row->type_wo == 'Training' ? 'Training/Uji fungsi' : $row->type_wo;
                 })->addColumn('user', function ($row) {
                     return $row->user ? $row->user->name : '';
                 })->addColumn('action', function ($row) {
