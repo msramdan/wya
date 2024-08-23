@@ -409,7 +409,7 @@
 
 
     <tr>
-        <td class="cell-head bg-primary" colspan="6">Pemeliharaan Alat</td>
+        <td class="cell-head bg-primary" colspan="6">Alat yang digunaka untuk pemeliharaan</td>
         <td class="cell-head bg-primary" colspan="6">Pergantian Sparepart & Konsumable</td>
     </tr>
     <tr>
