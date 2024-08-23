@@ -14,7 +14,8 @@
                             <select
                                 class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
                                 name="hospital_id" id="hospital_id" required>
-                                <option value="" selected disabled>-- {{ trans('work-order/submission/form.filter_hospital') }} --</option>
+                                <option value="" selected disabled>--
+                                    {{ trans('work-order/submission/form.filter_hospital') }} --</option>
                                 @if (isset($workOrder))
                                     @foreach ($hispotals as $hispotal)
                                         <option value="{{ $hispotal->id }}"
@@ -75,7 +76,8 @@
                         <label for="type-wo">{{ trans('work-order/submission/form.type_wo') }}</label>
                         <select class="form-control js-example-basic-multiple @error('type_wo') is-invalid @enderror"
                             name="type_wo" id="type-wo" required>
-                            <option value="" selected disabled>-- {{ trans('work-order/submission/form.filter_type_wo') }} --</option>
+                            <option value="" selected disabled>--
+                                {{ trans('work-order/submission/form.filter_type_wo') }} --</option>
                             <option value="Calibration"
                                 {{ isset($workOrder) && $workOrder->type_wo == 'Calibration' ? 'selected' : (old('type_wo') == 'Calibration' ? 'selected' : '') }}>
                                 {{ __('Calibration') }}</option>
@@ -101,7 +103,8 @@
                         <select
                             class="form-control js-example-basic-multiple @error('category_wo') is-invalid @enderror"
                             name="category_wo" id="category-wo" required>
-                            <option value="" selected disabled>-- {{ trans('work-order/submission/form.filter_category_wo') }} --</option>
+                            <option value="" selected disabled>--
+                                {{ trans('work-order/submission/form.filter_category_wo') }} --</option>
                             <option value="Rutin"
                                 {{ isset($workOrder) && $workOrder->category_wo == 'Rutin' ? 'selected' : (old('category_wo') == 'Rutin' ? 'selected' : '') }}>
                                 {{ __('Rutin') }}</option>
@@ -154,7 +157,8 @@
                         <select
                             class="form-control js-example-basic-multiple  @error('location_id') is-invalid @enderror"
                             name="location_id" id="location_id" required>
-                            <option value="" selected disabled>-- {{ trans('work-order/submission/form.filter_location') }} --</option>
+                            <option value="" selected disabled>--
+                                {{ trans('work-order/submission/form.filter_location') }} --</option>
                             @foreach ($equipmentLocations as $equipmentLocation)
                                 <option value="{{ $equipmentLocation->id }}"
                                     @if (old('location_id')) {{ old('location_id') == $equipmentLocation->id ? 'selected' : '' }}
@@ -174,7 +178,8 @@
                         <select
                             class="form-control js-example-basic-multiple @error('equipment_id') is-invalid @enderror"
                             name="equipment_id" id="equipment-id" required>
-                            <option value="" selected disabled>-- {{ trans('work-order/submission/form.filter_location') }} --</option>
+                            <option value="" selected disabled>--
+                                {{ trans('work-order/submission/form.filter_location') }} --</option>
                         </select>
                         @error('equipment_id')
                             <span class="text-danger">
@@ -228,7 +233,8 @@
                         <select
                             class="form-control js-example-basic-multiple @error('schedule_wo') is-invalid @enderror"
                             name="schedule_wo" id="schedule-wo">
-                            <option value="" selected disabled>-- {{ trans('work-order/submission/form.filter_schedule_wo') }} --</option>
+                            <option value="" selected disabled>--
+                                {{ trans('work-order/submission/form.filter_schedule_wo') }} --</option>
                             <option value="Harian"
                                 {{ isset($workOrder) && $workOrder->schedule_wo == 'Harian' ? 'selected' : (old('schedule_wo') == 'Harian' ? 'selected' : '') }}>
                                 {{ __('Harian') }}</option>
@@ -347,6 +353,37 @@
                 <hr>
                 <div id="equipment-detail-content">
 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="alert alert-secondary" role="alert">
+                    <b> <i class="fa fa-file" aria-hidden="true"></i> Photo sebelum WO <span
+                            style="color:red; font-size:11px">(
+                            Rekomendasi gambar adalah jpg/png ) </span></b>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12 mb-2">
+                        <button style="margin-bottom: 10px;" type="button" name="add_berkas3" id="add_berkas3"
+                            class="btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i>
+                            {{ trans('inventory/equipment/form.add_photo') }}</button>
+                        <table class="table table-bordered" id="dynamic_field3">
+                            <thead>
+                                <tr>
+                                    <th>{{ trans('inventory/equipment/form.desc') }}</th>
+                                    <th style="width: 200px">{{ trans('inventory/equipment/form.file') }}</th>
+                                    <th>{{ trans('inventory/equipment/form.action') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

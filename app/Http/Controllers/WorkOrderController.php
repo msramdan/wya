@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class WorkOrderController extends Controller
 {
@@ -240,6 +241,27 @@ class WorkOrderController extends Controller
         }
 
         $workOrder = WorkOrder::create($data);
+        $insertedId = $workOrder->id;
+
+        if ($workOrder) {
+            if ($request->hasFile('file_photo_work_order_photo_before')) {
+                $name_photo = $request->name_photo;
+                $file_photo = $request->file('file_photo_work_order_photo_before');
+                foreach ($file_photo as $key => $a) {
+                    $file_photo_name = $a->hashName();
+                    $a->storeAs('public/img/work_order_photo_before', $file_photo_name);
+                    $dataPhoto = [
+                        'work_order_id' => $insertedId,
+                        'name_photo' => $name_photo[$key],
+                        'photo' => $file_photo_name,
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s'),
+                    ];
+                    DB::table('work_order_photo_before')->insert($dataPhoto);
+                }
+            }
+        }
+
 
         if ($workOrder->status_wo == 'accepted') {
             if ($workOrder->category_wo == 'Rutin') {
