@@ -112,6 +112,7 @@
                                             <th>{{ __('Lokasi Awal') }}</th>
                                             <th>{{ __('Lokasi Tujuan') }}</th>
                                             <th>{{ __('Waktu') }}</th>
+                                            <th>{{ __('Rencana Pengembalian') }}</th>
                                             <th>{{ __('Status') }}</th>
                                             <th>{{ __('Action') }}</th>
                                         </tr>
@@ -171,6 +172,10 @@
             {
                 data: 'waktu_pinjam',
                 name: 'waktu_pinjam',
+            },
+            {
+                data: 'rencana_pengembalian',
+                name: 'rencana_pengembalian',
             },
             {
                 data: 'status_peminjaman',

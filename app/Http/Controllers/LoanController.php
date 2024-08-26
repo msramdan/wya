@@ -71,7 +71,16 @@ class LoanController extends Controller
                 ->addColumn('waktu_pinjam', function ($row) {
                     return \Carbon\Carbon::parse($row->waktu_pinjam)->format('Y-m-d');
                 })
+
+                ->addColumn('rencana_pengembalian', function ($row) {
+                    if ($row->rencana_pengembalian > date('Y-m-d')) {
+                        return '<button style="width:90px" class="btn btn-success btn-sm btn-block"> ' . $row->rencana_pengembalian . '</button>';
+                    } else {
+                        return '<button style="width:90px" class="btn btn-danger btn-sm btn-block"> ' . $row->rencana_pengembalian . '</button>';
+                    }
+                })
                 ->addColumn('action', 'loans.include.action')
+                ->rawColumns(['rencana_pengembalian', 'action'])
                 ->toJson();
         }
 

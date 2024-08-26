@@ -105,8 +105,8 @@
                                             <tr>
                                                 <td class="fw-bold">{{ __('User Updated') }}</td>
                                                 <td>{{ $loan->user_updated_name }}</td>
-                                                <td></td>
-                                                <td></td>
+                                                <td class="fw-bold">{{ __('Rencana Pengembalian') }}</td>
+                                                <td>{{ $loan->rencana_pengembalian }}</td>
                                             </tr>
                                         </table>
                                     </div>

@@ -30,6 +30,7 @@ class StoreLoanRequest extends FormRequest
             'lokasi_asal_id' => 'required|exists:App\Models\EquipmentLocation,id',
             'lokasi_peminjam_id' => 'required|exists:App\Models\EquipmentLocation,id',
             'waktu_pinjam' => 'required',
+            'rencana_pengembalian' => 'required',
             'waktu_dikembalikan' => 'nullable',
             'alasan_peminjaman' => 'required|string',
             'catatan_pengembalian' => 'nullable|string',

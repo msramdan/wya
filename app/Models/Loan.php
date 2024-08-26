@@ -20,14 +20,14 @@ class Loan extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['no_peminjaman', 'equipment_id', 'hospital_id', 'lokasi_asal_id', 'lokasi_peminjam_id', 'waktu_pinjam', 'waktu_dikembalikan', 'alasan_peminjaman', 'status_peminjaman', 'catatan_pengembalian', 'pic_penanggungjawab', 'bukti_pengembalian', 'user_created', 'user_updated'];
+    protected $fillable = ['no_peminjaman', 'equipment_id', 'hospital_id', 'lokasi_asal_id', 'lokasi_peminjam_id', 'waktu_pinjam','rencana_pengembalian', 'waktu_dikembalikan', 'alasan_peminjaman', 'status_peminjaman', 'catatan_pengembalian', 'pic_penanggungjawab', 'bukti_pengembalian', 'user_created', 'user_updated'];
 
     /**
      * The attributes that should be cast.
      *
      * @var string[]
      */
-    protected $casts = ['no_peminjaman' => 'string', 'waktu_pinjam' => 'datetime:d/m/Y H:i', 'waktu_dikembalikan' => 'datetime:d/m/Y H:i', 'alasan_peminjaman' => 'string', 'catatan_pengembalian' => 'string', 'pic_penanggungjawab' => 'string','bukti_pengembalian' => 'string', 'created_at' => 'datetime:d/m/Y H:i', 'updated_at' => 'datetime:d/m/Y H:i'];
+    protected $casts = ['no_peminjaman' => 'string', 'waktu_pinjam' => 'datetime:d/m/Y H:i','waktu_pinjam' => 'datetime:d/m/Y H:i', 'waktu_dikembalikan' => 'datetime:d/m/Y', 'alasan_peminjaman' => 'string', 'catatan_pengembalian' => 'string', 'pic_penanggungjawab' => 'string','bukti_pengembalian' => 'string', 'created_at' => 'datetime:d/m/Y H:i', 'updated_at' => 'datetime:d/m/Y H:i'];
 
 
 
@@ -52,7 +52,7 @@ class Loan extends Model
     {
         return LogOptions::defaults()
             ->useLogName('log_loan')
-            ->logOnly(['no_peminjaman', 'equipment_id', 'hospital_id', 'lokasi_asal_id', 'lokasi_peminjam_id', 'waktu_pinjam', 'waktu_dikembalikan', 'alasan_peminjaman', 'status_peminjaman', 'catatan_pengembalian', 'pic_penanggungjawab', 'bukti_pengembalian', 'user_created', 'user_updated'])
+            ->logOnly(['no_peminjaman', 'equipment_id', 'hospital_id', 'lokasi_asal_id', 'lokasi_peminjam_id', 'waktu_pinjam','rencana_pengembalian','waktu_dikembalikan', 'alasan_peminjaman', 'status_peminjaman', 'catatan_pengembalian', 'pic_penanggungjawab', 'bukti_pengembalian', 'user_created', 'user_updated'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }

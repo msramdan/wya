@@ -21,6 +21,7 @@ return new class extends Migration
 			$table->foreignId('lokasi_asal_id')->nullable()->constrained('equipment_locations')->restrictOnUpdate()->nullOnDelete();
 			$table->foreignId('lokasi_peminjam_id')->nullable()->constrained('equipment_locations')->restrictOnUpdate()->nullOnDelete();
 			$table->dateTime('waktu_pinjam');
+            $table->dateTime('rencana_pengembalian');
 			$table->dateTime('waktu_dikembalikan')->nullable();
 			$table->text('alasan_peminjaman');
 			$table->enum('status_peminjaman', ['Sudah dikembalikan', 'Belum dikembalikan']);

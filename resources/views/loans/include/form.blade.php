@@ -135,6 +135,19 @@
                         </span>
                     @enderror
                 </div>
+
+                <div class="col-md-12 mb-2">
+                    <label for="rencana_pengembalian">{{ __('Rencana pengembalian') }}</label>
+                    <input type="date" name="rencana_pengembalian" id="rencana_pengembalian"
+                        class="form-control @error('rencana_pengembalian') is-invalid @enderror"
+                        value="{{ isset($loan) && $loan->rencana_pengembalian ? $loan->rencana_pengembalian->format('Y-m-d\TH:i') : old('rencana_pengembalian') }}"
+                        placeholder="{{ __('Rencana pengembalian') }}" required />
+                    @error('rencana_pengembalian')
+                        <span class="text-danger">
+                            {{ $message }}
+                        </span>
+                    @enderror
+                </div>
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="alasan-peminjaman">{{ __('Alasan Peminjaman') }}</label>
