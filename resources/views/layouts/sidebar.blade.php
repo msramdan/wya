@@ -4,10 +4,13 @@
         </div>
         <ul class="navbar-nav" id="navbar-nav">
             @php
-                $hospitals = \App\Models\Hospital::all();
+                $userId = Auth::id();
+                $hospitals = DB::table('user_access_hospital')
+                    ->join('hospitals', 'user_access_hospital.hospital_id', '=', 'hospitals.id')
+                    ->where('user_access_hospital.user_id', $userId)
+                    ->select('hospitals.id', 'hospitals.name')
+                    ->get();
             @endphp
-
-
             <div style="padding: 10px">
                 <select class="form-select" id="hospitalSelectSession" name="hospitalSelectSession">
                     <option value="">-- Select Hospital --</option>
