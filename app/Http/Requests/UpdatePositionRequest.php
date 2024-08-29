@@ -26,7 +26,7 @@ class UpdatePositionRequest extends FormRequest
         return [
             'code_position' => 'required|string|min:1|max:20',
             'name_position' => 'required|string|min:1|max:200',
-            'hospital_id' => 'required|exists:App\Models\Hospital,id',
+
         ];
     }
 }

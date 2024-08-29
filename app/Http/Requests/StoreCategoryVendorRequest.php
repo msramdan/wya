@@ -25,7 +25,7 @@ class StoreCategoryVendorRequest extends FormRequest
     {
         return [
             'name_category_vendors' => 'required|string|min:1|max:200',
-            'hospital_id' => 'required|exists:App\Models\Hospital,id',
+
         ];
     }
 }

@@ -104,8 +104,6 @@ class UnitItemController extends Controller
      */
     public function update(UpdateUnitItemRequest $request, UnitItem $unitItem)
     {
-        $attr = $request->validated();
-        $attr['hospital_id'] = session('sessionHospital');
         $unitItem->update($request->validated());
         Alert::toast('The unitItem was updated successfully.', 'success');
         return redirect()

@@ -26,6 +26,7 @@ class UpdateUnitItemRequest extends FormRequest
         return [
             'code_unit' => 'required|string|min:1|max:20',
             'unit_name' => 'required|string|min:1|max:200',
+
         ];
     }
 }

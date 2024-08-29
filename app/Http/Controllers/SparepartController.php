@@ -96,7 +96,7 @@ class SparepartController extends Controller
                 'estimated_price' => 'required|numeric',
                 'opname' => 'required|numeric',
                 'stock' => 'nullable',
-                'hospital_id' => 'required|exists:App\Models\Hospital,id',
+
             ]
         );
 
@@ -194,7 +194,7 @@ class SparepartController extends Controller
                 'estimated_price' => 'required|numeric',
                 'opname' => 'required|numeric',
                 'stock' => 'nullable',
-                'hospital_id' => 'required|exists:App\Models\Hospital,id',
+
             ],
         );
         if ($validator->fails()) {

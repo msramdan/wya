@@ -29,20 +29,13 @@ class EquipmentLocationController extends Controller
     {
         if (request()->ajax()) {
             $equipmentLocations = EquipmentLocation::with('hospital:id,name');
-            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
-                $equipmentLocations = $equipmentLocations->where('hospital_id', $request->hospital_id);
-            }
-            if (Auth::user()->roles->first()->hospital_id) {
-                $equipmentLocations = $equipmentLocations->where('hospital_id', Auth::user()->roles->first()->hospital_id);
-            }
+            $equipmentLocations = $equipmentLocations->where('hospital_id', session('sessionHospital'));
             return DataTables::of($equipmentLocations)
                 ->addIndexColumn()
                 ->addColumn('created_at', function ($row) {
                     return $row->created_at->format('d M Y H:i:s');
                 })->addColumn('updated_at', function ($row) {
                     return $row->updated_at->format('d M Y H:i:s');
-                })->addColumn('hospital', function ($row) {
-                    return $row->hospital ? $row->hospital->name : '';
                 })
 
                 ->addColumn('action', 'equipment-locations.include.action')
@@ -70,8 +63,9 @@ class EquipmentLocationController extends Controller
      */
     public function store(StoreEquipmentLocationRequest $request)
     {
-
-        EquipmentLocation::create($request->validated());
+        $attr = $request->validated();
+        $attr['hospital_id'] = session('sessionHospital');
+        EquipmentLocation::create($attr);
         Alert::toast('The equipmentLocation was created successfully.', 'success');
         return redirect()->route('equipment-locations.index');
     }
@@ -107,7 +101,6 @@ class EquipmentLocationController extends Controller
      */
     public function update(UpdateEquipmentLocationRequest $request, EquipmentLocation $equipmentLocation)
     {
-
         $equipmentLocation->update($request->validated());
         Alert::toast('The equipmentLocation was updated successfully.', 'success');
         return redirect()
