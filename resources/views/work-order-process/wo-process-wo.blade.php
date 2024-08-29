@@ -67,11 +67,13 @@
 
                             @include('work-order-process.includes.form-work-order-documents')
 
+                            @include('work-order-process.includes.form-work-order-photo')
+
                             @include('work-order-process.includes.form-inspection-recommendations')
 
                             @include('work-order-process.includes.form-catatan')
 
-                            @include('work-order-process.includes.form-status')
+                            {{-- @include('work-order-process.includes.form-status') --}}
 
                             <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
                                 <div class="card">
@@ -422,6 +424,31 @@
                     <td>
                         <div class="form-group">
                             <input type="file" name="wo_doc_file[${lastRowIndex + 1}]" class="form-control" id="file_${lastRowIndex + 1}">
+                        </div>
+                    </td>
+                </tr>
+                `
+            );
+        }
+
+        function addRowWoPhoto(currentRowHtml) {
+            let lastRowIndex = parseInt(currentRowHtml.parentElement.children[currentRowHtml.parentElement.children.length -
+                1].dataset.index);
+
+            currentRowHtml.parentElement.insertAdjacentHTML('beforeend',
+                `
+                <tr data-index="${lastRowIndex + 1}">
+                    <td>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()"><i class="fa fa-trash"></i></button>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input placeholder="Phono Name" type="text" name="wo_photo_name[${lastRowIndex + 1}]" class="form-control" id="photo_name_${lastRowIndex + 1}">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input type="file" name="wo_photo_file[${lastRowIndex + 1}]" class="form-control" id="file_${lastRowIndex + 1}">
                         </div>
                     </td>
                 </tr>

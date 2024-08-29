@@ -217,6 +217,12 @@ class WorkOrderProcessController extends Controller
             'end_date' => $request->status != 'Doing' ? date('Y-m-d') : null
         ]);
 
+        if ($request->tool_need_bleaching) {
+            DB::table('equipment')
+                ->where('id', $workOrder->equipment_id)
+                ->update(['is_decommissioning' => 'Yes']);
+        }
+
         WorkOrderProcessHasCalibrationPerformance::where('work_order_process_id', $workOrderProcess->id)->delete();
         foreach ($request->calibration_performance_tool_performance_check as $indexToolPerformanceCheck => $calibration_performance_tool_performance_check) {
             if ($calibration_performance_tool_performance_check) {
@@ -279,7 +285,6 @@ class WorkOrderProcessController extends Controller
         $posibbleWoProcessHasReplacements = WorkOrderProcessHasReplacementOfPart::where('work_order_process_id', $workOrderProcess->id)->pluck('id');
         $updatedWoProcessHasReplacements = request()->replacement_id;
 
-
         foreach ($posibbleWoProcessHasReplacements as $posibbleWoProcessHasReplacement) {
             if (!in_array($posibbleWoProcessHasReplacement, $updatedWoProcessHasReplacements)) {
                 WorkOrderProcessHasReplacementOfPart::where('id', $posibbleWoProcessHasReplacement)->delete();
@@ -314,6 +319,7 @@ class WorkOrderProcessController extends Controller
             }
         }
 
+        // Document
         foreach (WorkOrderProcessHasWoDocument::where('work_order_process_id', $workOrderProcess->id)->get() as $delWoProcWoDoc) {
             if (!in_array($delWoProcWoDoc->id, $request->old_id)) {
                 ModelFileUploadHelper::modelFileDelete($delWoProcWoDoc, 'file');

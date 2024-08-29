@@ -172,6 +172,26 @@ class UpdateWorkOrderProcesessRequest extends FormRequest
                 }
             }],
             'wo_doc_description.*' => ['nullable', 'string'],
+            'wo_photo_name.*' => [function ($attribute, $value, $fail) {
+                if (!(request()->wo_photo_name[0] == null && count(request()->wo_photo_name) == 1)) {
+                    if (count(request()->wo_photo_name) > 1) {
+                        if (request()->wo_photo_name[0] == null && explode('.', $attribute)[count(explode('.', $attribute)) - 1] == 0) {
+                            $fail('Form Photo Name is required');
+                        } else if (explode('.', $attribute)[count(explode('.', $attribute)) - 1] > 0 && $value == '') {
+                            $fail('Form Photo Name is required');
+                        }
+                    }
+                }
+
+                if (request()->$attribute && isset(request()->old_wo_photo_file[explode('.', $attribute)[count(explode('.', $attribute)) - 1]])) {
+                } else if (!isset(request()->wo_photo_file[explode('.', $attribute)[count(explode('.', $attribute)) - 1]]) && request()->$attribute) {
+                    $fail('Form Photo File is required');
+                } else if (isset(request()->wo_photo_file[explode('.', $attribute)[count(explode('.', $attribute)) - 1]]) && request()->$attribute) {
+                    if (!request()->file('wo_photo_file')[explode('.', $attribute)[count(explode('.', $attribute)) - 1]]) {
+                        $fail('Form Photo File must be file');
+                    }
+                }
+            }],
         ];
     }
 }
