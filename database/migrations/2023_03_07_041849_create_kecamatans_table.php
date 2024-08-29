@@ -13,19 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('kecamatans', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('kabkot_id')->constrained('kabkots')->restrictOnUpdate()->cascadeOnDelete();
-			$table->string('kecamatan', 100);
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('kecamatans')) {
+            Schema::create('kecamatans', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('kabkot_id')->constrained('kabkots')->restrictOnUpdate()->cascadeOnDelete();
+                $table->string('kecamatan', 100);
+                $table->timestamps();
+            });
+        }
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('kecamatans');
