@@ -29,13 +29,7 @@ class UnitItemController extends Controller
     {
         if (request()->ajax()) {
             $unitItems = UnitItem::with('hospital:id,name')->orderBy('unit_items.id', 'DESC');
-
-            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
-                $unitItems = $unitItems->where('hospital_id', $request->hospital_id);
-            }
-            if (Auth::user()->roles->first()->hospital_id) {
-                $unitItems = $unitItems->where('hospital_id', Auth::user()->roles->first()->hospital_id);
-            }
+            $unitItems = $unitItems->where('hospital_id', session('sessionHospital'));
 
             return DataTables::of($unitItems)
                 ->addIndexColumn()
@@ -72,8 +66,9 @@ class UnitItemController extends Controller
      */
     public function store(StoreUnitItemRequest $request)
     {
-
-        UnitItem::create($request->validated());
+        $attr = $request->validated();
+        $attr['hospital_id'] = session('sessionHospital');
+        UnitItem::create($attr);
         Alert::toast('The unitItem was created successfully.', 'success');
         return redirect()->route('unit-items.index');
     }
@@ -109,7 +104,8 @@ class UnitItemController extends Controller
      */
     public function update(UpdateUnitItemRequest $request, UnitItem $unitItem)
     {
-
+        $attr = $request->validated();
+        $attr['hospital_id'] = session('sessionHospital');
         $unitItem->update($request->validated());
         Alert::toast('The unitItem was updated successfully.', 'success');
         return redirect()
