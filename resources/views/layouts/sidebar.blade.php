@@ -26,20 +26,18 @@
                     <i class="mdi mdi-speedometer"></i> <span data-key="t-widgets">Dashboard</span>
                 </a>
             </li>
-            @if (session('sessionHospital'))
-                @can('kalender wo view')
-                    @php
-                        $currentYear = date('Y');
-                        $defaultJenis = 'All';
-                    @endphp
-                    <li class="nav-item">
-                        <a class="nav-link menu-link {{ request()->routeIs('kalender-wo*') ? 'active' : '' }}"
-                            href="{{ route('kalender-wo.index', ['tahun' => $currentYear, 'jenis' => $defaultJenis]) }}">
-                            <i class="fa fa-calendar"></i> <span data-key="t-widgets">Kalender Work Order</span>
-                        </a>
-                    </li>
-                @endcan
-            @endif
+            @can('kalender wo view')
+                @php
+                    $currentYear = date('Y');
+                    $defaultJenis = 'All';
+                @endphp
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ request()->routeIs('kalender-wo*') ? 'active' : '' }}"
+                        href="{{ route('kalender-wo.index', ['tahun' => $currentYear, 'jenis' => $defaultJenis]) }}">
+                        <i class="fa fa-calendar"></i> <span data-key="t-widgets">Kalender Work Order</span>
+                    </a>
+                </li>
+            @endcan
             <?php $i = 0; ?>
             @foreach (config('generator.sidebars') as $sidebar)
                 @if (isset($sidebar['permissions']))
@@ -94,15 +92,12 @@
                     @endcanany
                 @endif
             @endforeach
-
-            @if (session('sessionHospital') != null)
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ Route::currentRouteName() == 'hospitals.edit' ? ' active' : '' }}"
-                        href="{{ route('hospitals.edit', session('sessionHospital')) }}">
-                        <i data-feather="tool"></i> <span data-key="t-widgets">Setting Apps</span>
-                    </a>
-                </li>
-            @endif
+            <li class="nav-item">
+                <a class="nav-link menu-link {{ Route::currentRouteName() == 'hospitals.edit' ? ' active' : '' }}"
+                    href="{{ route('hospitals.edit', session('sessionHospital')) }}">
+                    <i data-feather="tool"></i> <span data-key="t-widgets">Setting Apps</span>
+                </a>
+            </li>
         </ul>
     </div>
 </div>

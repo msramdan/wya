@@ -44,7 +44,6 @@ class UnitItemController extends Controller
                 ->addColumn('action', 'unit-items.include.action')
                 ->toJson();
         }
-
         return view('unit-items.index');
     }
 

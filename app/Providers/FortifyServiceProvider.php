@@ -55,6 +55,7 @@ class FortifyServiceProvider extends ServiceProvider
                     'password' => 'The provided password is incorrect.',
                 ]);
             }
+            session(['sessionHospital' => 1]);
 
             return $user;
         });
