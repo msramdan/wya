@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Hospital;
 use App\Http\Requests\{StoreHospitalRequest, UpdateHospitalRequest};
 use Yajra\DataTables\Facades\DataTables;
-use Image;
-use RealRashid\SweetAlert\Facades\Alert;
-use App\Models\User;
 use Auth;
+use Image;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class HospitalController extends Controller
 {
@@ -198,4 +199,18 @@ class HospitalController extends Controller
                 ->route('hospitals.index');
         }
     }
+
+    public function hospitalSelectSession(Request $request)
+    {
+        // remove session
+        session()->forget('sessionHospital');
+        // set session baru
+        $value = $request->input('selectedValue');
+        session(['sessionHospital' => $value]);
+        return response()->json([
+            'success' => true
+        ]);
+    }
+
+
 }

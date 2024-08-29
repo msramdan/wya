@@ -3,8 +3,23 @@
         <div id="two-column-menu">
         </div>
         <ul class="navbar-nav" id="navbar-nav">
-            {{-- <li class="menu-title"><span data-key="t-menu">{{ trans('sidebar.main-menu') }}</span></li> --}}
-            <br>
+            @php
+                $hospitals = \App\Models\Hospital::all();
+            @endphp
+
+
+            <div style="padding: 10px">
+                <select class="form-select" id="hospitalSelectSession" name="hospitalSelectSession">
+                    <option value="">-- Select Hospital --</option>
+                    @foreach ($hospitals as $hospital)
+                        <option value="{{ $hospital->id }}"
+                            {{ session('sessionHospital') == $hospital->id ? 'selected' : '' }}>
+                            {{ $hospital->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
             <li class="nav-item">
                 <a class="nav-link menu-link {{ Route::currentRouteName() == 'dashboard' ? ' active' : '' }}"
                     href="/panel">

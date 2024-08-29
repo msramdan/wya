@@ -20,6 +20,7 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
+        // dd(session('sessionHospital'));
         $start_date = intval($request->query('start_date'));
         $end_date = intval($request->query('end_date'));
         $hospitals = Hospital::all();

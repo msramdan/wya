@@ -45,17 +45,12 @@ class EquipmentController extends Controller
             $equipment_location_id = intval($request->query('equipment_location_id'));
             $equipment_id = intval($request->query('equipment_id'));
             $commisioning = $request->query('commisioning');
-            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
-                $equipments = $equipments->where('hospital_id', $request->hospital_id);
-            }
-
             if (isset($equipment_location_id) && !empty($equipment_location_id)) {
                 $equipments = $equipments->where('equipment_location_id', $equipment_location_id);
             }
 
-            if (Auth::user()->roles->first()->hospital_id) {
-                $equipments = $equipments->where('hospital_id', Auth::user()->roles->first()->hospital_id);
-            }
+            $equipments = $equipments->where('hospital_id', session('sessionHospital'));
+
             if (isset($commisioning) && !empty($commisioning)) {
                 $equipments = $equipments->where('equipment.is_decommissioning', $commisioning);
             }
@@ -70,8 +65,6 @@ class EquipmentController extends Controller
                     return $row->created_at->format('d M Y H:i:s');
                 })->addColumn('updated_at', function ($row) {
                     return $row->updated_at->format('d M Y H:i:s');
-                })->addColumn('hospital', function ($row) {
-                    return $row->hospital ? $row->hospital->name : '';
                 })
                 ->addColumn('nilai_buku', function ($row) {
                     return rupiah(getNilaiBuku($row->id, $row->nilai_perolehan));

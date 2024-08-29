@@ -10,6 +10,7 @@ use App\Http\Controllers\{
     TelegramBotController,
     WilayahController,
     BackupController,
+    HospitalController,
     KalenderWoController
 };
 use App\Http\Controllers\LandingWeb\LandingWebController;
@@ -27,6 +28,10 @@ Route::get('/', [LandingWebController::class, 'index'])->name('web');
 
 //route switch bahasa
 Route::get('/localization/{language}', [LocalizationController::class, 'switch'])->name('localization.switch');
+
+Route::controller(HospitalController::class)->group(function () {
+    Route::post('/hospitalSelectSession', 'hospitalSelectSession')->name('hospitalSelectSession');
+});
 
 
 Route::prefix('panel')->group(function () {

@@ -91,34 +91,14 @@
                                 <i class='fas fa-file-excel'></i>
                                 {{ __('Export') }}
                             </button>
-                            @if (Auth::user()->roles->first()->hospital_id)
-                                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
-                                    {{ trans('inventory/equipment/index.import') }}
-                                </button>
-                            @endif
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
+                                {{ trans('inventory/equipment/index.import') }}
+                            </button>
                         </div>
 
                         <div class="card-body">
-
                             <div class="row">
-                                @if (!Auth::user()->roles->first()->hospital_id)
-                                    <div class="col-md-3 mb-2">
-                                        <div class="input-group mb-2 mr-sm-2">
-                                            <select name="hospital_id" id="hospital_id"
-                                                class="form-control js-example-basic-multiple">
-                                                <option value="">--
-                                                    {{ trans('inventory/equipment/index.filter_hospital') }} --</option>
-                                                @foreach ($hispotals as $hispotal)
-                                                    <option value="{{ $hispotal->id }}"
-                                                        {{ isset($equipments) && $equipments->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
-                                                        {{ $hispotal->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                @endif
                                 <div class="col-md-2 mb-2">
                                     <div class="input-group mb-2 mr-sm-2">
                                         <select
@@ -174,9 +154,6 @@
                                     <thead class="table-dark">
                                         <tr>
                                             <th>#</th>
-                                            @if (!Auth::user()->roles->first()->hospital_id)
-                                                <th>{{ trans('inventory/equipment/index.hospital') }}</th>
-                                            @endif
                                             <th>{{ trans('inventory/equipment/index.barcode') }}</th>
                                             <th>{{ trans('inventory/equipment/index.nomenklatur') }}</th>
                                             <th>{{ __('SN') }}</th>
@@ -232,12 +209,10 @@
         });
 
         function hitungAsset() {
-            var cek = $('#hospital_id').val()
+            var cek = "{{ session('sessionHospital') }}";
             var equipment_location_id = $('#equipment_location_id').val()
             var commisioning = $('#commisioning').val()
             var url = '../panel/totalAsset';
-            // console.log(commisioning);
-
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -263,20 +238,10 @@
 
     <script>
         $(document).ready(function() {
-            var cek = $('#hospital_id').val()
-            console.log(cek)
-            if (typeof cek === "undefined") {
-                getEquipmentLocation({{ Auth::user()->roles->first()->hospital_id }});
-            }
+            getEquipmentLocation({{ session('sessionHospital') }});
         });
 
         const _temp = '<option value="" selected>-- Select location --</option>';
-        $('#hospital_id').change(function() {
-            $('#equipment_location_id').html(_temp);
-            if ($(this).val() != "") {
-                getEquipmentLocation($(this).val());
-            }
-        })
 
         function getEquipmentLocation(hospitalId) {
             let url = '{{ route('api.getEquipmentLocation', ':id') }}';
@@ -309,12 +274,7 @@
                 orderable: false,
                 searchable: false
             },
-            @if (!Auth::user()->roles->first()->hospital_id)
-                {
-                    data: 'hospital',
-                    name: 'hospital.name',
-                },
-            @endif {
+            {
                 data: 'barcode',
                 name: 'barcode',
             },
@@ -363,17 +323,13 @@
             ajax: {
                 url: "{{ route('equipment.index') }}",
                 data: function(s) {
-                    s.hospital_id = $('select[name=hospital_id] option').filter(':selected').val()
                     s.equipment_id = $('#equipment_id').val()
-                    s.equipment_location_id = $('select[name=equipment_location_id] option').filter(':selected').val()
+                    s.equipment_location_id = $('select[name=equipment_location_id] option').filter(':selected')
+                        .val()
                     s.commisioning = $('select[name=commisioning] option').filter(':selected').val()
                 }
             },
             columns: columns
-        })
-        $('#hospital_id').change(function() {
-            table.draw();
-            hitungAsset()
         })
 
         $('#equipment_location_id').change(function() {
