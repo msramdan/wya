@@ -29,13 +29,7 @@ class DepartmentController extends Controller
     {
         if (request()->ajax()) {
             $departments = Department::query();
-
-            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
-                $departments = $departments->where('hospital_id', $request->hospital_id);
-            }
-            if (session('sessionHospital')) {
-                $departments = $departments->where('hospital_id', session('sessionHospital'));
-            }
+            $departments = $departments->where('hospital_id', session('sessionHospital'));
 
             return DataTables::of($departments)
                 ->addIndexColumn()
@@ -43,8 +37,6 @@ class DepartmentController extends Controller
                     return $row->created_at->format('d M Y H:i:s');
                 })->addColumn('updated_at', function ($row) {
                     return $row->updated_at->format('d M Y H:i:s');
-                })->addColumn('hospital', function ($row) {
-                    return $row->hospital ? $row->hospital->name : '';
                 })
 
                 ->addColumn('action', 'departments.include.action')
@@ -72,8 +64,9 @@ class DepartmentController extends Controller
      */
     public function store(StoreDepartmentRequest $request)
     {
-
-        Department::create($request->validated());
+        $attr = $request->validated();
+        $attr['hospital_id'] = session('sessionHospital');
+        Department::create($attr);
         Alert::toast('The department was created successfully.', 'success');
         return redirect()->route('departments.index');
     }

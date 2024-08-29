@@ -25,7 +25,6 @@ class StoreEmployeeTypeRequest extends FormRequest
     {
         return [
             'name_employee_type' => 'required|string|min:1|max:200',
-
         ];
     }
 }

@@ -38,13 +38,7 @@ class EmployeeController extends Controller
     {
         if (request()->ajax()) {
             $employees = Employee::with('employee_type:id,name_employee_type', 'department:id,name_department', 'position:id,name_position', 'province:id,provinsi', 'kabkot:id,provinsi_id', 'kecamatan:id,kabkot_id', 'kelurahan:id,kecamatan_id', 'hospital:id,name');
-
-            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
-                $employees = $employees->where('hospital_id', $request->hospital_id);
-            }
-            if (session('sessionHospital')) {
-                $employees = $employees->where('hospital_id', session('sessionHospital'));
-            }
+            $employees = $employees->where('hospital_id', session('sessionHospital'));
 
             return DataTables::of($employees)
                 ->addIndexColumn()
@@ -57,9 +51,6 @@ class EmployeeController extends Controller
                     } else {
                         return 'Non Aktif';
                     }
-                })
-                ->addColumn('hospital', function ($row) {
-                    return $row->hospital ? $row->hospital->name : '';
                 })
                 ->addColumn('employee_type', function ($row) {
                     return $row->employee_type ? $row->employee_type->name_employee_type : '';
@@ -121,7 +112,6 @@ class EmployeeController extends Controller
                 'latitude' => 'required|string|min:1|max:200',
                 'join_date' => 'required|date',
                 'photo'     => 'required|image|mimes:png,jpg,jpeg',
-                'hospital_id'     => 'required',
             ],
         );
         if ($validator->fails()) {
@@ -153,7 +143,7 @@ class EmployeeController extends Controller
                 'latitude' => $request->latitude,
                 'join_date' => $request->join_date,
                 'photo'     => $photo->hashName(),
-                'hospital_id' => $request->hospital_id
+                'hospital_id' => session('sessionHospital')
             ]);
 
             Alert::toast('The employee was created successfully.', 'success');
@@ -228,7 +218,6 @@ class EmployeeController extends Controller
                 'latitude' => 'required|string|min:1|max:200',
                 'join_date' => 'required|date',
                 'photo'     => 'image|mimes:png,jpg,jpeg',
-                'hospital_id' => 'required'
             ],
         );
         if ($validator->fails()) {
@@ -262,8 +251,7 @@ class EmployeeController extends Controller
             'address' => $request->address,
             'longitude' => $request->longitude,
             'latitude' => $request->latitude,
-            'join_date' => $request->join_date,
-            'hospital_id' => $request->hospital_id
+            'join_date' => $request->join_date
         ]);
         Alert::toast('The employee was updated successfully.', 'success');
         return redirect()

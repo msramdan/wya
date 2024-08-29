@@ -29,29 +29,6 @@
                             @endcan
                         </div>
                         <div class="card-body">
-                            @if (!session('sessionHospital'))
-                                <div class="row">
-                                    <div class="col-md-3 mb-2">
-                                        <form class="form-inline" method="get">
-                                            @csrf
-                                            <div class="input-group mb-2 mr-sm-2">
-                                                <select name="hospital_id" id="hospital_id"
-                                                    class="form-control js-example-basic-multiple">
-                                                    <option value="">--
-                                                        {{ trans('employee/departement/index.select_hospital') }} --
-                                                    </option>
-                                                    @foreach ($hispotals as $hispotal)
-                                                        <option value="{{ $hispotal->id }}"
-                                                            {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
-                                                            {{ $hispotal->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            @endif
                             <div class="table-responsive p-1">
                                 <table class="table table-striped" id="data-table">
                                     <thead class="table-dark">
@@ -84,12 +61,7 @@
                 orderable: false,
                 searchable: false
             },
-            @if (!session('sessionHospital'))
-                {
-                    data: 'hospital',
-                    name: 'hospital',
-                },
-            @endif {
+            {
                 data: 'code_department',
                 name: 'code_department',
             },
@@ -111,14 +83,10 @@
             ajax: {
                 url: "{{ route('departments.index') }}",
                 data: function(s) {
-                    s.hospital_id = $('select[name=hospital_id] option').filter(':selected').val()
+
                 }
             },
             columns: columns
         });
-
-        $('#hospital_id').change(function() {
-            table.draw();
-        })
     </script>
 @endpush

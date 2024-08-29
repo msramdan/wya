@@ -29,12 +29,7 @@ class EmployeeTypeController extends Controller
     {
         if (request()->ajax()) {
             $employeeTypes = EmployeeType::with('hospital:id,name');
-            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
-                $employeeTypes = $employeeTypes->where('hospital_id', $request->hospital_id);
-            }
-            if (session('sessionHospital')) {
                 $employeeTypes = $employeeTypes->where('hospital_id', session('sessionHospital'));
-            }
 
             return DataTables::of($employeeTypes)
                 ->addIndexColumn()
@@ -42,8 +37,6 @@ class EmployeeTypeController extends Controller
                     return $row->created_at->format('d M Y H:i:s');
                 })->addColumn('updated_at', function ($row) {
                     return $row->updated_at->format('d M Y H:i:s');
-                })->addColumn('hospital', function ($row) {
-                    return $row->hospital ? $row->hospital->name : '';
                 })
 
                 ->addColumn('action', 'employee-types.include.action')
@@ -71,8 +64,9 @@ class EmployeeTypeController extends Controller
      */
     public function store(StoreEmployeeTypeRequest $request)
     {
-
-        EmployeeType::create($request->validated());
+        $attr = $request->validated();
+        $attr['hospital_id'] = session('sessionHospital');
+        EmployeeType::create($attr);
         Alert::toast('The employeeType was created successfully.', 'success');
         return redirect()->route('employee-types.index');
     }

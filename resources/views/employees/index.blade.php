@@ -77,36 +77,11 @@
                         </div>
 
                         <div class="card-body">
-                            @if (!session('sessionHospital'))
-                                <div class="row">
-                                    <div class="col-md-3 mb-2">
-                                        <form class="form-inline" method="get">
-                                            @csrf
-                                            <div class="input-group mb-2 mr-sm-2">
-                                                <select name="hospital_id" id="hospital_id"
-                                                    class="form-control js-example-basic-multiple">
-                                                    <option value="">-- {{ trans('employee/index.filter_hospital') }}
-                                                        --</option>
-                                                    @foreach ($hispotals as $hispotal)
-                                                        <option value="{{ $hispotal->id }}"
-                                                            {{ isset($employees) && $employees->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
-                                                            {{ $hispotal->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            @endif
                             <div class="table-responsive p-1">
                                 <table class="table table-striped" id="data-table">
                                     <thead class="table-dark">
                                         <tr>
                                             <th>#</th>
-                                            @if (!session('sessionHospital'))
-                                                <th>{{ trans('employee/index.hospital') }}</th>
-                                            @endif
                                             <th>{{ trans('employee/index.name') }}</th>
                                             <th>{{ trans('employee/index.nid') }}</th>
                                             <th>{{ trans('employee/index.type') }}</th>
@@ -137,12 +112,7 @@
                 orderable: false,
                 searchable: false
             },
-            @if (!session('sessionHospital'))
-                {
-                    data: 'hospital',
-                    name: 'hospital',
-                },
-            @endif {
+            {
                 data: 'name',
                 name: 'name',
             },
@@ -183,14 +153,12 @@
             ajax: {
                 url: "{{ route('employees.index') }}",
                 data: function(s) {
-                    s.hospital_id = $('select[name=hospital_id] option').filter(':selected').val()
+
                 }
             },
             columns: columns
         });
-        $('#hospital_id').change(function() {
-            table.draw();
-        })
+
     </script>
     <script>
         const showLoading = function() {
