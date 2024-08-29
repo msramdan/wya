@@ -74,7 +74,7 @@ class GenerateEquipmentFormat implements FromView, ShouldAutoSize, WithEvents, W
 
                 // kolom C category
                 $kolomC = [];
-                $EquipmentCategory = EquipmentCategory::where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
+                $EquipmentCategory = EquipmentCategory::where('hospital_id', session('sessionHospital'))->get();
                 foreach ($EquipmentCategory as $value) {
                     array_push($kolomC, $value->category_name);
                 }
@@ -93,7 +93,7 @@ class GenerateEquipmentFormat implements FromView, ShouldAutoSize, WithEvents, W
 
                 // Kolom G Vendor
                 $kolomG = [];
-                $Vendor = Vendor::where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
+                $Vendor = Vendor::where('hospital_id', session('sessionHospital'))->get();
                 foreach ($Vendor as $value) {
                     array_push($kolomG, $value->name_vendor);
                 }
@@ -150,7 +150,7 @@ class GenerateEquipmentFormat implements FromView, ShouldAutoSize, WithEvents, W
 
                 // Kolom J Location
                 // $kolomJ = [];
-                // $EquipmentLocation = EquipmentLocation::where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
+                // $EquipmentLocation = EquipmentLocation::where('hospital_id', session('sessionHospital'))->get();
                 // foreach ($EquipmentLocation as $value) {
                 //     array_push($kolomJ, $value->location_name);
                 // }

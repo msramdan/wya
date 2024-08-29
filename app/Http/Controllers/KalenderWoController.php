@@ -39,8 +39,8 @@ class KalenderWoController extends Controller
             $query->where('work_orders.type_wo', $type);
         }
 
-        if (Auth::user()->roles->first()->hospital_id) {
-            $query = $query->where('work_orders.hospital_id', Auth::user()->roles->first()->hospital_id);
+        if (session('sessionHospital')) {
+            $query = $query->where('work_orders.hospital_id', session('sessionHospital'));
         }
 
         $events = $query->orderBy('work_order_processes.schedule_date', 'ASC')->get();

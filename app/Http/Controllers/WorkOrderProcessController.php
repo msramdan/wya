@@ -47,8 +47,8 @@ class WorkOrderProcessController extends Controller
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
                 $workOrders = $workOrders->where('hospital_id', $request->hospital_id);
             }
-            if (Auth::user()->roles->first()->hospital_id) {
-                $workOrders = $workOrders->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+            if (session('sessionHospital')) {
+                $workOrders = $workOrders->where('hospital_id', session('sessionHospital'));
             }
 
             $start_date = intval($request->query('start_date'));
@@ -132,13 +132,13 @@ class WorkOrderProcessController extends Controller
         $to = date('Y-m-d') . " 23:59:59";
         $microFrom = strtotime($from) * 1000;
         $microTo = strtotime($to) * 1000;
-        if (Auth::user()->roles->first()->hospital_id) {
-            $equimentHospital = Equipment::where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
+        if (session('sessionHospital')) {
+            $equimentHospital = Equipment::where('hospital_id', session('sessionHospital'))->get();
             $dataUser = DB::table('users')
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
                 ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
                 ->select('users.*', 'roles.hospital_id')
-                ->where('roles.hospital_id', Auth::user()->roles->first()->hospital_id)
+                ->where('roles.hospital_id', session('sessionHospital'))
                 ->get();
         } else {
             $equimentHospital = Equipment::all();
@@ -363,7 +363,7 @@ class WorkOrderProcessController extends Controller
         ]);
 
         // send notif wa ke all user
-        $settingApp = Hospital::findOrFail(Auth::user()->roles->first()->hospital_id);
+        $settingApp = Hospital::findOrFail(session('sessionHospital'));
         if ($settingApp->notif_wa == 1) {
             $receiverUsers = json_decode($workOrder->approval_users_id, true);
             foreach ($receiverUsers as $receiverUserId) {
@@ -372,17 +372,17 @@ class WorkOrderProcessController extends Controller
                     try {
                         if ($receiverUser->no_hp) {
                             if ($request->status == 'Doing') {
-                                new NotifWhatsappWorkOrderProcessDoing($receiverUser->no_hp, $workOrder, $request, Auth::user()->roles->first()->hospital_id);
+                                new NotifWhatsappWorkOrderProcessDoing($receiverUser->no_hp, $workOrder, $request, session('sessionHospital'));
                             } else {
-                                new NotifWhatsappWorkOrderProcessFinish($receiverUser->no_hp, $workOrder, $request, Auth::user()->roles->first()->hospital_id);
+                                new NotifWhatsappWorkOrderProcessFinish($receiverUser->no_hp, $workOrder, $request, session('sessionHospital'));
                             }
                         }
                     } catch (\Throwable $th) {
                         if ($receiverUser[0]->no_hp) {
                             if ($request->status == 'Doing') {
-                                new NotifWhatsappWorkOrderProcessDoing($receiverUser[0]->no_hp, $workOrder, $request, Auth::user()->roles->first()->hospital_id);
+                                new NotifWhatsappWorkOrderProcessDoing($receiverUser[0]->no_hp, $workOrder, $request, session('sessionHospital'));
                             } else {
-                                new NotifWhatsappWorkOrderProcessFinish($receiverUser[0]->no_hp, $workOrder, $request, Auth::user()->roles->first()->hospital_id);
+                                new NotifWhatsappWorkOrderProcessFinish($receiverUser[0]->no_hp, $workOrder, $request, session('sessionHospital'));
                             }
                         }
                     }

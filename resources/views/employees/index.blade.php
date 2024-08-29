@@ -68,7 +68,7 @@
                                 <i class='fas fa-file-excel'></i>
                                 {{ trans('employee/index.export') }}
                             </button>
-                            @if (Auth::user()->roles->first()->hospital_id)
+                            @if (session('sessionHospital'))
                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
                                     {{ trans('employee/index.import') }}
@@ -77,7 +77,7 @@
                         </div>
 
                         <div class="card-body">
-                            @if (!Auth::user()->roles->first()->hospital_id)
+                            @if (!session('sessionHospital'))
                                 <div class="row">
                                     <div class="col-md-3 mb-2">
                                         <form class="form-inline" method="get">
@@ -104,7 +104,7 @@
                                     <thead class="table-dark">
                                         <tr>
                                             <th>#</th>
-                                            @if (!Auth::user()->roles->first()->hospital_id)
+                                            @if (!session('sessionHospital'))
                                                 <th>{{ trans('employee/index.hospital') }}</th>
                                             @endif
                                             <th>{{ trans('employee/index.name') }}</th>
@@ -137,7 +137,7 @@
                 orderable: false,
                 searchable: false
             },
-            @if (!Auth::user()->roles->first()->hospital_id)
+            @if (!session('sessionHospital'))
                 {
                     data: 'hospital',
                     name: 'hospital',

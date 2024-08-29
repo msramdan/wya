@@ -685,7 +685,7 @@ class EquipmentController extends Controller
         $month = date('Y-m');
         $location = $request->equipment_location_id;
         $isDecommissioning = $request->commisioning;
-        if (Auth::user()->roles->first()->hospital_id == null) {
+        if (session('sessionHospital') == null) {
             $id = $request->id;
             if ($id != null && $location == null || $id != '' && $location == null) {
                 $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
@@ -713,7 +713,7 @@ class EquipmentController extends Controller
                 }
             }
         } else {
-            $id = Auth::user()->roles->first()->hospital_id;
+            $id = session('sessionHospital');
             if ($location != null) {
                 $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
                 join equipment on equipment_reduction_price.equipment_id = equipment.id

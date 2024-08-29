@@ -8,7 +8,7 @@
                 <hr>
 
                 <div class="row">
-                    @if (!Auth::user()->roles->first()->hospital_id)
+                    @if (!session('sessionHospital'))
                         <div class="col-md-12 mb-2">
                             <label for="hospital_id">{{ trans('vendor/edit.hospital') }}</label>
                             <select

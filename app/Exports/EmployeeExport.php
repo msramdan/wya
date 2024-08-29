@@ -25,8 +25,8 @@ class EmployeeExport implements FromView, ShouldAutoSize, WithEvents
             ->join('kelurahans', 'employees.kelurahan_id', '=', 'kelurahans.id')
             ->join('hospitals', 'employees.hospital_id', '=', 'hospitals.id')
             ->select('employees.*', 'employee_types.name_employee_type', 'departments.name_department', 'positions.name_position', 'provinces.provinsi', 'kabkots.kabupaten_kota', 'kecamatans.kecamatan', 'kelurahans.kelurahan', 'hospitals.name as nama_hospital');
-        if (Auth::user()->roles->first()->hospital_id) {
-            $data = $data->where('employees.hospital_id', Auth::user()->roles->first()->hospital_id);
+        if (session('sessionHospital')) {
+            $data = $data->where('employees.hospital_id', session('sessionHospital'));
         }
         $data = $data->orderBy('employees.id', 'desc')->get();
         return view('employees.export', [

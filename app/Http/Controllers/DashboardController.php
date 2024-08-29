@@ -25,7 +25,7 @@ class DashboardController extends Controller
         $end_date = intval($request->query('end_date'));
         $hospitals = Hospital::all();
         $hospital_id = intval($request->query('hospital_id'));
-        $sessionId = Auth::user()->roles->first()->hospital_id;
+        $sessionId = session('sessionHospital');
         if ($sessionId == null) {
             if (isset($hospital_id) && !empty($hospital_id)) {
                 $ids = $hospital_id;
@@ -33,7 +33,7 @@ class DashboardController extends Controller
                 $ids = Hospital::first()->id;
             }
         } else {
-            $ids = Auth::user()->roles->first()->hospital_id;
+            $ids = session('sessionHospital');
         }
         $countVendor = Vendor::where('hospital_id', $ids)->count();
         $countEmployee = Employee::where('hospital_id', $ids)->count();
@@ -109,8 +109,8 @@ class DashboardController extends Controller
                 $hospital = Hospital::first();
                 $workOrders = $workOrders->where('hospital_id', $hospital->id);
             }
-            if (Auth::user()->roles->first()->hospital_id) {
-                $workOrders = $workOrders->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+            if (session('sessionHospital')) {
+                $workOrders = $workOrders->where('hospital_id', session('sessionHospital'));
             }
 
             return DataTables::of($workOrders)
@@ -163,8 +163,8 @@ class DashboardController extends Controller
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
                 $equipments = $equipments->where('hospital_id', $request->hospital_id);
             }
-            if (Auth::user()->roles->first()->hospital_id) {
-                $equipments = $equipments->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+            if (session('sessionHospital')) {
+                $equipments = $equipments->where('hospital_id', session('sessionHospital'));
             }
 
             return DataTables::of($equipments)
@@ -197,8 +197,8 @@ class DashboardController extends Controller
                 $employees = $employees->where('hospital_id', $request->hospital_id);
             }
 
-            if (Auth::user()->roles->first()->hospital_id) {
-                $employees = $employees->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+            if (session('sessionHospital')) {
+                $employees = $employees->where('hospital_id', session('sessionHospital'));
             }
 
             return DataTables::of($employees)
@@ -241,8 +241,8 @@ class DashboardController extends Controller
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
                 $vendors = $vendors->where('hospital_id', $request->hospital_id);
             }
-            if (Auth::user()->roles->first()->hospital_id) {
-                $vendors = $vendors->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+            if (session('sessionHospital')) {
+                $vendors = $vendors->where('hospital_id', session('sessionHospital'));
             }
             return DataTables::of($vendors)
                 ->addIndexColumn()
@@ -437,16 +437,16 @@ class DashboardController extends Controller
             $carbonToDate = Carbon::parse($to);
             $dateToIndonesia = $carbonToDate->isoFormat('D MMMM YYYY');
         }
-        $get_hospital_id = Auth::user()->roles->first()->hospital_id;
+        $get_hospital_id = session('sessionHospital');
         $penyaji = '';
         if ($get_hospital_id == null) {
             $hospital = Hospital::firstWhere('id', $request->hospital_id);
             $penyaji = $hospital->name;
             $hospital_id  = $request->hospital_id;
         } else {
-            $hospital = Hospital::firstWhere('id', Auth::user()->roles->first()->hospital_id);
+            $hospital = Hospital::firstWhere('id', session('sessionHospital'));
             $penyaji = $hospital->name;
-            $hospital_id  = Auth::user()->roles->first()->hospital_id;
+            $hospital_id  = session('sessionHospital');
         }
 
         // Bab 1

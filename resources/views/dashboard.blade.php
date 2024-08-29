@@ -232,7 +232,7 @@
 
                             <div class="col-md-6">
                                 <form method="get" action="/panel" id="form-date" class="row">
-                                    @if (!Auth::user()->roles->first()->hospital_id)
+                                    @if (!session('sessionHospital'))
                                         <div class="col-md-6">
                                             <div class="input-group mb-2 mr-sm-2">
                                                 <select name="hospital_id" id="hospital_id"

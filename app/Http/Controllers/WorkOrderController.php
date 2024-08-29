@@ -48,8 +48,8 @@ class WorkOrderController extends Controller
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
                 $workOrders = $workOrders->where('hospital_id', $request->hospital_id);
             }
-            if (Auth::user()->roles->first()->hospital_id) {
-                $workOrders = $workOrders->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+            if (session('sessionHospital')) {
+                $workOrders = $workOrders->where('hospital_id', session('sessionHospital'));
             }
             if (isset($start_date) && !empty($start_date)) {
                 $from = date("Y-m-d H:i:s", substr($request->query('start_date'), 0, 10));
@@ -142,13 +142,13 @@ class WorkOrderController extends Controller
         $microFrom = strtotime($from) * 1000;
         $microTo = strtotime($to) * 1000;
 
-        if (Auth::user()->roles->first()->hospital_id) {
-            $equimentHospital = Equipment::where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
+        if (session('sessionHospital')) {
+            $equimentHospital = Equipment::where('hospital_id', session('sessionHospital'))->get();
             $dataUser = DB::table('users')
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
                 ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
                 ->select('users.*', 'roles.hospital_id')
-                ->where('roles.hospital_id', Auth::user()->roles->first()->hospital_id)
+                ->where('roles.hospital_id', session('sessionHospital'))
                 ->get();
         } else {
             $equimentHospital = Equipment::all();

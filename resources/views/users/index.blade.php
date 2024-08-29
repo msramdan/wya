@@ -32,7 +32,7 @@
                         </div>
 
                         <div class="card-body">
-                            @if (!Auth::user()->roles->first()->hospital_id)
+                            @if (!session('sessionHospital'))
                                 <div class="row">
                                     <div class="col-md-3 mb-2">
                                         <form class="form-inline" method="get">
@@ -61,7 +61,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>{{ trans('utilities/users/index.avatar') }}</th>
-                                            @if (!Auth::user()->roles->first()->hospital_id)
+                                            @if (!session('sessionHospital'))
                                                 <th>{{ trans('utilities/users/index.hospital') }}</th>
                                             @endif
                                             <th>{{ trans('utilities/users/index.role') }}</th>
@@ -101,7 +101,7 @@
                         </div>`;
                 }
             },
-            @if (!Auth::user()->roles->first()->hospital_id)
+            @if (!session('sessionHospital'))
                 {
                     data: 'hospital',
                     name: 'hospital',

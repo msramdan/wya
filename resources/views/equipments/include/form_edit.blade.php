@@ -7,7 +7,7 @@
                 </div>
                 <hr>
 
-                @if (!Auth::user()->roles->first()->hospital_id)
+                @if (!session('sessionHospital'))
                     <div class="row">
                         <div class="col-md-12 mb-2">
                             <div class="form-group">
@@ -38,7 +38,7 @@
                         </div>
                     </div>
                 @else
-                    <input type="hidden" name="hospital_id" value="{{ Auth::user()->roles->first()->hospital_id }}"
+                    <input type="hidden" name="hospital_id" value="{{ session('sessionHospital') }}"
                         readonly id="hospital_id">
                 @endif
 

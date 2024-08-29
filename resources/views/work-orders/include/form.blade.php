@@ -8,7 +8,7 @@
                 <hr>
 
                 <div class="row">
-                    @if (!Auth::user()->roles->first()->hospital_id)
+                    @if (!session('sessionHospital'))
                         <div class="col-md-12 mb-2">
                             <label for="hospital_id">{{ trans('work-order/submission/form.hospital') }}</label>
                             <select
@@ -42,7 +42,7 @@
                             @enderror
                         </div>
                     @else
-                        <input type="hidden" readonly value="{{ Auth::user()->roles->first()->hospital_id }}"
+                        <input type="hidden" readonly value="{{ session('sessionHospital') }}"
                             id="hospital_id" name="hospital_id">
                     @endif
                     <div class="col-md-6 mb-2">

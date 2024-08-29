@@ -1,7 +1,7 @@
 <table>
     <thead>
         <tr>
-            @if (Auth::user()->roles->first()->hospital_id)
+            @if (session('sessionHospital'))
                 <th style="background-color:#D3D3D3 ">{{ __('Hospital') }}</th>
             @endif
             <th style="background-color:#D3D3D3 ">{{ __('Barcode') }}</th>
@@ -22,7 +22,7 @@
         @foreach ($data as $dt)
             <tr>
 
-                @if (Auth::user()->roles->first()->hospital_id)
+                @if (session('sessionHospital'))
                     <td>{{ $dt->hospital->name }}</td>
                 @endif
                 <td>{{ $dt->barcode }}</td>

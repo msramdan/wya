@@ -22,8 +22,8 @@ class VendorsExport implements FromView, ShouldAutoSize, WithEvents
             ->join('kelurahans', 'vendors.kelurahan_id', '=', 'kelurahans.id')
             ->join('hospitals', 'vendors.hospital_id', '=', 'hospitals.id')
             ->select('vendors.*', 'category_vendors.name_category_vendors', 'provinces.provinsi', 'kabkots.kabupaten_kota', 'kecamatans.kecamatan', 'kelurahans.kelurahan', 'hospitals.name as nama_hospital');
-        if (Auth::user()->roles->first()->hospital_id) {
-            $vendors = $vendors->where('vendors.hospital_id', Auth::user()->roles->first()->hospital_id);
+        if (session('sessionHospital')) {
+            $vendors = $vendors->where('vendors.hospital_id', session('sessionHospital'));
         }
         $vendors = $vendors->orderBy('vendors.id', 'desc')->get();
         return view('vendors.export', [

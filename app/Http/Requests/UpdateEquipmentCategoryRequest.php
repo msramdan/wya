@@ -26,7 +26,6 @@ class UpdateEquipmentCategoryRequest extends FormRequest
         return [
             'code_categoty' => 'required|string|min:1|max:20',
             'category_name' => 'required|string|min:1|max:200',
-
         ];
     }
 }

@@ -237,7 +237,7 @@
         $(document).ready(function() {
             var cek = $('#hospital_id').val()
             if (typeof cek === "undefined") {
-                getCategory({{ Auth::user()->roles->first()->hospital_id }});
+                getCategory({{ session('sessionHospital') }});
             }
         });
 

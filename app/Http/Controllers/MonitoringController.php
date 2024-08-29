@@ -45,8 +45,8 @@ class MonitoringController extends Controller
                 $work_order_processes = $work_order_processes->where('work_orders.hospital_id', $request->hospital_id);
             }
 
-            if (Auth::user()->roles->first()->hospital_id) {
-                $work_order_processes = $work_order_processes->where('work_orders.hospital_id', Auth::user()->roles->first()->hospital_id);
+            if (session('sessionHospital')) {
+                $work_order_processes = $work_order_processes->where('work_orders.hospital_id', session('sessionHospital'));
             }
 
             $work_order_processes = $work_order_processes->orderBy('work_order_processes.schedule_wo', 'ASC');

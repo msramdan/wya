@@ -42,8 +42,8 @@ class SparepartController extends Controller
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
                 $spareparts = $spareparts->where('hospital_id', $request->hospital_id);
             }
-            if (Auth::user()->roles->first()->hospital_id) {
-                $spareparts = $spareparts->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+            if (session('sessionHospital')) {
+                $spareparts = $spareparts->where('hospital_id', session('sessionHospital'));
             }
             return DataTables::of($spareparts)
                 ->addIndexColumn()
@@ -413,7 +413,7 @@ class SparepartController extends Controller
     public function totalAssetPart(Request $request)
     {
         $month = date('Y-m');
-        if (Auth::user()->roles->first()->hospital_id == null) {
+        if (session('sessionHospital') == null) {
             $id = $request->id;
             if ($id != null || $id != '') {
                 $query = "SELECT SUM(estimated_price * stock) AS total FROM spareparts
@@ -422,7 +422,7 @@ class SparepartController extends Controller
                 $query = "SELECT SUM(estimated_price * stock) AS total FROM spareparts";
             }
         } else {
-            $id = Auth::user()->roles->first()->hospital_id;
+            $id = session('sessionHospital');
             $query = "SELECT SUM(estimated_price * stock) AS total FROM spareparts
                 WHERE hospital_id='$id'";
         }

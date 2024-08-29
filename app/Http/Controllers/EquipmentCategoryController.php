@@ -29,22 +29,14 @@ class EquipmentCategoryController extends Controller
     {
         if (request()->ajax()) {
             $equipmentCategories = EquipmentCategory::with('hospital:id,name');
-            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
-                $equipmentCategories = $equipmentCategories->where('hospital_id', $request->hospital_id);
-            }
-            if (Auth::user()->roles->first()->hospital_id) {
-                $equipmentCategories = $equipmentCategories->where('hospital_id', Auth::user()->roles->first()->hospital_id);
-            }
+            $equipmentCategories = $equipmentCategories->where('hospital_id', session('sessionHospital'));
             return DataTables::of($equipmentCategories)
                 ->addIndexColumn()
                 ->addColumn('created_at', function ($row) {
                     return $row->created_at->format('d M Y H:i:s');
                 })->addColumn('updated_at', function ($row) {
                     return $row->updated_at->format('d M Y H:i:s');
-                })->addColumn('hospital', function ($row) {
-                    return $row->hospital ? $row->hospital->name : '';
                 })
-
                 ->addColumn('action', 'equipment-categories.include.action')
                 ->toJson();
         }
@@ -70,8 +62,9 @@ class EquipmentCategoryController extends Controller
      */
     public function store(StoreEquipmentCategoryRequest $request)
     {
-
-        EquipmentCategory::create($request->validated());
+        $attr = $request->validated();
+        $attr['hospital_id'] = session('sessionHospital');
+        EquipmentCategory::create($attr);
         Alert::toast('The equipmentCategory was created successfully.', 'success');
         return redirect()->route('equipment-categories.index');
     }

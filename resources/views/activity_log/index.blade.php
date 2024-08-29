@@ -26,7 +26,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
-                                @if (!Auth::user()->roles->first()->hospital_id)
+                                @if (!session('sessionHospital'))
                                     <div class="col-md-3">
                                         <form class="form-inline" method="get">
                                             @csrf
@@ -82,7 +82,7 @@
                                         <tr>
                                             <th></th>
                                             <th>{{ __('activity_log/index.No') }}</th>
-                                            @if (!Auth::user()->roles->first()->hospital_id)
+                                            @if (!session('sessionHospital'))
                                                 <th>{{ trans('main-data/unit-item/index.hospital') }}</th>
                                             @endif
                                             <th>{{ __('activity_log/index.Log Name') }}</th>
@@ -121,7 +121,7 @@
                     orderable: false,
                     searchable: false
                 },
-                @if (!Auth::user()->roles->first()->hospital_id)
+                @if (!session('sessionHospital'))
                     {
                         data: 'hospital',
                         name: 'hospital',

@@ -55,8 +55,8 @@ class ActivityLogController extends Controller
                     $activityLog = $activityLog->where('activity_log.log_name', $log_name);
                 }
             }
-            if (Auth::user()->roles->first()->hospital_id) {
-                $activityLog = $activityLog->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+            if (session('sessionHospital')) {
+                $activityLog = $activityLog->where('hospital_id', session('sessionHospital'));
             }
             $activityLog = $activityLog->orderBy('activity_log.id', 'DESC')->get();
             return DataTables::of($activityLog)

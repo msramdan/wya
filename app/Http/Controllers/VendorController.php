@@ -37,12 +37,7 @@ class VendorController extends Controller
     {
         if (request()->ajax()) {
             $vendors = Vendor::with('category_vendor:id,name_category_vendors', 'province:id,provinsi', 'kabkot:id,provinsi_id', 'kecamatan:id,kabkot_id', 'kelurahan:id,kecamatan_id', 'hospital:id,name');
-            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
-                $vendors = $vendors->where('hospital_id', $request->hospital_id);
-            }
-            if (Auth::user()->roles->first()->hospital_id) {
-                $vendors = $vendors->where('hospital_id', Auth::user()->roles->first()->hospital_id);
-            }
+            $vendors = $vendors->where('hospital_id', session('sessionHospital'));
             return DataTables::of($vendors)
                 ->addIndexColumn()
                 ->addColumn('created_at', function ($row) {
@@ -109,40 +104,21 @@ class VendorController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withInput($request->all())->withErrors($validator);
         }
-        $sessionId = Auth::user()->roles->first()->hospital_id;
-        if ($sessionId == null) {
-            $vendor =  Vendor::create([
-                'code_vendor' => $request->code_vendor,
-                'name_vendor' => $request->name_vendor,
-                'category_vendor_id' => $request->category_vendor_id,
-                'email' => $request->email,
-                'provinsi_id' => $request->provinsi_id,
-                'kabkot_id' => $request->kabkot_id,
-                'kecamatan_id' => $request->kecamatan_id,
-                'kelurahan_id' => $request->kelurahan_id,
-                'zip_kode' => $request->zip_kode,
-                'address' => $request->address,
-                'longitude' => $request->longitude,
-                'latitude' => $request->latitude,
-                'hospital_id' =>   $request->hospital_id
-            ]);
-        } else {
-            $vendor =  Vendor::create([
-                'code_vendor' => $request->code_vendor,
-                'name_vendor' => $request->name_vendor,
-                'category_vendor_id' => $request->category_vendor_id,
-                'email' => $request->email,
-                'provinsi_id' => $request->provinsi_id,
-                'kabkot_id' => $request->kabkot_id,
-                'kecamatan_id' => $request->kecamatan_id,
-                'kelurahan_id' => $request->kelurahan_id,
-                'zip_kode' => $request->zip_kode,
-                'address' => $request->address,
-                'longitude' => $request->longitude,
-                'latitude' => $request->latitude,
-                'hospital_id' => $sessionId
-            ]);
-        }
+        $vendor =  Vendor::create([
+            'code_vendor' => $request->code_vendor,
+            'name_vendor' => $request->name_vendor,
+            'category_vendor_id' => $request->category_vendor_id,
+            'email' => $request->email,
+            'provinsi_id' => $request->provinsi_id,
+            'kabkot_id' => $request->kabkot_id,
+            'kecamatan_id' => $request->kecamatan_id,
+            'kelurahan_id' => $request->kelurahan_id,
+            'zip_kode' => $request->zip_kode,
+            'address' => $request->address,
+            'longitude' => $request->longitude,
+            'latitude' => $request->latitude,
+            'hospital_id' => session('sessionHospital')
+        ]);
         $insertedId = $vendor->id;
         if ($vendor) {
             $files = $request->file('file');
@@ -210,7 +186,7 @@ class VendorController extends Controller
         $kabkot = DB::table('kabkots')->where('provinsi_id', $vendor->provinsi_id)->get();
         $kecamatan = DB::table('kecamatans')->where('kabkot_id', $vendor->kabkot_id)->get();
         $kelurahan = DB::table('kelurahans')->where('kecamatan_id', $vendor->kecamatan_id)->get();
-        $categoryVendors = CategoryVendor::where('hospital_id', $vendor->hospital_id)->get();
+        $categoryVendors = CategoryVendor::where('hospital_id', session('sessionHospital'))->get();
         return view('vendors.edit', compact('vendor', 'pic', 'file', 'kabkot', 'kecamatan', 'kelurahan', 'categoryVendors'));
     }
 
@@ -245,39 +221,21 @@ class VendorController extends Controller
             return redirect()->back()->withInput($request->all())->withErrors($validator);
         }
         $vendor = Vendor::findOrFail($vendor->id);
-        if (!Auth::user()->roles->first()->hospital_id) {
-            $vendor->update([
-                'code_vendor' => $request->code_vendor,
-                'name_vendor' => $request->name_vendor,
-                'category_vendor_id' => $request->category_vendor_id,
-                'email' => $request->email,
-                'provinsi_id' => $request->provinsi_id,
-                'kabkot_id' => $request->kabkot_id,
-                'kecamatan_id' => $request->kecamatan_id,
-                'kelurahan_id' => $request->kelurahan_id,
-                'zip_kode' => $request->zip_kode,
-                'address' => $request->address,
-                'longitude' => $request->longitude,
-                'latitude' => $request->latitude,
-                'hospital_id' => $request->hospital_id,
-            ]);
-        } else {
-            $vendor->update([
-                'code_vendor' => $request->code_vendor,
-                'name_vendor' => $request->name_vendor,
-                'category_vendor_id' => $request->category_vendor_id,
-                'email' => $request->email,
-                'provinsi_id' => $request->provinsi_id,
-                'kabkot_id' => $request->kabkot_id,
-                'kecamatan_id' => $request->kecamatan_id,
-                'kelurahan_id' => $request->kelurahan_id,
-                'zip_kode' => $request->zip_kode,
-                'address' => $request->address,
-                'longitude' => $request->longitude,
-                'latitude' => $request->latitude,
-                'hospital_id' => Auth::user()->roles->first()->hospital_id,
-            ]);
-        }
+        $vendor->update([
+            'code_vendor' => $request->code_vendor,
+            'name_vendor' => $request->name_vendor,
+            'category_vendor_id' => $request->category_vendor_id,
+            'email' => $request->email,
+            'provinsi_id' => $request->provinsi_id,
+            'kabkot_id' => $request->kabkot_id,
+            'kecamatan_id' => $request->kecamatan_id,
+            'kelurahan_id' => $request->kelurahan_id,
+            'zip_kode' => $request->zip_kode,
+            'address' => $request->address,
+            'longitude' => $request->longitude,
+            'latitude' => $request->latitude,
+            'hospital_id' => session('sessionHospital'),
+        ]);
 
         // hapus file
         if ($request->id_asal_file == null) {

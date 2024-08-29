@@ -12,7 +12,7 @@
             @enderror
         </div>
     </div>
-    @if (!Auth::user()->roles->first()->hospital_id)
+    @if (!session('sessionHospital'))
         <div class="col-md-6 mb-2">
             <label for="hospital_id_select">{{ trans('utilities/rolepermission/form.hospital') }}</label>
             <select class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
@@ -36,7 +36,7 @@
             @enderror
         </div>
     @else
-        <input type="hidden" name="hospital_id" value="{{ Auth::user()->roles->first()->hospital_id }}">
+        <input type="hidden" name="hospital_id" value="{{ session('sessionHospital') }}">
     @endif
 </div>
 

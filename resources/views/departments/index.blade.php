@@ -29,7 +29,7 @@
                             @endcan
                         </div>
                         <div class="card-body">
-                            @if (!Auth::user()->roles->first()->hospital_id)
+                            @if (!session('sessionHospital'))
                                 <div class="row">
                                     <div class="col-md-3 mb-2">
                                         <form class="form-inline" method="get">
@@ -57,7 +57,7 @@
                                     <thead class="table-dark">
                                         <tr>
                                             <th>#</th>
-                                            @if (!Auth::user()->roles->first()->hospital_id)
+                                            @if (!session('sessionHospital'))
                                                 <th>{{ trans('employee/departement/index.hospital') }}</th>
                                             @endif
                                             <th>{{ trans('employee/departement/index.code') }}</th>
@@ -84,7 +84,7 @@
                 orderable: false,
                 searchable: false
             },
-            @if (!Auth::user()->roles->first()->hospital_id)
+            @if (!session('sessionHospital'))
                 {
                     data: 'hospital',
                     name: 'hospital',

@@ -65,7 +65,7 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-body">
-                            @if (!Auth::user()->roles->first()->hospital_id)
+                            @if (!session('sessionHospital'))
                                 <div class="row">
                                     <div class="col-md-3 mb-2">
                                         <form class="form-inline" method="get">
@@ -167,7 +167,7 @@
                                     <thead class="table-dark">
                                         <tr>
                                             <th>#</th>
-                                            @if (!Auth::user()->roles->first()->hospital_id)
+                                            @if (!session('sessionHospital'))
                                                 <th style="white-space: nowrap">
                                                     {{ trans('work-order/submission/index.hospital') }}</th>
                                             @endif
@@ -243,7 +243,7 @@
                 orderable: false,
                 searchable: false
             },
-            @if (!Auth::user()->roles->first()->hospital_id)
+            @if (!session('sessionHospital'))
                 {
                     data: 'hospital',
                     name: 'hospital.name',

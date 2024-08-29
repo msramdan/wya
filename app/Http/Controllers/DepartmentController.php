@@ -33,8 +33,8 @@ class DepartmentController extends Controller
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
                 $departments = $departments->where('hospital_id', $request->hospital_id);
             }
-            if (Auth::user()->roles->first()->hospital_id) {
-                $departments = $departments->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+            if (session('sessionHospital')) {
+                $departments = $departments->where('hospital_id', session('sessionHospital'));
             }
 
             return DataTables::of($departments)

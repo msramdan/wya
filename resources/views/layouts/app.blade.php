@@ -101,10 +101,10 @@
                                 'Belum dikembalikan',
                             );
 
-                            if (Auth::user()->roles->first()->hospital_id) {
+                            if (session('sessionHospital')) {
                                 $loanCount = $loanCount->where(
                                     'hospital_id',
-                                    Auth::user()->roles->first()->hospital_id,
+                                    session('sessionHospital'),
                                 );
                             }
 
@@ -115,8 +115,8 @@
                                 ->where('status_peminjaman', 'Belum dikembalikan')
                                 ->orderBy('rencana_pengembalian', 'asc');
 
-                            if (Auth::user()->roles->first()->hospital_id) {
-                                $loans = $loans->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+                            if (session('sessionHospital')) {
+                                $loans = $loans->where('hospital_id', session('sessionHospital'));
                             }
 
                             $loans = $loans->limit(5)->get();
@@ -258,14 +258,14 @@
                         @endif
                     </span> --}}
                     <span class="logo-lg">
-                        @if (Auth::user()->roles->first()->hospital_id)
+                        @if (session('sessionHospital'))
                             <span
                                 style="margin-top: 2px; margin-bottom: 2px; font-size: 24px; color: #dddddd; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);"><b>Manajemen
                                     Aset</b></span>
                         @endif
                         @php
-                            if (Auth::user()->roles->first()->hospital_id) {
-                                $hospitalId = Auth::user()->roles->first()->hospital_id;
+                            if (session('sessionHospital')) {
+                                $hospitalId = session('sessionHospital');
                                 $hospital = DB::table('hospitals')->where('id', $hospitalId)->first();
                                 if ($hospital->logo != null) {
                                     echo '<img  style="width:150px; padding:5px" src="' .
@@ -292,14 +292,14 @@
                         @endif
                     </span> --}}
                     <span class="logo-lg">
-                        @if (Auth::user()->roles->first()->hospital_id)
+                        @if (session('sessionHospital'))
                             <span
                                 style="margin-top: 2px; margin-bottom: 2px; font-size: 24px; color: #dddddd; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);"><b>Manajemen
                                     Aset</b></span>
                         @endif
                         @php
-                            if (Auth::user()->roles->first()->hospital_id) {
-                                $hospitalId = Auth::user()->roles->first()->hospital_id;
+                            if (session('sessionHospital')) {
+                                $hospitalId = session('sessionHospital');
                                 $hospital = DB::table('hospitals')->where('id', $hospitalId)->first();
                                 if ($hospital->logo != null) {
                                     echo '<img  style="width:150px; padding:5px" src="' .

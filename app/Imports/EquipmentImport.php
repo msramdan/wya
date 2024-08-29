@@ -69,7 +69,7 @@ class EquipmentImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
                 'nilai_perolehan' => $row['nilai_perolehan'],
                 'nilai_residu' => $row['nilai_residu'],
                 'masa_manfaat' => $row['masa_manfaat'],
-                'hospital_id' => Auth::user()->roles->first()->hospital_id,
+                'hospital_id' => session('sessionHospital'),
             ]);
             $insertedId = $equipment->id;
             if ($equipment) {

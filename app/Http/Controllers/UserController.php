@@ -49,8 +49,8 @@ class UserController extends Controller
                     $users = $users->where('hospital_id', $request->hospital_id);
                 }
             }
-            if (Auth::user()->roles->first()->hospital_id) {
-                $users = $users->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+            if (session('sessionHospital')) {
+                $users = $users->where('hospital_id', session('sessionHospital'));
             }
             return Datatables::of($users)
                 ->addIndexColumn()

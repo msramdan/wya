@@ -29,10 +29,10 @@ class ViewServiceProvider extends ServiceProvider
     {
         View::composer(['users.create', 'users.edit'], function ($view) {
 
-            if (!Auth::user()->roles->first()->hospital_id) {
+            if (!session('sessionHospital')) {
                 $data = Role::select('id', 'name')->get();
             } else {
-                $data = Role::select('id', 'name')->where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
+                $data = Role::select('id', 'name')->where('hospital_id', session('sessionHospital'))->get();
             }
             return $view->with(
                 'roles',
@@ -42,10 +42,10 @@ class ViewServiceProvider extends ServiceProvider
 
         View::composer(['equipments.index','loans.create','loans.edit'], function ($view) {
 
-            if (!Auth::user()->roles->first()->hospital_id) {
+            if (!session('sessionHospital')) {
                 $data = EquipmentLocation::select('id', 'location_name')->get();
             } else {
-                $data = EquipmentLocation::select('id', 'location_name')->where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
+                $data = EquipmentLocation::select('id', 'location_name')->where('hospital_id', session('sessionHospital'))->get();
             }
             return $view->with(
                 'equipmentLocations',
@@ -105,10 +105,10 @@ class ViewServiceProvider extends ServiceProvider
         });
 
         View::composer(['hospitals.create', 'hospitals.edit'], function ($view) {
-            if (!Auth::user()->roles->first()->hospital_id) {
+            if (!session('sessionHospital')) {
                 $data = \App\Models\Hospital::select('id', 'work_order_has_access_approval_users_id')->get();
             } else {
-                $data = \App\Models\Hospital::select('id', 'work_order_has_access_approval_users_id')->where('id', Auth::user()->roles->first()->hospital_id)->get();
+                $data = \App\Models\Hospital::select('id', 'work_order_has_access_approval_users_id')->where('id', session('sessionHospital'))->get();
             }
             return $view->with(
                 'rs',

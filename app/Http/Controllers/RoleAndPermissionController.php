@@ -39,8 +39,8 @@ class RoleAndPermissionController extends Controller
                     $role = $role->where('hospital_id', $request->hospital_id);
                 }
             }
-            if (Auth::user()->roles->first()->hospital_id) {
-                $role = $role->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+            if (session('sessionHospital')) {
+                $role = $role->where('hospital_id', session('sessionHospital'));
             }
 
             return DataTables::of($role)

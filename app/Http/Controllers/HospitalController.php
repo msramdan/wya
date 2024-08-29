@@ -168,7 +168,7 @@ class HospitalController extends Controller
 
         $hospital->update($attr);
         Alert::toast('The hospital was updated successfully.', 'success');
-        if (Auth::user()->roles->first()->hospital_id != null) {
+        if (session('sessionHospital') != null) {
             return redirect()->back();
         } else {
             return redirect()->route('hospitals.index');

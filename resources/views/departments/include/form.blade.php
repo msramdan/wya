@@ -1,5 +1,5 @@
 <div class="row mb-2">
-    @if (!Auth::user()->roles->first()->hospital_id)
+    @if (!session('sessionHospital'))
         <div class="col-md-6 mb-2">
             <label for="hospital_id">{{ trans('employee/departement/form.hospital') }}</label>
             <select class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
@@ -30,7 +30,7 @@
             @enderror
         </div>
     @else
-        <input type="hidden" readonly value="{{ Auth::user()->roles->first()->hospital_id }}" id="hospital_id"
+        <input type="hidden" readonly value="{{ session('sessionHospital') }}" id="hospital_id"
             name="hospital_id">
     @endif
 

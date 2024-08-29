@@ -20,7 +20,7 @@ class LocationExport implements FromView, ShouldAutoSize, WithEvents, WithTitle
 
     public function view(): View
     {
-        $data = EquipmentLocation::where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
+        $data = EquipmentLocation::where('hospital_id', session('sessionHospital'))->get();
         return view('equipment-locations.export', [
             'data' => $data
         ]);

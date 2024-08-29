@@ -16,8 +16,8 @@ class EquiptmentExport implements FromView, ShouldAutoSize, WithEvents
     public function view(): View
     {
         $data = Equipment::with('nomenklatur:id,name_nomenklatur', 'equipment_category:id,category_name', 'vendor:id,name_vendor', 'equipment_location:id,location_name', 'hospital:id,name')->get();
-        if (Auth::user()->roles->first()->hospital_id) {
-            $data = $data->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+        if (session('sessionHospital')) {
+            $data = $data->where('hospital_id', session('sessionHospital'));
         }
         return view('equipments.export', [
             'data' => $data

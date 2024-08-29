@@ -82,7 +82,7 @@
         <div class="card">
             <div class="card-body">
 
-                @if (!Auth::user()->roles->first()->hospital_id)
+                @if (!session('sessionHospital'))
                     <div class="col-md-12 mb-2">
                         <label for="hospital_id">{{ trans('main-data/unit-item/form.hospital') }}</label>
                         <select
@@ -107,7 +107,7 @@
                         @enderror
                     </div>
                 @else
-                    <input type="hidden" readonly value="{{ Auth::user()->roles->first()->hospital_id }}"
+                    <input type="hidden" readonly value="{{ session('sessionHospital') }}"
                         id="hospital_id" name="hospital_id">
                 @endif
                 <div class="col-md-12 mb-2">

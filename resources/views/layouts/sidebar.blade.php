@@ -26,7 +26,7 @@
                     <i class="mdi mdi-speedometer"></i> <span data-key="t-widgets">Dashboard</span>
                 </a>
             </li>
-            @if (Auth::user()->roles->first()->hospital_id)
+            @if (session('sessionHospital'))
                 @can('kalender wo view')
                     @php
                         $currentYear = date('Y');
@@ -95,10 +95,10 @@
                 @endif
             @endforeach
 
-            @if (Auth::user()->roles->first()->hospital_id != null)
+            @if (session('sessionHospital') != null)
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ Route::currentRouteName() == 'hospitals.edit' ? ' active' : '' }}"
-                        href="{{ route('hospitals.edit', Auth::user()->roles->first()->hospital_id) }}">
+                        href="{{ route('hospitals.edit', session('sessionHospital')) }}">
                         <i data-feather="tool"></i> <span data-key="t-widgets">Setting Apps</span>
                     </a>
                 </li>

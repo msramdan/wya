@@ -7,7 +7,6 @@ use App\Http\Requests\{StoreCategoryVendorRequest, UpdateCategoryVendorRequest};
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
-use Auth;
 use Illuminate\Support\Facades\DB;
 
 class CategoryVendorController extends Controller
@@ -29,13 +28,7 @@ class CategoryVendorController extends Controller
     {
         if (request()->ajax()) {
             $categoryVendors = CategoryVendor::with('hospital:id,name')->orderBy('category_vendors.id', 'desc');
-
-            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
-                $categoryVendors = $categoryVendors->where('hospital_id', $request->hospital_id);
-            }
-            if (Auth::user()->roles->first()->hospital_id) {
-                $categoryVendors = $categoryVendors->where('hospital_id', Auth::user()->roles->first()->hospital_id);
-            }
+            $categoryVendors = $categoryVendors->where('hospital_id', session('sessionHospital'));
 
             return DataTables::of($categoryVendors)
                 ->addIndexColumn()
@@ -43,10 +36,7 @@ class CategoryVendorController extends Controller
                     return $row->created_at->format('d M Y H:i:s');
                 })->addColumn('updated_at', function ($row) {
                     return $row->updated_at->format('d M Y H:i:s');
-                })->addColumn('hospital', function ($row) {
-                    return $row->hospital ? $row->hospital->name : '';
                 })
-
                 ->addColumn('action', 'category-vendors.include.action')
                 ->toJson();
         }
@@ -72,8 +62,10 @@ class CategoryVendorController extends Controller
      */
     public function store(StoreCategoryVendorRequest $request)
     {
+        $attr = $request->validated();
+        $attr['hospital_id'] = session('sessionHospital');
+        CategoryVendor::create($attr);
 
-        CategoryVendor::create($request->validated());
         Alert::toast('The categoryVendor was created successfully.', 'success');
         return redirect()->route('category-vendors.index');
     }

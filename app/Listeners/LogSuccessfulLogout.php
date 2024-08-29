@@ -14,7 +14,7 @@ class LogSuccessfulLogout
     public function handle(Logout $event)
     {
         $user = $event->user;
-        $hospital_id = Auth::user()->roles->first()->hospital_id;
+        $hospital_id = session('sessionHospital');
         $userAgent = request()->header('User-Agent');
         $ipAddress = request()->ip();
 

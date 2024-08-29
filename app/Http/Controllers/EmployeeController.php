@@ -42,8 +42,8 @@ class EmployeeController extends Controller
             if ($request->has('hospital_id') && !empty($request->hospital_id)) {
                 $employees = $employees->where('hospital_id', $request->hospital_id);
             }
-            if (Auth::user()->roles->first()->hospital_id) {
-                $employees = $employees->where('hospital_id', Auth::user()->roles->first()->hospital_id);
+            if (session('sessionHospital')) {
+                $employees = $employees->where('hospital_id', session('sessionHospital'));
             }
 
             return DataTables::of($employees)

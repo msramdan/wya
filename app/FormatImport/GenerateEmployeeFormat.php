@@ -41,7 +41,7 @@ class GenerateEmployeeFormat implements FromView, ShouldAutoSize, WithEvents, Wi
                 // Kolom C Type
                 $drop_column = 'C';
                 $options = [];
-                $dataUnit = EmployeeType::where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
+                $dataUnit = EmployeeType::where('hospital_id', session('sessionHospital'))->get();
                 foreach ($dataUnit as $value) {
                     array_push($options, $value->name_employee_type);
                 }
@@ -80,7 +80,7 @@ class GenerateEmployeeFormat implements FromView, ShouldAutoSize, WithEvents, Wi
                 // kolom E Departemen
                 $kolom_e = 'E';
                 $kolomE = [];
-                $dataDepartemen = Department::where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
+                $dataDepartemen = Department::where('hospital_id', session('sessionHospital'))->get();
                 foreach ($dataDepartemen as $value) {
                     array_push($kolomE, $value->name_department);
                 }
@@ -101,7 +101,7 @@ class GenerateEmployeeFormat implements FromView, ShouldAutoSize, WithEvents, Wi
                 // kolom F Posotion
                 $kolom_f = 'F';
                 $kolomF = [];
-                $dataPosition = Position::where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
+                $dataPosition = Position::where('hospital_id', session('sessionHospital'))->get();
                 foreach ($dataPosition as $value) {
                     array_push($kolomF, $value->name_position);
                 }

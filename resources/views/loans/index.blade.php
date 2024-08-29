@@ -77,7 +77,7 @@
                         <div class="card-body">
                             <div class="row">
 
-                                @if (!Auth::user()->roles->first()->hospital_id)
+                                @if (!session('sessionHospital'))
                                     <div class="col-md-3 mb-2">
                                         <div class="input-group mb-2 mr-sm-2">
                                             <select name="hospital_id" id="hospital_id"
@@ -101,7 +101,7 @@
                                     <thead class="table-dark">
                                         <tr>
                                             <th>#</th>
-                                            @if (!Auth::user()->roles->first()->hospital_id)
+                                            @if (!session('sessionHospital'))
                                                 <th>{{ __('Hospital') }}</th>
                                             @endif
                                             <th>{{ __('No Peminjaman') }}</th>
@@ -136,7 +136,7 @@
                 orderable: false,
                 searchable: false
             },
-            @if (!Auth::user()->roles->first()->hospital_id)
+            @if (!session('sessionHospital'))
                 {
                     data: 'hospital_name',
                     name: 'hospital_name',

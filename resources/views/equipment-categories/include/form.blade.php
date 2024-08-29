@@ -1,38 +1,4 @@
 <div class="row mb-2">
-    @if (!Auth::user()->roles->first()->hospital_id)
-        <div class="col-md-6 mb-2">
-            <label for="hospital_id">{{ trans('main-data/equipment/category/form.hospital') }}</label>
-            <select class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
-                name="hospital_id" id="hospital_id" required>
-                <option value="" selected disabled>--
-                    {{ trans('main-data/equipment/category/form.select_hospital') }} --</option>
-                @if (isset($equipmentCategory))
-                    @foreach ($hispotals as $hispotal)
-                        <option value="{{ $hispotal->id }}"
-                            {{ $equipmentCategory->hospital_id == $hispotal->id ? 'selected' : '' }}
-                            {{ $equipmentCategory->hospital_id != $hispotal->id ? 'disabled' : '' }}>
-                            {{ $hispotal->name }}
-                        </option>
-                    @endforeach
-                @else
-                    @foreach ($hispotals as $hispotal)
-                        <option value="{{ $hispotal->id }}"
-                            {{ isset($equipmentCategory) && $equipmentCategory->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
-                            {{ $hispotal->name }}
-                        </option>
-                    @endforeach
-                @endif
-            </select>
-            @error('hospital_id')
-                <span class="text-danger">
-                    {{ $message }}
-                </span>
-            @enderror
-        </div>
-    @else
-        <input type="hidden" readonly value="{{ Auth::user()->roles->first()->hospital_id }}" id="hospital_id"
-            name="hospital_id">
-    @endif
     <div class="col-md-6 mb-2">
         <label for="code-categoty">{{ trans('main-data/equipment/category/form.category_code') }} </label>
         <input type="text" name="code_categoty" id="code-categoty"

@@ -38,7 +38,7 @@ class GenerateSparepartFormat implements FromView, ShouldAutoSize, WithEvents, W
                 // set dropdown column
                 $drop_column = 'F';
                 $options = [];
-                $dataUnit = UnitItem::where('hospital_id', Auth::user()->roles->first()->hospital_id)->get();
+                $dataUnit = UnitItem::where('hospital_id', session('sessionHospital'))->get();
                 foreach ($dataUnit as $value) {
                     array_push($options, $value->unit_name);
                 }

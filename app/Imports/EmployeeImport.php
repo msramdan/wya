@@ -52,7 +52,7 @@ class EmployeeImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
                 'join_date' => Carbon::createFromFormat('d/m/Y', $row['join_date'])->format('Y-m-d'),
                 'address' => $row['address'],
                 'zip_kode' => $row['zip_kode'],
-                'hospital_id' => Auth::user()->roles->first()->hospital_id,
+                'hospital_id' => session('sessionHospital'),
             ]);
         }
     }

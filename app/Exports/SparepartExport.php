@@ -18,8 +18,8 @@ class SparepartExport implements FromView, ShouldAutoSize, WithEvents
             ->join('unit_items', 'spareparts.unit_id', '=', 'unit_items.id')
             ->join('hospitals', 'spareparts.hospital_id', '=', 'hospitals.id')
             ->select('spareparts.*', 'unit_items.unit_name', 'hospitals.name as nama_hospital');
-        if (Auth::user()->roles->first()->hospital_id) {
-            $data = $data->where('spareparts.hospital_id', Auth::user()->roles->first()->hospital_id);
+        if (session('sessionHospital')) {
+            $data = $data->where('spareparts.hospital_id', session('sessionHospital'));
         }
         $data = $data->orderBy('spareparts.id', 'desc')->get();
         return view('spareparts.export', [
