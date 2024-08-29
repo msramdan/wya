@@ -18,11 +18,12 @@ return new class extends Migration
             $table->enum('status', ['Yes', 'No', 'NA']);
             $table->timestamps();
 
-            $table->foreign('work_order_process_id', 'work_order_process_id_foreign')
-              ->references('id')
-              ->on('work_order_processes')
-              ->onDelete('cascade')
-              ->onUpdate('restrict');
+            // Use a unique name for the foreign key constraint
+            $table->foreign('work_order_process_id', 'work_order_process_function_checks_id_foreign')
+                ->references('id')
+                ->on('work_order_processes')
+                ->onDelete('cascade')
+                ->onUpdate('restrict');
         });
     }
 

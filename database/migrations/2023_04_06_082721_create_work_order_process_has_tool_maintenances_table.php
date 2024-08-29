@@ -18,7 +18,7 @@ return new class extends Migration
             $table->enum('status', ['Yes', 'No', 'NA']);
             $table->timestamps();
 
-            $table->foreign('work_order_process_id', 'work_order_process_id_foreign')
+            $table->foreign('work_order_process_id', 'work_order_process_tool_maintenances_id_foreign')
             ->references('id')
             ->on('work_order_processes')
             ->onDelete('cascade')

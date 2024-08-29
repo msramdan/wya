@@ -28,6 +28,8 @@ return new class extends Migration
             $table->string('financing_code', 255);
             $table->string('photo', 255);
             $table->boolean('hospital_id')->nullable()->constrained('hospitals')->restrictOnUpdate()->nullOnDelete();
+            $table->enum('is_decommissioning', ['Yes', 'No'])->default('No');
+            $table->enum('is_pemutihan', ['Yes', 'No'])->default('No');
             $table->timestamps();
         });
     }

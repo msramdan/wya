@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('file');
             $table->timestamps();
 
-            $table->foreign('work_order_process_id', 'work_order_process_id_foreign')
+            $table->foreign('work_order_process_id', 'work_order_process_has_wo_documents_id_foreign')
             ->references('id')
             ->on('work_order_processes')
             ->onDelete('cascade')

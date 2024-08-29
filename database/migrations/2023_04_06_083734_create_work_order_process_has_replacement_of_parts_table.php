@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('amount');
             $table->timestamps();
 
-            $table->foreign('work_order_process_id', 'work_order_process_id_foreign')
+            $table->foreign('work_order_process_id', 'work_order_process_has_replacement_of_parts_id_foreign')
                 ->references('id')
                 ->on('work_order_processes')
                 ->onDelete('cascade')
