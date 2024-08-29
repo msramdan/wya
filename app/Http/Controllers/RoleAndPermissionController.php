@@ -29,16 +29,10 @@ class RoleAndPermissionController extends Controller
     {
         if (request()->ajax()) {
             $role = DB::table('roles')
-                ->leftJoin('hospitals', 'roles.hospital_id', '=', 'hospitals.id')
-                ->select('roles.*', 'hospitals.name as hospital_name')
+                ->select('roles.*')
                 ->get();
-            $role = $role->where('hospital_id', session('sessionHospital'));
-
             return DataTables::of($role)
                 ->addIndexColumn()
-                ->addColumn('hospital_name', function ($row) {
-                    return $row->hospital_name ? $row->hospital_name : 'Role MTA';
-                })
                 ->addColumn('action', 'roles.include.action')
                 ->toJson();
         }
@@ -64,8 +58,7 @@ class RoleAndPermissionController extends Controller
      */
     public function store(StoreRoleRequest $request)
     {
-        $hospital_id = $request->hospital_id != 'user_mta' ? $request->hospital_id : null;
-        $role = Role::create(['name' => $request->name, 'hospital_id' => $hospital_id]);
+        $role = Role::create(['name' => $request->name]);
 
         $role->givePermissionTo($request->permissions);
         Alert::toast('The role was created successfully', 'success');
@@ -110,8 +103,7 @@ class RoleAndPermissionController extends Controller
     {
         $role = Role::findOrFail($id);
         $oldPermissions = $role->permissions->pluck('name')->toArray();
-        $hospital_id = $request->hospital_id != 'user_mta' ? $request->hospital_id : null;
-        $role->update(['name' => $request->name, 'hospital_id' => $hospital_id]);
+        $role->update(['name' => $request->name]);
         $role->syncPermissions($request->permissions);
 
         $newPermissions = $role->permissions->pluck('name')->toArray();

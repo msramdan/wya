@@ -19,8 +19,7 @@ class RoleAndPermissionSeeder extends Seeder
 
         $roleAdmin = Role::create(
             [
-                'name' => 'Super Admin',
-                'hospital_id' => null
+                'name' => 'Super Admin'
             ]
         );
 

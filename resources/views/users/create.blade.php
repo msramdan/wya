@@ -38,7 +38,6 @@
                                 @method('POST')
 
                                 @include('users.include.form')
-
                                 <a href="{{ url()->previous() }}" class="btn btn-secondary"><i
                                         class="mdi mdi-arrow-left-thin"></i> {{ __('Back') }}</a>
 

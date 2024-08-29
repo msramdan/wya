@@ -28,7 +28,7 @@ class ViewServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer(['users.create', 'users.edit'], function ($view) {
-            $data = Role::select('id', 'name')->where('hospital_id', session('sessionHospital'))->get();
+            $data = Role::select('id', 'name')->get();
             return $view->with(
                 'roles',
                 $data

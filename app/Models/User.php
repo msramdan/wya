@@ -28,7 +28,6 @@ class User extends Authenticatable
         'password',
         'avatar',
         'no_hp',
-        'hospital_id'
     ];
 
     /**
