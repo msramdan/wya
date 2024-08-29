@@ -232,21 +232,6 @@
 
                             <div class="col-md-6">
                                 <form method="get" action="/panel" id="form-date" class="row">
-                                    @if (!session('sessionHospital'))
-                                        <div class="col-md-6">
-                                            <div class="input-group mb-2 mr-sm-2">
-                                                <select name="hospital_id" id="hospital_id"
-                                                    class="form-control js-example-basic-multiple">
-                                                    @foreach ($hispotals as $hispotal)
-                                                        <option value="{{ $hispotal->id }}"
-                                                            {{ $ids == $hispotal->id ? 'selected' : '' }}>
-                                                            {{ $hispotal->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                    @endif
                                     <div class="col-md-6">
                                         <div class="input-group mb-4">
                                             <span class="input-group-text" id="addon-wrapping"><i

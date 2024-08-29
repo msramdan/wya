@@ -80,29 +80,6 @@
                         </div>
 
                         <div class="card-body">
-                            @if (!session('sessionHospital'))
-                                <div class="row">
-                                    <div class="col-md-3 mb-2">
-                                        <form class="form-inline" method="get">
-                                            @csrf
-                                            <div class="input-group mb-2 mr-sm-2">
-                                                <select name="hospital_id" id="hospital_id"
-                                                    class="form-control js-example-basic-multiple">
-                                                    <option value="">--
-                                                        {{ trans('inventory/sparepart/index.filter_hospital') }} --
-                                                    </option>
-                                                    @foreach ($hispotals as $hispotal)
-                                                        <option value="{{ $hispotal->id }}"
-                                                            {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
-                                                            {{ $hispotal->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            @endif
                             <div class="col-md-4">
                                 <div class="alert alert-primary" role="alert">
                                     {{ trans('inventory/sparepart/index.total') }} : <h4><span id="hitungAsset"></span>
@@ -115,9 +92,6 @@
                                     <thead class="table-dark">
                                         <tr>
                                             <th>#</th>
-                                            @if (!session('sessionHospital'))
-                                                <th>{{ trans('inventory/sparepart/index.hospital') }}</th>
-                                            @endif
                                             <th>{{ trans('inventory/sparepart/index.barcode') }}</th>
                                             <th>{{ trans('inventory/sparepart/index.sparepart_name') }}</th>
                                             <th>{{ trans('inventory/sparepart/index.merk') }}</th>
@@ -176,13 +150,6 @@
                 orderable: false,
                 searchable: false
             },
-            @if (!session('sessionHospital'))
-                {
-                    data: 'hospital',
-                    name: 'hospital',
-                },
-            @endif
-
             {
                 data: 'barcode',
                 name: 'barcode',

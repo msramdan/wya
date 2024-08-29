@@ -8,43 +8,6 @@
                 <hr>
 
                 <div class="row">
-                    @if (!session('sessionHospital'))
-                        <div class="col-md-12 mb-2">
-                            <label for="hospital_id">{{ trans('work-order/submission/form.hospital') }}</label>
-                            <select
-                                class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
-                                name="hospital_id" id="hospital_id" required>
-                                <option value="" selected disabled>--
-                                    {{ trans('work-order/submission/form.filter_hospital') }} --</option>
-                                @if (isset($workOrder))
-                                    @foreach ($hispotals as $hispotal)
-                                        <option value="{{ $hispotal->id }}"
-                                            {{ $workOrder->hospital_id == $hispotal->id ? 'selected' : '' }}
-                                            {{ $workOrder->hospital_id != $hispotal->id ? 'disabled' : '' }}>
-                                            {{ $hispotal->name }}
-                                        </option>
-                                    @endforeach
-                                @else
-                                    @foreach ($hispotals as $hispotal)
-                                        <option value="{{ $hispotal->id }}"
-                                            {{ isset($workOrder) && $workOrder->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
-                                            {{ $hispotal->name }}
-                                        </option>
-                                    @endforeach
-                                @endif
-
-
-                            </select>
-                            @error('hospital_id')
-                                <span class="text-danger">
-                                    {{ $message }}
-                                </span>
-                            @enderror
-                        </div>
-                    @else
-                        <input type="hidden" readonly value="{{ session('sessionHospital') }}"
-                            id="hospital_id" name="hospital_id">
-                    @endif
                     <div class="col-md-6 mb-2">
                         <label for="equipment-id">{{ trans('work-order/submission/form.wo_number') }}</label>
                         <input type="text" name="wo_number" id="wo_number" readonly

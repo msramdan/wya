@@ -28,25 +28,15 @@ class ViewServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer(['users.create', 'users.edit'], function ($view) {
-
-            if (!session('sessionHospital')) {
-                $data = Role::select('id', 'name')->get();
-            } else {
-                $data = Role::select('id', 'name')->where('hospital_id', session('sessionHospital'))->get();
-            }
+            $data = Role::select('id', 'name')->where('hospital_id', session('sessionHospital'))->get();
             return $view->with(
                 'roles',
                 $data
             );
         });
 
-        View::composer(['equipments.index','loans.create','loans.edit'], function ($view) {
-
-            if (!session('sessionHospital')) {
-                $data = EquipmentLocation::select('id', 'location_name')->get();
-            } else {
-                $data = EquipmentLocation::select('id', 'location_name')->where('hospital_id', session('sessionHospital'))->get();
-            }
+        View::composer(['equipments.index', 'loans.create', 'loans.edit'], function ($view) {
+            $data = EquipmentLocation::select('id', 'location_name')->where('hospital_id', session('sessionHospital'))->get();
             return $view->with(
                 'equipmentLocations',
                 $data
@@ -97,7 +87,7 @@ class ViewServiceProvider extends ServiceProvider
             );
         });
 
-        View::composer(['work-orders.create', 'work-orders.edit','loans.create','loans.edit'], function ($view) {
+        View::composer(['work-orders.create', 'work-orders.edit', 'loans.create', 'loans.edit'], function ($view) {
             return $view->with(
                 'users',
                 \App\Models\User::select('id', 'name')->get()
@@ -105,11 +95,7 @@ class ViewServiceProvider extends ServiceProvider
         });
 
         View::composer(['hospitals.create', 'hospitals.edit'], function ($view) {
-            if (!session('sessionHospital')) {
-                $data = \App\Models\Hospital::select('id', 'work_order_has_access_approval_users_id')->get();
-            } else {
-                $data = \App\Models\Hospital::select('id', 'work_order_has_access_approval_users_id')->where('id', session('sessionHospital'))->get();
-            }
+            $data = \App\Models\Hospital::select('id', 'work_order_has_access_approval_users_id')->where('id', session('sessionHospital'))->get();
             return $view->with(
                 'rs',
                 json_encode($data)

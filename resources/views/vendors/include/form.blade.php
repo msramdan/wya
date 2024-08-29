@@ -8,29 +8,6 @@
                 <hr>
 
                 <div class="row">
-                    @if (!session('sessionHospital'))
-                        <div class="col-md-12 mb-2">
-                            <label for="hospital_id">{{ trans('vendor/create.hospital') }}</label>
-                            <select
-                                class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
-                                name="hospital_id" id="hospital_id" required>
-                                <option value="" selected disabled>-- {{ trans('vendor/create.filter_hospital') }}
-                                    --</option>
-
-                                @foreach ($hispotals as $hispotal)
-                                    <option value="{{ $hispotal->id }}"
-                                        {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
-                                        {{ $hispotal->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('hospital_id')
-                                <span class="text-danger">
-                                    {{ $message }}
-                                </span>
-                            @enderror
-                        </div>
-                    @endif
                     <div class="col-md-6 mb-2">
                         <label for="code-vendor">{{ trans('vendor/create.vendor_code') }}</label>
                         <input type="text" name="code_vendor" id="code-vendor"

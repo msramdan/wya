@@ -34,9 +34,6 @@
                                     <thead class="table-dark">
                                         <tr>
                                             <th>#</th>
-                                            @if (!session('sessionHospital'))
-                                                <th>{{ trans('employee/departement/index.hospital') }}</th>
-                                            @endif
                                             <th>{{ trans('employee/departement/index.code') }}</th>
                                             <th>{{ trans('employee/departement/index.name') }}</th>
                                             <th>{{ trans('employee/departement/index.action') }}</th>

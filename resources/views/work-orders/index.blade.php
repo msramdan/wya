@@ -72,29 +72,6 @@
                             @endcan
                         </div>
                         <div class="card-body">
-                            @if (!session('sessionHospital'))
-                                <div class="row">
-                                    <div class="col-md-3 mb-2">
-                                        <form class="form-inline" method="get">
-                                            @csrf
-                                            <div class="input-group mb-2 mr-sm-2">
-                                                <select name="hospital_id" id="hospital_id"
-                                                    class="form-control js-example-basic-multiple">
-                                                    <option value="">--
-                                                        {{ trans('work-order/submission/index.filter_hospital') }} --
-                                                    </option>
-                                                    @foreach ($hispotals as $hospital)
-                                                        <option value="{{ $hospital->id }}"
-                                                            {{ (isset($workOrders) && $workOrders->hospital_id == $hospital->id) || old('hospital_id') == $hospital->id || (isset($hospital_id) && $hospital_id == $hospital->id) ? 'selected' : '' }}>
-                                                            {{ $hospital->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            @endif
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="input-group mb-4">
@@ -173,10 +150,6 @@
                                     <thead class="table-dark">
                                         <tr>
                                             <th>#</th>
-                                            @if (!session('sessionHospital'))
-                                                <th style="white-space: nowrap">
-                                                    {{ trans('work-order/submission/index.hospital') }}</th>
-                                            @endif
                                             <th style="white-space: nowrap">
                                                 {{ trans('work-order/submission/index.wo_number') }}</th>
                                             <th style="white-space: nowrap">
@@ -253,12 +226,7 @@
                 orderable: false,
                 searchable: false
             },
-            @if (!session('sessionHospital'))
-                {
-                    data: 'hospital',
-                    name: 'hospital.name',
-                },
-            @endif {
+            {
                 data: 'wo_number',
                 name: 'work_orders.wo_number'
             },

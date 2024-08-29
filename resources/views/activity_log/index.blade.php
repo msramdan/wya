@@ -26,26 +26,6 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
-                                @if (!session('sessionHospital'))
-                                    <div class="col-md-3">
-                                        <form class="form-inline" method="get">
-                                            @csrf
-                                            <div class="input-group mb-2 mr-sm-2">
-                                                <select name="hospital_id" id="hospital_id"
-                                                    class="form-control js-example-basic-multiple">
-                                                    <option value="All">--
-                                                        {{ trans('main-data/unit-item/index.select_hospital') }} --</option>
-                                                    @foreach ($dataRs as $hispotal)
-                                                        <option value="{{ $hispotal->id }}"
-                                                            {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
-                                                            {{ $hispotal->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </form>
-                                    </div>
-                                @endif
                                 <div class="col-md-3">
                                     <div class="input-group mb-4">
                                         <span class="input-group-text" id="addon-wrapping"><i
@@ -82,9 +62,6 @@
                                         <tr>
                                             <th></th>
                                             <th>{{ __('activity_log/index.No') }}</th>
-                                            @if (!session('sessionHospital'))
-                                                <th>{{ trans('main-data/unit-item/index.hospital') }}</th>
-                                            @endif
                                             <th>{{ __('activity_log/index.Log Name') }}</th>
                                             <th>{{ __('activity_log/index.Description') }}</th>
                                             <th>{{ __('activity_log/index.Event') }}</th>
@@ -121,12 +98,7 @@
                     orderable: false,
                     searchable: false
                 },
-                @if (!session('sessionHospital'))
-                    {
-                        data: 'hospital',
-                        name: 'hospital',
-                    },
-                @endif {
+                {
                     data: 'log_name',
                     name: 'log_name'
                 },

@@ -182,46 +182,24 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    @if (!session('sessionHospital'))
-                                        <div class="row">
-                                            <div class="col-md-3 mb-2">
-                                                <form class="form-inline" method="get">
-                                                    @csrf
-                                                    <div class="input-group mb-2 mr-sm-2">
-                                                        <select name="hospital_id" id="hospital_id"
-                                                            class="form-control js-example-basic-multiple">
-                                                            <option value="">--
-                                                                {{ trans('work-order/submission/index.filter_hospital') }}
-                                                                --
-                                                            </option>
-                                                            @foreach ($hispotals as $hispotal)
-                                                                <option value="{{ $hispotal->id }}"
-                                                                    {{ isset($unitItem) && $unitItem->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
-                                                                    {{ $hispotal->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    @endif
-
 
                                     <div class="row">
                                         <div class="col">
-                                          <div class="form-check form-check-inline checkbox-group">
-                                            <input class="form-check-input bg-danger" type="checkbox" id="checkbox1">
-                                            <label class="form-check-label" for="checkbox1">Ready-to-start</label>
-                                          </div>
-                                          <div class="form-check form-check-inline checkbox-group">
-                                            <input class="form-check-input bg-info" type="checkbox" id="checkbox2">
-                                            <label class="form-check-label" for="checkbox2">On-progress</label>
-                                          </div>
-                                          <div class="form-check form-check-inline checkbox-group">
-                                            <input class="form-check-input bg-success" type="checkbox" id="checkbox3">
-                                            <label class="form-check-label" for="checkbox3">Finished</label>
-                                          </div>
+                                            <div class="form-check form-check-inline checkbox-group">
+                                                <input class="form-check-input bg-danger" type="checkbox"
+                                                    id="checkbox1">
+                                                <label class="form-check-label" for="checkbox1">Ready-to-start</label>
+                                            </div>
+                                            <div class="form-check form-check-inline checkbox-group">
+                                                <input class="form-check-input bg-info" type="checkbox"
+                                                    id="checkbox2">
+                                                <label class="form-check-label" for="checkbox2">On-progress</label>
+                                            </div>
+                                            <div class="form-check form-check-inline checkbox-group">
+                                                <input class="form-check-input bg-success" type="checkbox"
+                                                    id="checkbox3">
+                                                <label class="form-check-label" for="checkbox3">Finished</label>
+                                            </div>
                                         </div>
                                     </div>
                                     <br>
@@ -230,9 +208,6 @@
                                             <thead>
                                                 <tr class="table-dark">
                                                     <th>#</th>
-                                                    @if (!session('sessionHospital'))
-                                                        <th>{{ __('Hospital') }}</th>
-                                                    @endif
                                                     <th>No WO</th>
                                                     <th>Ruangan</th>
                                                     <th>Tgl Pengajuan</th>
@@ -298,13 +273,7 @@
                 orderable: false,
                 searchable: false
             },
-            @if (!session('sessionHospital'))
-                {
-                    data: 'hospital_name',
-                    name: 'hospital_name',
-                    orderable: false,
-                },
-            @endif {
+            {
                 data: 'wo_number',
                 name: 'wo_number',
                 orderable: false,

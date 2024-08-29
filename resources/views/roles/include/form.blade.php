@@ -12,32 +12,6 @@
             @enderror
         </div>
     </div>
-    @if (!session('sessionHospital'))
-        <div class="col-md-6 mb-2">
-            <label for="hospital_id_select">{{ trans('utilities/rolepermission/form.hospital') }}</label>
-            <select class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
-                name="hospital_id" id="hospital_id_select" required>
-                <option value="" disabled>-- {{ trans('utilities/rolepermission/form.select_hospital') }} --
-                </option>
-                <option value="user_mta">
-                    {{ __('User MTA') }}
-                </option>
-                @foreach ($hispotals as $hispotal)
-                    <option value="{{ $hispotal->id }}"
-                        {{ isset($role) && $role->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
-                        {{ $hispotal->name }}
-                    </option>
-                @endforeach
-            </select>
-            @error('hospital_id')
-                <span class="text-danger">
-                    {{ $message }}
-                </span>
-            @enderror
-        </div>
-    @else
-        <input type="hidden" name="hospital_id" value="{{ session('sessionHospital') }}">
-    @endif
 </div>
 
 <div class="row">

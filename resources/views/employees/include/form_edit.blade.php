@@ -6,37 +6,6 @@
                     <b>{{ trans('employee/form.general_information') }}</b>
                 </div>
                 <hr>
-                @if (!session('sessionHospital'))
-                    <div class="row">
-                        <div class="col-md-12 mb-2">
-                            <div class="form-group">
-                                <label for="hospital_id">{{ trans('employee/form.hospital') }}</label>
-                                <select name="hospital_id" id="hospital_id"
-                                    class="form-control js-example-basic-multiple">
-                                    <option value="">-- {{ trans('employee/form.select_hospital') }} --</option>
-                                    @if (isset($employee))
-                                        @foreach ($hispotals as $hispotal)
-                                            <option value="{{ $hispotal->id }}"
-                                                {{ $employee->hospital_id == $hispotal->id ? 'selected' : '' }}
-                                                {{ $employee->hospital_id != $hispotal->id ? 'disabled' : '' }}>
-                                                {{ $hispotal->name }}
-                                            </option>
-                                        @endforeach
-                                    @else
-                                        @foreach ($hispotals as $hispotal)
-                                            <option value="{{ $hispotal->id }}"
-                                                {{ isset($employee) && $employee->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
-                                                {{ $hispotal->name }}
-                                            </option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                @else
-                    <input type="hidden" name="hospital_id" value="{{ session('sessionHospital') }}">
-                @endif
 
                 <div class="row">
                     <div class="col-md-6 mb-3">

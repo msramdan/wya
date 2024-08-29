@@ -7,35 +7,6 @@
                 </div>
                 <hr>
 
-                @if (!session('sessionHospital'))
-                    <div class="row">
-                        <div class="col-md-12 mb-2">
-                            <div class="form-group">
-                                <label for="hospital_id">{{ trans('employee/form.hospital') }}</label>
-                                <select
-                                    class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
-                                    name="hospital_id" id="hospital_id" required>
-                                    <option value="" selected disabled>-- {{ trans('employee/form.select_hospital') }} --</option>
-
-                                    @foreach ($hispotals as $hispotal)
-                                        <option value="{{ $hispotal->id }}"
-                                            {{ isset($sparepart) && $sparepart->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
-                                            {{ $hispotal->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('hospital_id')
-                                    <span class="text-danger">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                @else
-                    <input type="hidden" readonly value="{{ session('sessionHospital') }}"
-                        id="hospital_id" name="hospital_id">
-                @endif
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="name">{{ trans('employee/form.name') }}</label>

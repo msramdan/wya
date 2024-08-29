@@ -32,16 +32,7 @@ class RoleAndPermissionController extends Controller
                 ->leftJoin('hospitals', 'roles.hospital_id', '=', 'hospitals.id')
                 ->select('roles.*', 'hospitals.name as hospital_name')
                 ->get();
-            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
-                if ($request->hospital_id == 'mta') {
-                    $role = $role->where('hospital_id', '');
-                } else {
-                    $role = $role->where('hospital_id', $request->hospital_id);
-                }
-            }
-            if (session('sessionHospital')) {
-                $role = $role->where('hospital_id', session('sessionHospital'));
-            }
+            $role = $role->where('hospital_id', session('sessionHospital'));
 
             return DataTables::of($role)
                 ->addIndexColumn()

@@ -7,41 +7,6 @@
                 </div>
                 <hr>
 
-                @if (!session('sessionHospital'))
-                    <div class="row">
-                        <div class="col-md-12 mb-2">
-                            <div class="form-group">
-                                <label for="role">{{ trans('inventory/equipment/form.hospital') }}</label>
-                                <select name="hospital_id" id="hospital_id"
-                                    class="form-control js-example-basic-multiple">
-                                    <option value="">-- {{ trans('inventory/equipment/form.select_hispotal') }} --</option>
-                                    @if (isset($equipment))
-                                    @foreach ($hispotals as $hispotal)
-                                        <option value="{{ $hispotal->id }}"
-                                            {{ $equipment->hospital_id == $hispotal->id ? 'selected' : '' }}
-                                            {{ $equipment->hospital_id != $hispotal->id ? 'disabled' : '' }}>
-                                            {{ $hispotal->name }}
-                                        </option>
-                                    @endforeach
-                                @else
-                                    @foreach ($hispotals as $hispotal)
-                                        <option value="{{ $hispotal->id }}"
-                                            {{ isset($equipment) && $equipment->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
-                                            {{ $hispotal->name }}
-                                        </option>
-                                    @endforeach
-                                @endif
-
-
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                @else
-                    <input type="hidden" name="hospital_id" value="{{ session('sessionHospital') }}"
-                        readonly id="hospital_id">
-                @endif
-
                 <div class="row">
                     <div class="col-md-6 mb-2">
                         <label for="barcode">{{ trans('inventory/equipment/form.barcode') }}</label>

@@ -42,25 +42,9 @@ class UserController extends Controller
                 ->leftjoin('hospitals', 'roles.hospital_id', '=', 'hospitals.id')
                 ->select('users.avatar', 'users.name', 'users.email', 'users.no_hp', 'users.id', 'roles.name as nama_roles', 'roles.hospital_id', 'hospitals.name as nama_rs')
                 ->get();
-            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
-                if ($request->hospital_id == 'mta') {
-                    $users = $users->where('hospital_id', '');
-                } else {
-                    $users = $users->where('hospital_id', $request->hospital_id);
-                }
-            }
-            if (session('sessionHospital')) {
-                $users = $users->where('hospital_id', session('sessionHospital'));
-            }
+            $users = $users->where('hospital_id', session('sessionHospital'));
             return Datatables::of($users)
                 ->addIndexColumn()
-                ->addColumn('hospital', function ($row) {
-                    if ($row->nama_rs == null) {
-                        return 'User MTA';
-                    } else {
-                        return $row->nama_rs;
-                    }
-                })
                 ->addColumn('role', function ($row) {
                     return $row->nama_roles;
                 })
@@ -71,7 +55,6 @@ class UserController extends Controller
                     return asset($this->avatarPath . $row->avatar);
                 })
                 ->addColumn('action', 'users.include.action')
-                ->rawColumns(['hospital', 'action'])
                 ->toJson();
         }
 
@@ -117,6 +100,7 @@ class UserController extends Controller
         }
 
         $attr['password'] = bcrypt($request->password);
+        $attr['hospital_id'] = session('sessionHospital');
 
         $user = User::create($attr);
 

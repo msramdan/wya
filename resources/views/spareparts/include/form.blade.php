@@ -1,30 +1,5 @@
 <div class="row">
     <div class="col-md-6">
-        @if (!session('sessionHospital'))
-            <div class="col-md-12 mb-2">
-                <label for="hospital_id">{{ trans('inventory/sparepart/form.hospital') }}</label>
-                <select class="form-control js-example-basic-multiple @error('hospital_id') is-invalid @enderror"
-                    name="hospital_id" id="hospital_id" required>
-                    <option value="" selected disabled>-- {{ trans('inventory/sparepart/form.hospital') }} --
-                    </option>
-
-                    @foreach ($hispotals as $hispotal)
-                        <option value="{{ $hispotal->id }}"
-                            {{ isset($sparepart) && $sparepart->hospital_id == $hispotal->id ? 'selected' : (old('hospital_id') == $hispotal->id ? 'selected' : '') }}>
-                            {{ $hispotal->name }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('hospital_id')
-                    <span class="text-danger">
-                        {{ $message }}
-                    </span>
-                @enderror
-            </div>
-        @else
-            <input type="hidden" readonly value="{{ session('sessionHospital') }}" id="hospital_id"
-                name="hospital_id">
-        @endif
         <div class="col-md-12 mb-2">
             <label for="barcode">{{ trans('inventory/sparepart/form.barcode') }}</label>
             <input type="text" name="barcode" id="barcode"
