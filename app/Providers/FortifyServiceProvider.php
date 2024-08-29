@@ -14,6 +14,7 @@ use Laravel\Fortify\Fortify;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\DB;
 
 
 class FortifyServiceProvider extends ServiceProvider
@@ -55,11 +56,21 @@ class FortifyServiceProvider extends ServiceProvider
                     'password' => 'The provided password is incorrect.',
                 ]);
             }
-            session(['sessionHospital' => 1]);
+
+            session()->forget('sessionHospital');
+            $userHospitalIds = DB::table('user_access_hospital')
+                ->where('user_id', $user->id)
+                ->pluck('hospital_id')
+                ->toArray();
+
+            if (!empty($userHospitalIds)) {
+                session(['sessionHospital' => $userHospitalIds[0]]);
+            } else {
+                session(['sessionHospital' => null]);
+            }
 
             return $user;
         });
-
 
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
