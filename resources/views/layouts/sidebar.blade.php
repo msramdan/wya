@@ -95,12 +95,15 @@
                     @endcanany
                 @endif
             @endforeach
-            {{-- <li class="nav-item">
-                <a class="nav-link menu-link {{ Route::currentRouteName() == 'hospitals.edit' ? ' active' : '' }}"
-                    href="{{ route('hospitals.edit', session('sessionHospital')) }}">
-                    <i data-feather="tool"></i> <span data-key="t-widgets">Setting Apps</span>
-                </a>
-            </li> --}}
+            @if (session('sessionHospital'))
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ Route::currentRouteName() == 'hospitals.edit' ? ' active' : '' }}"
+                        href="{{ route('hospitals.edit', session('sessionHospital')) }}">
+                        <i data-feather="tool"></i> <span data-key="t-widgets">Setting Apps</span>
+                    </a>
+                </li>
+            @endif
+
         </ul>
     </div>
 </div>
