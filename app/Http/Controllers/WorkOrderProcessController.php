@@ -43,13 +43,7 @@ class WorkOrderProcessController extends Controller
                         ELSE 23
                     END'
                 )->orderBy('updated_at', 'DESC');
-
-            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
-                $workOrders = $workOrders->where('hospital_id', $request->hospital_id);
-            }
-            if (session('sessionHospital')) {
-                $workOrders = $workOrders->where('hospital_id', session('sessionHospital'));
-            }
+            $workOrders = $workOrders->where('hospital_id', session('sessionHospital'));
 
             $start_date = intval($request->query('start_date'));
             $end_date = intval($request->query('end_date'));
@@ -99,9 +93,6 @@ class WorkOrderProcessController extends Controller
             $workOrders = $workOrders->orderBy('wo_number', 'DESC');
             return DataTables::of($workOrders)
                 ->addIndexColumn()
-                ->addColumn('hospital', function ($row) {
-                    return $row->hospital ? $row->hospital->name : '';
-                })
                 ->addColumn('finished_processes', function ($row) {
                     return $row->countWoProcess('finished') . '/' . $row->countWoProcess();
                 })
@@ -132,25 +123,14 @@ class WorkOrderProcessController extends Controller
         $to = date('Y-m-d') . " 23:59:59";
         $microFrom = strtotime($from) * 1000;
         $microTo = strtotime($to) * 1000;
-        if (session('sessionHospital')) {
-            $equimentHospital = Equipment::where('hospital_id', session('sessionHospital'))->get();
-            $dataUser = DB::table('users')
-                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-                ->select('users.*', 'roles.hospital_id')
-                ->where('roles.hospital_id', session('sessionHospital'))
-                ->get();
-        } else {
-            $equimentHospital = Equipment::all();
-            $dataUser = User::all();
-        }
+        $equimentHospital = Equipment::where('hospital_id', session('sessionHospital'))->get();
+        $dataUser = User::all();
         $start_date = $request->query('start_date') !== null ? intval($request->query('start_date')) : $microFrom;
         $end_date = $request->query('end_date') !== null ? intval($request->query('end_date')) : $microTo;
         $equipment_id = $request->query('equipment_id') ?? null;
         $type_wo = $request->query('type_wo') ?? null;
         $category_wo = $request->query('category_wo') ?? null;
         $created_by = $request->query('created_by') !== null ? intval($request->query('created_by')) : null;
-        $hospital_id = $request->query('hospital_id') !== null ? intval($request->query('hospital_id')) : null;
         return view('work-order-process.index', [
             'microFrom' => $start_date,
             'microTo' => $end_date,
@@ -160,7 +140,6 @@ class WorkOrderProcessController extends Controller
             'type_wo' => $type_wo,
             'category_wo' => $category_wo,
             'created_by' => $created_by,
-            'hospital_id' => $hospital_id,
         ]);
     }
 

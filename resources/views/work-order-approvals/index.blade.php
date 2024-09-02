@@ -315,7 +315,6 @@
                     s.type_wo = $('select[name=type_wo] option').filter(':selected').val()
                     s.category_wo = $('select[name=category_wo] option').filter(':selected').val()
                     s.created_by = $('select[name=created_by] option').filter(':selected').val()
-                    s.hospital_id = $('select[name=hospital_id] option').filter(':selected').val()
                 }
             },
             columns: columns
@@ -329,7 +328,6 @@
             var typeWo = $('select[name=type_wo]').val();
             var categoryWo = $('select[name=category_wo]').val();
             var createdBy = $('select[name=created_by]').val();
-            var hospitalId = $('select[name=hospital_id]').val();
 
             if (startDate) params.set('start_date', startDate);
             if (endDate) params.set('end_date', endDate);
@@ -337,15 +335,10 @@
             if (typeWo) params.set('type_wo', typeWo);
             if (categoryWo) params.set('category_wo', categoryWo);
             if (createdBy) params.set('created_by', createdBy);
-            if (hospitalId) params.set('hospital_id', hospitalId);
             var newURL = "{{ route('work-order-approvals.index') }}" + '?' + params.toString();
             history.replaceState(null, null, newURL);
         }
 
-        $('#hospital_id').change(function() {
-            table.draw();
-            replaceURLParams()
-        })
         $('#equipment_id').change(function() {
             table.draw();
             replaceURLParams()
