@@ -44,13 +44,7 @@ class WorkOrderController extends Controller
             $type_wo = $request->query('type_wo');
             $category_wo = $request->query('category_wo');
             $created_by = intval($request->query('created_by'));
-
-            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
-                $workOrders = $workOrders->where('hospital_id', $request->hospital_id);
-            }
-            if (session('sessionHospital')) {
-                $workOrders = $workOrders->where('hospital_id', session('sessionHospital'));
-            }
+            $workOrders = $workOrders->where('hospital_id', session('sessionHospital'));
             if (isset($start_date) && !empty($start_date)) {
                 $from = date("Y-m-d H:i:s", substr($request->query('start_date'), 0, 10));
                 $workOrders = $workOrders->where('filed_date', '>=', $from);
@@ -190,7 +184,7 @@ class WorkOrderController extends Controller
      */
     public function store(StoreWorkOrderRequest $request)
     {
-        $settingApp = Hospital::findOrFail($request->hospital_id);
+        $settingApp = Hospital::findOrFail(session('sessionHospital'));
         $workOrderHasAccessApprovalUsersId = json_decode($settingApp->work_order_has_access_approval_users_id, true);
         $approvalUserId = [];
 
@@ -345,18 +339,17 @@ class WorkOrderController extends Controller
 
         if ($settingApp->notif_wa == 1) {
             $receiverUsers = json_decode($workOrder->approval_users_id, true);
-
             foreach ($receiverUsers as $receiverUserId) {
                 $receiverUser = User::find($receiverUserId);
 
                 if ($receiverUser) {
                     try {
                         if ($receiverUser->no_hp) {
-                            new NotifWhatsappWorkOrderCreated($receiverUser->no_hp, $workOrder, $request->hospital_id);
+                            new NotifWhatsappWorkOrderCreated($receiverUser->no_hp, $workOrder, session('sessionHospital'));
                         }
                     } catch (\Throwable $th) {
                         if ($receiverUser[0]->no_hp) {
-                            new NotifWhatsappWorkOrderCreated($receiverUser[0]->no_hp, $workOrder, $request->hospital_id);
+                            new NotifWhatsappWorkOrderCreated($receiverUser[0]->no_hp, $workOrder, session('sessionHospital'));
                         }
                     }
                 }
