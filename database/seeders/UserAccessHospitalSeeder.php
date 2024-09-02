@@ -20,5 +20,11 @@ class UserAccessHospitalSeeder extends Seeder
                 'updated_at' => now(),
             ]);
         }
+        DB::table('user_access_hospital')->insert([
+            'user_id' => 2,
+            'hospital_id' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }
