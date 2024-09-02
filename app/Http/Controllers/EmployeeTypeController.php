@@ -29,7 +29,7 @@ class EmployeeTypeController extends Controller
     {
         if (request()->ajax()) {
             $employeeTypes = EmployeeType::with('hospital:id,name');
-                $employeeTypes = $employeeTypes->where('hospital_id', session('sessionHospital'));
+            $employeeTypes = $employeeTypes->where('hospital_id', session('sessionHospital'));
 
             return DataTables::of($employeeTypes)
                 ->addIndexColumn()

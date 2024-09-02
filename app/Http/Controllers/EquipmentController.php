@@ -48,7 +48,6 @@ class EquipmentController extends Controller
             if (isset($equipment_location_id) && !empty($equipment_location_id)) {
                 $equipments = $equipments->where('equipment_location_id', $equipment_location_id);
             }
-
             $equipments = $equipments->where('hospital_id', session('sessionHospital'));
 
             if (isset($commisioning) && !empty($commisioning)) {
@@ -124,8 +123,7 @@ class EquipmentController extends Controller
                 'metode' => 'required',
                 'nilai_perolehan' => 'required',
                 'nilai_residu' => 'required',
-                'masa_manfaat' => 'required',
-                'hospital_id' => 'required'
+                'masa_manfaat' => 'required'
             ],
         );
         if ($validator->fails()) {
@@ -156,7 +154,7 @@ class EquipmentController extends Controller
                 'nilai_perolehan' => $request->nilai_perolehan,
                 'nilai_residu' => $request->nilai_residu,
                 'masa_manfaat' => $request->masa_manfaat,
-                'hospital_id' => $request->hospital_id
+                'hospital_id' =>  session('sessionHospital')
             ]);
             $insertedId = $equipment->id;
             if ($equipment) {

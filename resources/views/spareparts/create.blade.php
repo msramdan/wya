@@ -54,7 +54,7 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            var cek = $('#hospital_id').val()
+            var cek = {{ session('sessionHospital') }}
             if (cek != '' || cek != null) {
                 getDataUnit(cek);
             }

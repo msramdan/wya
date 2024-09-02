@@ -235,7 +235,8 @@
         crossorigin=""></script>
     <script>
         $(document).ready(function() {
-            var cek = $('#hospital_id').val()
+            var cek = {{ session('sessionHospital') }}
+            console.log(cek);
             if (cek != '' || cek != null) {
                 getEmployeeType(cek);
                 getDepartment(cek);

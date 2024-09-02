@@ -116,7 +116,7 @@ class SparepartController extends Controller
                 'estimated_price' => $request->estimated_price,
                 'opname' => $request->opname,
                 'stock' => $request->stock,
-                'hospital_id' => $request->hospital_id,
+                'hospital_id' =>  session('sessionHospital'),
             ]);
 
             $insertedId = $sparepart->id;
@@ -210,7 +210,7 @@ class SparepartController extends Controller
             'estimated_price' => $request->estimated_price,
             'opname' => $request->opname,
             'stock' => $request->stock,
-            'hospital_id' => $request->hospital_id,
+            'hospital_id' =>  session('sessionHospital'),
         ]);
 
         // hapus photo

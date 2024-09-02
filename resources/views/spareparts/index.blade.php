@@ -121,8 +121,7 @@
         });
 
         function hitungAsset() {
-            var cek = $('#hospital_id').val()
-            console.log(cek)
+            var cek = {{ session('sessionHospital') }}
             var url = '../panel/totalAssetPart';
             $.ajax({
                 url: url,
