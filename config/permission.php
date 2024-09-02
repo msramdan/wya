@@ -194,7 +194,6 @@ return [
         ['group' => 'employees', 'access' => ['employee view', 'employee create', 'employee edit', 'employee delete']],
         ['group' => 'category vendors', 'access' => ['category vendor view', 'category vendor create', 'category vendor edit', 'category vendor delete']],
         ['group' => 'vendors', 'access' => ['vendor view', 'vendor create', 'vendor edit', 'vendor delete']],
-        ['group' => 'nomenklaturs', 'access' => ['nomenklatur view']],
         ['group' => 'equipments', 'access' => ['equipment view', 'equipment create', 'equipment edit', 'equipment delete']],
         ['group' => 'work orders', 'access' => ['work order view', 'work order create', 'work order edit', 'work order delete', 'work order approval', 'work order process']],
         ['group' => 'hospitals', 'access' => ['hospital view', 'hospital create', 'hospital edit', 'hospital delete']],
@@ -202,6 +201,7 @@ return [
         ['group' => 'loans', 'access' => ['loan view', 'loan create', 'loan edit', 'loan delete']],
         ['group' => 'activity log', 'access' => ['activity log view']],
         ['group' => 'backup database', 'access' => ['backup database view']],
+        ['group' => 'nomenklaturs', 'access' => ['nomenklatur view']],
         ['group' => 'kalender wo', 'access' => ['kalender wo view']],
     ],
 ];
