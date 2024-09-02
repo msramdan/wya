@@ -198,12 +198,11 @@ class WorkOrderController extends Controller
                 }
             }
         }
-
         $data = $request->validated();
         $data['created_by'] = Auth::user()->id;
         $data['status_wo'] = count($approvalUserId) > 0 ? 'pending' : 'accepted';
         $data['approval_users_id'] = json_encode($approvalUserId);
-
+        $data['hospital_id'] = session('sessionHospital');
         if ($data['status_wo'] == 'accepted') {
             $data['approved_at'] = date('Y-m-d H:i:s');
         }

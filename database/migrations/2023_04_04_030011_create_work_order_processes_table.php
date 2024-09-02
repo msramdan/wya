@@ -21,7 +21,10 @@ return new class extends Migration
             $table->enum('status', ['ready-to-start', 'on-progress', 'finished']);
             $table->timestamps();
 
-            $table->foreign('work_order_id')->references('id')->on('work_orders');
+            $table->foreign('work_order_id')
+                ->references('id')
+                ->on('work_orders')
+                ->onDelete('cascade');
         });
     }
 

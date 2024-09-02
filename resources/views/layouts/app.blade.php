@@ -100,13 +100,7 @@
                                 'status_peminjaman',
                                 'Belum dikembalikan',
                             );
-
-                            if (session('sessionHospital')) {
-                                $loanCount = $loanCount->where(
-                                    'hospital_id',
-                                    session('sessionHospital'),
-                                );
-                            }
+                            $loanCount = $loanCount->where('hospital_id', session('sessionHospital'));
 
                             $loanCount = $loanCount->count();
 
@@ -114,11 +108,7 @@
                             $loans = \App\Models\Loan::where('rencana_pengembalian', '<', date('Y-m-d'))
                                 ->where('status_peminjaman', 'Belum dikembalikan')
                                 ->orderBy('rencana_pengembalian', 'asc');
-
-                            if (session('sessionHospital')) {
-                                $loans = $loans->where('hospital_id', session('sessionHospital'));
-                            }
-
+                            $loans = $loans->where('hospital_id', session('sessionHospital'));
                             $loans = $loans->limit(5)->get();
                         @endphp
 

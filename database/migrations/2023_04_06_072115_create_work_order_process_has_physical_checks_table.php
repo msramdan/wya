@@ -10,7 +10,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('work_order_process_physical_checks', function (Blueprint $table) {
+        Schema::create('work_order_process_has_physical_checks', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('work_order_process_id');
             $table->string('physical_check');
@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamps();
 
             // Use a unique name for the foreign key constraint
-            $table->foreign('work_order_process_id', 'work_order_process_physical_checks_foreign')
+            $table->foreign('work_order_process_id', 'work_order_process_has_physical_checks_foreign')
                 ->references('id')
                 ->on('work_order_processes')
                 ->onDelete('cascade')
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('work_order_process_physical_checks');
+        Schema::dropIfExists('work_order_process_has_physical_checks');
     }
 };
