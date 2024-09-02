@@ -60,9 +60,7 @@
                                 </span>
                             @enderror
                         </div>
-
                     </div>
-
                     <div class="col-md-12 d-none" id="container-equipment-detail">
                         <div class="card">
                             <div class="card-body">
@@ -220,7 +218,7 @@
                 .then((res) => res.json())
                 .then((response) => {
                     $('#equipment-id').select2('destroy');
-                    $("#equipment-id").html('<option value="" selected disabled>-- Select equipment --</option>');
+                    $("#equipment-id").html('<option value="" selected disabled>-- Select --</option>');
 
                     response.data.forEach((equipment) => {
                         $("#equipment-id").append(

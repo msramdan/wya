@@ -73,7 +73,7 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            var cek = $('#hospital_id').val()
+            var cek = {{ session('sessionHospital') }}
             console.log(cek)
             if (cek != '' || cek != null) {
                 getEquipmentLocation(cek);

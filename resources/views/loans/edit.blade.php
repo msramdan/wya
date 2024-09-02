@@ -73,7 +73,7 @@
                     <div class="card">
                         <div class="card-body">
                             @include('loans.include.form_edit')
-                            <a href="{{ url()->previous() }}" class="btn btn-secondary"><i
+                            <a href="{{route('loans.index')}}" class="btn btn-secondary"><i
                                     class="mdi mdi-arrow-left-thin"></i> {{ __('Back') }}</a>
                             @if ($loan->status_peminjaman == 'Sudah dikembalikan')
                                 <a href="#" type="button" class="btn btn-success disabled">

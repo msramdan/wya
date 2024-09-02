@@ -50,20 +50,12 @@ class LoanController extends Controller
                 ->leftJoin('equipment_locations as el2', 'loans.lokasi_peminjam_id', '=', 'el2.id')
                 ->leftJoin('users as uc', 'loans.user_created', '=', 'uc.id')
                 ->leftJoin('users as uu', 'loans.user_updated', '=', 'uu.id');
-
-            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
-                $loans = $loans->where('loans.hospital_id', $request->hospital_id);
-            }
-            if (session('sessionHospital')) {
-                $loans = $loans->where('loans.hospital_id', session('sessionHospital'));
-            }
+            $loans = $loans->where('loans.hospital_id', session('sessionHospital'));
             $loans = $loans->orderBy('loans.id', 'DESC')->get();
             return Datatables::of($loans)
                 ->addIndexColumn()
                 ->addColumn('equipment', function ($row) {
                     return $row->barcode ? $row->barcode : '';
-                })->addColumn('hospital', function ($row) {
-                    return $row->hospital_name ? $row->hospital_name : '';
                 })
                 ->addColumn('employee_name', function ($row) {
                     return $row->employee_name ? $row->employee_name : '';
@@ -118,6 +110,7 @@ class LoanController extends Controller
     public function store(StoreLoanRequest $request)
     {
         $attr = $request->validated();
+        $attr['hospital_id'] = session('sessionHospital');
         $attr['status_peminjaman'] = 'Belum dikembalikan';
         $attr['user_created'] = Auth::id();
         $loan =  Loan::create($attr);
