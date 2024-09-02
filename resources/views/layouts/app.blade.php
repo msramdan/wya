@@ -327,26 +327,43 @@
     <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
         <i class="ri-arrow-up-line"></i>
     </button>
+    <a href="https://wa.me/6283874731480?text=Hello%20Admin,%20saya%20ingin%20bertanya%20mengenai%20Aplikasi%20Marsweb.%20Mohon%20bantuan%20dan%20informasinya.%20Terima%20kasih."
+        target="_blank" id="whatsapp-button">
+        <img src="{{ asset('wa.png') }}" alt="WhatsApp" style="width: 60px;">
+        <span id="whatsapp-text">Hubungi kami</span>
+    </a>
+
+
     {{-- script --}}
     @include('layouts.script')
 
     @stack('js-libs')
 
     @stack('js-scripts')
-    {{-- <script>
-        $(document).ready(function() {
-            var lang = localStorage.getItem('language');
-            var us =
-                '<img id="header-lang-img" src="{{ asset('/material/assets/images/flags/us.svg') }}" alt="Header Language" height="20" class="rounded">';
-            var id =
-                '<img id="header-lang-img" src="{{ asset('/material/assets/images/flags/indonesia.png') }}" alt="Header Language" height="20" class="rounded">';
-            if (lang === 'en') {
-                $('#header-lang-img').html(us);
-            } else if (lang === 'in') {
-                $('#header-lang-img').html(id);
-            }
-        })
-    </script> --}}
+    <style>
+        #whatsapp-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        #whatsapp-text {
+            margin-left: 10px;
+            font-size: 16px;
+            color: #25D366;
+            /* Warna hijau khas WhatsApp */
+            font-weight: bold;
+        }
+
+        #whatsapp-button:hover #whatsapp-text {
+            color: #128C7E;
+            /* Warna hijau lebih gelap untuk efek hover */
+        }
+    </style>
 </body>
 
 </html>

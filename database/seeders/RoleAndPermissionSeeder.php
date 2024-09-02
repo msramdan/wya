@@ -34,9 +34,9 @@ class RoleAndPermissionSeeder extends Seeder
         $roleAdminRs = Role::create(['name' => 'Admin RS']);
         $permissionAdminUnit = [
             'user view',
-            'user create',
-            'user edit',
-            'user delete',
+            // 'user create',
+            // 'user edit',
+            // 'user delete',
             // 'role & permission view',
             // 'role & permission create',
             // 'role & permission edit',

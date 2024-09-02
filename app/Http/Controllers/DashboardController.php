@@ -24,17 +24,7 @@ class DashboardController extends Controller
         $start_date = intval($request->query('start_date'));
         $end_date = intval($request->query('end_date'));
         $hospitals = Hospital::all();
-        $hospital_id = intval($request->query('hospital_id'));
-        $sessionId = session('sessionHospital');
-        if ($sessionId == null) {
-            if (isset($hospital_id) && !empty($hospital_id)) {
-                $ids = $hospital_id;
-            } else {
-                $ids = Hospital::first()->id;
-            }
-        } else {
-            $ids = session('sessionHospital');
-        }
+        $ids = session('sessionHospital');
         $countVendor = Vendor::where('hospital_id', $ids)->count();
         $countEmployee = Employee::where('hospital_id', $ids)->count();
         $countEquipment = Equipment::where('hospital_id', $ids)->count();
@@ -517,13 +507,13 @@ class DashboardController extends Controller
         }
         $currentMonth = date('Y-m');
         $totalNilaiBukuByCategory = DB::table('equipment_reduction_price')
-                ->join('equipment', 'equipment_reduction_price.equipment_id', '=', 'equipment.id')
-                ->join('equipment_categories', 'equipment.equipment_category_id', '=', 'equipment_categories.id')
-                ->where('equipment.hospital_id', '=', $hospital_id)
-                ->where('equipment_reduction_price.month', $currentMonth)
-                ->groupBy('equipment.equipment_category_id')
-                ->select('equipment.equipment_category_id', 'equipment_categories.category_name', DB::raw('SUM(equipment_reduction_price.nilai_buku) as total_nilai_buku'))
-                ->get();
+            ->join('equipment', 'equipment_reduction_price.equipment_id', '=', 'equipment.id')
+            ->join('equipment_categories', 'equipment.equipment_category_id', '=', 'equipment_categories.id')
+            ->where('equipment.hospital_id', '=', $hospital_id)
+            ->where('equipment_reduction_price.month', $currentMonth)
+            ->groupBy('equipment.equipment_category_id')
+            ->select('equipment.equipment_category_id', 'equipment_categories.category_name', DB::raw('SUM(equipment_reduction_price.nilai_buku) as total_nilai_buku'))
+            ->get();
 
 
         // 2.3      MANAJEMEN PERALATAN DAN SPAREPART
@@ -538,10 +528,10 @@ class DashboardController extends Controller
 
         // Total asset bulan berjalan
         $totalNilaiBuku = DB::table('equipment_reduction_price')
-                    ->join('equipment', 'equipment_reduction_price.equipment_id', '=', 'equipment.id')
-                    ->where('equipment.hospital_id', '=', $hospital_id)
-                    ->where('equipment_reduction_price.month', $currentMonth)
-                    ->sum('equipment_reduction_price.nilai_buku');
+            ->join('equipment', 'equipment_reduction_price.equipment_id', '=', 'equipment.id')
+            ->where('equipment.hospital_id', '=', $hospital_id)
+            ->where('equipment_reduction_price.month', $currentMonth)
+            ->sum('equipment_reduction_price.nilai_buku');
         // Bab 3 kesimpulan
         $totalBiaya = Expense('Service', $start_date, $end_date, $hospital_id) + Expense('Calibration', $start_date, $end_date, $hospital_id) + Expense('Replacement', $start_date, $end_date, $hospital_id);
         $hitungPersentase = ($totalBiaya / $totalNilaiBuku) * 100;
@@ -639,7 +629,7 @@ class DashboardController extends Controller
         $section->addText("             Inventarisasi peralatan kesehatan telah dilaksanan dan mencatat total asset sebanyak " . $totalAsset . " units telah di lakukan pendataan dan penempelan label QR-Code, Label QR-Code ini bermanfaat dalam pencarian data peralatan dengan cepat, dengan memanfaatkan teknologi camera pada smartphone ataupun menggunakan barcode scanner.", $fontStyleName, $paragraphStyleName);
         $section->addText('             Inventory Peralatan terbagi menjadi beberapa kategori Peralatan, dengan rincian sebagai berikut :', $fontStyleName, $paragraphStyleName);
         foreach ($countByCategory as $categoryName => $count) {
-        $section->addText("• " . ucfirst(strtolower($categoryName)) . " terdapat " . $count . " unit Peralatan", $fontStyleName, $paragraphStyleName);
+            $section->addText("• " . ucfirst(strtolower($categoryName)) . " terdapat " . $count . " unit Peralatan", $fontStyleName, $paragraphStyleName);
         }
         $section->addText("• Dengan Akumulasi Total Aset yang di miliki Rumah Sakit sebanyak " . $totalAsset . " units Peralatan", $fontStyleName, $paragraphStyleName);
 
@@ -647,9 +637,9 @@ class DashboardController extends Controller
         $section->addText("1.       Asset Peralatan", $fontStyleName, $paragraphStyleName);
         $section->addText("Sampai dengan periode dibuat nya laporan ini, dapat kami sajikan data Inventory beserta Total Asset yang dimiliki :", $fontStyleName, $paragraphStyleName);
         foreach ($totalNilaiBukuByCategory as $row) {
-        $section->addText("• ".ucfirst(strtolower($row->category_name)) . " dengan Total Asset " .rupiah($row->total_nilai_buku), $fontStyleName, $paragraphStyleName);
+            $section->addText("• " . ucfirst(strtolower($row->category_name)) . " dengan Total Asset " . rupiah($row->total_nilai_buku), $fontStyleName, $paragraphStyleName);
         }
-        $section->addText("• Dengan Akumulasi Total Aset yang di miliki Rumah Sakit sebanyak " . $totalAsset . " units Peralatan dengan nilai asset Peralatan sejumlah " .rupiah($totalNilaiBuku), $fontStyleName, $paragraphStyleName);
+        $section->addText("• Dengan Akumulasi Total Aset yang di miliki Rumah Sakit sebanyak " . $totalAsset . " units Peralatan dengan nilai asset Peralatan sejumlah " . rupiah($totalNilaiBuku), $fontStyleName, $paragraphStyleName);
 
         $section->addText("2.       Riwayat Peralatan", $fontStyleName, $paragraphStyleName);
         $section->addText("Selain menyajikan jumlah peralatan yang dimiliki, marsweb juga menyajikan riwayat peralatan masing-masing peralatannya, riwayat yang disajikan merupakan riwayat service, riwayat kalibrasi, riwayat maintenance, riwayat training, riwayat penggantian sparepart hingga riwayat pengeluaran biaya-biaya selama peralatan tersebut beroperasi. Riwayat Peralatan dapat dicetak secara terpisah sebagai lampiran.", $fontStyleName, $paragraphStyleName);
@@ -663,7 +653,7 @@ class DashboardController extends Controller
         $section->addText("2.4      MANAJEMEN EXPENSES", $styleFont2, $paragraphStyleName);
         $section->addText("             Di dalam pelaksanaan kegiatan Work Order, marsweb juga akan mencatat biaya biaya yang muncul selama pelaksanaan diantaranya adalah biaya kalibrasi, biaya service dan biaya penggantian sparepart.", $fontStyleName, $paragraphStyleName);
         $section->addText("• Pada periode ini tercatat biaya pengeluaran untuk kegiatan Service sebesar " . rupiah(Expense('Service', $start_date, $end_date, $hospital_id)), $fontStyleName, $paragraphStyleName);
-        $section->addText("• Pada periode ini tercatat biaya pengeluaran untuk kegiatan Kalibrasi sebesar " . rupiah( Expense('Calibration', $start_date, $end_date, $hospital_id)), $fontStyleName, $paragraphStyleName);
+        $section->addText("• Pada periode ini tercatat biaya pengeluaran untuk kegiatan Kalibrasi sebesar " . rupiah(Expense('Calibration', $start_date, $end_date, $hospital_id)), $fontStyleName, $paragraphStyleName);
         $section->addText("• Pada periode ini tercatat biaya pengeluaran untuk kegiatan Penggantian Sparepart dan Asesoris sebesar " . rupiah(Expense('Replacement', $start_date, $end_date, $hospital_id)), $fontStyleName, $paragraphStyleName);
 
 
@@ -682,12 +672,12 @@ class DashboardController extends Controller
         $section->addText('             Berdasarkan ukuran statistik yang menunjukkan pemeliharaan atas peralatan medik, manajemen dapat menarik kesimpulan bahwa program Inspection Preventive Maintenance (IPM) memiliki peranan dan manfaat yang sangat penting dalam upaya peningkatan mutu pelayanan Rumah Sakit. Statistik tersebut dapat digunakan sebagai bahan acuan perencanaan program IPM berikutnya ataupun perencanaan penambahan peralatan medik.', $fontStyleName, $paragraphStyleName);
         $section->addTextBreak(0);
         $section->addText('             Dari statistik yang tercatat selama periode 01 April 2024 sampai dengan 30 April 2024, dapat dilaporkan bahwa:', $fontStyleName, $paragraphStyleName);
-        $section->addText("1. Program Inspection Preventive Maintenance (IPM) telah terlaksana dengan presentase ". persentaseWoType('Inspection and Preventive Maintenance', $start_date, $end_date, $hospital_id). "% dari program preventive maintenance yang telah di jadwalkan.", $fontStyleName, $paragraphStyleName);
-        $section->addText("2. Program service telah terlaksana dengan presentase ". persentaseWoType('Service', $start_date, $end_date, $hospital_id). "% dari program service yang telah di jadwalkan.", $fontStyleName, $paragraphStyleName);
-        $section->addText("3. Program kalibrasi telah terlaksana dengan presentase ". persentaseWoType('Calibration', $start_date, $end_date, $hospital_id). "% dari program kalibrasi yang telah di jadwalkan.", $fontStyleName, $paragraphStyleName);
-        $section->addText("4. Program training telah terlaksana dengan presentase ". persentaseWoType('Training', $start_date, $end_date, $hospital_id). "% dari program training yang telah di jadwalkan.", $fontStyleName, $paragraphStyleName);
-        $section->addText("5. Secara keseluruhan program kegiatan yang telah di tetapkan selama masa periode berjalan rata-rata tercapai ". persentaseAllType($start_date, $end_date, $hospital_id). " %.", $fontStyleName, $paragraphStyleName);
-        $section->addText("6. Sesuai hasil catatan di dalam marsweb ini, tercatat biaya biaya maintenance, service, kalibrasi dan penggantian part/ asessoris dalam pelaksanaan work order sebesar ". rupiah($totalBiaya).", merupakan ".  round($hitungPersentase, 2)."% dari Total Asset yang di miliki oleh rumah sakit sebesar ".rupiah($totalNilaiBuku), $fontStyleName, $paragraphStyleName);
+        $section->addText("1. Program Inspection Preventive Maintenance (IPM) telah terlaksana dengan presentase " . persentaseWoType('Inspection and Preventive Maintenance', $start_date, $end_date, $hospital_id) . "% dari program preventive maintenance yang telah di jadwalkan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("2. Program service telah terlaksana dengan presentase " . persentaseWoType('Service', $start_date, $end_date, $hospital_id) . "% dari program service yang telah di jadwalkan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("3. Program kalibrasi telah terlaksana dengan presentase " . persentaseWoType('Calibration', $start_date, $end_date, $hospital_id) . "% dari program kalibrasi yang telah di jadwalkan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("4. Program training telah terlaksana dengan presentase " . persentaseWoType('Training', $start_date, $end_date, $hospital_id) . "% dari program training yang telah di jadwalkan.", $fontStyleName, $paragraphStyleName);
+        $section->addText("5. Secara keseluruhan program kegiatan yang telah di tetapkan selama masa periode berjalan rata-rata tercapai " . persentaseAllType($start_date, $end_date, $hospital_id) . " %.", $fontStyleName, $paragraphStyleName);
+        $section->addText("6. Sesuai hasil catatan di dalam marsweb ini, tercatat biaya biaya maintenance, service, kalibrasi dan penggantian part/ asessoris dalam pelaksanaan work order sebesar " . rupiah($totalBiaya) . ", merupakan " .  round($hitungPersentase, 2) . "% dari Total Asset yang di miliki oleh rumah sakit sebesar " . rupiah($totalNilaiBuku), $fontStyleName, $paragraphStyleName);
         // ramdan
         $section->addTextBreak(2);
         $section->addText("                                                                                                                      Jakarta, " . date('d') . ' ' . getMonthIndo(date('m')) . ' ' . date('Y'));
