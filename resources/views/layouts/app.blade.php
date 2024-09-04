@@ -244,7 +244,7 @@
                     <span class="logo-lg">
                         @if (session('sessionHospital'))
                             <span
-                                style="margin-top: 2px; margin-bottom: 2px; font-size: 24px; color: #dddddd; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);"><b>Manajemen
+                                style="margin-top: 2px; font-size: 20px; color: #dddddd; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);"><b>Manajemen
                                     Aset</b></span>
                         @endif
                         @php
@@ -252,7 +252,7 @@
                                 $hospitalId = session('sessionHospital');
                                 $hospital = DB::table('hospitals')->where('id', $hospitalId)->first();
                                 if ($hospital->logo != null) {
-                                    echo '<img  style="width:150px; padding:5px" src="' .
+                                    echo '<img  style="width:200px; padding:5px" src="' .
                                         Storage::url('uploads/logos/') .
                                         $hospital->logo .
                                         '" alt="">';
@@ -272,7 +272,7 @@
                     <span class="logo-lg">
                         @if (session('sessionHospital'))
                             <span
-                                style="margin-top: 2px; margin-bottom: 2px; font-size: 24px; color: #dddddd; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);"><b>Manajemen
+                                style="margin-top: 2px; font-size: 20px; color: #dddddd; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);"><b>Manajemen
                                     Aset</b></span>
                         @endif
                         @php
@@ -280,7 +280,7 @@
                                 $hospitalId = session('sessionHospital');
                                 $hospital = DB::table('hospitals')->where('id', $hospitalId)->first();
                                 if ($hospital->logo != null) {
-                                    echo '<img  style="width:150px; padding:5px" src="' .
+                                    echo '<img  style="width:200px; padding:5px" src="' .
                                         Storage::url('uploads/logos/') .
                                         $hospital->logo .
                                         '" alt="">';

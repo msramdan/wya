@@ -35,23 +35,13 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if (request()->ajax()) {
-            $users =
-                DB::table('users')
+            $users = DB::table('users')
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
                 ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-                ->leftjoin('hospitals', 'roles.hospital_id', '=', 'hospitals.id')
+                ->leftJoin('hospitals', 'roles.hospital_id', '=', 'hospitals.id')
                 ->select('users.avatar', 'users.name', 'users.email', 'users.no_hp', 'users.id', 'roles.name as nama_roles', 'roles.hospital_id', 'hospitals.name as nama_rs')
+                ->where('roles.hospital_id', session('sessionHospital'))
                 ->get();
-            if ($request->has('hospital_id') && !empty($request->hospital_id)) {
-                if ($request->hospital_id == 'mta') {
-                    $users = $users->where('hospital_id', '');
-                } else {
-                    $users = $users->where('hospital_id', $request->hospital_id);
-                }
-            }
-            if (Auth::user()->roles->first()->hospital_id) {
-                $users = $users->where('hospital_id', Auth::user()->roles->first()->hospital_id);
-            }
             return Datatables::of($users)
                 ->addIndexColumn()
                 ->addColumn('hospital', function ($row) {

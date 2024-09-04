@@ -127,7 +127,8 @@ class HospitalController extends Controller
             ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
             ->select('users.*', 'roles.hospital_id')
-            ->where('roles.hospital_id', $hospital->id)
+            ->where('roles.hospital_id', session('sessionHospital'))
+            ->where('users.is_grant_user', '!=', 'Yes')
             ->get();
         return view('hospitals.edit', compact('hospital', 'users'));
     }
@@ -211,6 +212,4 @@ class HospitalController extends Controller
             'success' => true
         ]);
     }
-
-
 }

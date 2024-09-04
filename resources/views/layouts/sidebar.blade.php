@@ -3,25 +3,22 @@
         <div id="two-column-menu">
         </div>
         <ul class="navbar-nav" id="navbar-nav">
-            @php
-                if (Auth::user()->is_grant_user == 'Yes') {
+            @if (Auth::user()->is_grant_user == 'Yes')
+                @php
                     $hospitalsToLoop = DB::table('hospitals')->get();
-                } else {
-                    $hospitalsToLoop = DB::table('hospitals')->where('id', session('sessionHospital'))->get();
-                }
-            @endphp
-
-            <div style="padding: 10px">
-                <select class="form-select" id="hospitalSelectSession" name="hospitalSelectSession">
-                    <option value="">-- Select Hospital --</option>
-                    @foreach ($hospitalsToLoop as $hospital)
-                        <option value="{{ $hospital->id }}"
-                            {{ session('sessionHospital') == $hospital->id ? 'selected' : '' }}>
-                            {{ $hospital->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
+                @endphp
+                <div style="padding: 10px">
+                    <select class="form-select" id="hospitalSelectSession" name="hospitalSelectSession">
+                        <option value="">-- Select Hospital --</option>
+                        @foreach ($hospitalsToLoop as $hospital)
+                            <option value="{{ $hospital->id }}"
+                                {{ session('sessionHospital') == $hospital->id ? 'selected' : '' }}>
+                                {{ $hospital->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            @endif
             <li class="nav-item">
                 <a class="nav-link menu-link {{ Route::currentRouteName() == 'dashboard' ? ' active' : '' }}"
                     href="/panel">
