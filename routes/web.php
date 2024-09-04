@@ -33,12 +33,9 @@ Route::controller(HospitalController::class)->group(function () {
     Route::post('/hospitalSelectSession', 'hospitalSelectSession')->name('hospitalSelectSession');
 });
 
-Route::get('/no-access-hospital', function () {
-    return view('no-access-hospital');
-})->name('no-access-hospital');
 
 Route::prefix('panel')->group(function () {
-    Route::middleware(['auth', 'web', 'check.hospital.access'])->group(function () {
+    Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/generalReport', [DashboardController::class, 'generalReport'])->name('generalReport');
         Route::get('/getTotalWorkOrder', [DashboardController::class, 'getTotalWorkOrder'])->name('dashboard.work_order');

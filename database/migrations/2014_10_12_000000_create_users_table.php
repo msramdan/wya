@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('avatar')->nullable();
+            $table->enum('is_grant_user', ['Yes', 'No'])->default('No');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -26,6 +26,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_grant_user',
         'avatar',
         'no_hp',
     ];

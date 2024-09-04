@@ -4,17 +4,17 @@
         </div>
         <ul class="navbar-nav" id="navbar-nav">
             @php
-                $userId = Auth::id();
-                $hospitals = DB::table('user_access_hospital')
-                    ->join('hospitals', 'user_access_hospital.hospital_id', '=', 'hospitals.id')
-                    ->where('user_access_hospital.user_id', $userId)
-                    ->select('hospitals.id', 'hospitals.name')
-                    ->get();
+                if (Auth::user()->is_grant_user == 'Yes') {
+                    $hospitalsToLoop = DB::table('hospitals')->get();
+                } else {
+                    $hospitalsToLoop = DB::table('hospitals')->where('id', session('sessionHospital'))->get();
+                }
             @endphp
+
             <div style="padding: 10px">
                 <select class="form-select" id="hospitalSelectSession" name="hospitalSelectSession">
                     <option value="">-- Select Hospital --</option>
-                    @foreach ($hospitals as $hospital)
+                    @foreach ($hospitalsToLoop as $hospital)
                         <option value="{{ $hospital->id }}"
                             {{ session('sessionHospital') == $hospital->id ? 'selected' : '' }}>
                             {{ $hospital->name }}
@@ -22,7 +22,6 @@
                     @endforeach
                 </select>
             </div>
-
             <li class="nav-item">
                 <a class="nav-link menu-link {{ Route::currentRouteName() == 'dashboard' ? ' active' : '' }}"
                     href="/panel">

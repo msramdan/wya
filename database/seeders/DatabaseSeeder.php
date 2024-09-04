@@ -18,6 +18,5 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleAndPermissionSeeder::class);
         $this->call(SettingAppSeeder::class);
         $this->call(UnitSeeder::class);
-        $this->call(UserAccessHospitalSeeder::class);
     }
 }

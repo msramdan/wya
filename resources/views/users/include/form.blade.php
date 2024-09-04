@@ -168,38 +168,6 @@
             </div>
         @endisset
     </div>
-
-    <div class="col-md-6">
-        <div class="col-md-12 mb-2">
-            <div class="form-group">
-                <label for="hospital-search">Cari Rumah Sakit</label>
-                <input type="text" id="hospital-search" class="form-control"
-                    placeholder="Ketik untuk mencari...">
-            </div>
-        </div>
-
-        <div class="col-md-12 mb-2">
-            <div class="form-group">
-                <div id="hospital-list">
-                    @foreach ($hospitals as $hospital)
-                        <div class="form-check">
-                            <input type="checkbox" name="hospitals[]" value="{{ $hospital->id }}"
-                                class="form-check-input hospital-checkbox" id="hospital-{{ $hospital->id }}"
-                                @if (isset($userHospitalIds) && in_array($hospital->id, $userHospitalIds)) checked @endif>
-                            <label class="form-check-label" for="hospital-{{ $hospital->id }}">
-                                {{ $hospital->name }}
-                            </label>
-                        </div>
-                    @endforeach
-                </div>
-                @error('hospitals')
-                    <span class="text-danger">
-                        {{ $message }}
-                    </span>
-                @enderror
-            </div>
-        </div>
-    </div>
 </div>
 
 
@@ -263,20 +231,5 @@
             $('input#password-confirmation').val(shuffled);
             $('input#password-confirmation').attr('type', 'text')
         }
-    </script>
-    <script>
-        document.getElementById('hospital-search').addEventListener('keyup', function() {
-            const searchQuery = this.value.toLowerCase();
-            const checkboxes = document.querySelectorAll('#hospital-list .form-check');
-
-            checkboxes.forEach(function(checkbox) {
-                const label = checkbox.querySelector('label').innerText.toLowerCase();
-                if (label.includes(searchQuery)) {
-                    checkbox.style.display = '';
-                } else {
-                    checkbox.style.display = 'none';
-                }
-            });
-        });
     </script>
 @endpush

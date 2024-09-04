@@ -241,12 +241,6 @@
         <div class="app-menu navbar-menu">
             <div class="navbar-brand-box">
                 <a href="#" class="logo logo-dark">
-                    {{-- <span class="logo-sm">
-                        @if (setting_web()->favicon != null)
-                            <img src="{{ Storage::url('public/img/setting_app/') . setting_web()->favicon }}"
-                                alt="" height="30">
-                        @endif
-                    </span> --}}
                     <span class="logo-lg">
                         @if (session('sessionHospital'))
                             <span
@@ -275,12 +269,6 @@
                     </span>
                 </a>
                 <a href="#" class="logo logo-light">
-                    {{-- <span class="logo-sm">
-                        @if (setting_web()->favicon != null)
-                            <img src="{{ Storage::url('public/img/setting_app/') . setting_web()->favicon }}"
-                                alt="" height="30">
-                        @endif
-                    </span> --}}
                     <span class="logo-lg">
                         @if (session('sessionHospital'))
                             <span

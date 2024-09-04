@@ -31,16 +31,19 @@ class RoleAndPermissionSeeder extends Seeder
         $roleAdmin->givePermissionTo(Permission::all());
 
         // Create Admin RS role and assign permissions
-        $roleAdminRs = Role::create(['name' => 'Admin RS']);
+        $roleAdminRs = Role::create([
+            'name' => 'Admin RS',
+            'hospital_id' => 1
+        ]);
         $permissionAdminUnit = [
             'user view',
-            // 'user create',
-            // 'user edit',
-            // 'user delete',
-            // 'role & permission view',
-            // 'role & permission create',
-            // 'role & permission edit',
-            // 'role & permission delete',
+            'user create',
+            'user edit',
+            'user delete',
+            'role & permission view',
+            'role & permission create',
+            'role & permission edit',
+            'role & permission delete',
             'department view',
             'department create',
             'department edit',

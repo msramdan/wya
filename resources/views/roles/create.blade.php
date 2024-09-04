@@ -16,7 +16,8 @@
                                     <a href="/panel">Dashboard</a>
                                 </li>
                                 <li class="breadcrumb-item">
-                                    <a href="{{ route('roles.index') }}">{{ trans('utilities/rolepermission/index.head') }}</a>
+                                    <a
+                                        href="{{ route('roles.index') }}">{{ trans('utilities/rolepermission/index.head') }}</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
                                     {{ __('Create') }}
@@ -53,28 +54,14 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            $('#hospital_id_select').change(function() {
-                var selectedValue = $(this).val();
-
-                // Jika pemilihan adalah opsi tertentu, sembunyikan div
-                if (selectedValue !== 'user_mta') {
-                    $('#Nomenklaturs').hide();
-                    $('#Hospitals').hide();
-                    $('#Provinces').hide();
-                    $('#Kabkots').hide();
-                    $('#Kecamatans').hide();
-                    $('#Kelurahans').hide();
-                    $('#setting').hide();
-                } else {
-                    $('#Nomenklaturs').show();
-                    $('#Hospitals').show();
-                    $('#Provinces').show();
-                    $('#Kabkots').show();
-                    $('#Kecamatans').show();
-                    $('#Kelurahans').show();
-                    $('#setting').show();
-                }
-            });
+            $('#Nomenklaturs').hide();
+            $('#Hospitals').hide();
+            $('#Provinces').hide();
+            $('#Kabkots').hide();
+            $('#Kecamatans').hide();
+            $('#Kelurahans').hide();
+            $('#setting').hide();
+            $('#Backup').hide();
         });
     </script>
 @endpush
