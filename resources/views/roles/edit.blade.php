@@ -16,7 +16,8 @@
                                     <a href="/panel">Dashboard</a>
                                 </li>
                                 <li class="breadcrumb-item">
-                                    <a href="{{ route('roles.index') }}">{{ trans('utilities/rolepermission/index.head') }}</a>
+                                    <a
+                                        href="{{ route('roles.index') }}">{{ trans('utilities/rolepermission/index.head') }}</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
                                     {{ __('Edit') }}
@@ -56,58 +57,14 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            // Jika pemilihan adalah opsi tertentu, sembunyikan div
-            @if (isset($role) && $role->hospital_id)
-                $('#Nomenklaturs').hide();
-                $('#Hospitals').hide();
-                $('#Provinces').hide();
-                $('#Kabkots').hide();
-                $('#Kecamatans').hide();
-                $('#Kelurahans').hide();
-                $('#setting').hide();
-            @else
-                $('#Nomenklaturs').show();
-                $('#Hospitals').show();
-                $('#Provinces').show();
-                $('#Kabkots').show();
-                $('#Kecamatans').show();
-                $('#Kelurahans').show();
-                $('#setting').show();
-            @endif
-            $('#hospital_id_select').change(function() {
-                var selectedValue = $(this).val();
-                if (selectedValue !== 'user_mta') {
-                    $('#Nomenklaturs').hide().find(':checkbox')
-                        .prop('checked', false);
-                    $('#Hospitals').hide().find(':checkbox')
-                        .prop('checked', false);
-                    $('#Provinces').hide().find(':checkbox')
-                        .prop('checked', false);
-                    $('#Kabkots').hide().find(':checkbox')
-                        .prop('checked', false);
-                    $('#Kecamatans').hide().find(':checkbox')
-                        .prop('checked', false);
-                    $('#Kelurahans').hide().find(':checkbox')
-                        .prop('checked', false);
-                    $('#setting').hide().find(':checkbox')
-                        .prop('checked', false);
-                } else {
-                    $('#Nomenklaturs').show().find(':checkbox')
-                        .prop('checked', true);
-                    $('#Hospitals').show().find(':checkbox')
-                        .prop('checked', true);
-                    $('#Provinces').show().find(':checkbox')
-                        .prop('checked', true);
-                    $('#Kabkots').show().find(':checkbox')
-                        .prop('checked', true);
-                    $('#Kecamatans').show().find(':checkbox')
-                        .prop('checked', true);
-                    $('#Kelurahans').show().find(':checkbox')
-                        .prop('checked', true);
-                    $('#setting').show().find(':checkbox')
-                        .prop('checked', true);
-                }
-            });
+            $('#Nomenklaturs').hide();
+            $('#Hospitals').hide();
+            $('#Provinces').hide();
+            $('#Kabkots').hide();
+            $('#Kecamatans').hide();
+            $('#Kelurahans').hide();
+            $('#setting').hide();
+            $('#Backup').hide();
         });
     </script>
 @endpush
