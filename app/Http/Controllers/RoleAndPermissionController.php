@@ -30,6 +30,7 @@ class RoleAndPermissionController extends Controller
         if (request()->ajax()) {
             $role = DB::table('roles')
                 ->select('roles.*')
+                ->where('hospital_id', session('sessionHospital'))
                 ->get();
             return DataTables::of($role)
                 ->addIndexColumn()
