@@ -90,6 +90,7 @@ class DepartmentController extends Controller
      */
     public function edit(Department $department)
     {
+        cekAksesRs($department->hospital_id);
         return view('departments.edit', compact('department'));
     }
 

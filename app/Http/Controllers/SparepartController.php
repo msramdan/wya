@@ -167,6 +167,7 @@ class SparepartController extends Controller
      */
     public function edit(Sparepart $sparepart)
     {
+        cekAksesRs($sparepart->hospital_id);
         $sparepart->load('unit_item:id,code_unit');
         $unitItems = UnitItem::where('hospital_id', $sparepart->hospital_id)
             ->get();

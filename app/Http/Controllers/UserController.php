@@ -139,7 +139,6 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $user->load('roles:id,name,hospital_id');
-
         return view('users.edit', compact('user'));
     }
 

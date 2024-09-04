@@ -299,6 +299,7 @@ class EquipmentController extends Controller
      */
     public function edit(Equipment $equipment)
     {
+        cekAksesRs($equipment->hospital_id);
         $equipment->load('nomenklatur:id,code_nomenklatur', 'equipment_category:id,code_categoty', 'vendor:id,code_vendor', 'equipment_location:id,code_location');
         $file = DB::table('equipment_files')->where('equipment_id', $equipment->id)->get();
         $fittings  = DB::table('equipment_fittings')->where('equipment_id', $equipment->id)->get();

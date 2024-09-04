@@ -180,6 +180,7 @@ class VendorController extends Controller
      */
     public function edit(Vendor $vendor)
     {
+        cekAksesRs($vendor->hospital_id);
         $vendor->load('category_vendor:id,name_category_vendors', 'province:id,provinsi', 'kabkot:id,kabupaten_kota', 'kecamatan:id,kecamatan', 'kelurahan:id,kelurahan',);
         $pic = DB::table('vendor_pics')->where('vendor_id', $vendor->id)->get();
         $file = DB::table('vendor_files')->where('vendor_id', $vendor->id)->get();

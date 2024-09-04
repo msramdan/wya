@@ -200,6 +200,7 @@ class LoanController extends Controller
             ->leftJoin('users as uu', 'loans.user_updated', '=', 'uu.id')
             ->where('loans.id', $id)
             ->first();
+        cekAksesRs($loan->hospital_id);
         $photo  = DB::table('loans_photo')->where('loan_id', $id)->get();
         return view('loans.edit', compact('loan', 'photo'));
     }

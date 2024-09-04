@@ -380,6 +380,7 @@ class WorkOrderController extends Controller
      */
     public function edit(WorkOrder $workOrder)
     {
+        cekAksesRs($workOrder->hospital_id);
         $workOrder->load('equipment:id,barcode', 'user:id,name',);
         $workOrderObj = WorkOrder::find($workOrder->id);
         $equipmentLocations = EquipmentLocation::orderBy('location_name', 'ASC')->get();

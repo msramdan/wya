@@ -89,6 +89,7 @@ class CategoryVendorController extends Controller
      */
     public function edit(CategoryVendor $categoryVendor)
     {
+        cekAksesRs($categoryVendor->hospital_id);
         return view('category-vendors.edit', compact('categoryVendor'));
     }
 

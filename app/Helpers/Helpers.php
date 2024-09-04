@@ -309,3 +309,12 @@ function countWoProcess($id, $status = null)
         $query->where('status', $status);
     })->count();
 }
+
+
+function cekAksesRs($id)
+{
+    $session = session('sessionHospital');
+    if ($id != $session) {
+        abort(403, 'Unauthorized action.');
+    }
+}

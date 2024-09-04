@@ -90,6 +90,7 @@ class EmployeeTypeController extends Controller
      */
     public function edit(EmployeeType $employeeType)
     {
+        cekAksesRs($employeeType->hospital_id);
         return view('employee-types.edit', compact('employeeType'));
     }
 

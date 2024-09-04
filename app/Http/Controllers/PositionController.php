@@ -90,6 +90,7 @@ class PositionController extends Controller
      */
     public function edit(Position $position)
     {
+        cekAksesRs($position->hospital_id);
         return view('positions.edit', compact('position'));
     }
 

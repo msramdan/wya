@@ -30,7 +30,6 @@ class RoleAndPermissionController extends Controller
         if (request()->ajax()) {
             $role = DB::table('roles')
                 ->select('roles.*')
-                ->where('hospital_id', session('sessionHospital'))
                 ->get();
             return DataTables::of($role)
                 ->addIndexColumn()
@@ -59,11 +58,7 @@ class RoleAndPermissionController extends Controller
      */
     public function store(StoreRoleRequest $request)
     {
-        $role = Role::create([
-            'name' => $request->name,
-            'hospital_id' =>session('sessionHospital')
-        ]);
-
+        $role = Role::create(['name' => $request->name]);
         $role->givePermissionTo($request->permissions);
         Alert::toast('The role was created successfully', 'success');
         return redirect()
@@ -79,7 +74,7 @@ class RoleAndPermissionController extends Controller
     public function show(int $id)
     {
         $role = Role::with('permissions')->findOrFail($id);
-
+        cekAksesRs($role->hospital_id);
         return view('roles.show', compact('role'));
     }
 
@@ -92,7 +87,7 @@ class RoleAndPermissionController extends Controller
     public function edit(int $id)
     {
         $role = Role::with('permissions')->findOrFail($id);
-
+        cekAksesRs($role->hospital_id);
         return view('roles.edit', compact('role'));
     }
 

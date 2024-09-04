@@ -123,6 +123,7 @@ class HospitalController extends Controller
      */
     public function edit(Hospital $hospital)
     {
+        cekAksesRs($hospital->id);
         $users = DB::table('users')
             ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
