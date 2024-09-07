@@ -137,9 +137,12 @@
          */
         function eventChangeLocationId(cb = null) {
             const equipmentLocationId = $('#location_id').val();
-            const valueEquipmentId = '{{ old('equipment_id') ? old('equipment_id') : $workOrder->equipment_id }}';
+            const valueEquipmentId = '{{ old('equipment_id') }}';
+            const sessionHospital = '{{ session('sessionHospital') }}';
 
-            fetch(`{{ route('api.equipment.index') }}?equipment_location_id=${equipmentLocationId}`)
+            fetch(
+                    `{{ route('api.equipment.index') }}?equipment_location_id=${equipmentLocationId}&session_hospital=${sessionHospital}`
+                    )
                 .then((res) => res.json())
                 .then((response) => {
                     $('#equipment-id').select2('destroy');
