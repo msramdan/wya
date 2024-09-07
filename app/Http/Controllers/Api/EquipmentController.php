@@ -8,14 +8,18 @@ use Illuminate\Http\Request;
 
 class EquipmentController extends Controller
 {
+
     public function index(Request $request)
     {
         return response()->json([
             'data' => Equipment::when($request->equipment_location_id, function ($query, $location_id) {
                 $query->where('equipment_location_id', $location_id);
-            })->get(),
+            })
+                ->where('hospital_id', session('sessionHospital')) // Filter by hospital_id
+                ->get(),
         ]);
     }
+
 
     public function show(int $id)
     {
