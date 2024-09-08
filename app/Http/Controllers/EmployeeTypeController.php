@@ -38,7 +38,6 @@ class EmployeeTypeController extends Controller
                 })->addColumn('updated_at', function ($row) {
                     return $row->updated_at->format('d M Y H:i:s');
                 })
-
                 ->addColumn('action', 'employee-types.include.action')
                 ->toJson();
         }
@@ -67,7 +66,7 @@ class EmployeeTypeController extends Controller
         $attr = $request->validated();
         $attr['hospital_id'] = session('sessionHospital');
         EmployeeType::create($attr);
-        Alert::toast('The employeeType was created successfully.', 'success');
+        Alert::toast('Jenis karyawan berhasil ditambahkan.', 'success'); // Pesan diubah ke Bahasa Indonesia
         return redirect()->route('employee-types.index');
     }
 
@@ -103,9 +102,8 @@ class EmployeeTypeController extends Controller
      */
     public function update(UpdateEmployeeTypeRequest $request, EmployeeType $employeeType)
     {
-
         $employeeType->update($request->validated());
-        Alert::toast('The employeeType was updated successfully.', 'success');
+        Alert::toast('Jenis karyawan berhasil diperbarui.', 'success'); // Pesan diubah ke Bahasa Indonesia
         return redirect()
             ->route('employee-types.index');
     }
@@ -120,13 +118,14 @@ class EmployeeTypeController extends Controller
     {
         try {
             $employeeType->delete();
-            Alert::toast('The employeeType was deleted successfully.', 'success');
+            Alert::toast('Jenis karyawan berhasil dihapus.', 'success'); // Pesan diubah ke Bahasa Indonesia
             return redirect()->route('employee-types.index');
         } catch (\Throwable $th) {
-            Alert::toast('The employeeType cant be deleted because its related to another table.', 'error');
+            Alert::toast('Jenis karyawan tidak dapat dihapus karena terkait dengan tabel lain.', 'error'); // Pesan diubah ke Bahasa Indonesia
             return redirect()->route('employee-types.index');
         }
     }
+
     public function getEmployeeType($hospitalId)
     {
         $data = DB::table('employee_types')->where('hospital_id', $hospitalId)->get();

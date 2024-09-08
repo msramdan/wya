@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Hospital;
 use App\Http\Requests\{StoreHospitalRequest, UpdateHospitalRequest};
 use Yajra\DataTables\Facades\DataTables;
-use Auth;
 use Image;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -23,7 +22,7 @@ class HospitalController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Menampilkan daftar rumah sakit.
      *
      * @return \Illuminate\Http\Response
      */
@@ -40,14 +39,12 @@ class HospitalController extends Controller
                 ->addColumn('work_order_has_access_approval_users_id', function ($row) {
                     return str($row->work_order_has_access_approval_users_id)->limit(100);
                 })
-
                 ->addColumn('logo', function ($row) {
                     if ($row->logo == null) {
                         return 'https://via.placeholder.com/350?text=No+Image+Avaiable';
                     }
                     return asset('storage/uploads/logos/' . $row->logo);
                 })
-
                 ->addColumn('action', 'hospitals.include.action')
                 ->toJson();
         }
@@ -56,7 +53,7 @@ class HospitalController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Menampilkan formulir untuk membuat rumah sakit baru.
      *
      * @return \Illuminate\Http\Response
      */
@@ -69,7 +66,7 @@ class HospitalController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Menyimpan rumah sakit baru ke dalam database.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -79,7 +76,6 @@ class HospitalController extends Controller
         $attr = $request->validated();
 
         if ($request->file('logo') && $request->file('logo')->isValid()) {
-
             $path = storage_path('app/public/uploads/logos/');
             $filename = $request->file('logo')->hashName();
 
@@ -101,11 +97,11 @@ class HospitalController extends Controller
 
         return redirect()
             ->route('hospitals.index')
-            ->with('success', __('The hospital was created successfully.'));
+            ->with('success', __('Rumah sakit berhasil dibuat.'));
     }
 
     /**
-     * Display the specified resource.
+     * Menampilkan detail rumah sakit tertentu.
      *
      * @param  \App\Models\Hospital $hospital
      * @return \Illuminate\Http\Response
@@ -116,7 +112,7 @@ class HospitalController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Menampilkan formulir untuk mengedit rumah sakit.
      *
      * @param  \App\Models\Hospital $hospital
      * @return \Illuminate\Http\Response
@@ -135,7 +131,7 @@ class HospitalController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Memperbarui informasi rumah sakit di database.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Hospital $hospital
@@ -146,7 +142,6 @@ class HospitalController extends Controller
         $attr = $request->validated();
 
         if ($request->file('logo') && $request->file('logo')->isValid()) {
-
             $path = storage_path('app/public/uploads/logos/');
             $filename = $request->file('logo')->hashName();
 
@@ -159,7 +154,7 @@ class HospitalController extends Controller
                 $constraint->aspectRatio();
             })->save($path . $filename);
 
-            // delete old logo from storage
+            // hapus logo lama dari penyimpanan
             if ($hospital->logo != null && file_exists($path . $hospital->logo)) {
                 unlink($path . $hospital->logo);
             }
@@ -169,7 +164,7 @@ class HospitalController extends Controller
         $attr['work_order_has_access_approval_users_id'] = json_encode($request->work_order_has_access_approval_users_id);
 
         $hospital->update($attr);
-        Alert::toast('The hospital was updated successfully.', 'success');
+        Alert::toast('Rumah sakit berhasil diperbarui.', 'success');
         if (session('sessionHospital') != null) {
             return redirect()->back();
         } else {
@@ -178,7 +173,7 @@ class HospitalController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Menghapus rumah sakit dari database.
      *
      * @param  \App\Models\Hospital $hospital
      * @return \Illuminate\Http\Response
@@ -192,21 +187,27 @@ class HospitalController extends Controller
                 unlink($path . $hospital->logo);
             }
             $hospital->delete();
-            Alert::toast('The hospital was deleted successfully.', 'success');
+            Alert::toast('Rumah sakit berhasil dihapus.', 'success');
             return redirect()
                 ->route('hospitals.index');
         } catch (\Throwable $th) {
-            Alert::toast('The hospital cant be deleted because its related to another table.', 'error');
+            Alert::toast('Rumah sakit tidak dapat dihapus karena terkait dengan tabel lain.', 'error');
             return redirect()
                 ->route('hospitals.index');
         }
     }
 
+    /**
+     * Mengatur sesi rumah sakit yang dipilih.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function hospitalSelectSession(Request $request)
     {
-        // remove session
+        // hapus sesi
         session()->forget('sessionHospital');
-        // set session baru
+        // set sesi baru
         $value = $request->input('selectedValue');
         session(['sessionHospital' => $value]);
         return response()->json([

@@ -111,19 +111,20 @@ class EmployeeController extends Controller
                 'longitude' => 'required|string|min:1|max:200',
                 'latitude' => 'required|string|min:1|max:200',
                 'join_date' => 'required|date',
-                'photo'     => 'required|image|mimes:png,jpg,jpeg',
+                'photo' => 'required|image|mimes:png,jpg,jpeg',
             ],
         );
+
         if ($validator->fails()) {
             return redirect()->back()->withInput($request->all())->withErrors($validator);
         }
 
         DB::beginTransaction();
         try {
-
-            //upload image
+            // upload image
             $photo = $request->file('photo');
             $photo->storeAs('public/img/employee', $photo->hashName());
+
             Employee::create([
                 'name' => $request->name,
                 'nid_employee' => $request->nid_employee,
@@ -142,18 +143,17 @@ class EmployeeController extends Controller
                 'longitude' => $request->longitude,
                 'latitude' => $request->latitude,
                 'join_date' => $request->join_date,
-                'photo'     => $photo->hashName(),
+                'photo' => $photo->hashName(),
                 'hospital_id' => session('sessionHospital')
             ]);
 
-            Alert::toast('The employee was created successfully.', 'success');
+            DB::commit();
+            Alert::toast('Karyawan berhasil dibuat.', 'success');
             return redirect()->route('employees.index');
         } catch (\Throwable $th) {
             DB::rollBack();
-            Alert::toast('Data failed to save', 'error');
+            Alert::toast('Data gagal disimpan', 'error');
             return redirect()->route('employees.index');
-        } finally {
-            DB::commit();
         }
     }
 
@@ -196,6 +196,7 @@ class EmployeeController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
+
     public function update(Request $request, $id)
     {
         $validator = Validator::make(
@@ -219,44 +220,51 @@ class EmployeeController extends Controller
                 'latitude' => 'required|string|min:1|max:200',
                 'join_date' => 'required|date',
                 'photo'     => 'image|mimes:png,jpg,jpeg',
-            ],
+            ]
         );
+
         if ($validator->fails()) {
             return redirect()->back()->withInput($request->all())->withErrors($validator);
         }
 
-        $employee = Employee::findOrFail($id);
-        if ($request->file('photo') != null || $request->file('photo') != '') {
-            Storage::disk('local')->delete('public/img/employee/' . $employee->photo);
-            $photo = $request->file('photo');
-            $photo->storeAs('public/img/employee', $photo->hashName());
-            $employee->update([
-                'photo'     => $photo->hashName(),
-            ]);
-        }
+        try {
+            $employee = Employee::findOrFail($id);
 
-        $employee->update([
-            'name' => $request->name,
-            'nid_employee' => $request->nid_employee,
-            'employee_type_id' => $request->employee_type_id,
-            'employee_status' => $request->employee_status,
-            'departement_id' => $request->departement_id,
-            'position_id' => $request->position_id,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'provinsi_id' => $request->provinsi_id,
-            'kabkot_id' => $request->kabkot_id,
-            'kecamatan_id' => $request->kecamatan_id,
-            'kelurahan_id' => $request->kelurahan_id,
-            'zip_kode' => $request->zip_kode,
-            'address' => $request->address,
-            'longitude' => $request->longitude,
-            'latitude' => $request->latitude,
-            'join_date' => $request->join_date
-        ]);
-        Alert::toast('The employee was updated successfully.', 'success');
-        return redirect()
-            ->route('employees.index');
+            if ($request->file('photo') != null) {
+                Storage::disk('local')->delete('public/img/employee/' . $employee->photo);
+                $photo = $request->file('photo');
+                $photo->storeAs('public/img/employee', $photo->hashName());
+                $employee->update([
+                    'photo' => $photo->hashName(),
+                ]);
+            }
+
+            $employee->update([
+                'name' => $request->name,
+                'nid_employee' => $request->nid_employee,
+                'employee_type_id' => $request->employee_type_id,
+                'employee_status' => $request->employee_status,
+                'departement_id' => $request->departement_id,
+                'position_id' => $request->position_id,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'provinsi_id' => $request->provinsi_id,
+                'kabkot_id' => $request->kabkot_id,
+                'kecamatan_id' => $request->kecamatan_id,
+                'kelurahan_id' => $request->kelurahan_id,
+                'zip_kode' => $request->zip_kode,
+                'address' => $request->address,
+                'longitude' => $request->longitude,
+                'latitude' => $request->latitude,
+                'join_date' => $request->join_date
+            ]);
+
+            Alert::toast('Data karyawan berhasil diperbarui.', 'success');
+            return redirect()->route('employees.index');
+        } catch (\Exception $e) {
+            Alert::toast('Terjadi kesalahan saat memperbarui data karyawan. Silakan coba lagi.', 'error');
+            return redirect()->back()->withInput($request->all());
+        }
     }
 
     /**
@@ -270,10 +278,10 @@ class EmployeeController extends Controller
         try {
             Storage::disk('local')->delete('public/img/employee/' . $employee->photo);
             $employee->delete();
-            Alert::toast('The employee was deleted successfully.', 'success');
+            Alert::toast('Karyawan berhasil dihapus.', 'success');
             return redirect()->route('employees.index');
         } catch (\Throwable $th) {
-            Alert::toast('The employee cant be deleted because its related to another table.', 'error');
+            Alert::toast('Karyawan tidak dapat dihapus karena terkait dengan tabel lain.', 'error');
             return redirect()->route('employees.index');
         }
     }
@@ -295,10 +303,10 @@ class EmployeeController extends Controller
     public function import(ImportEmployeeRequest $request)
     {
         Excel::import(new EmployeeImport, $request->file('import_employees'));
-
-        Alert::toast('Employees has been successfully imported.', 'success');
+        Alert::toast('Data karyawan berhasil diimpor.', 'success');
         return back();
     }
+
 
     public function getPic($hospitalId)
     {

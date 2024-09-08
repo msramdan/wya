@@ -314,7 +314,7 @@ class WorkOrderApprovalController extends Controller
                 ]);
             }
         }
-        Alert::toast('The workOrder was updated successfully.', 'success');
+        Alert::toast('Work Order berhasil diperbarui.', 'success');
         return Redirect::to($request->currentUrl);
     }
 }

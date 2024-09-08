@@ -100,7 +100,7 @@ class UserController extends Controller
                     $constraint->upsize();
                 })->save(public_path($this->avatarPath) . $filename);
             } catch (\Throwable $th) {
-                //throw $th;
+                // Handle the exception
             }
 
             $attr['avatar'] = $filename;
@@ -114,7 +114,7 @@ class UserController extends Controller
 
         return redirect()
             ->route('users.index')
-            ->with('success', __('The user was created successfully.'));
+            ->with('success', 'User berhasil dibuat.');
     }
 
     /**
@@ -194,7 +194,7 @@ class UserController extends Controller
 
         return redirect()
             ->route('users.index')
-            ->with('success', __('The user was updated successfully.'));
+            ->with('success', 'User berhasil diperbarui.');
     }
 
     /**
@@ -213,6 +213,6 @@ class UserController extends Controller
 
         return redirect()
             ->route('users.index')
-            ->with('success', __('The user was deleted successfully.'));
+            ->with('success', 'User berhasil dihapus.');
     }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\FormatImport\GenerateSparepartFormat;
 use App\Exports\SparepartExport;
 use App\Models\Sparepart;
-use App\Http\Requests\{ImportSparepartRequest, StoreSparepartRequest, UpdateSparepartRequest};
+use App\Http\Requests\{ImportSparepartRequest};
 use App\Imports\SparepartImport;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -96,7 +96,6 @@ class SparepartController extends Controller
                 'estimated_price' => 'required|numeric',
                 'opname' => 'required|numeric',
                 'stock' => 'nullable',
-
             ]
         );
 
@@ -116,7 +115,7 @@ class SparepartController extends Controller
                 'estimated_price' => $request->estimated_price,
                 'opname' => $request->opname,
                 'stock' => $request->stock,
-                'hospital_id' =>  session('sessionHospital'),
+                'hospital_id' => session('sessionHospital'),
             ]);
 
             $insertedId = $sparepart->id;
@@ -133,8 +132,8 @@ class SparepartController extends Controller
                             'sparepart_id' => $insertedId,
                             'name_photo' => $name_photo[$key],
                             'photo' => $file_photo_name,
-                            'created_at' => date('Y-m-d H:i:s'),
-                            'updated_at' => date('Y-m-d H:i:s'),
+                            'created_at' => now(),
+                            'updated_at' => now(),
                         ];
                         DB::table('sparepart_photo')->insert($dataPhoto);
                     }
@@ -143,14 +142,15 @@ class SparepartController extends Controller
 
             DB::commit(); // Panggil commit setelah semua operasi berhasil
 
-            Alert::toast('The sparepart was created successfully.', 'success');
+            Alert::toast('Sparepart berhasil dibuat.', 'success');
             return redirect()->route('spareparts.index');
         } catch (\Throwable $th) {
             DB::rollBack();
-            Alert::toast('Data failed to save', 'error');
+            Alert::toast('Data gagal disimpan.', 'error');
             return redirect()->route('spareparts.index');
         }
     }
+
 
     public function show(Sparepart $sparepart)
     {
@@ -247,7 +247,7 @@ class SparepartController extends Controller
         }
 
 
-        Alert::toast('The sparepart was updated successfully.', 'success');
+        Alert::toast('Sparepart berhasil diperbarui.', 'success');
         return redirect()
             ->route('spareparts.index');
     }
@@ -283,12 +283,12 @@ class SparepartController extends Controller
 
             DB::commit();
 
-            Alert::toast('The sparepart was deleted successfully.', 'success');
+            Alert::toast('Sparepart berhasil dihapus.', 'success');
             return redirect()->route('spareparts.index');
         } catch (\Throwable $th) {
             DB::rollBack();
 
-            Alert::toast('The sparepart can\'t be deleted because it\'s related to another table.', 'error');
+            Alert::toast('Sparepart tidak bisa dihapus karena terkait dengan tabel lain.', 'error');
             return redirect()->route('spareparts.index');
         }
     }
@@ -305,12 +305,13 @@ class SparepartController extends Controller
             'user_id' => Auth::user()->id,
             'created_at' => date("Y-m-d H:i:s"),
         ]);
+
         $sparepart = Sparepart::findOrFail($request->sparepart_id);
         DB::table('spareparts')
             ->where('id', $request->sparepart_id)
             ->update(['stock' => $sparepart->stock + $request->qty]);
 
-        Alert::toast('Stock In was created successfully.', 'success');
+        Alert::toast('Stok masuk berhasil ditambahkan.', 'success');
         return redirect()->back();
     }
 
@@ -326,12 +327,13 @@ class SparepartController extends Controller
             'user_id' => Auth::user()->id,
             'created_at' => date("Y-m-d H:i:s"),
         ]);
+
         $sparepart = Sparepart::findOrFail($request->sparepart_id);
         DB::table('spareparts')
             ->where('id', $request->sparepart_id)
             ->update(['stock' => $sparepart->stock - $request->qty]);
 
-        Alert::toast('Stock Out was created successfully.', 'success');
+        Alert::toast('Stok keluar berhasil ditambahkan.', 'success');
         return redirect()->back();
     }
 
@@ -340,6 +342,7 @@ class SparepartController extends Controller
         $sparepart_trace = DB::table('sparepart_trace')->where('id', $id)->first();
         $type = $sparepart_trace->type;
         $sparepart = Sparepart::findOrFail($sparepart_trace->sparepart_id);
+
         if ($type == 'Out') {
             DB::table('spareparts')
                 ->where('id', $sparepart_trace->sparepart_id)
@@ -349,8 +352,9 @@ class SparepartController extends Controller
                 ->where('id', $sparepart_trace->sparepart_id)
                 ->update(['stock' => $sparepart->stock - $sparepart_trace->qty]);
         }
+
         DB::table('sparepart_trace')->where('id', $id)->delete();
-        Alert::toast('History stock was deleted successfully.', 'success');
+        Alert::toast('Riwayat stok berhasil dihapus.', 'success');
         return redirect()->back();
     }
 
@@ -407,9 +411,10 @@ class SparepartController extends Controller
     {
         Excel::import(new SparepartImport, $request->file('import_sparepart'));
 
-        Alert::toast('Sparepart has been successfully imported.', 'success');
+        Alert::toast('Sparepart berhasil diimpor.', 'success');
         return back();
     }
+
 
     public function totalAssetPart(Request $request)
     {

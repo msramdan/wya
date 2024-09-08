@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Loan;
 use App\Http\Requests\{StoreLoanRequest, UpdateLoanRequest};
 use Yajra\DataTables\Facades\DataTables;
-use Image;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -22,7 +21,7 @@ class LoanController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Menampilkan daftar sumber daya.
      *
      * @return \Illuminate\Http\Response
      */
@@ -80,7 +79,7 @@ class LoanController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Menampilkan formulir untuk membuat sumber daya baru.
      *
      * @return \Illuminate\Http\Response
      */
@@ -102,7 +101,7 @@ class LoanController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Menyimpan sumber daya baru ke dalam penyimpanan.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -135,13 +134,13 @@ class LoanController extends Controller
             }
         }
 
-        Alert::toast('The Moving Equipment was created successfully.', 'success');
+        Alert::toast('Peminjaman Alat berhasil dibuat.', 'success');
         return redirect()
             ->route('loans.index');
     }
 
     /**
-     * Display the specified resource.
+     * Menampilkan sumber daya yang ditentukan.
      *
      * @param  \App\Models\Loan $loan
      * @return \Illuminate\Http\Response
@@ -173,7 +172,7 @@ class LoanController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Menampilkan formulir untuk mengedit sumber daya yang ditentukan.
      *
      * @param  \App\Models\Loan $loan
      * @return \Illuminate\Http\Response
@@ -206,7 +205,7 @@ class LoanController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Memperbarui sumber daya yang ditentukan dalam penyimpanan.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Loan $loan
@@ -215,60 +214,44 @@ class LoanController extends Controller
     public function update(UpdateLoanRequest $request, Loan $loan)
     {
         $attr = $request->validated();
-        if ($request->file('bukti_pengembalian') && $request->file('bukti_pengembalian')->isValid()) {
-
-            $path = storage_path('app/public/uploads/bukti_pengembalians/');
-            $filename = $request->file('bukti_pengembalian')->hashName();
-
-            if (!file_exists($path)) {
-                mkdir($path, 0777, true);
-            }
-            Image::make($request->file('bukti_pengembalian')->getRealPath())->resize(500, 500, function ($constraint) {
-                $constraint->upsize();
-                $constraint->aspectRatio();
-            })->save($path . $filename);
-
-            if ($loan->bukti_pengembalian != null && file_exists($path . $loan->bukti_pengembalian)) {
-                unlink($path . $loan->bukti_pengembalian);
-            }
-            $attr['bukti_pengembalian'] = $filename;
-        }
-        $attr['status_peminjaman'] = 'Sudah dikembalikan';
         $attr['user_updated'] = Auth::id();
+
+        if ($request->hasFile('file_photo_sparepart')) {
+            $name_photo = $request->name_photo;
+            $file_photo = $request->file('file_photo_sparepart');
+            foreach ($file_photo as $key => $a) {
+                $file_photo_name = $a->hashName();
+                $a->storeAs('public/img/moving_photo', $file_photo_name);
+                $dataPhoto = [
+                    'loan_id' => $loan->id,
+                    'name_photo' => $name_photo[$key],
+                    'photo' => $file_photo_name,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ];
+                DB::table('loans_photo')->insert($dataPhoto);
+            }
+        }
+
         $loan->update($attr);
-        Alert::toast('The Moving Equipment was updated successfully.', 'success');
-        return redirect()->back();
+        Alert::toast('Peminjaman Alat berhasil diubah.', 'success');
+        return redirect()
+            ->route('loans.index');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Menghapus sumber daya yang ditentukan dari penyimpanan.
      *
      * @param  \App\Models\Loan $loan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Loan $loan)
+    public function destroy($id)
     {
-        try {
-            $path = storage_path('app/public/uploads/bukti_peminjamen/');
-
-            if ($loan->bukti_peminjaman != null && file_exists($path . $loan->bukti_peminjaman)) {
-                unlink($path . $loan->bukti_peminjaman);
-            }
-            $path = storage_path('app/public/uploads/bukti_pengembalians/');
-
-            if ($loan->bukti_pengembalian != null && file_exists($path . $loan->bukti_pengembalian)) {
-                unlink($path . $loan->bukti_pengembalian);
-            }
-
-            $loan->delete();
-
-            return redirect()
-                ->route('loans.index')
-                ->with('success', __('The Moving Equipment was deleted successfully.'));
-        } catch (\Throwable $th) {
-            return redirect()
-                ->route('loans.index')
-                ->with('error', __("The Moving Equipment can't be deleted because it's related to another table."));
-        }
+        $loan = Loan::findOrFail($id);
+        cekAksesRs($loan->hospital_id);
+        DB::table('loans_photo')->where('loan_id', $id)->delete();
+        $loan->delete();
+        Alert::toast('Peminjaman Alat berhasil dihapus.', 'success');
+        return redirect()->route('loans.index');
     }
 }

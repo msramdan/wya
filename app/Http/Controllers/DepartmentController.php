@@ -67,7 +67,7 @@ class DepartmentController extends Controller
         $attr = $request->validated();
         $attr['hospital_id'] = session('sessionHospital');
         Department::create($attr);
-        Alert::toast('The department was created successfully.', 'success');
+        Alert::toast('Departemen berhasil ditambahkan.', 'success'); // Pesan diubah ke Bahasa Indonesia
         return redirect()->route('departments.index');
     }
 
@@ -105,7 +105,7 @@ class DepartmentController extends Controller
     {
 
         $department->update($request->validated());
-        Alert::toast('The department was updated successfully.', 'success');
+        Alert::toast('Departemen berhasil diperbarui.', 'success'); // Pesan diubah ke Bahasa Indonesia
         return redirect()
             ->route('departments.index');
     }
@@ -120,10 +120,10 @@ class DepartmentController extends Controller
     {
         try {
             $department->delete();
-            Alert::toast('The department was deleted successfully.', 'success');
+            Alert::toast('Departemen berhasil dihapus.', 'success'); // Pesan diubah ke Bahasa Indonesia
             return redirect()->route('departments.index');
         } catch (\Throwable $th) {
-            Alert::toast('The department cant be deleted because its related to another table.', 'error');
+            Alert::toast('Departemen tidak dapat dihapus karena terkait dengan tabel lain.', 'error'); // Pesan diubah ke Bahasa Indonesia
             return redirect()->route('departments.index');
         }
     }

@@ -5,19 +5,16 @@ namespace App\Http\Controllers;
 use PDF;
 use App\Models\Equipment;
 use Illuminate\Http\Request;
-use App\Imports\EquipmentImport;
 use App\Exports\EquiptmentExport;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
-use App\FormatImport\GenerateEquipmentFormat;
 use App\Imports\EquipmentImportMultipleSheet;
 use App\Exports\GenerateEquipmentWithMultipleSheet;
-use App\Http\Requests\{ImportEquipmentRequest, StoreEquipmentRequest, UpdateEquipmentRequest};
+use App\Http\Requests\{ImportEquipmentRequest};
 use App\Models\EquipmentCategory;
 use App\Models\EquipmentLocation;
 use App\Models\Vendor;
@@ -267,24 +264,17 @@ class EquipmentController extends Controller
                     }
                 }
             }
-
-            Alert::toast('The equipment was created successfully.', 'success');
+            Alert::toast('Data peralatan berhasil dibuat.', 'success');
             return redirect()->route('equipment.index');
         } catch (\Throwable $th) {
             DB::rollBack();
-            Alert::toast('Data failed to save' . $th->getMessage(), 'error');
+            Alert::toast('Data gagal disimpan: ' . $th->getMessage(), 'error');
             return redirect()->route('equipment.index');
         } finally {
             DB::commit();
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Equipment  $equipment
-     * @return \Illuminate\Http\Response
-     */
     public function show(Equipment $equipment)
     {
         $equipment->load('nomenklatur:id,code_nomenklatur', 'equipment_category:id,code_categoty', 'vendor:id,code_vendor', 'equipment_location:id,code_location',);
@@ -292,12 +282,6 @@ class EquipmentController extends Controller
         return view('equipments.show', compact('equipment'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Equipment  $equipment
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Equipment $equipment)
     {
         cekAksesRs($equipment->hospital_id);
@@ -311,13 +295,6 @@ class EquipmentController extends Controller
         return view('equipments.edit', compact('equipment', 'file', 'fittings', 'photo', 'equipmentCategories', 'vendors', 'equipmentLocations'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Equipment  $equipment
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Equipment $equipment)
     {
 
@@ -558,18 +535,11 @@ class EquipmentController extends Controller
             }
         }
 
-
-        Alert::toast('The equipment was updated successfully.', 'success');
+        Alert::toast('Data peralatan berhasil diperbarui.', 'success');
         return redirect()
             ->route('equipment.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Equipment  $equipment
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Equipment $equipment)
     {
         try {
@@ -590,6 +560,7 @@ class EquipmentController extends Controller
                 Storage::disk('local')->delete('public/img/file_equipment/' . $value->file);
                 DB::table('equipment_files')->where('id', '=', $value->id)->delete();
             }
+
             // hapus equipment_photo
             $equipment_photo = DB::table('equipment_photo')
                 ->where('equipment_id', '=', $equipment->id)
@@ -601,14 +572,13 @@ class EquipmentController extends Controller
 
             Storage::disk('local')->delete('public/img/equipment/' . $equipment->photo);
             $equipment->delete();
-            Alert::toast('The equipment was deleted successfully.', 'success');
+            Alert::toast('Peralatan berhasil dihapus.', 'success');
             return redirect()->route('equipment.index');
         } catch (\Throwable $th) {
-            Alert::toast('The equipment cant be deleted because its related to another table.', 'error');
+            Alert::toast('Peralatan tidak dapat dihapus karena terkait dengan tabel lain.', 'error');
             return redirect()->route('equipment.index');
         }
     }
-
 
     public function export()
     {
@@ -628,7 +598,7 @@ class EquipmentController extends Controller
     {
         Excel::import(new EquipmentImportMultipleSheet, $request->file('import_equipment'));
 
-        Alert::toast('Equipment has been successfully imported.', 'success');
+        Alert::toast('Data Peralatan berhasil diimport.', 'success');
         return back();
     }
 
@@ -656,6 +626,7 @@ class EquipmentController extends Controller
         return $pdf->stream();
         // return $pdf->download('qr.pdf');
     }
+
     public function print_history($id)
     {
         $equipment = Equipment::with('equipment_location:id,location_name', 'equipment_category:id,category_name')->findOrFail($id);

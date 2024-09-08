@@ -374,8 +374,7 @@ class WorkOrderProcessController extends Controller
                 }
             }
         }
-
-        Alert::toast('The Work Order Process status was updated successfully.', 'success');
+        Alert::toast('Proses Work Order berhasil diperbarui.', 'success');
         return redirect('/panel/work-order-processes/' . $workOrder->id);
     }
 

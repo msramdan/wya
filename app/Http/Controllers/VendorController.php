@@ -83,6 +83,7 @@ class VendorController extends Controller
      */
     public function store(Request $request)
     {
+        // Validasi input
         $validator = Validator::make(
             $request->all(),
             [
@@ -99,12 +100,16 @@ class VendorController extends Controller
                 'latitude' => 'required|string|min:1|max:100',
                 'address' => 'required|string',
                 'name' => 'array',
-            ],
+                'file.*' => 'file|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:2048', // Optional: validate file types and size
+            ]
         );
+
         if ($validator->fails()) {
-            return redirect()->back()->withInput($request->all())->withErrors($validator);
+            return redirect()->back()->withInput()->withErrors($validator);
         }
-        $vendor =  Vendor::create([
+
+        // Simpan data vendor
+        $vendor = Vendor::create([
             'code_vendor' => $request->code_vendor,
             'name_vendor' => $request->name_vendor,
             'category_vendor_id' => $request->category_vendor_id,
@@ -117,47 +122,39 @@ class VendorController extends Controller
             'address' => $request->address,
             'longitude' => $request->longitude,
             'latitude' => $request->latitude,
-            'hospital_id' => session('sessionHospital')
+            'hospital_id' => session('sessionHospital'),
         ]);
-        $insertedId = $vendor->id;
-        if ($vendor) {
-            $files = $request->file('file');
-            $name_file = $request->name_file;
 
-            if ($request->hasFile('file')) {
-                foreach ($files as $key => $file) {
-                    $name = $file->hashName();
-                    $file->storeAs('public/img/file_vendor', $name);
-                    $data = [
-                        'vendor_id' => $insertedId,
-                        'file' => $name,
-                        'name_file' => $name_file[$key],
-                    ];
-
-                    DB::table('vendor_files')->insert($data);
-                }
-            }
-
-            $name_pic = $request->name;
-            $phone = $request->phone;
-            $email_pic = $request->email_pic;
-            $remark = $request->remark;
-            if ($name_pic != null) {
-                foreach ($name_pic as $key => $value) {
-                    $data_pic = [
-                        'vendor_id' => $insertedId,
-                        'name' => $name_pic[$key],
-                        'phone' => $phone[$key],
-                        'email' => $email_pic[$key],
-                        'remark' => $remark[$key],
-                    ];
-                    DB::table('vendor_pics')->insert($data_pic);
-                }
+        // Proses file upload
+        if ($request->hasFile('file')) {
+            foreach ($request->file('file') as $key => $file) {
+                $name = $file->hashName();
+                $file->storeAs('public/img/file_vendor', $name);
+                DB::table('vendor_files')->insert([
+                    'vendor_id' => $vendor->id,
+                    'file' => $name,
+                    'name_file' => $request->name_file[$key],
+                ]);
             }
         }
-        Alert::toast('The vendor was created successfully.', 'success');
+
+        // Proses gambar profil
+        if ($request->has('name')) {
+            foreach ($request->name as $key => $name) {
+                DB::table('vendor_pics')->insert([
+                    'vendor_id' => $vendor->id,
+                    'name' => $name,
+                    'phone' => $request->phone[$key],
+                    'email' => $request->email_pic[$key],
+                    'remark' => $request->remark[$key],
+                ]);
+            }
+        }
+
+        Alert::toast('Vendor berhasil dibuat.', 'success');
         return redirect()->route('vendors.index');
     }
+
 
     /**
      * Display the specified resource.
@@ -200,10 +197,11 @@ class VendorController extends Controller
      */
     public function update(Request $request, Vendor $vendor)
     {
+        // Validasi input
         $validator = Validator::make(
             $request->all(),
             [
-                'code_vendor' => "required|string||min:1|max:20",
+                'code_vendor' => 'required|string|min:1|max:20',
                 'name_vendor' => 'required|string|min:1|max:200',
                 'category_vendor_id' => 'required|exists:App\Models\CategoryVendor,id',
                 'email' => 'required|string|min:1|max:100',
@@ -216,12 +214,14 @@ class VendorController extends Controller
                 'latitude' => 'required|string|min:1|max:100',
                 'address' => 'required|string',
                 'name' => 'array',
-            ],
+            ]
         );
+
         if ($validator->fails()) {
-            return redirect()->back()->withInput($request->all())->withErrors($validator);
+            return redirect()->back()->withInput()->withErrors($validator);
         }
-        $vendor = Vendor::findOrFail($vendor->id);
+
+        // Update data vendor
         $vendor->update([
             'code_vendor' => $request->code_vendor,
             'name_vendor' => $request->name_vendor,
@@ -238,98 +238,62 @@ class VendorController extends Controller
             'hospital_id' => session('sessionHospital'),
         ]);
 
-        // hapus file
-        if ($request->id_asal_file == null) {
-            $tidak_terhapus_file = [];
-        } else {
-            $tidak_terhapus_file = $request->id_asal_file;
-        }
-        $hapus_pic = DB::table('vendor_files')
-            ->where('vendor_id', '=', $vendor->id)
+        // Hapus file yang tidak dipilih
+        $tidak_terhapus_file = $request->id_asal_file ?? [];
+        DB::table('vendor_files')
+            ->where('vendor_id', $vendor->id)
             ->whereNotIn('id', $tidak_terhapus_file)
-            ->get();
+            ->get()
+            ->each(function ($row) {
+                DB::table('vendor_files')->where('id', $row->id)->delete();
+                Storage::disk('local')->delete('public/img/file_vendor/' . $row->file);
+            });
 
-        foreach ($hapus_pic as $row) {
-            DB::table('vendor_files')->where('id', $row->id)->delete();
-            Storage::disk('local')->delete('public/img/file_vendor/' . $row->file);
-        }
-
-
-        $files = $request->file('file');
-        $name_file = $request->name_file;
-        $asal_file = $request->id_asal_file;
-        // dd($asal_file);
+        // Upload file baru
         if ($request->hasFile('file')) {
-            foreach ($files as $key => $file) {
-                // if ($asal_file[$key] == null) {
+            foreach ($request->file('file') as $key => $file) {
                 $name = $file->hashName();
                 $file->storeAs('public/img/file_vendor', $name);
-                $data = [
+                DB::table('vendor_files')->insert([
                     'vendor_id' => $vendor->id,
                     'file' => $name,
-                    'name_file' => $name_file[$key],
-                ];
-                DB::table('vendor_files')->insert($data);
-                // }
+                    'name_file' => $request->name_file[$key],
+                ]);
             }
         }
 
-        // hapus pic
-        if ($request->id_asal == null) {
-            $tidak_terhapus = [];
-        } else {
-            $tidak_terhapus = $request->id_asal;
-        }
-        $hapus_pic = DB::table('vendor_pics')
-            ->where('vendor_id', '=', $vendor->id)
+        // Hapus gambar profil yang tidak dipilih
+        $tidak_terhapus = $request->id_asal ?? [];
+        DB::table('vendor_pics')
+            ->where('vendor_id', $vendor->id)
             ->whereNotIn('id', $tidak_terhapus)
-            ->get();
-        foreach ($hapus_pic as $row) {
-            DB::table('vendor_pics')->where('id', $row->id)->delete();
-        }
+            ->delete();
 
-        // insert or updae pic
-        $name_pic = $request->name;
-        $phone = $request->phone;
-        $email_pic = $request->email_pic;
-        $remark = $request->remark;
-        $asal = $request->id_asal;
+        // Update atau tambahkan gambar profil
+        if ($request->name) {
+            foreach ($request->name as $key => $name) {
+                $data = [
+                    'vendor_id' => $vendor->id,
+                    'name' => $name,
+                    'phone' => $request->phone[$key],
+                    'email' => $request->email_pic[$key],
+                    'remark' => $request->remark[$key],
+                ];
 
-        if ($name_pic != null) {
-            foreach ($name_pic as $key => $value) {
-                if ($asal[$key] != null) {
-                    $vendor_pics = DB::table('vendor_pics')
-                        ->where('id', '=', $asal[$key])
-                        ->first();
-                    if ($vendor_pics) {
-                        DB::table('vendor_pics')
-                            ->where('id', $vendor_pics->id)
-                            ->update([
-                                'vendor_id' => $vendor->id,
-                                'name' => $name_pic[$key],
-                                'phone' => $phone[$key],
-                                'email' => $email_pic[$key],
-                                'remark' => $remark[$key],
-                            ]);
-                    }
+                if ($request->id_asal[$key]) {
+                    DB::table('vendor_pics')
+                        ->where('id', $request->id_asal[$key])
+                        ->update($data);
                 } else {
-                    $data_pic = [
-                        'vendor_id' => $vendor->id,
-                        'name' => $name_pic[$key],
-                        'phone' => $phone[$key],
-                        'email' => $email_pic[$key],
-                        'remark' => $remark[$key],
-                    ];
-                    DB::table('vendor_pics')->insert($data_pic);
+                    DB::table('vendor_pics')->insert($data);
                 }
             }
         }
 
-
-        Alert::toast('The vendor was updated successfully.', 'success');
-        return redirect()
-            ->route('vendors.index');
+        Alert::toast('Vendor berhasil diperbarui.', 'success');
+        return redirect()->route('vendors.index');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -341,13 +305,14 @@ class VendorController extends Controller
     {
         try {
             $vendor->delete();
-            Alert::toast('The vendor was deleted successfully.', 'success');
+            Alert::toast('Vendor berhasil dihapus.', 'success');
             return redirect()->route('vendors.index');
         } catch (\Throwable $th) {
-            Alert::toast('The vendor cant be deleted because its related to another table.', 'error');
+            Alert::toast('Vendor tidak dapat dihapus karena terkait dengan tabel lain.', 'error');
             return redirect()->route('vendors.index');
         }
     }
+
 
     public function GetFileVendor($vendor_id)
     {
@@ -394,7 +359,7 @@ class VendorController extends Controller
     {
         Excel::import(new VendorImport, $request->file('import_vendor'));
 
-        Alert::toast('Vendors has been successfully imported.', 'success');
+        Alert::toast('Vendor telah berhasil diimpor.', 'success');
         return back();
     }
 

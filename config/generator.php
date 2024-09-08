@@ -367,56 +367,56 @@ return [
                 ]
             ]
         ],
-        [
-            'header' => 'Region',
-            'permissions' => [
-                'province view',
-                'kabkot view',
-                'kecamatan view',
-                'kelurahan view'
-            ],
-            'menus' => [
-                [
-                    'title' => 'Region Data',
-                    'icon' => '<i class="mdi mdi-google-maps"></i>',
-                    'route' => null,
-                    'uri' => [
-                        'provinces*',
-                        'kabkots*',
-                        'kecamatans*',
-                        'kecamatans*'
-                    ],
-                    'permissions' => [
-                        'province view',
-                        'kabkot view',
-                        'kecamatan view',
-                        'kelurahan view'
-                    ],
-                    'submenus' => [
-                        [
-                            'title' => 'Provinces',
-                            'route' => '/provinces',
-                            'permission' => 'province view'
-                        ],
-                        [
-                            'title' => 'Kabupaten Kota',
-                            'route' => '/kabkots',
-                            'permission' => 'kabkot view'
-                        ],
-                        [
-                            'title' => 'Kecamatan',
-                            'route' => '/kecamatans',
-                            'permission' => 'kecamatan view'
-                        ],
-                        [
-                            'title' => 'Kelurahan',
-                            'route' => '/kelurahans',
-                            'permission' => 'kelurahan view'
-                        ]
-                    ]
-                ]
-            ]
-        ],
+        // [
+        //     'header' => 'Region',
+        //     'permissions' => [
+        //         'province view',
+        //         'kabkot view',
+        //         'kecamatan view',
+        //         'kelurahan view'
+        //     ],
+        //     'menus' => [
+        //         [
+        //             'title' => 'Region Data',
+        //             'icon' => '<i class="mdi mdi-google-maps"></i>',
+        //             'route' => null,
+        //             'uri' => [
+        //                 'provinces*',
+        //                 'kabkots*',
+        //                 'kecamatans*',
+        //                 'kecamatans*'
+        //             ],
+        //             'permissions' => [
+        //                 'province view',
+        //                 'kabkot view',
+        //                 'kecamatan view',
+        //                 'kelurahan view'
+        //             ],
+        //             'submenus' => [
+        //                 [
+        //                     'title' => 'Provinces',
+        //                     'route' => '/provinces',
+        //                     'permission' => 'province view'
+        //                 ],
+        //                 [
+        //                     'title' => 'Kabupaten Kota',
+        //                     'route' => '/kabkots',
+        //                     'permission' => 'kabkot view'
+        //                 ],
+        //                 [
+        //                     'title' => 'Kecamatan',
+        //                     'route' => '/kecamatans',
+        //                     'permission' => 'kecamatan view'
+        //                 ],
+        //                 [
+        //                     'title' => 'Kelurahan',
+        //                     'route' => '/kelurahans',
+        //                     'permission' => 'kelurahan view'
+        //                 ]
+        //             ]
+        //         ]
+        //     ]
+        // ],
         [
             'header' => 'Utilities',
             'permissions' => [

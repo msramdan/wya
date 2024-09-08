@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\SettingApp;
-use App\Http\Requests\{StoreSettingAppRequest, UpdateSettingAppRequest};
 use App\Models\User;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
 
 class SettingAppController extends Controller
 {
@@ -33,14 +31,14 @@ class SettingAppController extends Controller
 
     public function update(Request $request, $id)
     {
-
         $setting_app = SettingApp::findOrFail($id);
+
         if ($request->file('logo') != null || $request->file('logo') != '') {
             Storage::disk('local')->delete('public/img/setting_app/' . $setting_app->logo);
             $logo = $request->file('logo');
             $logo->storeAs('public/img/setting_app', $logo->hashName());
             $setting_app->update([
-                'logo'     => $logo->hashName(),
+                'logo' => $logo->hashName(),
             ]);
         }
 
@@ -49,7 +47,7 @@ class SettingAppController extends Controller
             $favicon = $request->file('favicon');
             $favicon->storeAs('public/img/setting_app', $favicon->hashName());
             $setting_app->update([
-                'favicon'     => $favicon->hashName(),
+                'favicon' => $favicon->hashName(),
             ]);
         }
 
@@ -57,7 +55,7 @@ class SettingAppController extends Controller
             'aplication_name' => $request->aplication_name,
         ]);
 
-        Alert::toast('The settingApp was updated successfully.', 'success');
+        Alert::toast('Pengaturan aplikasi berhasil diperbarui.', 'success'); // Mengubah teks alert ke bahasa Indonesia
         return redirect()->route('setting-apps.index');
     }
 }

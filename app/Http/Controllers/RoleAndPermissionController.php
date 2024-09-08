@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 use Spatie\Permission\Models\{Role, Permission};
 use App\Http\Requests\{StoreRoleRequest, UpdateRoleRequest};
@@ -20,11 +19,6 @@ class RoleAndPermissionController extends Controller
         $this->middleware('permission:role & permission delete')->only('delete');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         if (request()->ajax()) {
@@ -41,37 +35,20 @@ class RoleAndPermissionController extends Controller
         return view('roles.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('roles.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreRoleRequest $request)
     {
         $role = Role::create(['name' => $request->name]);
         $role->givePermissionTo($request->permissions);
-        Alert::toast('The role was created successfully', 'success');
+        Alert::toast('Role User berhasil dibuat.', 'success'); // Mengubah teks alert ke bahasa Indonesia
         return redirect()
             ->route('roles.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(int $id)
     {
         $role = Role::with('permissions')->findOrFail($id);
@@ -79,12 +56,6 @@ class RoleAndPermissionController extends Controller
         return view('roles.show', compact('role'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(int $id)
     {
         $role = Role::with('permissions')->findOrFail($id);
@@ -92,13 +63,6 @@ class RoleAndPermissionController extends Controller
         return view('roles.edit', compact('role'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateRoleRequest $request, $id)
     {
         $role = Role::findOrFail($id);
@@ -117,19 +81,13 @@ class RoleAndPermissionController extends Controller
                     'attributes' => ['permissions' => $newPermissions],
                 ])
                 ->event('updated')
-                ->log("Role {$role->name} permissions updated");
+                ->log("Role User {$role->name} permissions diperbarui");
         }
 
-        Alert::toast('The role was updated successfully.', 'success');
+        Alert::toast('Role User berhasil diperbarui.', 'success'); // Mengubah teks alert ke bahasa Indonesia
         return redirect()->route('roles.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(int $id)
     {
         $role = Role::withCount('users')->findOrFail($id);
@@ -137,16 +95,15 @@ class RoleAndPermissionController extends Controller
         // if any user where role.id = $id
         if ($role->users_count < 1) {
             $role->delete();
-            Alert::toast('The department was deleted successfully.', 'success');
-
+            Alert::toast('Role User berhasil dihapus.', 'success'); // Mengubah teks alert ke bahasa Indonesia
             return redirect()
                 ->route('roles.index');
         } else {
-            Alert::toast('Can`t delete role.', 'error');
+            Alert::toast('Tidak dapat menghapus Role User karena masih terkait dengan pengguna.', 'error'); // Mengubah teks alert ke bahasa Indonesia
             return redirect()
                 ->route('roles.index');
         }
 
-        return redirect()->route('role.index');
+        return redirect()->route('roles.index');
     }
 }

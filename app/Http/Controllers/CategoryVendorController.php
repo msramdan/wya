@@ -66,7 +66,7 @@ class CategoryVendorController extends Controller
         $attr['hospital_id'] = session('sessionHospital');
         CategoryVendor::create($attr);
 
-        Alert::toast('The categoryVendor was created successfully.', 'success');
+        Alert::toast('Kategori Vendor berhasil dibuat.', 'success'); // Changed to Indonesian
         return redirect()->route('category-vendors.index');
     }
 
@@ -104,7 +104,7 @@ class CategoryVendorController extends Controller
     {
 
         $categoryVendor->update($request->validated());
-        Alert::toast('The categoryVendor was updated successfully.', 'success');
+        Alert::toast('Kategori Vendor berhasil diperbarui.', 'success'); // Changed to Indonesian
         return redirect()
             ->route('category-vendors.index');
     }
@@ -119,10 +119,10 @@ class CategoryVendorController extends Controller
     {
         try {
             $categoryVendor->delete();
-            Alert::toast('The categoryVendor was deleted successfully.', 'success');
+            Alert::toast('Kategori Vendor berhasil dihapus.', 'success'); // Changed to Indonesian
             return redirect()->route('category-vendors.index');
         } catch (\Throwable $th) {
-            Alert::toast('The categoryVendor cant be deleted because its related to another table.', 'error');
+            Alert::toast('Kategori Vendor tidak dapat dihapus karena terkait dengan tabel lain.', 'error'); // Changed to Indonesian
             return redirect()->route('category-vendors.index');
         }
     }

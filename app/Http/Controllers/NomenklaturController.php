@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\NomenklaturExport;
 use App\FormatImport\GenerateNomenklaturFormat;
 use App\Models\Nomenklatur;
-use App\Http\Requests\{ImportNomenklaturRequest, StoreNomenklaturRequest, UpdateNomenklaturRequest};
+use App\Http\Requests\{ImportNomenklaturRequest};
 use App\Imports\NomenklaturImport;
 use Yajra\DataTables\Facades\DataTables;
 use Maatwebsite\Excel\Facades\Excel;
@@ -49,7 +49,7 @@ class NomenklaturController extends Controller
     {
         Excel::import(new NomenklaturImport, $request->file('import_nomenklatur'));
 
-        Alert::toast('Nomenklatur has been successfully imported.', 'success');
+        Alert::toast('Nomenklatur berhasil diimpor.', 'success');
         return back();
     }
 }

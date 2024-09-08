@@ -182,6 +182,7 @@ class WorkOrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(StoreWorkOrderRequest $request)
     {
         $settingApp = Hospital::findOrFail(session('sessionHospital'));
@@ -198,6 +199,7 @@ class WorkOrderController extends Controller
                 }
             }
         }
+
         $data = $request->validated();
         $data['created_by'] = Auth::user()->id;
         $data['status_wo'] = count($approvalUserId) > 0 ? 'pending' : 'accepted';
@@ -217,10 +219,11 @@ class WorkOrderController extends Controller
             unset($data['schedule_wo']);
         }
 
-        $workOrder = WorkOrder::create($data);
-        $insertedId = $workOrder->id;
+        DB::beginTransaction();
+        try {
+            $workOrder = WorkOrder::create($data);
+            $insertedId = $workOrder->id;
 
-        if ($workOrder) {
             if ($request->hasFile('file_photo_work_order_photo_before')) {
                 $name_photo = $request->name_photo;
                 $file_photo = $request->file('file_photo_work_order_photo_before');
@@ -237,66 +240,81 @@ class WorkOrderController extends Controller
                     DB::table('work_order_photo_before')->insert($dataPhoto);
                 }
             }
-        }
 
+            if ($workOrder->status_wo == 'accepted') {
+                if ($workOrder->category_wo == 'Rutin') {
+                    $startDateValue = $workOrder->start_date;
+                    $endDateValue = $workOrder->end_date;
+                    $scheduleWoValue = $workOrder->schedule_wo;
+                    $scheduleWoFormatted = '';
+                    $stepModeAmount = 1;
+                    $counter = 1;
+                    $workOrderSchedules = [];
 
-        if ($workOrder->status_wo == 'accepted') {
-            if ($workOrder->category_wo == 'Rutin') {
-                $startDateValue = $workOrder->start_date;
-                $endDateValue = $workOrder->end_date;
-                $scheduleWoValue = $workOrder->schedule_wo;
-                $scheduleWoFormatted = '';
-                $stepModeAmount = 1;
-                $counter = 1;
-                $workOrderSchedules = [];
-
-                if ($startDateValue && $endDateValue && $scheduleWoValue) {
-                    switch ($scheduleWoValue) {
-                        case 'Harian':
-                            $scheduleWoFormatted = 'days';
-                            break;
-                        case 'Mingguan':
-                            $scheduleWoFormatted = 'weeks';
-                            break;
-                        case 'Bulanan':
-                            $scheduleWoFormatted = 'months';
-                            break;
-                        case '2 Bulanan':
-                            $stepModeAmount = 2;
-                            $scheduleWoFormatted = 'months';
-                            break;
-                        case '3 Bulanan':
-                            $stepModeAmount = 3;
-                            $scheduleWoFormatted = 'months';
-                            break;
-                        case '4 Bulanan':
-                            $stepModeAmount = 4;
-                            $scheduleWoFormatted = 'months';
-                            break;
-                        case '6 Bulanan':
-                            $stepModeAmount = 6;
-                            $scheduleWoFormatted = 'months';
-                            break;
-                        case 'Tahunan':
-                            $scheduleWoFormatted = 'years';
-                            break;
-                    }
-
-                    while ($startDateValue <= $endDateValue) {
-                        $tempEndData = Carbon::createFromFormat('Y-m-d', $startDateValue)->add($stepModeAmount, $scheduleWoFormatted)->format('Y-m-d');
-
-                        if (Carbon::createFromFormat('Y-m-d', $tempEndData)->subDay()->format('Y-m-d') <= $endDateValue) {
-                            $workOrderSchedules[] = [
-                                'schedule_date' => $startDateValue,
-                            ];
+                    if ($startDateValue && $endDateValue && $scheduleWoValue) {
+                        switch ($scheduleWoValue) {
+                            case 'Harian':
+                                $scheduleWoFormatted = 'days';
+                                break;
+                            case 'Mingguan':
+                                $scheduleWoFormatted = 'weeks';
+                                break;
+                            case 'Bulanan':
+                                $scheduleWoFormatted = 'months';
+                                break;
+                            case '2 Bulanan':
+                                $stepModeAmount = 2;
+                                $scheduleWoFormatted = 'months';
+                                break;
+                            case '3 Bulanan':
+                                $stepModeAmount = 3;
+                                $scheduleWoFormatted = 'months';
+                                break;
+                            case '4 Bulanan':
+                                $stepModeAmount = 4;
+                                $scheduleWoFormatted = 'months';
+                                break;
+                            case '6 Bulanan':
+                                $stepModeAmount = 6;
+                                $scheduleWoFormatted = 'months';
+                                break;
+                            case 'Tahunan':
+                                $scheduleWoFormatted = 'years';
+                                break;
                         }
 
-                        $startDateValue = $tempEndData;
-                        $counter++;
-                    }
-                }
+                        while ($startDateValue <= $endDateValue) {
+                            $tempEndData = Carbon::createFromFormat('Y-m-d', $startDateValue)->add($stepModeAmount, $scheduleWoFormatted)->format('Y-m-d');
 
-                foreach ($workOrderSchedules as $workOrderSchedule) {
+                            if (Carbon::createFromFormat('Y-m-d', $tempEndData)->subDay()->format('Y-m-d') <= $endDateValue) {
+                                $workOrderSchedules[] = [
+                                    'schedule_date' => $startDateValue,
+                                ];
+                            }
+
+                            $startDateValue = $tempEndData;
+                            $counter++;
+                        }
+                    }
+
+                    foreach ($workOrderSchedules as $workOrderSchedule) {
+                        $workOrderProcessCode = mt_rand(100000, 999999);
+
+                        while (WorkOrderProcess::where('code', $workOrderProcessCode)->count() > 0) {
+                            $workOrderProcessCode = mt_rand(100000, 999999);
+                        }
+
+                        WorkOrderProcess::create([
+                            'work_order_id' => $workOrder->id,
+                            'code' => $workOrderProcessCode,
+                            'schedule_date' => $workOrderSchedule['schedule_date'],
+                            'start_date' => null,
+                            'end_date' => null,
+                            'schedule_wo' => $workOrder->schedule_wo,
+                            'status' => 'ready-to-start',
+                        ]);
+                    }
+                } elseif ($workOrder->category_wo == 'Non Rutin') {
                     $workOrderProcessCode = mt_rand(100000, 999999);
 
                     while (WorkOrderProcess::where('code', $workOrderProcessCode)->count() > 0) {
@@ -306,58 +324,50 @@ class WorkOrderController extends Controller
                     WorkOrderProcess::create([
                         'work_order_id' => $workOrder->id,
                         'code' => $workOrderProcessCode,
-                        'schedule_date' => $workOrderSchedule['schedule_date'],
+                        'schedule_date' => $workOrder->schedule_date,
                         'start_date' => null,
                         'end_date' => null,
-                        'schedule_wo' => $workOrder->schedule_wo,
+                        'schedule_wo' => null,
                         'status' => 'ready-to-start',
                     ]);
                 }
-            } elseif ($workOrder->category_wo == 'Non Rutin') {
-                $workOrderProcessCode = mt_rand(100000, 999999);
-
-                while (WorkOrderProcess::where('code', $workOrderProcessCode)->count() > 0) {
-                    $workOrderProcessCode = mt_rand(100000, 999999);
-                }
-
-                WorkOrderProcess::create([
-                    'work_order_id' => $workOrder->id,
-                    'code' => $workOrderProcessCode,
-                    'schedule_date' => $workOrder->schedule_date,
-                    'start_date' => null,
-                    'end_date' => null,
-                    'schedule_wo' => null,
-                    'status' => 'ready-to-start',
-                ]);
             }
-        }
 
-        if ($settingApp->bot_telegram == 1) {
-            notifTele($request, 'create_wo');
-        }
+            if ($settingApp->bot_telegram == 1) {
+                notifTele($request, 'create_wo');
+            }
 
-        if ($settingApp->notif_wa == 1) {
-            $receiverUsers = json_decode($workOrder->approval_users_id, true);
-            foreach ($receiverUsers as $receiverUserId) {
-                $receiverUser = User::find($receiverUserId);
+            if ($settingApp->notif_wa == 1) {
+                $receiverUsers = json_decode($workOrder->approval_users_id, true);
+                foreach ($receiverUsers as $receiverUserId) {
+                    $receiverUser = User::find($receiverUserId);
 
-                if ($receiverUser) {
-                    try {
-                        if ($receiverUser->no_hp) {
-                            new NotifWhatsappWorkOrderCreated($receiverUser->no_hp, $workOrder, session('sessionHospital'));
-                        }
-                    } catch (\Throwable $th) {
-                        if ($receiverUser[0]->no_hp) {
-                            new NotifWhatsappWorkOrderCreated($receiverUser[0]->no_hp, $workOrder, session('sessionHospital'));
+                    if ($receiverUser) {
+                        try {
+                            if ($receiverUser->no_hp) {
+                                new NotifWhatsappWorkOrderCreated($receiverUser->no_hp, $workOrder, session('sessionHospital'));
+                            }
+                        } catch (\Throwable $th) {
+                            if ($receiverUser[0]->no_hp) {
+                                new NotifWhatsappWorkOrderCreated($receiverUser[0]->no_hp, $workOrder, session('sessionHospital'));
+                            }
                         }
                     }
                 }
             }
+
+            DB::commit();
+            Alert::toast('Work Order berhasil dibuat.', 'success');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Alert::error('Gagal', 'Terjadi kesalahan saat membuat Work Order: ' . $e->getMessage());
+            return redirect()->route('work-orders.create')->withInput();
         }
 
-        Alert::toast('The workOrder was created successfully.', 'success');
         return redirect()->route('work-orders.index');
     }
+
+
 
     /**
      * Display the specified resource.
@@ -397,12 +407,16 @@ class WorkOrderController extends Controller
      */
     public function update(UpdateWorkOrderRequest $request, WorkOrder $workOrder)
     {
+        try {
+            $workOrder->update($request->validated());
+            Alert::toast('Work order berhasil diperbarui.', 'success');
+        } catch (\Exception $e) {
+            Alert::toast('Terjadi kesalahan saat memperbarui work order: ' . $e->getMessage(), 'error');
+        }
 
-        $workOrder->update($request->validated());
-        Alert::toast('The workOrder was updated successfully.', 'success');
-        return redirect()
-            ->route('work-orders.index');
+        return redirect()->route('work-orders.index');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -415,6 +429,7 @@ class WorkOrderController extends Controller
         try {
             $workOrder->delete();
             $settingApp = Hospital::findOrFail($workOrder->hospital_id);
+
             if ($settingApp->bot_telegram == 1) {
                 notifTele($workOrder, 'delete_wo');
             }
@@ -430,10 +445,11 @@ class WorkOrderController extends Controller
                     }
                 }
             }
-            Alert::toast('The workOrder was deleted successfully.', 'success');
+
+            Alert::success('Berhasil', 'Work Order berhasil dihapus');
             return redirect()->route('work-orders.index');
         } catch (\Throwable $th) {
-            Alert::toast('The workOrder cant be deleted because its related to another table.', 'error');
+            Alert::toast('Work Order tidak bisa dihapus karena terkait dengan tabel lain.', 'error');
             return redirect()->route('work-orders.index');
         }
     }

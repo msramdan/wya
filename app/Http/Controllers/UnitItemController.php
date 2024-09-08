@@ -7,7 +7,6 @@ use App\Http\Requests\{StoreUnitItemRequest, UpdateUnitItemRequest};
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
-use Auth;
 use Illuminate\Support\Facades\DB;
 
 class UnitItemController extends Controller
@@ -68,7 +67,7 @@ class UnitItemController extends Controller
         $attr = $request->validated();
         $attr['hospital_id'] = session('sessionHospital');
         UnitItem::create($attr);
-        Alert::toast('The unitItem was created successfully.', 'success');
+        Alert::toast('Unit item berhasil dibuat.', 'success');
         return redirect()->route('unit-items.index');
     }
 
@@ -104,7 +103,7 @@ class UnitItemController extends Controller
     public function update(UpdateUnitItemRequest $request, UnitItem $unitItem)
     {
         $unitItem->update($request->validated());
-        Alert::toast('The unitItem was updated successfully.', 'success');
+        Alert::toast('Unit item berhasil diperbarui.', 'success');
         return redirect()
             ->route('unit-items.index');
     }
@@ -119,13 +118,14 @@ class UnitItemController extends Controller
     {
         try {
             $unitItem->delete();
-            Alert::toast('The unitItem was deleted successfully.', 'success');
+            Alert::toast('Unit item berhasil dihapus.', 'success');
             return redirect()->route('unit-items.index');
         } catch (\Throwable $th) {
-            Alert::toast('The unitItem cant be deleted because its related to another table.', 'error');
+            Alert::toast('Unit item tidak dapat dihapus karena terkait dengan tabel lain.', 'error');
             return redirect()->route('unit-items.index');
         }
     }
+
     public function getUnit($hospitalId)
     {
         $data = DB::table('unit_items')->where('hospital_id', $hospitalId)->get();
