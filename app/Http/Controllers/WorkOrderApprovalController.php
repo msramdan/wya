@@ -140,8 +140,13 @@ class WorkOrderApprovalController extends Controller
         $microFrom = strtotime($from) * 1000;
         $microTo = strtotime($to) * 1000;
         $equimentHospital = Equipment::where('hospital_id', session('sessionHospital'))->get();
-        $dataUser = User::all();
-
+        $dataUser = DB::table('users')
+            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+            ->leftJoin('hospitals', 'roles.hospital_id', '=', 'hospitals.id')
+            ->select('users.avatar', 'users.name', 'users.email', 'users.no_hp', 'users.id', 'roles.name as nama_roles', 'roles.hospital_id', 'hospitals.name as nama_rs')
+            ->where('roles.hospital_id', session('sessionHospital'))
+            ->get();
         $start_date = $request->query('start_date') !== null ? intval($request->query('start_date')) : $microFrom;
         $end_date = $request->query('end_date') !== null ? intval($request->query('end_date')) : $microTo;
         $equipment_id = $request->query('equipment_id') ?? null;
