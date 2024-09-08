@@ -1,10 +1,10 @@
 <?php
 return [
-  'wo_data' => 'Data Perintah Kerja',
+  'wo_data' => 'Data Work Order',
   'equipment_data' => 'Data Peralatan',
   'hospital' => 'Rumah Sakit',
   'filter_hospital' => 'Pilih Rumah Sakit',
-  'wo_number' => 'Nomor Perintah Kerja',
+  'wo_number' => 'Nomor Work Order',
   'filed_date' => 'Tanggal Diajukan',
   'type_wo' => 'Jenis PK',
   'filter_type_wo' => 'Pilih Jenis PK',

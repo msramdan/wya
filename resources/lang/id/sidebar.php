@@ -3,7 +3,7 @@ return [
     'main-menu' => 'Menu Utama',
     'hospital' => 'Rumah Sakit',
 
-    'work_order' => 'Perintah Kerja',
+    'work_order' => 'Work Order',
     'wo_submission' => 'Kirim PK',
     'wo_approval' => 'Persetujuan PK',
     'wo_processes' => 'Proses PK',

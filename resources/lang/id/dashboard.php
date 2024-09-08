@@ -2,7 +2,7 @@
 return [
     'head' => 'Dashboard',
     'welcome' => 'Selamat Datang,',
-    'wo_total' => 'Total Perintah Kerja',
+    'wo_total' => 'Total Work Order',
     'euip_total' => 'Total Peralatan',
     'employee_total' => 'Total Karyawan',
     'vendor_total' => 'Total Rekanan',

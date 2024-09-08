@@ -1,14 +1,14 @@
 <?php
 return [
-  'head' => 'Proses Perintah Kerja',
-  'create' => 'Buat Perintah Kerja Baru',
+  'head' => 'Proses Work Order',
+  'create' => 'Buat Work Order Baru',
   'filter_hospital' => 'Filter Rumah Sakit',
   'filter_equipment' => 'Semua Peralatan',
   'filter_type' => 'Semua Jenis',
   'filter_category' => 'Semua Kategori',
   'filter_created' => 'Semua Pembuat',
   'hospital' => 'Rumah Sakit',
-  'wo_number' => 'Nomor PK',
+  'wo_number' => 'Nomor WO',
   'filed_date' => 'Tanggal Diajukan',
   'equipment' => 'Peralatan',
   'type' => 'Jenis',
@@ -19,5 +19,5 @@ return [
   'user' => 'Pengguna',
   'finished_processes' => 'Proses Selesai',
   'action' => 'Aksi',
-  'detail_work_order' => 'Detail Perintah Kerja',
+  'detail_work_order' => 'Detail Work Order',
 ];
