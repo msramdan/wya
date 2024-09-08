@@ -246,7 +246,7 @@ return [
             ],
             'menus' => [
                 [
-                    'title' => 'Vendor Data',
+                    'title' => 'Data Vendor',
                     'icon' => '<i class="fa fa-address-book" fa-xs></i>',
                     'route' => null,
                     'uri' => [
@@ -259,12 +259,12 @@ return [
                     ],
                     'submenus' => [
                         [
-                            'title' => 'Vendors',
+                            'title' => 'Vendor',
                             'route' => '/vendors',
                             'permission' => 'vendor view'
                         ],
                         [
-                            'title' => 'Category Vendors',
+                            'title' => 'Kategori Vendor',
                             'route' => '/category-vendors',
                             'permission' => 'category vendor view'
                         ]
@@ -282,7 +282,7 @@ return [
             ],
             'menus' => [
                 [
-                    'title' => 'Main Data',
+                    'title' => 'Data Utama',
                     'icon' => '<i class="mdi mdi-format-list-bulleted"></i>',
                     'route' => null,
                     'uri' => [
@@ -298,17 +298,17 @@ return [
                     ],
                     'submenus' => [
                         [
-                            'title' => 'Unit Items',
+                            'title' => 'Unit Item',
                             'route' => '/unit-items',
                             'permission' => 'unit item view'
                         ],
                         [
-                            'title' => 'Equipment Locations',
+                            'title' => 'Lokasi Peralatan',
                             'route' => '/equipment-locations',
                             'permission' => 'equipment location view'
                         ],
                         [
-                            'title' => 'Equipment Categories',
+                            'title' => 'Kategori Peralatan',
                             'route' => '/equipment-categories',
                             'permission' => 'equipment category view'
                         ]
@@ -404,22 +404,22 @@ return [
                             'permission' => 'setting view'
                         ],
                         [
-                            'title' => 'Users',
+                            'title' => 'Pengguna',
                             'route' => '/users',
                             'permission' => 'user view'
                         ],
                         [
-                            'title' => 'Roles & permissions',
+                            'title' => 'Peran dan Izin Akses',
                             'route' => '/roles',
                             'permission' => 'role & permission view'
                         ],
                         [
-                            'title' => 'Setting Apps',
+                            'title' => 'Pengaturan Aplikasi',
                             'route' => '/setting-apps',
                             'permission' => 'setting app view'
                         ],
                         [
-                            'title' => 'Log Activity',
+                            'title' => 'Log Aktifitas',
                             'route' => '/activity-log',
                             'permission' => 'activity log view'
                         ],

@@ -8,11 +8,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">{{ trans('utilities/rolepermission/index.head') }}</h4>
+                        <h4 class="mb-sm-0">Peran dan Izin Akses</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="/panel">Dashboard</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">{{ trans('utilities/rolepermission/index.head') }}</li>
+                                <li class="breadcrumb-item active" aria-current="page">Peran dan Izin Akses</li>
                             </ol>
                         </div>
 

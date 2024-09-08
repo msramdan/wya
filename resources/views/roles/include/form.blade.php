@@ -1,9 +1,9 @@
 <div class="row mb-2">
     <div class="col-md-6">
         <div class="form-group">
-            <label for="name">{{ __('Name') }}</label>
+            <label for="name">Nama Peran</label>
             <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror"
-                placeholder="{{ __('Name') }}" value="{{ isset($role) ? $role->name : old('name') }}" autofocus
+                placeholder="Nama Peran" value="{{ isset($role) ? $role->name : old('name') }}" autofocus
                 required>
             @error('name')
                 <span class="text-danger">
@@ -16,8 +16,7 @@
 
 <div class="row">
     <div class="col-md-12">
-
-        <label class="mb-1">Daftar {{ trans('utilities/rolepermission/form.permission') }}</label>
+        <label class="mb-1">Daftar Izin Akses</label>
         @error('permissions')
             <div class="text-danger mb-2 mt-0">{{ $message }}</div>
         @enderror

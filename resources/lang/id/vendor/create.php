@@ -4,9 +4,9 @@ return [
   'general' => 'Informasi Umum',
   'hospital' => 'Rumah Sakit',
   'filter_hospital' => 'Pilih Rumah Sakit',
-  'vendor_code' => 'Kode Rekanan',
-  'vendor_name' => 'Nama Rekanan',
-  'vendor_category' => 'Kategori Rekanan',
+  'vendor_code' => 'Kode Vendor',
+  'vendor_name' => 'Nama Vendor',
+  'vendor_category' => 'Kategori Vendor',
   'filter_category' => 'Pilih Kategori',
   'email' => 'Surel',
   'province' => 'Provinsi',
@@ -21,7 +21,7 @@ return [
   'latitude' => 'Garis Lintang',
 
   // contact
-  'title' => 'Kontak Rekanan',
+  'title' => 'Kontak Vendor',
   'add_contact' => 'Tambah Kontak',
   'name' => 'Nama',
   'phone' => 'Telepon',
@@ -30,7 +30,7 @@ return [
   'action' => 'Aksi',
 
   // file
-  'title_file' => 'Berkas Rekanan',
+  'title_file' => 'Berkas Vendor',
   'des' => 'Rekomandasi format pdf',
   'add_file' => 'Tambah Berkas',
   'file_name' => 'Nama Berkas',

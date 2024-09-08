@@ -25,7 +25,7 @@ return [
   'equipment_detail' => 'Detail Peralatan',
   'equipment_category' => 'Kategori Peralatan',
   'type' => 'Jenis',
-  'vendor' => 'Rekanan',
+  'vendor' => 'Vendor',
   'risk_level' => 'Tingkat Risiko',
   'financing_code' => 'Kode Pembiayaan',
   'manufacture' => 'Pembuat',

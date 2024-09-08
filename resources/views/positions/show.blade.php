@@ -8,13 +8,13 @@
             <div class="page-header" style="margin-top: 5px">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h3>{{ trans('employee/position/index.head') }}</h3>
+                        <h3>Jabatan</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <a href="/panel">Dashboard</a>
                             </li>
                             <li class="breadcrumb-item">
-                                <a href="{{ route('positions.index') }}">{{ trans('employee/position/index.head') }}</a>
+                                <a href="{{ route('positions.index') }}">Jabatan</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
                                 {{ __('Detail') }}

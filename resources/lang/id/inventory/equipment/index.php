@@ -23,7 +23,7 @@ return [
     // Detail
     'detail' => 'Detail',
     'serial_number' => 'Nomer Seri',
-    'vendor' => 'Rekanan',
+    'vendor' => 'Vendor',
     'condition' => 'Kondisi',
     'risk_level' => 'Tingkat Resiko',
     'financing_code' => 'Kode Pembiayaan',

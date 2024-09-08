@@ -1,10 +1,10 @@
 <?php
 return [
-  'vendors' => 'Rekanan',
+  'vendors' => 'Vendor',
   'detail' => 'Detail',
-  'vendor_code' => 'Kode Rekanan',
-  'vendor_name' => 'Nama Rekanan',
-  'vendor_category' => 'Kategori Rekanan',
+  'vendor_code' => 'Kode Vendor',
+  'vendor_name' => 'Nama Vendor',
+  'vendor_category' => 'Kategori Vendor',
   'email' => 'Surel',
   'province' => 'Provinsi',
   'subdistrict' => 'Kecamatan',

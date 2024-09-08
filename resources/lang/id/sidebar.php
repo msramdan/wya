@@ -19,9 +19,9 @@ return [
     'employee_position' => 'Jabatan Karyawan',
     'employee_type' => 'Jenis Karywan',
 
-    'vendor' => 'Data Rekanan',
-    'vendors' => 'Rekanan',
-    'vendor_category' => 'Kategori Rekanan',
+    'vendor' => 'Data Vendor',
+    'vendors' => 'Vendor',
+    'vendor_category' => 'Kategori Vendor',
 
     'main_data' => 'Data Utama',
     'md_unit_items' => 'Barang Satuan',
