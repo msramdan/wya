@@ -110,17 +110,17 @@ return [
                     ],
                     'submenus' => [
                         [
-                            'title' => 'Work Orders Submission',
+                            'title' => 'Pengajuan Work Order',
                             'route' => '/work-orders',
                             'permission' => 'work order view'
                         ],
                         [
-                            'title' => 'Work Orders Approval',
+                            'title' => 'Persetujuan Work Order',
                             'route' => '/work-order-approvals',
                             'permission' => 'work order approval',
                         ],
                         [
-                            'title' => 'Work Order Processes',
+                            'title' => 'Proses Work Order',
                             'route' => '/work-order-processes',
                             'permission' => 'work order process',
                         ]

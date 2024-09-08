@@ -1,6 +1,6 @@
 <?php
 return [
-  'head' => 'Penyerahan Work Order',
+  'head' => 'Pengajuan Work Order',
   'create' => 'Buat Work Order Baru',
   'filter_hospital' => 'Filter Rumah Sakit',
   'filter_equipment' => 'Semua Peralatan',

@@ -38,8 +38,8 @@
                                         <tr>
                                             <th>#</th>
                                             <th>{{ trans('utilities/users/index.avatar') }}</th>
-                                            <th>{{ trans('utilities/users/index.role') }}</th>
                                             <th>{{ trans('utilities/users/index.name') }}</th>
+                                            <th>{{ trans('utilities/users/index.role') }}</th>
                                             <th>{{ trans('utilities/users/index.email') }}</th>
                                             <th>{{ trans('utilities/users/index.phone') }}</th>
                                             <th>{{ trans('utilities/users/index.action') }}</th>
@@ -76,13 +76,14 @@
                 }
             },
             {
-                data: 'role',
-                name: 'role'
-            },
-            {
                 data: 'name',
                 name: 'name'
             },
+            {
+                data: 'role',
+                name: 'role'
+            },
+
             {
                 data: 'email',
                 name: 'email'
