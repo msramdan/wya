@@ -13,11 +13,11 @@
             @enderror
         </div>
         <div class="col-md-12 mb-2">
-            <label for="sparepart-name">{{ trans('inventory/sparepart/form.sparepart_name') }}</label>
+            <label for="sparepart-name">Nama Sparepart</label>
             <input type="text" name="sparepart_name" id="sparepart-name"
                 class="form-control @error('sparepart_name') is-invalid @enderror"
                 value="{{ isset($sparepart) ? $sparepart->sparepart_name : old('sparepart_name') }}"
-                placeholder="{{ trans('inventory/sparepart/form.sparepart_name') }}" required />
+                placeholder="Nama Sparepart" required />
             @error('sparepart_name')
                 <span class="text-danger">
                     {{ $message }}
@@ -36,11 +36,11 @@
             @enderror
         </div>
         <div class="col-md-12 mb-2">
-            <label for="sparepart-type">{{ trans('inventory/sparepart/form.sparepart_type') }}</label>
+            <label for="sparepart-type">Jenis Sparepart</label>
             <input type="text" name="sparepart_type" id="sparepart-type"
                 class="form-control @error('sparepart_type') is-invalid @enderror"
                 value="{{ isset($sparepart) ? $sparepart->sparepart_type : old('sparepart_type') }}"
-                placeholder="{{ trans('inventory/sparepart/form.sparepart_type') }}" required />
+                placeholder="Jenis Sparepart" required />
             @error('sparepart_type')
                 <span class="text-danger">
                     {{ $message }}
@@ -48,7 +48,7 @@
             @enderror
         </div>
         <div class="col-md-12 mb-2">
-            <label for="unit-id">{{ trans('inventory/sparepart/form.unit_item') }}</label>
+            <label for="unit-id">Unit Item</label>
             <select class="form-control js-example-basic-multiple @error('unit_id') is-invalid @enderror" name="unit_id"
                 id="unit-id" required>
                 <option value="" selected disabled>-- {{ trans('inventory/sparepart/form.select_unit_item') }} --

@@ -12,7 +12,7 @@ return [
     'sparepart_name' => 'Sparepart Name',
     'merk' => 'Merk',
     'sparepart_type' => 'Sparepart Type',
-    'estimated_price' => 'Estimated Price',
+    'estimated_price' => 'Perkiraan Harga',
     'opname' => 'Opname',
     'stock' => 'Stock',
     'unit_item' => 'Unit Item',

@@ -73,41 +73,6 @@ return [
         'limit_text' => 100,
     ],
 
-    /**
-     * It will used for generator to manage and showing menus on sidebar views.
-     *
-     * Example:
-     * [
-     *   'header' => 'Main',
-     *
-     *   // All permissions in menus[] and submenus[]
-     *   'permissions' => ['test view'],
-     *
-     *   menus' => [
-     *       [
-     *          'title' => 'Main Data',
-     *          'icon' => '<i class="bi bi-collection-fill"></i>',
-     *          'route' => null,
-     *
-     *          // permission always null when isset submenus
-     *
-     *
-     *          // All permissions on submenus[] and will empty[] when submenus equals to []
-     *          'permissions' => ['test view'],
-     *
-     *          'submenus' => [
-     *                 [
-     *                     'title' => 'Tests',
-     *                     'route' => '/tests',
-     *                     'permission' => 'test view'
-     *                  ]
-     *               ],
-     *           ],
-     *       ],
-     *  ],
-     *
-     * This code below always changes when you use a generator and maybe you must lint or format the code.
-     */
     'sidebars' => [
         [
             'header' => 'Hospitals',
@@ -116,7 +81,7 @@ return [
             ],
             'menus' => [
                 [
-                    'title' => 'Hospitals',
+                    'title' => 'Rumah Sakit',
                     'icon' => '<i class="fa fa-hospital"></i>',
                     'route' => 'hospitals',
                     'permission' => 'hospital view',
@@ -163,22 +128,6 @@ return [
                 ]
             ]
         ],
-        // [
-        //     'header' => 'Kalender',
-        //     'permissions' => [
-        //         'department view'
-        //     ],
-        //     'menus' => [
-        //         [
-        //             'title' => 'Kalender Work Order',
-        //             'icon' => '<i class="fa fa-calendar" aria-hidden="true"></i>',
-        //             'route' => 'calendars',
-        //             'permission' => 'department view',
-        //             'permissions' => [],
-        //             'submenus' => []
-        //         ]
-        //     ]
-        // ],
         [
             'header' => 'Loans',
             'permissions' => [
@@ -186,7 +135,7 @@ return [
             ],
             'menus' => [
                 [
-                    'title' => 'Moving Equipment',
+                    'title' => 'Peminjaman Alat',
                     'icon' => '<i class="mdi mdi-book"></i>',
                     'route' => '/loans',
                     'permission' => 'loan view',
@@ -204,7 +153,7 @@ return [
             ],
             'menus' => [
                 [
-                    'title' => 'Inventory Data',
+                    'title' => 'Data Inventaris',
                     'icon' => '<i class="mdi mdi-cube"></i>',
                     'route' => null,
                     'uri' => [
@@ -221,17 +170,17 @@ return [
                     ],
                     'submenus' => [
                         [
-                            'title' => 'Equipments',
+                            'title' => 'Peralatan',
                             'route' => '/equipment',
                             'permission' => 'equipment view'
                         ],
                         [
-                            'title' => 'Spareparts',
+                            'title' => 'Sparepart',
                             'route' => '/spareparts',
                             'permission' => 'sparepart view'
                         ],
                         [
-                            'title' => 'Reference Nomeklatur',
+                            'title' => 'Referensi Nomeklatur',
                             'route' => '/nomenklaturs',
                             'permission' => 'nomenklatur view'
                         ]

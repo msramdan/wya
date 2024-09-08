@@ -36,11 +36,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">{{ trans('inventory/sparepart/index.sparepart') }}</h4>
+                        <h4 class="mb-sm-0">Sparepart</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="/panel">Dashboard</a></li>
-                                <li class="breadcrumb-item active">{{ trans('inventory/sparepart/index.sparepart') }}</li>
+                                <li class="breadcrumb-item active">Sparepart</li>
                             </ol>
                         </div>
 
@@ -93,13 +93,13 @@
                                         <tr>
                                             <th>#</th>
                                             <th>{{ trans('inventory/sparepart/index.barcode') }}</th>
-                                            <th>{{ trans('inventory/sparepart/index.sparepart_name') }}</th>
+                                            <th>Nama Sparepart</th>
                                             <th>{{ trans('inventory/sparepart/index.merk') }}</th>
-                                            <th>{{ trans('inventory/sparepart/index.sparepart_type') }}</th>
+                                            <th>Jenis Sparepart</th>
                                             <th>{{ trans('inventory/sparepart/index.estimated_price') }}</th>
                                             <th>{{ trans('inventory/sparepart/index.opname') }}</th>
                                             <th>{{ trans('inventory/sparepart/index.stock') }}</th>
-                                            <th>{{ trans('inventory/sparepart/index.unit_item') }}</th>
+                                            <th>Unit Item</th>
                                             <th>{{ trans('inventory/sparepart/index.action') }}</th>
                                         </tr>
                                     </thead>

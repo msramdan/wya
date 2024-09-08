@@ -9,6 +9,6 @@ return [
   'sparepart_type' => 'Sparepart Type',
   'unit_item' => 'Unit Item',
   'select_unit_item' => 'Select Unit Item',
-  'estimated_price' => 'Estimated Price',
+  'estimated_price' => 'Perkiraan Harga',
   'stock_opname' => 'Stock Opname',
 ];

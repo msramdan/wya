@@ -52,7 +52,7 @@
                 <td>{{ $sparepart->merk }}</td>
             </tr>
             <tr>
-                <td>Estimated Price</td>
+                <td>Perkiraan Harga</td>
                 <td style="width: 2px">:</td>
                 <td>{{ rupiah($sparepart->estimated_price) }}</td>
             </tr>
