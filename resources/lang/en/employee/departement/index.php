@@ -1,7 +1,7 @@
 <?php
 return [
   'head' => 'Departements',
-  'create' => 'Create a New Departement',
+  'create' => 'Tambah Departement',
   'select_hospital' => 'Select Hospital',
   'hospital' => 'Hospital',
   'code' => 'Departement Code',

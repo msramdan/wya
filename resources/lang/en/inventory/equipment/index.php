@@ -1,7 +1,7 @@
 <?php
 return [
     'head' => 'Equipements',
-    'create' => 'Create a New Equipment',
+    'create' => 'Tambah Equipment',
     'export' => 'Export',
     'import' => 'Import Equipment',
     'download' => 'Download Format',

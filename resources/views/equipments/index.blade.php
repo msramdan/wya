@@ -162,7 +162,7 @@
                                             <th>{{ trans('inventory/equipment/index.type') }}</th>
                                             <th>{{ trans('inventory/equipment/index.location') }}</th>
                                             <th>{{ trans('inventory/equipment/index.book_value') }}</th>
-                                            <th>De-commisioning</th>
+                                            <th>Penonaktifan</th>
                                             <th>{{ trans('inventory/equipment/index.action') }}</th>
                                         </tr>
                                     </thead>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Moving Equipment'))
+@section('title', __('Peminjaman Alat'))
 
 @section('content')
 
@@ -53,11 +53,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">{{ __('Moving Equipment') }}</h4>
+                        <h4 class="mb-sm-0">{{ __('Peminjaman Alat') }}</h4>
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="/panel">Dashboard</a></li>
-                                <li class="breadcrumb-item active">{{ __('Moving Equipment') }}</li>
+                                <li class="breadcrumb-item active">{{ __('Peminjaman Alat') }}</li>
                             </ol>
                         </div>
 
@@ -70,7 +70,7 @@
                         <div class="card-header">
                             @can('loan create')
                                 <a href="{{ route('loans.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ __('Create a new Moving Equipment') }}</a>
+                                        class="mdi mdi-plus"></i> {{ __('Tambah Peminjaman Alat') }}</a>
                             @endcan
                         </div>
 

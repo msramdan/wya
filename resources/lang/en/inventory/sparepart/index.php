@@ -1,7 +1,7 @@
 <?php
 return [
     'head' => 'Separeparts',
-    'create' => 'Create a New Separepart',
+    'create' => 'Tambah Separepart',
     'export' => 'Export',
     'import' => 'Import',
     'import_title' => 'Import Sparepart',

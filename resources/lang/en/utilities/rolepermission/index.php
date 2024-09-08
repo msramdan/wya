@@ -1,7 +1,7 @@
 <?php
 return [
   'head' => 'Role & Permission',
-  'create' => 'Create a New Role',
+  'create' => 'Tambah Role',
   'filter_hospital' => 'Filter Hospital',
   'hospital' => 'Hospital',
   'name' => 'Name',

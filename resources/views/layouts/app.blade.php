@@ -25,52 +25,6 @@
                     </div>
 
                     <div class="d-flex align-items-center">
-
-                        <div class="dropdown ms-1 topbar-head-dropdown header-item">
-                            @switch(app()->getLocale())
-                                @case('id')
-                                    <button type="button"
-                                        class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <img src="{{ asset('/material/assets/images/flags/indonesia.png') }}"
-                                            alt="Header Language" height="20" class="rounded">
-                                    </button>
-                                @break
-
-                                @case('en')
-                                    <button type="button"
-                                        class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <img src="{{ asset('/material/assets/images/flags/us.svg') }}" alt="Header Language"
-                                            height="20" class="rounded">
-                                    </button>
-                                @break
-
-                                @default
-                            @endswitch
-                            <div class="dropdown-menu media-list dropdown-menu-end" style="">
-                                <a href="{{ route('localization.switch', ['language' => 'id']) }}"
-                                    class="dropdown-item media">
-                                    <div class="media-body">
-                                        <h6 class="media-heading">
-                                            <img src="{{ asset('material/assets/images/flags/indonesia.png') }}"
-                                                alt="" class="me-2 rounded" height="18" />
-                                            <span class="align-middle">Indonesia</span>
-                                        </h6>
-                                    </div>
-                                </a>
-                                <a href="{{ route('localization.switch', ['language' => 'en']) }}"
-                                    class="dropdown-item media">
-                                    <div class="media-body">
-                                        <h6 class="media-heading">
-                                            <img src="{{ asset('material/assets/images/flags/us.svg') }}"
-                                                class="me-2 rounded" height="18" alt="" />
-                                            <span class="align-middle">English</span>
-                                        </h6>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
                         <div class="ms-1 header-item  d-sm-flex">
                             <a href="{{ route('monitoring') }}" target="_blank"
                                 class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none">

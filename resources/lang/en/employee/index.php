@@ -1,7 +1,7 @@
 <?php
 return [
   'head' => 'Employee',
-  'create' => 'Create a New Employee',
+  'create' => 'Tambah Employee',
   'export' => 'Export',
   'import' => 'Import',
   'import_title' => 'Import Employee',

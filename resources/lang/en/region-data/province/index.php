@@ -1,7 +1,7 @@
 <?php
 return [
   'head' => 'Province',
-  'create' => 'Create a New Province',
+  'create' => 'Tambah Province',
   'province' => 'Province',
   'pbsni' => 'P Bsni',
   'capital' => 'Capital',

@@ -1,7 +1,7 @@
 <?php
 return [
   'head' => 'Unit Item',
-  'create' => 'Create a New Unit Item',
+  'create' => 'Tambah Unit Item',
   'select_hospital' => 'Select Hospital',
   'hospital' => 'Hospital',
   'unit_code' => 'Unit Code',

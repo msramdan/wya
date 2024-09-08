@@ -1,7 +1,7 @@
 <?php
 return [
   'head' => 'Vendor',
-  'create' => 'Create a New Vendor',
+  'create' => 'Tambah Vendor',
   'filter_hospital' => 'Filter Hospital',
   'hospital' => 'Hospital',
   'code_vendor' => 'Vendor Code',
@@ -9,7 +9,7 @@ return [
   'category_vendor' => 'Vendor Category',
   'email' => 'Email',
   'action' => 'Action',
-  
+
   // pic
   'contact_vendor' => 'Vendor Contact',
   'name' => 'Name',

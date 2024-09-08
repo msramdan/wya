@@ -1,7 +1,7 @@
 <?php
 return [
     'head' => 'Hospitals',
-    'create' => 'Create a New Hospital',
+    'create' => 'Tambah Hospital',
     'name' => 'Name',
     'phone' => 'Phone',
     'email' => 'Email',

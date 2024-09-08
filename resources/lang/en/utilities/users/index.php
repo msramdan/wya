@@ -1,7 +1,7 @@
 <?php
 return [
   'head' => 'Users',
-  'create' => 'Create a New User',
+  'create' => 'Tambah User',
   'filter_hospital' => 'Filter Hospital',
   'avatar' => 'Avatar',
   'hospital' => 'Hospital',
