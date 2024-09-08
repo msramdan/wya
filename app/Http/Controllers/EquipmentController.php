@@ -49,6 +49,7 @@ class EquipmentController extends Controller
                 $equipments = $equipments->where('equipment_location_id', $equipment_location_id);
             }
             $equipments = $equipments->where('hospital_id', session('sessionHospital'));
+            $equipments = $equipments->where('is_penghapusan_alat', 'No');
 
             if (isset($commisioning) && !empty($commisioning)) {
                 $equipments = $equipments->where('equipment.is_penonaktifan', $commisioning);
@@ -684,54 +685,25 @@ class EquipmentController extends Controller
         $month = date('Y-m');
         $location = $request->equipment_location_id;
         $isDecommissioning = $request->commisioning;
-        if (session('sessionHospital') == null) {
-            $id = $request->id;
-            if ($id != null && $location == null || $id != '' && $location == null) {
-                $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
-                join equipment on equipment_reduction_price.equipment_id = equipment.id
-                WHERE equipment.hospital_id='$id' and month='$month'";
 
-                if ($isDecommissioning !== null) {
-                    $query .= " and equipment.is_penonaktifan='$isDecommissioning'";
-                }
-            } else if ($id != null && $location != null || $id != '' && $location != null) {
-                $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
+        $id = session('sessionHospital');
+        if ($location != null) {
+            $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
                 join equipment on equipment_reduction_price.equipment_id = equipment.id
                 WHERE equipment.hospital_id='$id' and month='$month' and equipment.equipment_location_id='$location'";
-
-                if ($isDecommissioning !== null) {
-                    $query .= " and equipment.is_penonaktifan='$isDecommissioning'";
-                }
-            } else {
-                $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
-                join equipment on equipment_reduction_price.equipment_id = equipment.id
-                WHERE month='$month'";
-
-                if ($isDecommissioning !== null) {
-                    $query .= " and equipment.is_penonaktifan='$isDecommissioning'";
-                }
+            $query .= " and equipment.is_penghapusan_alat='No'";
+            if ($isDecommissioning !== null) {
+                $query .= " and equipment.is_penonaktifan='$isDecommissioning'";
             }
         } else {
-            $id = session('sessionHospital');
-            if ($location != null) {
-                $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
-                join equipment on equipment_reduction_price.equipment_id = equipment.id
-                WHERE equipment.hospital_id='$id' and month='$month' and equipment.equipment_location_id='$location'";
-
-                if ($isDecommissioning !== null) {
-                    $query .= " and equipment.is_penonaktifan='$isDecommissioning'";
-                }
-            } else {
-                $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
+            $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
                 join equipment on equipment_reduction_price.equipment_id = equipment.id
                 WHERE equipment.hospital_id='$id' and month='$month'";
-
-                if ($isDecommissioning !== null) {
-                    $query .= " and equipment.is_penonaktifan='$isDecommissioning'";
-                }
+            $query .= " and equipment.is_penghapusan_alat='No'";
+            if ($isDecommissioning !== null) {
+                $query .= " and equipment.is_penonaktifan='$isDecommissioning'";
             }
         }
-
         $data = DB::select($query);
         if ($data[0]->total != null) {
             return rupiah($data[0]->total);
