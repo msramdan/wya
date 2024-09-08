@@ -198,7 +198,7 @@ return [
             ],
             'menus' => [
                 [
-                    'title' => 'Employee Data',
+                    'title' => 'Data Karyawan',
                     'icon' => '<i class="mdi mdi-account-multiple"></i>',
                     'route' => null,
                     'permissions' => [
@@ -215,22 +215,22 @@ return [
                     ],
                     'submenus' => [
                         [
-                            'title' => 'Employees',
+                            'title' => 'Karyawan',
                             'route' => '/employees',
                             'permission' => 'employee view'
                         ],
                         [
-                            'title' => 'Departments',
+                            'title' => 'Departemen',
                             'route' => '/departments',
                             'permission' => 'department view'
                         ],
                         [
-                            'title' => 'Positions',
+                            'title' => 'Jabatan',
                             'route' => '/positions',
                             'permission' => 'position view'
                         ],
                         [
-                            'title' => 'Employee Types',
+                            'title' => 'Jenis Karyawan',
                             'route' => '/employee-types',
                             'permission' => 'employee type view'
                         ]
