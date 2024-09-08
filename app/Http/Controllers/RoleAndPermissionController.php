@@ -44,7 +44,7 @@ class RoleAndPermissionController extends Controller
     {
         $role = Role::create(['name' => $request->name]);
         $role->givePermissionTo($request->permissions);
-        Alert::toast('Role User berhasil dibuat.', 'success'); // Mengubah teks alert ke bahasa Indonesia
+        Alert::toast('Peran dan Izin Akses berhasil dibuat.', 'success'); // Mengubah teks alert ke bahasa Indonesia
         return redirect()
             ->route('roles.index');
     }
@@ -81,10 +81,10 @@ class RoleAndPermissionController extends Controller
                     'attributes' => ['permissions' => $newPermissions],
                 ])
                 ->event('updated')
-                ->log("Role User {$role->name} permissions diperbarui");
+                ->log("Peran dan Izin Akses {$role->name} permissions diperbarui");
         }
 
-        Alert::toast('Role User berhasil diperbarui.', 'success'); // Mengubah teks alert ke bahasa Indonesia
+        Alert::toast('Peran dan Izin Akses berhasil diperbarui.', 'success'); // Mengubah teks alert ke bahasa Indonesia
         return redirect()->route('roles.index');
     }
 
@@ -95,11 +95,11 @@ class RoleAndPermissionController extends Controller
         // if any user where role.id = $id
         if ($role->users_count < 1) {
             $role->delete();
-            Alert::toast('Role User berhasil dihapus.', 'success'); // Mengubah teks alert ke bahasa Indonesia
+            Alert::toast('Peran dan Izin Akses berhasil dihapus.', 'success'); // Mengubah teks alert ke bahasa Indonesia
             return redirect()
                 ->route('roles.index');
         } else {
-            Alert::toast('Tidak dapat menghapus Role User karena masih terkait dengan pengguna.', 'error'); // Mengubah teks alert ke bahasa Indonesia
+            Alert::toast('Tidak dapat menghapus Peran dan Izin Akses karena masih terkait dengan pengguna.', 'error'); // Mengubah teks alert ke bahasa Indonesia
             return redirect()
                 ->route('roles.index');
         }
