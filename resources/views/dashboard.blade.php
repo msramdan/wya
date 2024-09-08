@@ -425,7 +425,7 @@
                                 <div class="card" style="height: 450px">
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1">
-                                            Proccess WO ( Finish Vs On Progress Vs Ready to Start )
+                                            Proses Wo ( Finish Vs On Progress Vs Ready to Start )
                                         </h4>
                                     </div>
 
@@ -438,7 +438,7 @@
                                 <div class="card" style="height: 450px">
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1">
-                                            Expense Cost Wo
+                                            Biaya Work Order
                                         </h4>
                                     </div>
 
@@ -455,7 +455,7 @@
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1">
                                             <i class="fa fa-exclamation-triangle text-danger fs-3" aria-hidden="true"></i>
-                                            {{ trans('dashboard.op_sparepat') }}
+                                            Stock Opname Sparepart
                                         </h4>
                                     </div>
 
@@ -491,7 +491,7 @@
                                 <div class="card" style="height: 400px">
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1"><i class="fa fa-sign-in text-success fs-3"
-                                                aria-hidden="true"></i> {{ trans('dashboard.stock_in_sparepat') }}</h4>
+                                                aria-hidden="true"></i>  Stock In Sparepart</h4>
                                     </div>
 
                                     <div class="card-body">
@@ -523,7 +523,7 @@
                                     <div class="card-header align-items-center d-flex">
                                         <h4 class="card-title mb-0 flex-grow-1"><i
                                                 class="fa fa-sign-out text-warning fs-3" aria-hidden="true"></i>
-                                            {{ trans('dashboard.stock_out_sparepat') }}</h4>
+                                            Stock Out Sparepart</h4>
                                     </div>
 
                                     <div class="card-body">

@@ -89,11 +89,11 @@
                             @endcan
                             <button id="btnExport" class="btn btn-success">
                                 <i class='fas fa-file-excel'></i>
-                                {{ __('Export') }}
+                                Ekspor
                             </button>
                             <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                                 data-bs-target="#exampleModal"><i class='fa fa-upload'></i>
-                                {{ trans('inventory/equipment/index.import') }}
+                                Impor
                             </button>
                         </div>
 

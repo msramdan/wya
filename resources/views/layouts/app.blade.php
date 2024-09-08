@@ -93,7 +93,7 @@
                                             <li class="nav-item waves-effect waves-light">
                                                 <a class="nav-link active" data-bs-toggle="tab" href="#all-noti-tab"
                                                     role="tab" aria-selected="true">
-                                                    Moving Equipment
+                                                    Peminjaman Peralatan
                                                 </a>
                                             </li>
                                         </ul>

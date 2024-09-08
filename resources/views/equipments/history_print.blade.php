@@ -367,7 +367,7 @@
             </table>
 
 
-            <h6 style="margin-left: 10px">VII. History Moving Equipment
+            <h6 style="margin-left: 10px">VII. History Peminjaman Peralatan
             </h6>
             <table class="table table-bordered" style="line-height: 4px; margin-left: 5px;font-size:11px;width:100%;">
                 <thead>

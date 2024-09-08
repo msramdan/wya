@@ -8,7 +8,7 @@ return [
     'vendor_total' => 'Total Vendor',
     'total_status_wo' => 'Total Wo Berdasarkan Status',
     'total_category_wo' => 'Total Wo Berdasarkan Kategori',
-    'total_type_wo' => 'Total WO Berdasarkan Jenis',
+    'total_type_wo' => 'Total Wo Berdasarkan Jenis',
     'op_sparepat' => 'Rekaman Onderdil',
     'stock_in_sparepat' => 'Onderdil Masuk',
     'stock_out_sparepat' => 'Onderdil Keluar',

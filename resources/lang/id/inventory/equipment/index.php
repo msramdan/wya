@@ -4,7 +4,7 @@ return [
     'head' => 'Peralatan',
     'create' => 'Tambah Peralatan baru',
     'export' => 'Ekspor',
-    'import' => 'Impor Peralatan',
+    'import' => 'Impor',
     'download' => 'Unduh Format',
     'filter_hospital' => 'Pilih Rumah Sakit',
     'filter_location' => 'Pilih Lokasi',
