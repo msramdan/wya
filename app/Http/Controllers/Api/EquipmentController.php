@@ -17,6 +17,8 @@ class EquipmentController extends Controller
                 ->when($request->session_hospital, function ($query, $hospital_id) {
                     $query->where('hospital_id', $hospital_id);
                 })
+                ->where('is_penonaktifan', 'No')
+                ->where('is_penghapusan_alat', 'No')
                 ->get(),
         ]);
     }
