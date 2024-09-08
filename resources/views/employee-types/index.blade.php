@@ -25,7 +25,7 @@
                         <div class="card-header">
                             @can('employee type create')
                                 <a href="{{ route('employee-types.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ trans('employee/type/index.create') }}</a>
+                                        class="mdi mdi-plus"></i> Tambah</a>
                             @endcan
                         </div>
 

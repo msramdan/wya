@@ -64,7 +64,7 @@
                         <div class="card-header">
                             @can('sparepart create')
                                 <a href="{{ route('spareparts.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ trans('inventory/sparepart/index.create') }}</a>
+                                        class="mdi mdi-plus"></i> Tambah</a>
                             @endcan
                             <button id="btnExport" class="btn btn-success">
                                 <i class='fas fa-file-excel'></i>

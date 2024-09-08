@@ -85,7 +85,7 @@
                         <div class="card-header">
                             @can('vendor create')
                                 <a href="{{ route('vendors.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ trans('vendor/index.create') }}</a>
+                                        class="mdi mdi-plus"></i> Tambah</a>
                             @endcan
                             <button id="btnExport" class="btn btn-success">
                                 <i class='fas fa-file-excel'></i>

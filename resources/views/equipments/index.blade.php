@@ -85,7 +85,7 @@
                         <div class="card-header">
                             @can('equipment create')
                                 <a href="{{ route('equipment.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ trans('inventory/equipment/index.create') }}</a>
+                                        class="mdi mdi-plus"></i> Tambah</a>
                             @endcan
                             <button id="btnExport" class="btn btn-success">
                                 <i class='fas fa-file-excel'></i>

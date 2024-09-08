@@ -70,7 +70,7 @@
                         <div class="card-header">
                             @can('loan create')
                                 <a href="{{ route('loans.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ __('Tambah Peminjaman Alat') }}</a>
+                                        class="mdi mdi-plus"></i> Tambah</a>
                             @endcan
                         </div>
 

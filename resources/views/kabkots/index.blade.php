@@ -25,7 +25,7 @@
                         <div class="card-header">
                             @can('kabkot create')
                                 <a href="{{ route('kabkots.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ trans('region-data/kabkot/index.create') }}</a>
+                                        class="mdi mdi-plus"></i> Tambah</a>
                             @endcan
                         </div>
 

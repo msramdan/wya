@@ -27,7 +27,7 @@
                         <div class="card-header">
                             @can('role & permission create')
                                 <a href="{{ route('roles.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ trans('utilities/rolepermission/index.create') }}</a>
+                                        class="mdi mdi-plus"></i> Tambah</a>
                             @endcan
                         </div>
 

@@ -27,7 +27,7 @@
                         <div class="card-header">
                             @can('user create')
                                 <a href="{{ route('users.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ trans('utilities/users/index.create') }}</a>
+                                        class="mdi mdi-plus"></i> Tambah</a>
                             @endcan
                         </div>
 

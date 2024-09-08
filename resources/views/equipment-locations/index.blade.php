@@ -26,7 +26,7 @@
                         <div class="card-header">
                             @can('equipment location create')
                                 <a href="{{ route('equipment-locations.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ trans('main-data/equipment/location/index.create') }}</a>
+                                        class="mdi mdi-plus"></i> Tambah</a>
                             @endcan
                         </div>
 

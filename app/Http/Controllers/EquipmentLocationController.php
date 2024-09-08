@@ -8,19 +8,20 @@ use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Auth;
 
 class EquipmentLocationController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:lihat lokasi peralatan')->only('index', 'show');
-        $this->middleware('permission:buat lokasi peralatan')->only('create', 'store');
-        $this->middleware('permission:ubah lokasi peralatan')->only('edit', 'update');
-        $this->middleware('permission:hapus lokasi peralatan')->only('destroy');
+        $this->middleware('permission:equipment location view')->only('index', 'show');
+        $this->middleware('permission:equipment location create')->only('create', 'store');
+        $this->middleware('permission:equipment location edit')->only('edit', 'update');
+        $this->middleware('permission:equipment location delete')->only('destroy');
     }
 
     /**
-     * Menampilkan daftar lokasi peralatan.
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
@@ -36,6 +37,7 @@ class EquipmentLocationController extends Controller
                 })->addColumn('updated_at', function ($row) {
                     return $row->updated_at->format('d M Y H:i:s');
                 })
+
                 ->addColumn('action', 'equipment-locations.include.action')
                 ->toJson();
         }
@@ -44,7 +46,7 @@ class EquipmentLocationController extends Controller
     }
 
     /**
-     * Menampilkan form untuk membuat lokasi peralatan baru.
+     * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
@@ -54,7 +56,7 @@ class EquipmentLocationController extends Controller
     }
 
     /**
-     * Menyimpan lokasi peralatan yang baru dibuat.
+     * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -69,7 +71,7 @@ class EquipmentLocationController extends Controller
     }
 
     /**
-     * Menampilkan detail lokasi peralatan tertentu.
+     * Display the specified resource.
      *
      * @param  \App\Models\EquipmentLocation  $equipmentLocation
      * @return \Illuminate\Http\Response
@@ -80,7 +82,7 @@ class EquipmentLocationController extends Controller
     }
 
     /**
-     * Menampilkan form untuk mengedit lokasi peralatan.
+     * Show the form for editing the specified resource.
      *
      * @param  \App\Models\EquipmentLocation  $equipmentLocation
      * @return \Illuminate\Http\Response
@@ -91,7 +93,7 @@ class EquipmentLocationController extends Controller
     }
 
     /**
-     * Memperbarui lokasi peralatan yang ada.
+     * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\EquipmentLocation  $equipmentLocation
@@ -101,11 +103,12 @@ class EquipmentLocationController extends Controller
     {
         $equipmentLocation->update($request->validated());
         Alert::toast('Lokasi peralatan berhasil diperbarui.', 'success');
-        return redirect()->route('equipment-locations.index');
+        return redirect()
+            ->route('equipment-locations.index');
     }
 
     /**
-     * Menghapus lokasi peralatan tertentu.
+     * Remove the specified resource from storage.
      *
      * @param  \App\Models\EquipmentLocation  $equipmentLocation
      * @return \Illuminate\Http\Response
@@ -122,12 +125,6 @@ class EquipmentLocationController extends Controller
         }
     }
 
-    /**
-     * Mengambil daftar lokasi peralatan berdasarkan ID rumah sakit.
-     *
-     * @param  int  $hospitalId
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function getEquipmentLocation($hospitalId)
     {
         $data = DB::table('equipment_locations')->where('hospital_id', $hospitalId)->get();

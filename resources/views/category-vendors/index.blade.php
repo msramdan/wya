@@ -25,7 +25,7 @@
                         <div class="card-header">
                             @can('category vendor create')
                                 <a href="{{ route('category-vendors.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ trans('category-vendor/index.create_category') }}</a>
+                                        class="mdi mdi-plus"></i> Tambah</a>
                             @endcan
                         </div>
 
