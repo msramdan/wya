@@ -13,6 +13,8 @@
             <th style="background-color:#D3D3D3 ">{{ __('Vendor') }}</th>
             <th style="background-color:#D3D3D3 ">{{ __('Condition') }}</th>
             <th style="background-color:#D3D3D3 ">{{ __('Equipment Location') }}</th>
+            <th style="background-color:#D3D3D3 ">{{ __('Penonaktifan') }}</th>
+            <th style="background-color:#D3D3D3 ">{{ __('Penghapusan Asset') }}</th>
             <th style="background-color:#D3D3D3 ">{{ __('Financing Code') }}</th>
             <th style="background-color:#D3D3D3 ">{{ __('Tanggal Pembelian') }}</th>
             <th style="background-color:#D3D3D3 ">{{ __('Harga Pendapatan') }}</th>
@@ -34,6 +36,8 @@
                 <td>{{ $dt->vendor->name_vendor }}</td>
                 <td>{{ $dt->condition }}</td>
                 <td>{{ $dt->equipment_location->location_name }}</td>
+                <td>{{ $dt->is_penonaktifan }}</td>
+                <td>{{ $dt->is_penghapusan_alat }}</td>
                 <td>{{ $dt->financing_code }}</td>
                 <td>{{ $dt->tgl_pembelian }}</td>
                 <td>{{ $dt->nilai_perolehan }}</td>
