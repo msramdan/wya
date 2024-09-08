@@ -14,23 +14,23 @@ class EquipmentCategoryController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:lihat kategori peralatan')->only('index', 'show');
-        $this->middleware('permission:tambah kategori peralatan')->only('create', 'store');
-        $this->middleware('permission:edit kategori peralatan')->only('edit', 'update');
-        $this->middleware('permission:hapus kategori peralatan')->only('destroy');
+        $this->middleware('permission:equipment category view')->only('index', 'show');
+        $this->middleware('permission:equipment category create')->only('create', 'store');
+        $this->middleware('permission:equipment category edit')->only('edit', 'update');
+        $this->middleware('permission:equipment category delete')->only('destroy');
     }
 
     /**
-     * Tampilkan daftar data.
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
         if (request()->ajax()) {
-            $kategoriPeralatan = EquipmentCategory::with('hospital:id,name');
-            $kategoriPeralatan = $kategoriPeralatan->where('hospital_id', session('sessionHospital'));
-            return DataTables::of($kategoriPeralatan)
+            $equipmentCategories = EquipmentCategory::with('hospital:id,name');
+            $equipmentCategories = $equipmentCategories->where('hospital_id', session('sessionHospital'));
+            return DataTables::of($equipmentCategories)
                 ->addIndexColumn()
                 ->addColumn('created_at', function ($row) {
                     return $row->created_at->format('d M Y H:i:s');
@@ -45,7 +45,7 @@ class EquipmentCategoryController extends Controller
     }
 
     /**
-     * Tampilkan form untuk membuat data baru.
+     * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
@@ -55,7 +55,7 @@ class EquipmentCategoryController extends Controller
     }
 
     /**
-     * Simpan data yang baru dibuat.
+     * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -70,7 +70,7 @@ class EquipmentCategoryController extends Controller
     }
 
     /**
-     * Tampilkan data yang ditentukan.
+     * Display the specified resource.
      *
      * @param  \App\Models\EquipmentCategory  $equipmentCategory
      * @return \Illuminate\Http\Response
@@ -81,7 +81,7 @@ class EquipmentCategoryController extends Controller
     }
 
     /**
-     * Tampilkan form untuk mengedit data yang ditentukan.
+     * Show the form for editing the specified resource.
      *
      * @param  \App\Models\EquipmentCategory  $equipmentCategory
      * @return \Illuminate\Http\Response
@@ -92,7 +92,7 @@ class EquipmentCategoryController extends Controller
     }
 
     /**
-     * Perbarui data yang ditentukan.
+     * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\EquipmentCategory  $equipmentCategory
@@ -100,13 +100,15 @@ class EquipmentCategoryController extends Controller
      */
     public function update(UpdateEquipmentCategoryRequest $request, EquipmentCategory $equipmentCategory)
     {
+
         $equipmentCategory->update($request->validated());
         Alert::toast('Kategori peralatan berhasil diperbarui.', 'success');
-        return redirect()->route('equipment-categories.index');
+        return redirect()
+            ->route('equipment-categories.index');
     }
 
     /**
-     * Hapus data yang ditentukan.
+     * Remove the specified resource from storage.
      *
      * @param  \App\Models\EquipmentCategory  $equipmentCategory
      * @return \Illuminate\Http\Response
@@ -118,10 +120,11 @@ class EquipmentCategoryController extends Controller
             Alert::toast('Kategori peralatan berhasil dihapus.', 'success');
             return redirect()->route('equipment-categories.index');
         } catch (\Throwable $th) {
-            Alert::toast('Kategori peralatan tidak dapat dihapus karena terkait dengan tabel lain.', 'error');
+            Alert::toast('Kategori peralatan tidak bisa dihapus karena terkait dengan tabel lain.', 'error');
             return redirect()->route('equipment-categories.index');
         }
     }
+
 
     public function getEquipmentCategory($hospitalId)
     {
