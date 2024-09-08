@@ -307,8 +307,8 @@
                 name: 'nilai_buku'
             },
             {
-                data: 'is_decommissioning',
-                name: 'is_decommissioning'
+                data: 'is_penonaktifan',
+                name: 'is_penonaktifan'
             },
             {
                 data: 'action',

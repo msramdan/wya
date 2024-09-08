@@ -196,10 +196,16 @@ class WorkOrderProcessController extends Controller
             'end_date' => $request->status != 'Doing' ? date('Y-m-d') : null
         ]);
 
+        if ($request->tool_cannot_be_used) {
+            DB::table('equipment')
+                ->where('id', $workOrder->equipment_id)
+                ->update(['is_penonaktifan' => 'Yes']);
+        }
+
         if ($request->tool_need_bleaching) {
             DB::table('equipment')
                 ->where('id', $workOrder->equipment_id)
-                ->update(['is_decommissioning' => 'Yes']);
+                ->update(['is_penghapusan_alat' => 'Yes']);
         }
 
         WorkOrderProcessHasCalibrationPerformance::where('work_order_process_id', $workOrderProcess->id)->delete();

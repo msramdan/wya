@@ -51,7 +51,7 @@ class EquipmentController extends Controller
             $equipments = $equipments->where('hospital_id', session('sessionHospital'));
 
             if (isset($commisioning) && !empty($commisioning)) {
-                $equipments = $equipments->where('equipment.is_decommissioning', $commisioning);
+                $equipments = $equipments->where('equipment.is_penonaktifan', $commisioning);
             }
 
             if (isset($equipment_id) && !empty($equipment_id)) {
@@ -692,7 +692,7 @@ class EquipmentController extends Controller
                 WHERE equipment.hospital_id='$id' and month='$month'";
 
                 if ($isDecommissioning !== null) {
-                    $query .= " and equipment.is_decommissioning='$isDecommissioning'";
+                    $query .= " and equipment.is_penonaktifan='$isDecommissioning'";
                 }
             } else if ($id != null && $location != null || $id != '' && $location != null) {
                 $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
@@ -700,7 +700,7 @@ class EquipmentController extends Controller
                 WHERE equipment.hospital_id='$id' and month='$month' and equipment.equipment_location_id='$location'";
 
                 if ($isDecommissioning !== null) {
-                    $query .= " and equipment.is_decommissioning='$isDecommissioning'";
+                    $query .= " and equipment.is_penonaktifan='$isDecommissioning'";
                 }
             } else {
                 $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
@@ -708,7 +708,7 @@ class EquipmentController extends Controller
                 WHERE month='$month'";
 
                 if ($isDecommissioning !== null) {
-                    $query .= " and equipment.is_decommissioning='$isDecommissioning'";
+                    $query .= " and equipment.is_penonaktifan='$isDecommissioning'";
                 }
             }
         } else {
@@ -719,7 +719,7 @@ class EquipmentController extends Controller
                 WHERE equipment.hospital_id='$id' and month='$month' and equipment.equipment_location_id='$location'";
 
                 if ($isDecommissioning !== null) {
-                    $query .= " and equipment.is_decommissioning='$isDecommissioning'";
+                    $query .= " and equipment.is_penonaktifan='$isDecommissioning'";
                 }
             } else {
                 $query = "SELECT SUM(nilai_buku) AS total FROM equipment_reduction_price
@@ -727,7 +727,7 @@ class EquipmentController extends Controller
                 WHERE equipment.hospital_id='$id' and month='$month'";
 
                 if ($isDecommissioning !== null) {
-                    $query .= " and equipment.is_decommissioning='$isDecommissioning'";
+                    $query .= " and equipment.is_penonaktifan='$isDecommissioning'";
                 }
             }
         }

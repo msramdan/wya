@@ -12,18 +12,19 @@
                             @if (old('tools_can_be_used_well')) {{ old('tools_can_be_used_well') == 1 ? 'checked' : '' }}
                             @else
                             {{ $workOrderProcesess->tools_can_be_used_well == 1 ? 'checked' : '' }} @endif>
-                        <label class="form-check-label" for="tools_can_be_used_well">Tools Can Be Used Well</label>
+                        <label class="form-check-label" for="tools_can_be_used_well">Alat Berfungsi Baik</label>
                     </div>
                     <div class="form-check">
-                        <input {{ $readonly ? 'disabled' : '' }} name="tool_cannot_be_used" class="form-check-input"
-                            type="checkbox" value="1" id="tool_cannot_be_used"
-                            @if (old('tool_cannot_be_used')) {{ old('tool_cannot_be_used') == 1 ? 'checked' : '' }}
+                        <input {{ $readonly ? 'disabled' : '' }} name="tool_need_calibration" class="form-check-input"
+                            type="checkbox" value="1" id="tool_need_calibration"
+                            @if (old('tool_need_calibration')) {{ old('tool_need_calibration') == 1 ? 'checked' : '' }}
                             @else
-                            {{ $workOrderProcesess->tool_cannot_be_used == 1 ? 'checked' : '' }} @endif>
-                        <label class="form-check-label" for="tool_cannot_be_used" style="color: red">
-                            Tool Cannot Be Used
+                            {{ $workOrderProcesess->tool_need_calibration == 1 ? 'checked' : '' }} @endif>
+                        <label class="form-check-label" for="tool_need_calibration" style="color: red">
+                            Alat Perlu Kalibrasi
                         </label>
                     </div>
+
                     <div class="form-check">
                         <input {{ $readonly ? 'disabled' : '' }} name="tool_need_repair" class="form-check-input"
                             type="checkbox" value="1" id="tool_need_repair"
@@ -31,7 +32,7 @@
                             @else
                             {{ $workOrderProcesess->tool_need_repair == 1 ? 'checked' : '' }} @endif>
                         <label class="form-check-label" for="tool_need_repair" style="color: red">
-                            Tool Needs Repair
+                            Alat Rusak Ringan, Perlu Perbaikan
                         </label>
                     </div>
                 </div>
@@ -45,19 +46,21 @@
                             @else
                             {{ $workOrderProcesess->tool_can_be_used_need_replacement_accessories == 1 ? 'checked' : '' }} @endif>
                         <label class="form-check-label" for="tool_can_be_used_need_replacement_accessories">
-                            Tools Can Be Used Need Replacement Accessories
+                            Alat Berfungsi Baik, Perlu Penggantian Part / Acessoris
                         </label>
                     </div>
+
                     <div class="form-check">
-                        <input {{ $readonly ? 'disabled' : '' }} name="tool_need_calibration" class="form-check-input"
-                            type="checkbox" value="1" id="tool_need_calibration"
-                            @if (old('tool_need_calibration')) {{ old('tool_need_calibration') == 1 ? 'checked' : '' }}
+                        <input {{ $readonly ? 'disabled' : '' }} name="tool_cannot_be_used" class="form-check-input"
+                            type="checkbox" value="1" id="tool_cannot_be_used"
+                            @if (old('tool_cannot_be_used')) {{ old('tool_cannot_be_used') == 1 ? 'checked' : '' }}
                             @else
-                            {{ $workOrderProcesess->tool_need_calibration == 1 ? 'checked' : '' }} @endif>
-                        <label class="form-check-label" for="tool_need_calibration" style="color: red">
-                            Tool Needs Calibration
+                            {{ $workOrderProcesess->tool_cannot_be_used == 1 ? 'checked' : '' }} @endif>
+                        <label class="form-check-label" for="tool_cannot_be_used" style="color: red">
+                            Alat Rusak Berat, Tidak Dapat Digunakan
                         </label>
                     </div>
+
                     <div class="form-check">
                         <input {{ $readonly ? 'disabled' : '' }} name="tool_need_bleaching" class="form-check-input"
                             type="checkbox" value="1" id="tool_need_bleaching"
@@ -65,7 +68,7 @@
                             @else
                             {{ $workOrderProcesess->tool_need_bleaching == 1 ? 'checked' : '' }} @endif>
                         <label class="form-check-label" for="tool_need_bleaching" style="color: red">
-                            Tools Need Bleaching
+                            ⁠Alat Rusak Berat, Rekomendasi Penghapusan Asset
                         </label>
                     </div>
                 </div>
