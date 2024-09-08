@@ -68,7 +68,7 @@
                         <div class="card-header">
                             @can('work order create')
                                 <a href="{{ route('work-orders.create') }}" class="btn btn-md btn-primary"> <i
-                                        class="mdi mdi-plus"></i> {{ trans('work-order/submission/index.create') }}</a>
+                                        class="mdi mdi-plus"></i> Tambah Work Order</a>
                             @endcan
                         </div>
                         <div class="card-body">
