@@ -12,7 +12,7 @@
 
     @can('loan delete')
         <form action="{{ route('loans.destroy', $model->id) }}" method="post" class="d-inline"
-            onsubmit="return confirm('Are you sure to delete this record?')">
+            onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
             @csrf
             @method('delete')
             <button class="btn btn-danger btn-sm">

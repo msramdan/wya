@@ -7,7 +7,7 @@
         @endcan
 
         @can('work order delete')
-            <form action="{{ route('work-orders.destroy', $model->id) }}" method="post" class="d-inline" onsubmit="return confirm('Are you sure to delete this record?')">
+            <form action="{{ route('work-orders.destroy', $model->id) }}" method="post" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
                 @csrf
                 @method('delete')
 

@@ -7,7 +7,7 @@
 
     @can('province delete')
         <form action="{{ route('provinces.destroy', $model->id) }}" method="post" class="d-inline"
-            onsubmit="return confirm('Are you sure to delete this record?')">
+            onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
             @csrf
             @method('delete')
 
