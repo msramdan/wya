@@ -10,6 +10,7 @@ use App\Http\Controllers\{
     TelegramBotController,
     WilayahController,
     BackupController,
+    EquipmentController,
     HospitalController,
     KalenderWoController
 };
@@ -93,6 +94,9 @@ Route::prefix('panel')->group(function () {
         Route::get('download-format-nomenklatur', [App\Http\Controllers\NomenklaturController::class, 'formatImport'])->name('download-format-nomenklatur');
         Route::post('import-nomenklatur', [App\Http\Controllers\NomenklaturController::class, 'import'])->name('action-import-nomenklatur');
         Route::resource('equipment', App\Http\Controllers\EquipmentController::class);
+        Route::controller(EquipmentController::class)->group(function () {
+            Route::get('/arsip-equipment', 'arsip')->name('arsip-equipment.index');
+        });
         Route::get('print_qr_equipment/{id}', [App\Http\Controllers\EquipmentController::class, 'print_qr'])->name('print_qr_equipment');
         Route::get('print_history_equipment/{id}', [App\Http\Controllers\EquipmentController::class, 'print_history'])->name('print_history_equipment');
         Route::get('print_penyusutan/{id}', [App\Http\Controllers\EquipmentController::class, 'print_penyusutan'])->name('print_penyusutan');

@@ -175,6 +175,11 @@ return [
                             'permission' => 'equipment view'
                         ],
                         [
+                            'title' => 'Arsip Peralatan',
+                            'route' => '/arsip-equipment',
+                            'permission' => 'equipment view'
+                        ],
+                        [
                             'title' => 'Sparepart',
                             'route' => '/spareparts',
                             'permission' => 'sparepart view'

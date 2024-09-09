@@ -83,6 +83,54 @@ class EquipmentController extends Controller
         ]);
     }
 
+    public function arsip(Request $request)
+    {
+        if (request()->ajax()) {
+            $equipments = Equipment::with('nomenklatur:id,name_nomenklatur', 'equipment_category:id,category_name', 'vendor:id,name_vendor', 'equipment_location:id,location_name', 'hospital:id,name')->orderBy('equipment.id', 'DESC');
+            $equipment_location_id = intval($request->query('equipment_location_id'));
+            $equipment_id = intval($request->query('equipment_id'));
+            $commisioning = $request->query('commisioning');
+            if (isset($equipment_location_id) && !empty($equipment_location_id)) {
+                $equipments = $equipments->where('equipment_location_id', $equipment_location_id);
+            }
+            $equipments = $equipments->where('hospital_id', session('sessionHospital'));
+            $equipments = $equipments->where('is_penghapusan_alat', 'Yes');
+
+            if (isset($commisioning) && !empty($commisioning)) {
+                $equipments = $equipments->where('equipment.is_penonaktifan', $commisioning);
+            }
+
+            if (isset($equipment_id) && !empty($equipment_id)) {
+                $equipments = $equipments->where('equipment.id', $equipment_id);
+            }
+
+            return DataTables::of($equipments)
+                ->addIndexColumn()
+                ->addColumn('created_at', function ($row) {
+                    return $row->created_at->format('d M Y H:i:s');
+                })->addColumn('updated_at', function ($row) {
+                    return $row->updated_at->format('d M Y H:i:s');
+                })
+                ->addColumn('nilai_buku', function ($row) {
+                    return rupiah(getNilaiBuku($row->id, $row->nilai_perolehan));
+                })
+                ->addColumn('nomenklatur', function ($row) {
+                    return $row->nomenklatur ? $row->nomenklatur->name_nomenklatur : '';
+                })->addColumn('equipment_category', function ($row) {
+                    return $row->equipment_category ? $row->equipment_category->category_name : '';
+                })->addColumn('vendor', function ($row) {
+                    return $row->vendor ? $row->vendor->name_vendor : '';
+                })->addColumn('equipment_location', function ($row) {
+                    return $row->equipment_location ? $row->equipment_location->location_name : '';
+                })->addColumn('action', 'equipments.include.action-arsip')
+                ->toJson();
+        }
+        $equipment_id = $request->id;
+        return view('equipments.arsip', [
+            'equipment_id' => $equipment_id
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
