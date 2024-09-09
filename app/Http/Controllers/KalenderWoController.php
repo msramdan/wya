@@ -11,7 +11,7 @@ class KalenderWoController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:kalender wo view')->only('index', 'show');
+        // $this->middleware('permission:kalender wo view')->only('index', 'show');
     }
 
     public function index($tahun, $jenis)

@@ -114,22 +114,24 @@
                                 $currentUrl = url()->full();
                             @endphp
                             <form action="{{ route('work-order-approvals.update', $model->id) }}" method="post"
-                                class="d-inline" onsubmit="return confirm('Are you sure to reject this record?')">
+                                class="d-inline"
+                                onsubmit="return confirm('Apakah Anda yakin untuk menolak Pengajuan Wo ini?')">
                                 @csrf
                                 @method('put')
                                 <input type="hidden" name="status" value="rejected">
-                                <input type="hidden" name="currentUrl" value="{{$currentUrl }}">
+                                <input type="hidden" name="currentUrl" value="{{ $currentUrl }}">
 
                                 <button class="btn btn-danger btn-sm">
                                     <i class="mdi mdi-close"></i> Reject
                                 </button>
                             </form>
                             <form action="{{ route('work-order-approvals.update', $model->id) }}" method="post"
-                                class="d-inline" onsubmit="return confirm('Are you sure to accept this record?')">
+                                class="d-inline"
+                                onsubmit="return confirm('Apakah Anda yakin untuk menyetujui Pengajuan Wo ini?')">
                                 @csrf
                                 @method('put')
                                 <input type="hidden" name="status" value="accepted">
-                                <input type="hidden" name="currentUrl" value="{{$currentUrl }}">
+                                <input type="hidden" name="currentUrl" value="{{ $currentUrl }}">
                                 <button class="btn btn-success btn-sm">
                                     <i class="mdi mdi-check"></i> Accept
                                 </button>

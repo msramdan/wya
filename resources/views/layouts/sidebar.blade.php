@@ -25,7 +25,7 @@
                     <i class="mdi mdi-speedometer"></i> <span data-key="t-widgets">Dashboard</span>
                 </a>
             </li>
-            @can('kalender wo view')
+            {{-- @can('kalender wo view') --}}
                 @php
                     $currentYear = date('Y');
                     $defaultJenis = 'All';
@@ -36,7 +36,7 @@
                         <i class="fa fa-calendar"></i> <span data-key="t-widgets">Kalender Work Order</span>
                     </a>
                 </li>
-            @endcan
+            {{-- @endcan --}}
             <?php $i = 0; ?>
             @foreach (config('generator.sidebars') as $sidebar)
                 @if (isset($sidebar['permissions']))
