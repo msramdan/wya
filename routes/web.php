@@ -96,6 +96,7 @@ Route::prefix('panel')->group(function () {
         Route::resource('equipment', App\Http\Controllers\EquipmentController::class);
         Route::controller(EquipmentController::class)->group(function () {
             Route::get('/arsip-equipment', 'arsip')->name('arsip-equipment.index');
+            Route::get('/undo-arsip-equipment/{id}', 'undoArsip')->name('undo-arsip-equipment');
         });
         Route::get('print_qr_equipment/{id}', [App\Http\Controllers\EquipmentController::class, 'print_qr'])->name('print_qr_equipment');
         Route::get('print_history_equipment/{id}', [App\Http\Controllers\EquipmentController::class, 'print_history'])->name('print_history_equipment');

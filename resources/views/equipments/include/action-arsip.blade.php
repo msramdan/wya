@@ -268,6 +268,12 @@
 
 
 <td>
+    <a href="{{ route('undo-arsip-equipment', $model->id) }}" class="btn btn-danger btn-sm"
+        title="Batalkan Penghapusan Peralatan"
+        onclick="return confirm('Apakah Anda yakin ingin membatalkan penghapusan peralatan ini?');">
+        <i class="fa fa-undo"></i>
+    </a>
+
     {{-- @canany(['download qr', 'sparepart stock in', 'sparepart stock out', 'sparepart history']) --}}
     <div class="btn-group">
         <button class="btn btn-md btn-warning btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1"

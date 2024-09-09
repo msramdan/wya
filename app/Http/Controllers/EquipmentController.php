@@ -131,11 +131,6 @@ class EquipmentController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('equipments.create');
@@ -773,6 +768,24 @@ class EquipmentController extends Controller
             ]);
         } else {
             return response()->json(['message' => 'Equipment not found'], 404);
+        }
+    }
+
+    function undoArsip($id)
+    {
+        try {
+            $updated = DB::table('equipment')
+                ->where('id', $id)
+                ->update(['is_penghapusan_alat' => 'No']);
+            if ($updated) {
+                Alert::toast('Pembatalan penghapusan peralatan berhasil.', 'success');
+            } else {
+                Alert::toast('Tidak ada perubahan yang dilakukan. Data mungkin sudah diperbarui sebelumnya.', 'info');
+            }
+            return redirect()->route('arsip-equipment.index');
+        } catch (\Exception $e) {
+            Alert::toast('Terjadi kesalahan saat mencoba membatalkan penghapusan peralatan.', 'error');
+            return redirect()->route('arsip-equipment.index');
         }
     }
 }
