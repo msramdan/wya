@@ -40,7 +40,7 @@
                                 @include('work-orders.include.form')
 
                                 <a href="{{ url()->previous() }}" class="btn btn-secondary"><i
-                                        class="mdi mdi-arrow-left-thin"></i> {{ __('Back') }}</a>
+                                        class="mdi mdi-arrow-left-thin"></i> {{ __('Kembali') }}</a>
                                 @can('work order edit')
                                     @if ($workOrder->status_wo == 'pending')
                                         <button type="submit" class="btn btn-primary"><i class="mdi mdi-content-save"></i>
