@@ -206,7 +206,7 @@
                                 $hospitalId = session('sessionHospital');
                                 $hospital = DB::table('hospitals')->where('id', $hospitalId)->first();
                                 if ($hospital->logo != null) {
-                                    echo '<img  style="width:200px; padding:5px" src="' .
+                                    echo '<img  style="width:120px; padding:2px" src="' .
                                         Storage::url('uploads/logos/') .
                                         $hospital->logo .
                                         '" alt="">';
@@ -234,7 +234,7 @@
                                 $hospitalId = session('sessionHospital');
                                 $hospital = DB::table('hospitals')->where('id', $hospitalId)->first();
                                 if ($hospital->logo != null) {
-                                    echo '<img  style="width:200px; padding:5px" src="' .
+                                    echo '<img  style="width:120px; padding:2px" src="' .
                                         Storage::url('uploads/logos/') .
                                         $hospital->logo .
                                         '" alt="">';
