@@ -160,6 +160,7 @@ return [
                         'equipment.index',
                         'equipment.create',
                         'equipment.edit',
+                        'arsip-equipment*',
                         'spareparts*',
                         'nomenklaturs*'
                     ],
