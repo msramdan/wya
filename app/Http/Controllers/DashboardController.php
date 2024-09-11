@@ -607,6 +607,57 @@ class DashboardController extends Controller
         $section->addText("2.1      MANAJEMEN INSPECTION PREVENTIVE MAINTENANCE (IPM)", $styleFont2, $paragraphStyleName);
         $section->addText('             Secara umum, Manajemen Inspection Preventive Maintenance (IPM) meliputi 4 (empat) jenis kegiatan yaitu: Preventive Maintenace, Service, Kalibrasi dan Training Berdasarkan hasil pengamatan berkala dalam periode ' . $dateFromIndonesia . ' - ' . $dateToIndonesia . ' dilaporkan statistik sebagai berikut:', $fontStyleName, $paragraphStyleName);
 
+        $boldFontStyleName = array('bold' => true); // Tambahkan gaya bold
+        $cellParagraphStyle = array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER); // Gaya perataan horizontal center
+
+        // Gaya sel untuk perataan vertikal tengah (center)
+        $cellVCenteredStyle = array('valign' => 'center');
+
+        // Membuat tabel baru
+        $tableStyle = array('borderSize' => 6, 'borderColor' => '006699', 'cellMargin' => 80);
+        $firstRowStyle = array('bgColor' => '66BBFF');
+        $phpWord->addTableStyle('IPM Table', $tableStyle, $firstRowStyle);
+
+        $table = $section->addTable('IPM Table');
+
+        // Menambahkan baris header
+        $table->addRow();
+        $table->addCell(2000, $cellVCenteredStyle)->addText('Jenis Kegiatan', $boldFontStyleName, $cellParagraphStyle);
+        $table->addCell(2000, $cellVCenteredStyle)->addText('Jumlah Terlaksana', $boldFontStyleName, $cellParagraphStyle);
+        $table->addCell(2000, $cellVCenteredStyle)->addText('Jumlah Direncanakan', $boldFontStyleName, $cellParagraphStyle);
+        $table->addCell(2000, $cellVCenteredStyle)->addText('Persentase', $boldFontStyleName, $cellParagraphStyle);
+
+        // Menambahkan baris data untuk Preventive Maintenance
+        $table->addRow();
+        $table->addCell(2000, $cellVCenteredStyle)->addText('Preventive Maintenance', $fontStyleName, $cellParagraphStyle);
+        $table->addCell(2000, $cellVCenteredStyle)->addText($countIpmFinished, $fontStyleName, $cellParagraphStyle);
+        $table->addCell(2000, $cellVCenteredStyle)->addText($countIpm, $fontStyleName, $cellParagraphStyle);
+        $table->addCell(2000, $cellVCenteredStyle)->addText($persentaseIpm . '%', $fontStyleName, $cellParagraphStyle);
+
+        // Menambahkan baris data untuk Service
+        $table->addRow();
+        $table->addCell(2000, $cellVCenteredStyle)->addText('Service', $fontStyleName, $cellParagraphStyle);
+        $table->addCell(2000, $cellVCenteredStyle)->addText($countServiceFinished, $fontStyleName, $cellParagraphStyle);
+        $table->addCell(2000, $cellVCenteredStyle)->addText($countService, $fontStyleName, $cellParagraphStyle);
+        $table->addCell(2000, $cellVCenteredStyle)->addText($persentaseService . '%', $fontStyleName, $cellParagraphStyle);
+
+        // Menambahkan baris data untuk Kalibrasi
+        $table->addRow();
+        $table->addCell(2000, $cellVCenteredStyle)->addText('Kalibrasi', $fontStyleName, $cellParagraphStyle);
+        $table->addCell(2000, $cellVCenteredStyle)->addText($countCalibrationFinished, $fontStyleName, $cellParagraphStyle);
+        $table->addCell(2000, $cellVCenteredStyle)->addText($countCalibration, $fontStyleName, $cellParagraphStyle);
+        $table->addCell(2000, $cellVCenteredStyle)->addText($persentaseCalibration . '%', $fontStyleName, $cellParagraphStyle);
+
+        // Menambahkan baris data untuk Training
+        $table->addRow();
+        $table->addCell(2000, $cellVCenteredStyle)->addText('Training', $fontStyleName, $cellParagraphStyle);
+        $table->addCell(2000, $cellVCenteredStyle)->addText($countTrainingFinished, $fontStyleName, $cellParagraphStyle);
+        $table->addCell(2000, $cellVCenteredStyle)->addText($countTraining, $fontStyleName, $cellParagraphStyle);
+        $table->addCell(2000, $cellVCenteredStyle)->addText($persentaseTraining . '%', $fontStyleName, $cellParagraphStyle);
+
+        // Menambahkan paragraf kosong sebagai spasi (enter) setelah tabel
+        $section->addTextBreak(1);
+
         $section->addListItem('Preventive Maintenance', 2, null, $multilevelNumberingStyleName);
         $section->addText("Pada periode tersebut tercatat " . $countIpmFinished . " kegiatan Preventive Maintenance Peralatan Medik yang telah terlaksana dari " . $countIpm . " jadwal kegiatan Preventive Maintenance yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
         $section->addText("Pencapaian pelaksanaan kegiatan Preventive Maintenance adalah sebesar " . $persentaseIpm . "% dari Jadwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
@@ -624,23 +675,82 @@ class DashboardController extends Controller
         $section->addText("Pencapaian pelaksanaan kegiatan Training adalah sebesar " . $persentaseTraining . "% dari Jadwal yang telah di rencanakan.", $fontStyleName, $paragraphStyleName);
 
         // Create a five page
-        $section->addPageBreak();
+        $section->addTextBreak(1);
+        // Menambahkan judul bagian
         $section->addText("2.2      MANAJEMEN INVENTORY", $styleFont2, $paragraphStyleName);
         $section->addText("             Inventarisasi peralatan kesehatan telah dilaksanan dan mencatat total asset sebanyak " . $totalAsset . " units telah di lakukan pendataan dan penempelan label QR-Code, Label QR-Code ini bermanfaat dalam pencarian data peralatan dengan cepat, dengan memanfaatkan teknologi camera pada smartphone ataupun menggunakan barcode scanner.", $fontStyleName, $paragraphStyleName);
         $section->addText('             Inventory Peralatan terbagi menjadi beberapa kategori Peralatan, dengan rincian sebagai berikut :', $fontStyleName, $paragraphStyleName);
-        foreach ($countByCategory as $categoryName => $count) {
-            $section->addText("• " . ucfirst(strtolower($categoryName)) . " terdapat " . $count . " unit Peralatan", $fontStyleName, $paragraphStyleName);
-        }
-        $section->addText("• Dengan Akumulasi Total Aset yang di miliki Rumah Sakit sebanyak " . $totalAsset . " units Peralatan", $fontStyleName, $paragraphStyleName);
 
+        // Gaya teks untuk header tabel center dan bold
+        $boldFontStyleName = array('bold' => true);
+        $cellParagraphStyle = array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER);
+        $cellVCenteredStyle = array('valign' => 'center');
+
+        // Membuat tabel baru dengan gaya
+        $tableStyle = array('borderSize' => 6, 'borderColor' => '006699', 'cellMargin' => 80);
+        $firstRowStyle = array('bgColor' => '66BBFF');
+        $phpWord->addTableStyle('Inventory Table', $tableStyle, $firstRowStyle);
+
+        $table = $section->addTable('Inventory Table');
+
+        // Menambahkan baris header
+        $table->addRow();
+        $table->addCell(4000, $cellVCenteredStyle)->addText('Deskripsi', $boldFontStyleName, $cellParagraphStyle);
+        $table->addCell(2000, $cellVCenteredStyle)->addText('Jumlah', $boldFontStyleName, $cellParagraphStyle);
+
+        // Menambahkan baris data berdasarkan kategori peralatan
+        foreach ($countByCategory as $categoryName => $count) {
+            $table->addRow();
+            $table->addCell(4000, $cellVCenteredStyle)->addText(ucfirst(strtolower($categoryName)), $fontStyleName, $cellParagraphStyle);
+            $table->addCell(2000, $cellVCenteredStyle)->addText($count . " unit", $fontStyleName, $cellParagraphStyle);
+        }
+
+        // Menambahkan baris total jumlah
+        $table->addRow();
+        $table->addCell(4000, $cellVCenteredStyle)->addText('Total', $boldFontStyleName, $cellParagraphStyle);
+        $table->addCell(2000, $cellVCenteredStyle)->addText($totalAsset . " unit", $boldFontStyleName, $cellParagraphStyle);
+
+        $section->addTextBreak(1);
+        // Menambahkan paragraf kosong sebagai spasi (enter) setelah tabel
         $section->addText("2.3      MANAJEMEN PERALATAN DAN SPAREPART", $styleFont2, $paragraphStyleName);
         $section->addText("1.       Asset Peralatan", $fontStyleName, $paragraphStyleName);
         $section->addText("Sampai dengan periode dibuat nya laporan ini, dapat kami sajikan data Inventory beserta Total Asset yang dimiliki :", $fontStyleName, $paragraphStyleName);
-        foreach ($totalNilaiBukuByCategory as $row) {
-            $section->addText("• " . ucfirst(strtolower($row->category_name)) . " dengan Total Asset " . rupiah($row->total_nilai_buku), $fontStyleName, $paragraphStyleName);
-        }
-        $section->addText("• Dengan Akumulasi Total Aset yang di miliki Rumah Sakit sebanyak " . $totalAsset . " units Peralatan dengan nilai asset Peralatan sejumlah " . rupiah($totalNilaiBuku), $fontStyleName, $paragraphStyleName);
 
+        // Gaya teks untuk header tabel center dan bold
+        $boldFontStyleName = array('bold' => true);
+        $cellParagraphStyle = array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER);
+        $cellVCenteredStyle = array('valign' => 'center');
+
+        // Membuat tabel baru dengan gaya
+        $tableStyle = array('borderSize' => 6, 'borderColor' => '006699', 'cellMargin' => 80);
+        $firstRowStyle = array('bgColor' => '66BBFF');
+        $phpWord->addTableStyle('Asset Table', $tableStyle, $firstRowStyle);
+
+        $table = $section->addTable('Asset Table');
+
+        // Menambahkan baris header
+        $table->addRow();
+        $table->addCell(4000, $cellVCenteredStyle)->addText('Deskripsi', $boldFontStyleName, $cellParagraphStyle);
+        $table->addCell(3000, $cellVCenteredStyle)->addText('Nilai Asset', $boldFontStyleName, $cellParagraphStyle);
+
+        // Menambahkan baris data berdasarkan kategori peralatan dan nilai asset
+        foreach ($totalNilaiBukuByCategory as $row) {
+            $table->addRow();
+            $table->addCell(4000, $cellVCenteredStyle)->addText(ucfirst(strtolower($row->category_name)), $fontStyleName, $cellParagraphStyle);
+            $table->addCell(3000, $cellVCenteredStyle)->addText(rupiah($row->total_nilai_buku), $fontStyleName, $cellParagraphStyle);
+        }
+
+        // Menambahkan baris total jumlah aset dan nilai asset
+        $table->addRow();
+        $table->addCell(4000, $cellVCenteredStyle)->addText('Total Aset', $boldFontStyleName, $cellParagraphStyle);
+        $table->addCell(3000, $cellVCenteredStyle)->addText($totalAsset . " units", $boldFontStyleName, $cellParagraphStyle);
+
+        $table->addRow();
+        $table->addCell(4000, $cellVCenteredStyle)->addText('Total Nilai Asset', $boldFontStyleName, $cellParagraphStyle);
+        $table->addCell(3000, $cellVCenteredStyle)->addText(rupiah($totalNilaiBuku), $boldFontStyleName, $cellParagraphStyle);
+
+        // Menambahkan paragraf kosong sebagai spasi (enter) setelah tabel
+        $section->addTextBreak(1);
         $section->addText("2.       Riwayat Peralatan", $fontStyleName, $paragraphStyleName);
         $section->addText("Selain menyajikan jumlah peralatan yang dimiliki, marsweb juga menyajikan riwayat peralatan masing-masing peralatannya, riwayat yang disajikan merupakan riwayat service, riwayat kalibrasi, riwayat maintenance, riwayat training, riwayat penggantian sparepart hingga riwayat pengeluaran biaya-biaya selama peralatan tersebut beroperasi. Riwayat Peralatan dapat dicetak secara terpisah sebagai lampiran.", $fontStyleName, $paragraphStyleName);
         $section->addText("3.       Asset Sparepart", $fontStyleName, $paragraphStyleName);
@@ -649,17 +759,68 @@ class DashboardController extends Controller
         $section->addText("4.       Riwayat Sparepart", $fontStyleName, $paragraphStyleName);
         $section->addText("Selain riwayat peralatan kesehatan, marsweb juga menyajikan data riwayat  keluar masuk nya sparepart dan asesoris yang kami sajikan terpisah sebagai lampiran. Keluar dan masuk nya sparepart dapat dilakukan secara manual, stock sparepart akan terupdate secara otomatis apabila di dalam kegiatan work order menggunakan stock sparepart dari gudang.", $fontStyleName, $paragraphStyleName);
 
-
+        $section->addTextBreak(1);
+        // Menambahkan judul bagian
         $section->addText("2.4      MANAJEMEN EXPENSES", $styleFont2, $paragraphStyleName);
         $section->addText("             Di dalam pelaksanaan kegiatan Work Order, marsweb juga akan mencatat biaya biaya yang muncul selama pelaksanaan diantaranya adalah biaya kalibrasi, biaya service dan biaya penggantian sparepart.", $fontStyleName, $paragraphStyleName);
-        $section->addText("• Pada periode ini tercatat biaya pengeluaran untuk kegiatan Service sebesar " . rupiah(Expense('Service', $start_date, $end_date, $hospital_id)), $fontStyleName, $paragraphStyleName);
-        $section->addText("• Pada periode ini tercatat biaya pengeluaran untuk kegiatan Kalibrasi sebesar " . rupiah(Expense('Calibration', $start_date, $end_date, $hospital_id)), $fontStyleName, $paragraphStyleName);
-        $section->addText("• Pada periode ini tercatat biaya pengeluaran untuk kegiatan Penggantian Sparepart dan Asesoris sebesar " . rupiah(Expense('Replacement', $start_date, $end_date, $hospital_id)), $fontStyleName, $paragraphStyleName);
 
+        // Gaya teks untuk header tabel center dan bold
+        $boldFontStyleName = array('bold' => true);
+        $cellParagraphStyle = array('alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER);
+        $cellVCenteredStyle = array('valign' => 'center');
 
+        // Membuat tabel baru dengan gaya
+        $tableStyle = array('borderSize' => 6, 'borderColor' => '006699', 'cellMargin' => 80);
+        $firstRowStyle = array('bgColor' => '66BBFF');
+        $phpWord->addTableStyle('Expenses Table', $tableStyle, $firstRowStyle);
+
+        $table = $section->addTable('Expenses Table');
+
+        // Menambahkan baris header
+        $table->addRow();
+        $table->addCell(3000, $cellVCenteredStyle)->addText('Deskripsi', $boldFontStyleName, $cellParagraphStyle);
+        // $table->addCell(2000, $cellVCenteredStyle)->addText('Jumlah Kegiatan', $boldFontStyleName, $cellParagraphStyle);
+        $table->addCell(3000, $cellVCenteredStyle)->addText('Jumlah Biaya', $boldFontStyleName, $cellParagraphStyle);
+
+        // Menghitung jumlah biaya dan kegiatan
+        $biayaService = Expense('Service', $start_date, $end_date, $hospital_id);
+        $biayaCalibration = Expense('Calibration', $start_date, $end_date, $hospital_id);
+        $biayaReplacement = Expense('Replacement', $start_date, $end_date, $hospital_id);
+
+        $jumlahKegiatanService = 10;  // Contoh jumlah kegiatan service, ganti dengan variabel yang sesuai
+        $jumlahKegiatanCalibration = 5;  // Contoh jumlah kegiatan kalibrasi, ganti dengan variabel yang sesuai
+        $jumlahKegiatanReplacement = 7;  // Contoh jumlah kegiatan penggantian, ganti dengan variabel yang sesuai
+
+        $totalBiaya = $biayaService + $biayaCalibration + $biayaReplacement;
+        $totalKegiatan = $jumlahKegiatanService + $jumlahKegiatanCalibration + $jumlahKegiatanReplacement;
+
+        // Menambahkan baris data untuk masing-masing kategori biaya
+        $table->addRow();
+        $table->addCell(3000, $cellVCenteredStyle)->addText('Biaya Service', $fontStyleName, $cellParagraphStyle);
+        // $table->addCell(2000, $cellVCenteredStyle)->addText($jumlahKegiatanService, $fontStyleName, $cellParagraphStyle);
+        $table->addCell(3000, $cellVCenteredStyle)->addText(rupiah($biayaService), $fontStyleName, $cellParagraphStyle);
+
+        $table->addRow();
+        $table->addCell(3000, $cellVCenteredStyle)->addText('Biaya Kalibrasi', $fontStyleName, $cellParagraphStyle);
+        // $table->addCell(2000, $cellVCenteredStyle)->addText($jumlahKegiatanCalibration, $fontStyleName, $cellParagraphStyle);
+        $table->addCell(3000, $cellVCenteredStyle)->addText(rupiah($biayaCalibration), $fontStyleName, $cellParagraphStyle);
+
+        $table->addRow();
+        $table->addCell(3000, $cellVCenteredStyle)->addText('Biaya Penggantian Sparepart dan Aksesoris', $fontStyleName, $cellParagraphStyle);
+        // $table->addCell(2000, $cellVCenteredStyle)->addText($jumlahKegiatanReplacement, $fontStyleName, $cellParagraphStyle);
+        $table->addCell(3000, $cellVCenteredStyle)->addText(rupiah($biayaReplacement), $fontStyleName, $cellParagraphStyle);
+
+        // Menambahkan baris total
+        $table->addRow();
+        $table->addCell(3000, $cellVCenteredStyle)->addText('Total', $boldFontStyleName, $cellParagraphStyle);
+        // $table->addCell(2000, $cellVCenteredStyle)->addText($totalKegiatan, $boldFontStyleName, $cellParagraphStyle);
+        $table->addCell(3000, $cellVCenteredStyle)->addText(rupiah($totalBiaya), $boldFontStyleName, $cellParagraphStyle);
+
+        // Menambahkan paragraf kosong sebagai spasi (enter) setelah tabel
+        $section->addTextBreak(1);
         $section->addText("2.5      MANAJEMEN DOKUMEN", $styleFont2, $paragraphStyleName);
         $section->addText("            Marsweb juga memberikan fasilitas kepada pengguna untuk dapat menyimpan dokumen penting peralatan, seperti user manual, service manual, sop, service report, tanda terima dan lain lain ataupun menyimpan foto-foto peralatan. Untuk menyimpan dan mengunduh dokumen dapat di lakukan pada menu peralatan.", $fontStyleName, $paragraphStyleName);
-
+        $section->addTextBreak(1);
         $section->addText("2.6      GENERAL REPORT", $styleFont2, $paragraphStyleName);
         $section->addText("            Marsweb menyajikan General Report dengan template sederhana dalam bentuk file microsoft word sehingga template yang di sajikan dapat dengan mudah di lakukan penambahan data-data yang belum tercatat di dalam aplikasi.", $fontStyleName, $paragraphStyleName);
         $section->addText("            Format general report yang di sajikan merupakan ringkasan dari semua kegiatan yang tercatat di dalam aplikasi marsweb.", $fontStyleName, $paragraphStyleName);

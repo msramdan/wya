@@ -41,7 +41,7 @@
                                     <a href="{{ url()->previous() }}" class="btn btn-secondary me-2"><i
                                             class="mdi mdi-arrow-left-thin"></i> {{ __('Kembali') }}</a>
                                     <button type="submit" class="btn btn-primary"><i class="mdi mdi-content-save"></i>
-                                        {{ __('Save') }}</button>
+                                        {{ __('Simpan') }}</button>
                                 </div>
                             </form>
                         </div>
