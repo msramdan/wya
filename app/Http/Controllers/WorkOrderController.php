@@ -37,14 +37,29 @@ class WorkOrderController extends Controller
     public function index(Request $request)
     {
         if (request()->ajax()) {
-            $workOrders = WorkOrder::with('equipment:id,barcode', 'user:id,name', 'hospital:id,name')->orderBy('work_orders.id', 'DESC');
+            $workOrders = DB::table('work_orders')
+                ->join('equipment', 'work_orders.equipment_id', '=', 'equipment.id')
+                ->join('users', 'work_orders.created_by', '=', 'users.id')
+                ->join('nomenklaturs', 'equipment.nomenklatur_id', '=', 'nomenklaturs.id')
+                ->join('equipment_locations', 'equipment.equipment_location_id', '=', 'equipment_locations.id') // Added join for equipment_locations
+                ->select(
+                    'work_orders.*',
+                    'users.name as user_name',
+                    'nomenklaturs.name_nomenklatur',
+                    'equipment_locations.location_name',
+                    'equipment.barcode'
+                )
+                ->where('work_orders.hospital_id', session('sessionHospital'))
+                ->orderBy('work_orders.id', 'DESC');
+
             $start_date = intval($request->query('start_date'));
             $end_date = intval($request->query('end_date'));
             $equipment_id = intval($request->query('equipment_id'));
             $type_wo = $request->query('type_wo');
             $category_wo = $request->query('category_wo');
             $created_by = intval($request->query('created_by'));
-            $workOrders = $workOrders->where('hospital_id', session('sessionHospital'));
+
+            // Start Date Filtering
             if (isset($start_date) && !empty($start_date)) {
                 $from = date("Y-m-d H:i:s", substr($request->query('start_date'), 0, 10));
                 $workOrders = $workOrders->where('filed_date', '>=', $from);
@@ -52,6 +67,8 @@ class WorkOrderController extends Controller
                 $from = date('Y-m-d') . " 00:00:00";
                 $workOrders = $workOrders->where('filed_date', '>=', $from);
             }
+
+            // End Date Filtering
             if (isset($end_date) && !empty($end_date)) {
                 $to = date("Y-m-d H:i:s", substr($request->query('end_date'), 0, 10));
                 $workOrders = $workOrders->where('filed_date', '<=', $to);
@@ -60,30 +77,29 @@ class WorkOrderController extends Controller
                 $workOrders = $workOrders->where('filed_date', '<=', $to);
             }
 
-            if (isset($equipment_id) && !empty($equipment_id)) {
-                if ($equipment_id != 'All') {
-                    $workOrders = $workOrders->where('equipment_id', $equipment_id);
-                }
+            // Equipment ID Filtering
+            if (isset($equipment_id) && !empty($equipment_id) && $equipment_id != 'All') {
+                $workOrders = $workOrders->where('work_orders.equipment_id', $equipment_id);
             }
 
-            if (isset($type_wo) && !empty($type_wo)) {
-                if ($type_wo != 'All') {
-                    $workOrders = $workOrders->where('type_wo', $type_wo);
-                }
+            // Type WO Filtering
+            if (isset($type_wo) && !empty($type_wo) && $type_wo != 'All') {
+                $workOrders = $workOrders->where('work_orders.type_wo', $type_wo);
             }
 
-            if (isset($category_wo) && !empty($category_wo)) {
-                if ($category_wo != 'All') {
-                    $workOrders = $workOrders->where('category_wo', $category_wo);
-                }
+            // Category WO Filtering
+            if (isset($category_wo) && !empty($category_wo) && $category_wo != 'All') {
+                $workOrders = $workOrders->where('work_orders.category_wo', $category_wo);
             }
 
-            if (isset($created_by) && !empty($created_by)) {
-                if ($created_by != 'All') {
-                    $workOrders = $workOrders->where('created_by', $created_by);
-                }
+            // Created By Filtering
+            if (isset($created_by) && !empty($created_by) && $created_by != 'All') {
+                $workOrders = $workOrders->where('work_orders.created_by', $created_by);
             }
-            $workOrders = $workOrders->orderBy('wo_number', 'DESC');
+
+            $workOrders = $workOrders->orderBy('work_orders.wo_number', 'DESC');
+
+
             return DataTables::of($workOrders)
                 ->addIndexColumn()
                 ->addColumn('wo_number', function ($row) {
@@ -100,13 +116,13 @@ class WorkOrderController extends Controller
                 ->addColumn('note', function ($row) {
                     return str($row->note)->limit(100);
                 })
-                ->addColumn('equipment', function ($row) {
-                    return $row->equipment ? $row->equipment->barcode : '';
-                })->addColumn('type_wo', function ($row) {
+                ->addColumn('type_wo', function ($row) {
                     return $row->type_wo == 'Training' ? 'Training/Uji fungsi' : $row->type_wo;
-                })->addColumn('user', function ($row) {
-                    return $row->user ? $row->user->name : '';
-                })->addColumn('action', function ($row) {
+                })
+                ->addColumn('user', function ($row) {
+                    return $row->user_name;
+                })
+                ->addColumn('action', function ($row) {
                     $displayAction = true;
                     if ($row->status_wo == 'accepted' || $row->status_wo == 'rejected' || $row->status_wo == 'on-going' || $row->status_wo == 'finished') {
                         $displayAction = false;
@@ -120,7 +136,6 @@ class WorkOrderController extends Controller
 
                     $arrApprovalUsers = collect(json_decode($row->approval_users_id))->map(function ($row) {
                         $row->user_name = User::find($row->user_id)->name;
-
                         return $row;
                     });
 
@@ -128,6 +143,7 @@ class WorkOrderController extends Controller
                 })
                 ->toJson();
         }
+
 
         $from = date('Y-m-d') . " 00:00:00";
         $to = date('Y-m-d') . " 23:59:59";

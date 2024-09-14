@@ -36,8 +36,8 @@
                             <td>{{ date('Y-m-d', strtotime($model->filed_date)) }}</td>
                         </tr>
                         <tr>
-                            <th>{{ trans('work-order/submission/index.equipment') }}</th>
-                            <td>{{ $model->equipment->barcode }}</td>
+                            <th>Peralatan</th>
+                            <td>{{ $model->barcode }}</td>
                         </tr>
                         <tr>
                             <th>{{ trans('work-order/submission/index.type') }}</th>
@@ -45,11 +45,11 @@
                         </tr>
                         <tr>
                             <th>{{ trans('work-order/submission/index.category') }}</th>
-                            <td>{{ $model->category_wo }}</td>
+                            <td>{{ $model->name_nomenklatur }}</td>
                         </tr>
                         <tr>
                             <th>{{ trans('work-order/submission/index.created_by') }}</th>
-                            <td>{{ $model->createdBy->name }}</td>
+                            <td>{{ $model->user_name}}</td>
                         </tr>
                         <tr>
                             <th>{{ trans('work-order/submission/index.approval_user') }}</th>
