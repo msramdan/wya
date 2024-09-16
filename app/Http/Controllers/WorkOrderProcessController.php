@@ -426,6 +426,12 @@ class WorkOrderProcessController extends Controller
         } else {
             $data_user = '';
         }
+        $equipmentId = $workOrder->equipment_id;
+        $equipment = DB::table('equipment')
+            ->join('nomenklaturs', 'equipment.nomenklatur_id', '=', 'nomenklaturs.id')
+            ->select('nomenklaturs.name_nomenklatur','equipment.financing_code')
+            ->where('equipment.id', $equipmentId)
+            ->first();
         $pdf = Pdf::loadView('work-order-process.wo-process-wo-print', [
             'workOrder' => $workOrder,
             'workOrderProcesess' => $workOrderProcesess,
@@ -433,8 +439,10 @@ class WorkOrderProcessController extends Controller
             'spareparts' => $spareparts,
             'employees' => Employee::get(),
             'logo' => $hospital->logo,
+            'hospital' => $hospital->name,
             'user_approved' => $data_user,
-            'readonly' => true
+            'readonly' => true,
+            'equipment' => $equipment
         ]);
 
         return $pdf->stream();

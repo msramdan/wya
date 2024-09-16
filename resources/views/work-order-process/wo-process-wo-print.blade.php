@@ -61,7 +61,7 @@
                 <span class="check">&#10004;</span>
             @endif
         </td>
-        <td style="max-width: 25%" colspan="3" rowspan="4">{{ $workOrder->equipment->serial_number }} |
+        <td style="max-width: 25%" colspan="3" rowspan="4">{{ $equipment->name_nomenklatur }} |
             {{ $workOrder->equipment->manufacturer }} | {{ $workOrder->equipment->type }}</td>
         <td style="max-width: 25%" colspan="3">Tanggal: {{ $workOrderProcesess->work_date }}</td>
     </tr>
@@ -102,13 +102,15 @@
         </td>
     </tr>
     <tr>
-        <td colspan="6">Nama Institusi :
-
+        {{-- <td colspan="6">Nama Institusi :
             @if ($workOrderProcesess->executor == 'technician')
                 {{ $workOrderProcesess->workExecutorTechnician->name }}
             @else
                 {{ $workOrderProcesess->workExecutorVendor->name_vendor }}
             @endif
+        </td> --}}
+        <td colspan="6">Nama Institusi :
+            {{$hospital}}
         </td>
         <td colspan="6">Merk : {{ $workOrder->equipment->manufacturer }}</td>
     </tr>
@@ -122,7 +124,7 @@
         <td colspan="6">SN Peralatan : {{ $workOrder->equipment->serial_number }}</td>
     </tr>
     <tr>
-        <td colspan="6">No. Inventory : {{ $workOrder->equipment->serial_number }}</td>
+        <td colspan="6">No. Inventory : {{ $equipment->financing_code }}</td>
         <td colspan="6">Barcode : {{ $workOrder->equipment->barcode }}</td>
     </tr>
     <tr>
