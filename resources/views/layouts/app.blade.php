@@ -138,7 +138,7 @@
                                 <div class="tab-content position-relative" id="notificationItemsTabContent">
 
                                     {{-- Tab for Work Order Notifications --}}
-                                    <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel">
+                                    <div class="tab-pane fade show active py-2 ps-2" id="messages-tab" role="tabpanel">
                                         <div data-simplebar style="max-height: 300px;" class="pe-2">
                                             {{-- Looping Data Work Orders --}}
                                             @forelse($workOrders as $wo)
@@ -180,7 +180,7 @@
 
 
                                     {{-- Tab for Loan Notifications --}}
-                                    <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
+                                    <div class="tab-pane fade  py-2 ps-2" id="all-noti-tab" role="tabpanel">
                                         <div data-simplebar style="max-height: 300px;" class="pe-2">
                                             {{-- Looping Data Loans --}}
                                             @forelse($loans as $loan)
