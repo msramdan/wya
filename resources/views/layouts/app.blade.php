@@ -49,21 +49,46 @@
                         </div>
 
                         @php
-                            // Menghitung total data yang sesuai kondisi
-                            $loanCount = \App\Models\Loan::where('rencana_pengembalian', '<', date('Y-m-d'))->where(
-                                'status_peminjaman',
-                                'Belum dikembalikan',
-                            );
-                            $loanCount = $loanCount->where('hospital_id', session('sessionHospital'));
+                            // Menghitung total data loan yang sesuai kondisi
+                            $loanCount = \App\Models\Loan::where('rencana_pengembalian', '<', date('Y-m-d'))
+                                ->where('status_peminjaman', 'Belum dikembalikan')
+                                ->where('hospital_id', session('sessionHospital'))
+                                ->count();
 
-                            $loanCount = $loanCount->count();
-
-                            // Mengambil data dengan limit 5 dan urutkan berdasarkan rencana_pengembalian secara ascending
+                            // Mengambil data loan dengan limit 5 dan urutkan berdasarkan rencana_pengembalian secara ascending
                             $loans = \App\Models\Loan::where('rencana_pengembalian', '<', date('Y-m-d'))
                                 ->where('status_peminjaman', 'Belum dikembalikan')
-                                ->orderBy('rencana_pengembalian', 'asc');
-                            $loans = $loans->where('hospital_id', session('sessionHospital'));
-                            $loans = $loans->limit(5)->get();
+                                ->where('hospital_id', session('sessionHospital'))
+                                ->orderBy('rencana_pengembalian', 'asc')
+                                ->limit(5)
+                                ->get();
+
+                            // Menghitung total data work order processes sesuai kondisi (schedule_date hari ini)
+                            $woCount = \App\Models\WorkOrderProcess::join(
+                                'work_orders',
+                                'work_orders.id',
+                                '=',
+                                'work_order_processes.work_order_id',
+                            )
+                                ->where('work_orders.hospital_id', session('sessionHospital'))
+                                ->where('work_order_processes.schedule_date', date('Y-m-d'))
+                                ->count();
+
+                            // Mengambil data work order processes dengan limit 5 (schedule_date hari ini)
+                            $workOrders = \App\Models\WorkOrderProcess::join(
+                                'work_orders',
+                                'work_orders.id',
+                                '=',
+                                'work_order_processes.work_order_id',
+                            )
+                                ->where('work_orders.hospital_id', session('sessionHospital'))
+                                ->where('work_order_processes.schedule_date', date('Y-m-d'))
+                                ->orderBy('work_order_processes.schedule_date', 'asc')
+                                ->limit(5)
+                                ->get();
+
+                            // Menghitung total notifikasi (loan + work order process)
+                            $totalNotificationCount = $loanCount + $woCount;
                         @endphp
 
                         <div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
@@ -73,9 +98,12 @@
                                 data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                                 <i class='bx bx-bell fs-22'></i>
                                 <span
-                                    class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">{{ $loanCount }}<span
-                                        class="visually-hidden">unread messages</span></span>
+                                    class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">
+                                    {{ $totalNotificationCount }}
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
                             </button>
+
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
                                 aria-labelledby="page-header-notifications-dropdown">
                                 <div class="dropdown-head bg-primary bg-pattern rounded-top">
@@ -91,22 +119,70 @@
                                         <ul class="nav nav-tabs dropdown-tabs nav-tabs-custom" data-dropdown-tabs="true"
                                             id="notificationItemsTab" role="tablist">
                                             <li class="nav-item waves-effect waves-light">
-                                                <a class="nav-link active" data-bs-toggle="tab" href="#all-noti-tab"
+                                                <a class="nav-link active" data-bs-toggle="tab" href="#messages-tab"
                                                     role="tab" aria-selected="true">
-                                                    Peminjaman Peralatan
+                                                    Proses WO ({{ $woCount }})
                                                 </a>
                                             </li>
+                                            <li class="nav-item waves-effect waves-light">
+                                                <a class="nav-link " data-bs-toggle="tab" href="#all-noti-tab"
+                                                    role="tab" aria-selected="false">
+                                                    Peminjaman Alat ({{ $loanCount }})
+                                                </a>
+                                            </li>
+
                                         </ul>
                                     </div>
-
                                 </div>
 
                                 <div class="tab-content position-relative" id="notificationItemsTabContent">
-                                    <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab"
-                                        role="tabpanel">
-                                        <div data-simplebar style="max-height: 300px;" class="pe-2">
 
-                                            {{-- Looping Data --}}
+                                    {{-- Tab for Work Order Notifications --}}
+                                    <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel">
+                                        <div data-simplebar style="max-height: 300px;" class="pe-2">
+                                            {{-- Looping Data Work Orders --}}
+                                            @forelse($workOrders as $wo)
+                                                <div
+                                                    class="text-reset notification-item d-block dropdown-item position-relative">
+                                                    <div class="d-flex">
+                                                        <div class="avatar-xs me-3 flex-shrink-0">
+                                                            <i class="fa fa-calendar text-info fa-2x"
+                                                                aria-hidden="true"></i>
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <a href="/panel/work-order-processes/{{ $wo->work_order_id }}"
+                                                                class="stretched-link">
+                                                                <h6 class="mt-0 mb-2 lh-base">WO terjadwal untuk hari
+                                                                    ini: {{ $wo->schedule_date }}</h6>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @empty
+                                                <div
+                                                    class="text-reset notification-item d-block dropdown-item position-relative">
+                                                    <div class="d-flex">
+                                                        <div class="flex-grow-1">
+                                                            <h6 class="mt-0 mb-2 lh-base">Tidak ada pemberitahuan</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforelse
+
+                                            <div class="my-3 text-center view-all">
+                                                <a href="/panel/work-order-processes"
+                                                    class="btn btn-soft-success waves-effect waves-light">
+                                                    View All data <i class="ri-arrow-right-line align-middle"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    {{-- Tab for Loan Notifications --}}
+                                    <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
+                                        <div data-simplebar style="max-height: 300px;" class="pe-2">
+                                            {{-- Looping Data Loans --}}
                                             @forelse($loans as $loan)
                                                 <div
                                                     class="text-reset notification-item d-block dropdown-item position-relative">
@@ -138,58 +214,63 @@
 
                                             <div class="my-3 text-center view-all">
                                                 <a href="{{ route('loans.index') }}"
-                                                    class="btn btn-soft-success waves-effect waves-light">View All data
-                                                    <i class="ri-arrow-right-line align-middle"></i></a>
+                                                    class="btn btn-soft-success waves-effect waves-light">
+                                                    View All data <i class="ri-arrow-right-line align-middle"></i>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="dropdown ms-sm-3 header-item topbar-user">
-                                <button type="button" class="btn shadow-none" id="page-header-user-dropdown"
-                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="d-flex align-items-center">
-                                        @if (auth()->user()->avatar == null)
-                                            <img class="rounded-circle header-profile-user"
-                                                src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim(auth()->user()->email))) }}&s=30"
-                                                alt="Header Avatar">
-                                        @else
-                                            <img class="rounded-circle header-profile-user"
-                                                src="{{ asset('uploads/images/avatars/' . auth()->user()->avatar) }}"
-                                                alt="">
-                                        @endif
+                        </div>
 
 
-                                        <span class="text-start ms-xl-2">
-                                            <span
-                                                class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ Auth::user()->name }}</span>
-                                            <span
-                                                class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">{{ Auth::user()->roles->first()->name }}</span>
-                                        </span>
+
+                        <div class="dropdown ms-sm-3 header-item topbar-user">
+                            <button type="button" class="btn shadow-none" id="page-header-user-dropdown"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="d-flex align-items-center">
+                                    @if (auth()->user()->avatar == null)
+                                        <img class="rounded-circle header-profile-user"
+                                            src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim(auth()->user()->email))) }}&s=30"
+                                            alt="Header Avatar">
+                                    @else
+                                        <img class="rounded-circle header-profile-user"
+                                            src="{{ asset('uploads/images/avatars/' . auth()->user()->avatar) }}"
+                                            alt="">
+                                    @endif
+
+
+                                    <span class="text-start ms-xl-2">
+                                        <span
+                                            class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">{{ Auth::user()->name }}</span>
+                                        <span
+                                            class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">{{ Auth::user()->roles->first()->name }}</span>
                                     </span>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item" href="{{ route('profile') }}"><i
-                                            class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
-                                        <span class="align-middle">{{ trans('navbar.profile') }}</span></a>
+                                </span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" href="{{ route('profile') }}"><i
+                                        class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
+                                    <span class="align-middle">{{ trans('navbar.profile') }}</span></a>
 
 
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
-                                        <span class="align-middle"
-                                            data-key="t-logout">{{ trans('navbar.logout') }}</span>
-                                    </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                        class="d-none">
-                                        @csrf
-                                    </form>
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
+                                    <span class="align-middle"
+                                        data-key="t-logout">{{ trans('navbar.logout') }}</span>
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                    class="d-none">
+                                    @csrf
+                                </form>
 
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
         </header>
         <!-- ========== App Menu ========== -->
         <div class="app-menu navbar-menu">
