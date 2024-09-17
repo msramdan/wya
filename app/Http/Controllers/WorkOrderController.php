@@ -49,8 +49,7 @@ class WorkOrderController extends Controller
                     'equipment_locations.location_name',
                     'equipment.barcode'
                 )
-                ->where('work_orders.hospital_id', session('sessionHospital'))
-                ->orderBy('work_orders.id', 'DESC');
+                ->where('work_orders.hospital_id', session('sessionHospital'));
 
             $start_date = intval($request->query('start_date'));
             $end_date = intval($request->query('end_date'));

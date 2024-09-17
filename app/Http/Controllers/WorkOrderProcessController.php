@@ -34,17 +34,25 @@ class WorkOrderProcessController extends Controller
     public function index(Request $request)
     {
         if (request()->ajax()) {
-            $workOrders = WorkOrder::whereIn('work_orders.status_wo', ['accepted', 'on-going', 'finished'])
-
-                ->with('equipment:id,barcode', 'user:id,name', 'hospital:id,name')->orderByRaw(
-                    'CASE
-                        WHEN `status_wo` = "accepted" then 1
-                        WHEN `status_wo` = "on-going" then 2
-                        ELSE 23
-                    END'
-                )->orderBy('updated_at', 'DESC');
-            $workOrders = $workOrders->where('hospital_id', session('sessionHospital'));
-
+            $workOrders = DB::table('work_orders')
+                ->join('equipment', 'work_orders.equipment_id', '=', 'equipment.id')
+                ->join('users', 'work_orders.created_by', '=', 'users.id')
+                ->join('nomenklaturs', 'equipment.nomenklatur_id', '=', 'nomenklaturs.id')
+                ->join('equipment_locations', 'equipment.equipment_location_id', '=', 'equipment_locations.id')
+                ->select(
+                    'work_orders.*',
+                    'users.name as user_name',
+                    'nomenklaturs.name_nomenklatur',
+                    'equipment_locations.location_name',
+                    'equipment.barcode'
+                )
+                ->whereIn('work_orders.status_wo', ['accepted', 'on-going', 'finished'])
+                ->where('work_orders.hospital_id', session('sessionHospital'))
+                ->orderByRaw('CASE
+                                WHEN `status_wo` = "accepted" THEN 1
+                                WHEN `status_wo` = "on-going" THEN 2
+                                ELSE 23
+                              END');
             $start_date = intval($request->query('start_date'));
             $end_date = intval($request->query('end_date'));
             $equipment_id = intval($request->query('equipment_id'));
@@ -54,70 +62,68 @@ class WorkOrderProcessController extends Controller
 
             if (isset($start_date) && !empty($start_date)) {
                 $from = date("Y-m-d H:i:s", substr($request->query('start_date'), 0, 10));
-                $workOrders = $workOrders->where('filed_date', '>=', $from);
+                $workOrders->where('work_orders.filed_date', '>=', $from);
             } else {
                 $from = date('Y-m-d') . " 00:00:00";
-                $workOrders = $workOrders->where('filed_date', '>=', $from);
+                $workOrders->where('work_orders.filed_date', '>=', $from);
             }
+
             if (isset($end_date) && !empty($end_date)) {
                 $to = date("Y-m-d H:i:s", substr($request->query('end_date'), 0, 10));
-                $workOrders = $workOrders->where('filed_date', '<=', $to);
+                $workOrders->where('work_orders.filed_date', '<=', $to);
             } else {
                 $to = date('Y-m-d') . " 23:59:59";
-                $workOrders = $workOrders->where('filed_date', '<=', $to);
+                $workOrders->where('work_orders.filed_date', '<=', $to);
             }
 
-            if (isset($equipment_id) && !empty($equipment_id)) {
-                if ($equipment_id != 'All') {
-                    $workOrders = $workOrders->where('equipment_id', $equipment_id);
-                }
+            if (isset($equipment_id) && !empty($equipment_id) && $equipment_id != 'All') {
+                $workOrders->where('work_orders.equipment_id', $equipment_id);
             }
 
-            if (isset($type_wo) && !empty($type_wo)) {
-                if ($type_wo != 'All') {
-                    $workOrders = $workOrders->where('type_wo', $type_wo);
-                }
+            if (isset($type_wo) && !empty($type_wo) && $type_wo != 'All') {
+                $workOrders->where('work_orders.type_wo', $type_wo);
             }
 
-            if (isset($category_wo) && !empty($category_wo)) {
-                if ($category_wo != 'All') {
-                    $workOrders = $workOrders->where('category_wo', $category_wo);
-                }
+            if (isset($category_wo) && !empty($category_wo) && $category_wo != 'All') {
+                $workOrders->where('work_orders.category_wo', $category_wo);
             }
 
-            if (isset($created_by) && !empty($created_by)) {
-                if ($created_by != 'All') {
-                    $workOrders = $workOrders->where('created_by', $created_by);
-                }
+            if (isset($created_by) && !empty($created_by) && $created_by != 'All') {
+                $workOrders->where('work_orders.created_by', $created_by);
             }
-            $workOrders = $workOrders->orderBy('wo_number', 'DESC');
+
+            $workOrders->orderBy('work_orders.wo_number', 'DESC');
+
             return DataTables::of($workOrders)
                 ->addIndexColumn()
                 ->addColumn('finished_processes', function ($row) {
-                    return $row->countWoProcess('finished') . '/' . $row->countWoProcess();
+                    return countWoProcess($row->id, 'finished') . '/' . countWoProcess($row->id);
                 })
                 ->addColumn('created_at', function ($row) {
-                    return $row->created_at->format('d M Y H:i:s');
-                })->addColumn('updated_at', function ($row) {
-                    return $row->updated_at->format('d M Y H:i:s');
-                })->addColumn('wo_number', function ($row) {
+                    return date('d M Y H:i:s', strtotime($row->created_at));
+                })
+                ->addColumn('updated_at', function ($row) {
+                    return date('d M Y H:i:s', strtotime($row->updated_at));
+                })
+                ->addColumn('wo_number', function ($row) {
                     return $row->wo_number;
                 })
                 ->addColumn('note', function ($row) {
                     return str($row->note)->limit(100);
                 })
-                ->addColumn('equipment', function ($row) {
-                    return $row->equipment ? $row->equipment->barcode : '';
-                })->addColumn('type_wo', function ($row) {
+                ->addColumn('type_wo', function ($row) {
                     return $row->type_wo == 'Training' ? 'Training/Uji fungsi' : $row->type_wo;
-                })->addColumn('user', function ($row) {
-                    return $row->user ? $row->user->name : '';
+                })
+                ->addColumn('user', function ($row) {
+                    return $row->user_name;
                 })
                 ->addColumn('action', function ($row) {
                     return view('work-order-process.includes.index-action', ['model' => $row]);
                 })
                 ->toJson();
         }
+
+
 
         $from = date('Y-m-d') . " 00:00:00";
         $to = date('Y-m-d') . " 23:59:59";
@@ -429,7 +435,7 @@ class WorkOrderProcessController extends Controller
         $equipmentId = $workOrder->equipment_id;
         $equipment = DB::table('equipment')
             ->join('nomenklaturs', 'equipment.nomenklatur_id', '=', 'nomenklaturs.id')
-            ->select('nomenklaturs.name_nomenklatur','equipment.financing_code')
+            ->select('nomenklaturs.name_nomenklatur', 'equipment.financing_code')
             ->where('equipment.id', $equipmentId)
             ->first();
         $pdf = Pdf::loadView('work-order-process.wo-process-wo-print', [

@@ -47,8 +47,7 @@ class WorkOrderApprovalController extends Controller
                         WHEN `status_wo` = "pending" then 1
                         ELSE 2
                     END'
-                )
-                ->orderBy('work_orders.id', 'DESC');
+                );
             $workOrders = $workOrders->where('work_orders.hospital_id', session('sessionHospital'));
 
             $start_date = intval($request->query('start_date'));

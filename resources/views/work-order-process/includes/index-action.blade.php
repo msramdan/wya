@@ -1,11 +1,14 @@
 <td>
-    <a href="{{ route('work-order-processes.index') }}/{{ $model->id }}" class="btn btn-sm btn-success"><i class="mdi mdi-table-edit"></i></a>
+    <a href="{{ route('work-order-processes.index') }}/{{ $model->id }}" class="btn btn-sm btn-success"><i
+            class="mdi mdi-table-edit"></i></a>
 
-    <div class="modal fade" id="modalProcesses{{ $model->id }}" tabindex="-1" aria-labelledby="modalProcesses{{ $model->id }}Label" aria-hidden="true">
+    <div class="modal fade" id="modalProcesses{{ $model->id }}" tabindex="-1"
+        aria-labelledby="modalProcesses{{ $model->id }}Label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalProcesses{{ $model->id }}Label">{{ trans('work-order/processes/index.detail_work_order') }}</h5>
+                    <h5 class="modal-title" id="modalProcesses{{ $model->id }}Label">
+                        {{ trans('work-order/processes/index.detail_work_order') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -19,8 +22,8 @@
                             <td>{{ date('Y-m-d', strtotime($model->filed_date)) }}</td>
                         </tr>
                         <tr>
-                            <th>{{ trans('work-order/processes/index.equipment') }}</th>
-                            <td>{{ $model->equipment->barcode }}</td>
+                            <th>Peralatan</th>
+                            <td>{{ $model->name_nomenklatur }}</td>
                         </tr>
                         <tr>
                             <th>{{ trans('work-order/processes/index.type') }}</th>
@@ -32,12 +35,12 @@
                         </tr>
                         <tr>
                             <th>{{ trans('work-order/processes/index.user') }}</th>
-                            <td>{{ $model->user->name }}</td>
+                            <td>{{ $model->user_name }}</td>
                         </tr>
-                        <tr>
+                        {{-- <tr>
                             <th>{{ trans('work-order/processes/index.finished_processes') }}</th>
                             <td>{{ $model->countWoProcess('finished') . '/' . $model->countWoProcess() }}</td>
-                        </tr>
+                        </tr> --}}
                         <tr>
                             <th>{{ trans('work-order/processes/index.status') }}</th>
                             <td>
@@ -61,10 +64,12 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-sm btn btn-secondary" data-bs-dismiss="modal"><i class="mdi mdi-arrow-up"></i> Close</button>
+                    <button type="button" class="btn-sm btn btn-secondary" data-bs-dismiss="modal"><i
+                            class="mdi mdi-arrow-up"></i> Close</button>
                 </div>
             </div>
         </div>
     </div>
-    <button type="button" data-bs-toggle="modal" data-bs-target="#modalProcesses{{ $model->id }}" class="btn btn-sm btn-primary"><i class="mdi mdi-format-float-center"></i></button>
+    <button type="button" data-bs-toggle="modal" data-bs-target="#modalProcesses{{ $model->id }}"
+        class="btn btn-sm btn-primary"><i class="mdi mdi-format-float-center"></i></button>
 </td>
