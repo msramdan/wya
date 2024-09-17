@@ -151,9 +151,9 @@
                                             <th style="white-space: nowrap">
                                                 {{ trans('work-order/submission/index.equipment') }}</th>
                                             <th style="white-space: nowrap">
-                                                {{ trans('work-order/submission/index.type') }}</th>
-                                            <th style="white-space: nowrap">
-                                                {{ trans('work-order/submission/index.category') }}</th>
+                                                {{ trans('work-order/submission/index.type') }}
+                                            </th>
+                                            <th style="white-space: nowrap">Lokasi Peralatan</th>
                                             <th style="white-space: nowrap">
                                                 {{ trans('work-order/submission/index.created_by') }}</th>
                                             <th style="white-space: nowrap">
@@ -225,10 +225,10 @@
                 name: 'filed_date',
             },
             {
-                data: 'equipment',
-                name: 'equipment.barcode',
+                data: 'name_nomenklatur',
+                name: 'name_nomenklatur',
                 render: function(datum, type, row) {
-                    return `${row.equipment} <a id="view_data" href="#modal-dialog3" data-bs-toggle="modal" data-equipment="${row.equipment}">
+                    return `${row.name_nomenklatur} <a id="view_data" href="#modal-dialog3" data-bs-toggle="modal" data-equipment="${row.barcode}">
 																<i style="color : #17a2b8" class="fas fa-info-circle fs-15 align-middle"></i>
 															</a>`;
                 }
@@ -238,12 +238,12 @@
                 name: 'type_wo',
             },
             {
-                data: 'category_wo',
-                name: 'category_wo',
+                data: 'location_name',
+                name: 'location_name',
             },
             {
-                data: 'user',
-                name: 'user.name'
+                data: 'user_name',
+                name: 'user_name'
             },
             {
                 name: "approval_users_id",

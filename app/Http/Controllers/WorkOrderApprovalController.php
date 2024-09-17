@@ -30,14 +30,26 @@ class WorkOrderApprovalController extends Controller
     public function index(Request $request)
     {
         if (request()->ajax()) {
-            $workOrders = WorkOrder::with('equipment:id,barcode', 'user:id,name', 'hospital:id,name')->orderByRaw(
-                'CASE
-                    WHEN `status_wo` = "pending" then 1
-                    ELSE 2
-                END'
-            )->orderBy('work_orders.id', 'DESC');
-
-            $workOrders = $workOrders->where('hospital_id', session('sessionHospital'));
+            $workOrders = DB::table('work_orders')
+                ->join('equipment', 'work_orders.equipment_id', '=', 'equipment.id')
+                ->join('users', 'work_orders.created_by', '=', 'users.id')
+                ->join('nomenklaturs', 'equipment.nomenklatur_id', '=', 'nomenklaturs.id')
+                ->join('equipment_locations', 'equipment.equipment_location_id', '=', 'equipment_locations.id')
+                ->select(
+                    'work_orders.*',
+                    'users.name as user_name',
+                    'nomenklaturs.name_nomenklatur',
+                    'equipment_locations.location_name',
+                    'equipment.barcode'
+                )
+                ->orderByRaw(
+                    'CASE
+                        WHEN `status_wo` = "pending" then 1
+                        ELSE 2
+                    END'
+                )
+                ->orderBy('work_orders.id', 'DESC');
+            $workOrders = $workOrders->where('work_orders.hospital_id', session('sessionHospital'));
 
             $start_date = intval($request->query('start_date'));
             $end_date = intval($request->query('end_date'));
@@ -84,7 +96,7 @@ class WorkOrderApprovalController extends Controller
                     $workOrders = $workOrders->where('created_by', $created_by);
                 }
             }
-            $workOrders = $workOrders->orderBy('wo_number', 'DESC');
+            $workOrders = $workOrders->orderBy('work_orders.wo_number', 'DESC');
             return DataTables::of($workOrders)
                 ->addIndexColumn()
                 ->addColumn('wo_number', function ($row) {
@@ -99,12 +111,11 @@ class WorkOrderApprovalController extends Controller
 
                     return json_decode($arrApprovalUsers);
                 })
-                ->addColumn('equipment', function ($row) {
-                    return $row->equipment ? $row->equipment->barcode : '';
-                })->addColumn('type_wo', function ($row) {
+                ->addColumn('type_wo', function ($row) {
                     return $row->type_wo == 'Training' ? 'Training/Uji fungsi' : $row->type_wo;
-                })->addColumn('user', function ($row) {
-                    return $row->user ? $row->user->name : '';
+                })
+                ->addColumn('user', function ($row) {
+                    return $row->user_name;
                 })->addColumn('action', function ($row) {
                     $displayAction = false;
 
@@ -126,7 +137,6 @@ class WorkOrderApprovalController extends Controller
 
                     $arrApprovalUsers = collect(json_decode($row->approval_users_id))->map(function ($row) {
                         $row->user_name = User::find($row->user_id)->name;
-
                         return $row;
                     });
 

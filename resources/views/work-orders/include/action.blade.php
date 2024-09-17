@@ -37,7 +37,7 @@
                         </tr>
                         <tr>
                             <th>Peralatan</th>
-                            <td>{{ $model->barcode }}</td>
+                            <td>{{ $model->name_nomenklatur }}</td>
                         </tr>
                         <tr>
                             <th>{{ trans('work-order/submission/index.type') }}</th>
@@ -45,7 +45,7 @@
                         </tr>
                         <tr>
                             <th>{{ trans('work-order/submission/index.category') }}</th>
-                            <td>{{ $model->name_nomenklatur }}</td>
+                            <td>{{ $model->category_wo }}</td>
                         </tr>
                         <tr>
                             <th>{{ trans('work-order/submission/index.created_by') }}</th>

@@ -11,48 +11,31 @@
                 <div class="modal-body">
                     <table class="table table-bordered">
                         <tr>
-                            <th>{{ trans('work-order/approval/index.wo_number') }}</th>
+                            <th>{{ trans('work-order/submission/index.wo_number') }}</th>
                             <td>{{ $model->wo_number }}</td>
                         </tr>
                         <tr>
-                            <th>{{ trans('work-order/approval/index.equipment') }}</th>
-                            <td>{{ $model->equipment->barcode }}</td>
+                            <th>{{ trans('work-order/submission/index.filed_date') }}</th>
+                            <td>{{ date('Y-m-d', strtotime($model->filed_date)) }}</td>
                         </tr>
                         <tr>
-                            <th>{{ trans('work-order/approval/index.type') }}</th>
+                            <th>Peralatan</th>
+                            <td>{{ $model->name_nomenklatur }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ trans('work-order/submission/index.type') }}</th>
                             <td>{{ $model->type_wo == 'Training' ? 'Training/Uji fungsi' : $model->type_wo }}</td>
                         </tr>
                         <tr>
-                            <th>{{ trans('work-order/approval/index.category') }}</th>
+                            <th>{{ trans('work-order/submission/index.category') }}</th>
                             <td>{{ $model->category_wo }}</td>
                         </tr>
                         <tr>
-                            <th>{{ trans('work-order/approval/index.schedule_date') }}</th>
-                            <td>{{ date('Y-m-d', strtotime($model->schedule_date ? $model->schedule_date : $model->start_date)) }}
-                            </td>
+                            <th>{{ trans('work-order/submission/index.created_by') }}</th>
+                            <td>{{ $model->user_name }}</td>
                         </tr>
                         <tr>
-                            <th>{{ trans('work-order/approval/index.schedule_start_date') }}</th>
-                            <td>{{ $model->start_date }}</td>
-                        </tr>
-                        <tr>
-                            <th>{{ trans('work-order/approval/index.schedule_end_date') }}</th>
-                            <td>{{ $model->end_date }}</td>
-                        </tr>
-                        <tr>
-                            <th>{{ trans('work-order/approval/index.schedule_wo') }}</th>
-                            <td>{{ $model->schedule_wo }}</td>
-                        </tr>
-                        <tr>
-                            <th>{{ trans('work-order/approval/index.note') }}</th>
-                            <td>{{ $model->note }}</td>
-                        </tr>
-                        <tr>
-                            <th>{{ trans('work-order/approval/index.user') }}</th>
-                            <td>{{ $model->createdBy->name }}</td>
-                        </tr>
-                        <tr>
-                            <th>{{ trans('work-order/approval/index.approval_user') }}</th>
+                            <th>{{ trans('work-order/submission/index.approval_user') }}</th>
                             <td>
                                 <ul>
                                     @foreach ($arrApprovalUsers as $approvalUser)
@@ -78,7 +61,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>{{ trans('work-order/approval/index.status') }}</th>
+                            <th>Status WO</th>
                             <td>
                                 @php
                                     switch ($model->status_wo) {
@@ -105,6 +88,7 @@
                         </tr>
                     </table>
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn-sm btn btn-secondary" data-bs-dismiss="modal"><i
                             class="mdi mdi-arrow-up"></i> Close</button>
