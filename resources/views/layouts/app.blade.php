@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg"
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="{{ Auth::user()->is_grant_user == 'Yes' ? 'lg' : 'sm' }}"
     data-sidebar-image="none">
 {{-- head --}}
 @include('layouts.header')
