@@ -444,11 +444,12 @@ class DashboardController extends Controller
             ->select('work_order_processes.schedule_date', 'work_order_processes.status', 'work_orders.type_wo')
             ->join('work_orders', 'work_order_processes.work_order_id', '=', 'work_orders.id')
             ->where('work_orders.hospital_id', $hospital_id)
-            ->whereBetween('work_order_processes.schedule_date', [$from, $to])
+            ->whereBetween('work_order_processes.filed_date', [$from, $to])
             ->get()
             ->toArray();
         // Bab 1
         // Inspection and Preventive Maintenance
+        // ramdan
         $countIpm = count(array_filter($array, function ($item) {
             return $item->type_wo === 'Inspection and Preventive Maintenance';
         }));
