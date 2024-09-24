@@ -34,25 +34,24 @@ class WorkOrderProcessController extends Controller
     public function index(Request $request)
     {
         if (request()->ajax()) {
-            $workOrders = DB::table('work_orders')
-                ->join('equipment', 'work_orders.equipment_id', '=', 'equipment.id')
-                ->join('users', 'work_orders.created_by', '=', 'users.id')
-                ->join('nomenklaturs', 'equipment.nomenklatur_id', '=', 'nomenklaturs.id')
-                ->join('equipment_locations', 'equipment.equipment_location_id', '=', 'equipment_locations.id')
+            $workOrders = DB::table('work_order_processes')
                 ->select(
+                    'work_order_processes.schedule_date as pelaksanaan',
+                    'work_order_processes.status',
                     'work_orders.*',
+                    'equipment.barcode',
+                    'equipment.manufacturer',
+                    'equipment.serial_number',
                     'users.name as user_name',
                     'nomenklaturs.name_nomenklatur',
                     'equipment_locations.location_name',
                     'equipment.barcode'
                 )
-                ->whereIn('work_orders.status_wo', ['accepted', 'on-going', 'finished'])
+                ->join('work_orders', 'work_order_processes.work_order_id', '=', 'work_orders.id')
+                ->join('equipment', 'work_orders.equipment_id', '=', 'equipment.id')
                 ->where('work_orders.hospital_id', session('sessionHospital'))
-                ->orderByRaw('CASE
-                                WHEN `status_wo` = "accepted" THEN 1
-                                WHEN `status_wo` = "on-going" THEN 2
-                                ELSE 23
-                              END');
+                ->whereIn('work_orders.status_wo', ['accepted', 'on-going', 'finished']);
+
             $start_date = intval($request->query('start_date'));
             $end_date = intval($request->query('end_date'));
             $equipment_id = intval($request->query('equipment_id'));
@@ -62,18 +61,18 @@ class WorkOrderProcessController extends Controller
 
             if (isset($start_date) && !empty($start_date)) {
                 $from = date("Y-m-d H:i:s", substr($request->query('start_date'), 0, 10));
-                $workOrders->where('work_orders.filed_date', '>=', $from);
+                $workOrders->where('work_order_processes.schedule_date', '>=', $from);
             } else {
                 $from = date('Y-m-d') . " 00:00:00";
-                $workOrders->where('work_orders.filed_date', '>=', $from);
+                $workOrders->where('work_order_processes.schedule_date', '>=', $from);
             }
 
             if (isset($end_date) && !empty($end_date)) {
                 $to = date("Y-m-d H:i:s", substr($request->query('end_date'), 0, 10));
-                $workOrders->where('work_orders.filed_date', '<=', $to);
+                $workOrders->where('work_order_processes.schedule_date', '<=', $to);
             } else {
                 $to = date('Y-m-d') . " 23:59:59";
-                $workOrders->where('work_orders.filed_date', '<=', $to);
+                $workOrders->where('work_order_processes.schedule_date', '<=', $to);
             }
 
             if (isset($equipment_id) && !empty($equipment_id) && $equipment_id != 'All') {
