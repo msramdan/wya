@@ -33,7 +33,7 @@ class KalenderWoController extends Controller
             ->join('work_orders', 'work_order_processes.work_order_id', '=', 'work_orders.id')
             ->join('equipment', 'work_orders.equipment_id', '=', 'equipment.id')
             ->whereBetween('work_order_processes.schedule_date', [$startDate, $endDate])
-            ->where('work_orders.status_wo', 'accepted');
+            ->whereIn('work_orders.status_wo', ['accepted', 'on-going', 'finished']);
 
         if ($type && $type != 'All') {
             $query->where('work_orders.type_wo', $type);
