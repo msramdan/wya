@@ -44,8 +44,7 @@ class WorkOrderProcessController extends Controller
                     'equipment.serial_number',
                     'users.name as user_name',
                     'nomenklaturs.name_nomenklatur',
-                    'equipment_locations.location_name',
-                    'equipment.barcode'
+                    'equipment_locations.location_name'
                 )
                 ->join('work_orders', 'work_order_processes.work_order_id', '=', 'work_orders.id')
                 ->join('equipment', 'work_orders.equipment_id', '=', 'equipment.id')
