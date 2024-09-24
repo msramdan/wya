@@ -49,6 +49,9 @@ class WorkOrderProcessController extends Controller
                 )
                 ->join('work_orders', 'work_order_processes.work_order_id', '=', 'work_orders.id')
                 ->join('equipment', 'work_orders.equipment_id', '=', 'equipment.id')
+                ->join('users', 'work_orders.created_by', '=', 'users.id')
+                ->join('nomenklaturs', 'equipment.nomenklatur_id', '=', 'nomenklaturs.id')
+                ->join('equipment_locations', 'equipment.equipment_location_id', '=', 'equipment_locations.id')
                 ->where('work_orders.hospital_id', session('sessionHospital'))
                 ->whereIn('work_orders.status_wo', ['accepted', 'on-going', 'finished']);
 
