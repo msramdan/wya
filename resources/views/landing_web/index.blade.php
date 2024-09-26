@@ -283,7 +283,7 @@
         (function() {
             var options = {
                 telegram: "msramdan9090", // Telegram bot username
-                whatsapp: "+6283874731480", // WhatsApp number
+                whatsapp: "+6281513142487", // WhatsApp number
                 call_to_action: "Kirimi kami pesan", // Call to action
                 button_color: "#129BF4", // Color of button
                 position: "right", // Position may be 'right' or 'left'
