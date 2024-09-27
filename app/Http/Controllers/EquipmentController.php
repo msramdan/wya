@@ -361,7 +361,7 @@ class EquipmentController extends Controller
                 'nilai_perolehan' => 'required',
                 'nilai_residu' => 'required',
                 'masa_manfaat' => 'required',
-                'hospital_id' => 'required'
+                // 'hospital_id' => 'required'
             ],
         );
         if ($validator->fails()) {
@@ -396,7 +396,7 @@ class EquipmentController extends Controller
             'nilai_perolehan' => $request->nilai_perolehan,
             'nilai_residu' => $request->nilai_residu,
             'masa_manfaat' => $request->masa_manfaat,
-            'hospital_id' => $request->hospital_id,
+            // 'hospital_id' => $request->hospital_id,
         ]);
 
         // hapus reduction price lama
