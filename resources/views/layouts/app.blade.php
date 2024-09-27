@@ -350,7 +350,7 @@
     <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
         <i class="ri-arrow-up-line"></i>
     </button>
-    <a href="https://wa.me/6283874731480?text=Hello%20Admin,%20saya%20ingin%20bertanya%20mengenai%20Aplikasi%20Marsweb.%20Mohon%20bantuan%20dan%20informasinya.%20Terima%20kasih."
+    <a href="https://wa.me/6281513142487?text=Hello%20Admin,%20saya%20ingin%20bertanya%20mengenai%20Aplikasi%20Marsweb.%20Mohon%20bantuan%20dan%20informasinya.%20Terima%20kasih."
         target="_blank" id="whatsapp-button">
         <img src="{{ asset('wa.png') }}" alt="WhatsApp" style="width: 60px;">
         <span id="whatsapp-text">Hubungi kami</span>
