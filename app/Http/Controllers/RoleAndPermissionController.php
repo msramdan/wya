@@ -42,7 +42,12 @@ class RoleAndPermissionController extends Controller
 
     public function store(StoreRoleRequest $request)
     {
-        $role = Role::create(['name' => $request->name]);
+        $role = Role::create(
+            [
+                'name' => $request->name,
+                'hospital_id' => session('sessionHospital'),
+            ]
+        );
         $role->givePermissionTo($request->permissions);
         Alert::toast('Peran dan Izin Akses berhasil dibuat.', 'success'); // Mengubah teks alert ke bahasa Indonesia
         return redirect()
