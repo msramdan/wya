@@ -34,7 +34,7 @@ class EquipmentImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
             '*.equipment_category' => 'required|exists:App\Models\EquipmentCategory,category_name',
             '*.manufacturer' => 'required|min:1|max:255',
             '*.type' => 'required|min:1|max:255',
-            '*.serial_number' => 'required|min:1|max:255|unique:equipment,serial_number',
+            '*.serial_number' => 'required|min:1|max:255',
             '*.vendor' => 'required|exists:App\Models\Vendor,name_vendor',
             '*.condition' => 'required',
             '*.risk_level' => 'required',
