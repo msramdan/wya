@@ -37,7 +37,7 @@ class VendorImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
             Vendor::create([
                 'code_vendor' => $row['code_vendor'],
                 'name_vendor' => $row['name_vendor'],
-                'category_vendor_id' => CategoryVendor::where('name_category_vendors', $row['category_vendor'])->first()->id,
+                'category_vendor_id' => CategoryVendor::where('name_category_vendors', $row['category_vendor'])->where('hospital_id', session('sessionHospital'))->first()->id,
                 'email' => $row['email'],
                 'address' => $row['address'],
                 'zip_kode' => $row['zip_kode'],

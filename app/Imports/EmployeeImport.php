@@ -43,10 +43,10 @@ class EmployeeImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
             Employee::create([
                 'name' => $row['name'],
                 'nid_employee' => $row['nid_employee'],
-                'employee_type_id' => EmployeeType::where('name_employee_type', $row['employee_type'])->first()->id,
+                'employee_type_id' => EmployeeType::where('name_employee_type', $row['employee_type'])->where('hospital_id', session('sessionHospital'))->first()->id,
                 'employee_status' => $row['employee_status'] == 'Aktif' ? true : false,
                 'departement_id' => Department::where('name_department', $row['department'])->first()->id,
-                'position_id' => Position::where('name_position', $row['position'])->first()->id,
+                'position_id' => Position::where('name_position', $row['position'])->where('hospital_id', session('sessionHospital'))->first()->id,
                 'email' => $row['email'],
                 'phone' => $row['phone'],
                 'join_date' => Carbon::createFromFormat('d/m/Y', $row['join_date'])->format('Y-m-d'),

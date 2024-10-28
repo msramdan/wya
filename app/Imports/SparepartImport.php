@@ -41,7 +41,7 @@ class SparepartImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
                 'sparepart_name' => $row['sparepart_name'],
                 'merk' => $row['merk'],
                 'sparepart_type' => $row['sparepart_type'],
-                'unit_id' => UnitItem::where('unit_name', $row['unit_item'])->first()->id,
+                'unit_id' => UnitItem::where('unit_name', $row['unit_item'])->where('hospital_id', session('sessionHospital'))->first()->id,
                 'estimated_price' => $row['estimated_price'],
                 'opname' => $row['opname'],
                 'stock' => 0,

@@ -55,16 +55,20 @@ class EquipmentImport implements ToCollection, WithHeadingRow, SkipsEmptyRows
             $equipment = Equipment::create([
                 'barcode' => $row['barcode'],
                 'nomenklatur_id' => Nomenklatur::where('code_nomenklatur', $row['code_nomenklatur'])->first()->id,
-                'equipment_category_id' => EquipmentCategory::where('category_name', $row['equipment_category'])->first()->id,
+                'equipment_category_id' => EquipmentCategory::where('category_name', $row['equipment_category'])
+                    ->where('hospital_id', session('sessionHospital'))
+                    ->first()->id,
                 'manufacturer' => $row['manufacturer'],
                 'type' => $row['type'],
                 'vendor_id' => Vendor::where('name_vendor', $row['vendor'])->first()->id,
                 'condition' => $row['condition'],
                 'risk_level' => $row['risk_level'],
-                'equipment_location_id' => EquipmentLocation::where('code_location', $row['code_location'])->first()->id,
+                'equipment_location_id' => EquipmentLocation::where('code_location', $row['code_location'])
+                    ->where('hospital_id', session('sessionHospital'))
+                    ->first()->id,
                 'financing_code' => $row['financing_code'],
                 'serial_number' => $row['serial_number'],
-                'tgl_pembelian' =>  $tgl_beli ,
+                'tgl_pembelian' =>  $tgl_beli,
                 'metode' => $row['metode_penyusutan'],
                 'nilai_perolehan' => $row['nilai_perolehan'],
                 'nilai_residu' => $row['nilai_residu'],
