@@ -154,51 +154,46 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 mb-2">
-                        <label for="longitude">{{ trans('vendor/create.longitude') }}</label>
-                        <input type="text" name="longitude" id="longitude"
-                            class="form-control @error('longitude') is-invalid @enderror"
-                            value="{{ isset($vendor) ? $vendor->longitude : old('longitude') }}"
-                            placeholder="{{ trans('vendor/create.longitude') }}" required />
-                        @error('longitude')
-                            <span class="text-danger">
-                                {{ $message }}
-                            </span>
-                        @enderror
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label for="latitude">{{ __('Latitude') }}</label>
+                            <input type="text" name="latitude" id="latitude"
+                                class="form-control @error('latitude') is-invalid @enderror"
+                                value="{{ isset($vendor) ? $vendor->latitude : old('latitude') }}"
+                                placeholder="{{ __('Latitude') }}" required readonly />
+                            @error('latitude')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                        </div>
                     </div>
-                    <div class="col-md-6 mb-2">
-                        <label for="latitude">{{ trans('vendor/create.latitude') }}</label>
-                        <input type="text" name="latitude" id="latitude"
-                            class="form-control @error('latitude') is-invalid @enderror"
-                            value="{{ isset($vendor) ? $vendor->latitude : old('latitude') }}"
-                            placeholder="{{ trans('vendor/create.latitude') }}" required />
-                        @error('latitude')
-                            <span class="text-danger">
-                                {{ $message }}
-                            </span>
-                        @enderror
+                    <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label for="longitude">{{ __('Longitude') }}</label>
+                            <input type="text" name="longitude" id="longitude"
+                                class="form-control @error('longitude') is-invalid @enderror"
+                                value="{{ isset($vendor) ? $vendor->longitude : old('longitude') }}"
+                                placeholder="{{ __('Longitude') }}" required readonly />
+                            @error('longitude')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                        </div>
                     </div>
-
                 </div>
                 <div class="col-md-12 mb-2">
-                    <div class="mb-3 search-box">
-                        <input type="text" class="form-control @error('place') is-invalid @enderror"
-                            name="place" id="search_place" placeholder="{{ trans('vendor/create.location') }}"
-                            value="{{ old('place') }}" autocomplete="off">
-                        <span class="d-none" style="color: red;" id="error-place"></span>
-                        @error('place')
-                            <span style="color: red;">{{ $message }}</span>
-                        @enderror
-                        <ul class="results">
-                            <li style="text-align: center;padding: 50% 0; max-height: 25hv;">Masukan Pencarian</li>
-                        </ul>
+                    <div class="card">
+                        <input type="text" id="locationInput" class="form-control" placeholder="Enter location"
+                            style="margin-bottom: 5px">
+                        <button type="button" class="btn btn-success" onclick="showMyLocation()"
+                            style="margin-bottom: 5px">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i> Show My Location
+                        </button>
+                        <div class="map-embed" id="map"></div>
                     </div>
-                    <div class="map-embed" id="map"></div>
                 </div>
-
-
-
-
             </div>
         </div>
     </div>
