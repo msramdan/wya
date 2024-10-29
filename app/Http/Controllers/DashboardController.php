@@ -34,7 +34,6 @@ class DashboardController extends Controller
             ->where('work_orders.hospital_id', $ids);
 
 
-
         $vendor = Vendor::where('hospital_id', $ids)->get();
         $employees = Employee::where('hospital_id', $ids)->get();
         $in = DB::table('sparepart_trace')
