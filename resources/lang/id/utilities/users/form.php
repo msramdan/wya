@@ -3,7 +3,7 @@ return [
   'avatar' => 'Avatar',
   'hospital' => 'Rumah Sakit',
   'role' => 'Peran',
-  'select_role' => 'Pilih Peran',
+  'select_role' => 'Pilih',
   'name' => 'Nama',
   'email' => 'Surel',
   'phone' => 'Telepon',

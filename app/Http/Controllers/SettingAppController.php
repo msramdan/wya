@@ -16,11 +16,6 @@ class SettingAppController extends Controller
         $this->middleware('permission:setting app edit')->only('update');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $settingApp = SettingApp::findOrFail(1)->first();
@@ -55,7 +50,7 @@ class SettingAppController extends Controller
             'aplication_name' => $request->aplication_name,
         ]);
 
-        Alert::toast('Pengaturan aplikasi berhasil diperbarui.', 'success'); // Mengubah teks alert ke bahasa Indonesia
+        Alert::toast('Pengaturan aplikasi berhasil diperbarui.', 'success');
         return redirect()->route('setting-apps.index');
     }
 }

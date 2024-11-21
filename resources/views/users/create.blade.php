@@ -19,7 +19,7 @@
                                     <a href="{{ route('users.index') }}">{{ trans('utilities/users/index.head') }}</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
-                                    {{ __('Create') }}
+                                    Create
                                 </li>
                             </ol>
                         </div>

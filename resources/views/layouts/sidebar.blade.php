@@ -3,40 +3,12 @@
         <div id="two-column-menu">
         </div>
         <ul class="navbar-nav" id="navbar-nav">
-            @if (Auth::user()->is_grant_user == 'Yes')
-                @php
-                    $hospitalsToLoop = DB::table('hospitals')->get();
-                @endphp
-                <div style="padding: 10px">
-                    <select class="form-select" id="hospitalSelectSession" name="hospitalSelectSession">
-                        <option value="">-- Select Hospital --</option>
-                        @foreach ($hospitalsToLoop as $hospital)
-                            <option value="{{ $hospital->id }}"
-                                {{ session('sessionHospital') == $hospital->id ? 'selected' : '' }}>
-                                {{ $hospital->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-            @endif
             <li class="nav-item">
                 <a class="nav-link menu-link {{ Route::currentRouteName() == 'dashboard' ? ' active' : '' }}"
                     href="/panel">
                     <i class="mdi mdi-speedometer"></i> <span data-key="t-widgets">Dashboard</span>
                 </a>
             </li>
-            {{-- @can('kalender wo view') --}}
-                @php
-                    $currentYear = date('Y');
-                    $defaultJenis = 'All';
-                @endphp
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ request()->routeIs('kalender-wo*') ? 'active' : '' }}"
-                        href="{{ route('kalender-wo.index', ['tahun' => $currentYear, 'jenis' => $defaultJenis]) }}">
-                        <i class="fa fa-calendar"></i> <span data-key="t-widgets">Kalender Work Order</span>
-                    </a>
-                </li>
-            {{-- @endcan --}}
             <?php $i = 0; ?>
             @foreach (config('generator.sidebars') as $sidebar)
                 @if (isset($sidebar['permissions']))

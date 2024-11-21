@@ -11,7 +11,7 @@ class SettingAppSeeder extends Seeder
     public function run()
     {
         SettingApp::create([
-            'aplication_name' => 'Marsweb Application',
+            'aplication_name' => 'With You Always',
             'logo' => '',
             'favicon' => '',
         ]);

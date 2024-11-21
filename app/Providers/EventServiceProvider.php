@@ -18,12 +18,6 @@ class EventServiceProvider extends ServiceProvider
      * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
-        Login::class => [
-            'App\Listeners\LogSuccessfulLogin',
-        ],
-        Logout::class => [
-            'App\Listeners\LogSuccessfulLogout',
-        ],
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],

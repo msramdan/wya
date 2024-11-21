@@ -13,10 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(HospitalSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(RoleAndPermissionSeeder::class);
         $this->call(SettingAppSeeder::class);
-        $this->call(UnitSeeder::class);
     }
 }

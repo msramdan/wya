@@ -37,8 +37,8 @@
                                     <thead class="table-dark">
                                         <tr>
                                             <th>#</th>
-                                            <th>{{ trans('utilities/rolepermission/index.name') }}</th>
-                                            <th>{{ trans('utilities/rolepermission/index.action') }}</th>
+                                            <th>Nama Peran</th>
+                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                 </table>

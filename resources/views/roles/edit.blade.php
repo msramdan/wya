@@ -54,17 +54,3 @@
         </div>
     </div>
 @endsection
-@push('js')
-    <script>
-        $(document).ready(function() {
-            $('#Nomenklaturs').hide();
-            $('#Hospitals').hide();
-            $('#Provinces').hide();
-            $('#Kabkots').hide();
-            $('#Kecamatans').hide();
-            $('#Kelurahans').hide();
-            $('#setting').hide();
-            $('#Backup').hide();
-        });
-    </script>
-@endpush

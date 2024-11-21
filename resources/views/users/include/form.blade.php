@@ -85,7 +85,7 @@
                     <label for="role">{{ __('Role') }}</label>
                     <select class="form-select js-example-basic-multiple" name="role" id="role" class="form-control"
                         required>
-                        <option value="" selected disabled>{{ __('-- Select role --') }}</option>
+                        <option value="" selected disabled>{{ __('-- Pilih --') }}</option>
                         @foreach ($roles as $role)
                             <option value="{{ $role->id }}"
                                 {{ $user->getRoleNames()->toArray() !== [] && $user->getRoleNames()[0] == $role->name ? 'selected' : '-' }}>
@@ -149,7 +149,7 @@
                 </div>
             </div>
 
-            <div class="col-md-5 me-0 pe-0">
+            <div class="col-md-5 ">
                 <div class="form-group">
                     <label for="avatar">{{ trans('utilities/users/form.avatar') }}</label>
                     <input type="file" name="avatar" class="form-control @error('avatar') is-invalid @enderror"

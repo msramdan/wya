@@ -57,18 +57,6 @@ class FortifyServiceProvider extends ServiceProvider
                     'password' => 'The provided password is incorrect.',
                 ]);
             }
-            session()->forget('sessionHospital');
-            if ($user->is_grant_user == 'Yes') {
-                $hospital = DB::table('hospitals')->select('id')->first();
-                session(['sessionHospital' => $hospital ? $hospital->id : null]);
-            } else {
-                $hospital = DB::table('model_has_roles')
-                    ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-                    ->where('model_has_roles.model_id', $user->id)
-                    ->select('roles.hospital_id')
-                    ->first();
-                session(['sessionHospital' => $hospital ? $hospital->hospital_id : null]);
-            }
             return $user;
         });
 

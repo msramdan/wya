@@ -2,23 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Image;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\{StoreUserRequest, UpdateUserRequest};
-use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use Yajra\DataTables\Facades\DataTables;
+use RealRashid\SweetAlert\Facades\Alert;
+use Image;
 
 class UserController extends Controller
 {
-    /**
-     * Path for user avatar file.
-     *
-     * @var string
-     */
     protected $avatarPath = '/uploads/images/avatars/';
-
     public function __construct()
     {
         $this->middleware('permission:user view')->only('index', 'show');
@@ -27,32 +19,15 @@ class UserController extends Controller
         $this->middleware('permission:user delete')->only('destroy');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
+    public function index()
     {
         if (request()->ajax()) {
-            $users = DB::table('users')
-                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-                ->leftJoin('hospitals', 'roles.hospital_id', '=', 'hospitals.id')
-                ->select('users.avatar', 'users.name', 'users.email', 'users.no_hp', 'users.id', 'roles.name as nama_roles', 'roles.hospital_id', 'hospitals.name as nama_rs')
-                ->where('roles.hospital_id', session('sessionHospital'))
-                ->get();
+            $users = User::with('roles:id,name');
             return Datatables::of($users)
                 ->addIndexColumn()
-                ->addColumn('hospital', function ($row) {
-                    if ($row->nama_rs == null) {
-                        return 'User MTA';
-                    } else {
-                        return $row->nama_rs;
-                    }
-                })
+                ->addColumn('action', 'users.include.action')
                 ->addColumn('role', function ($row) {
-                    return $row->nama_roles;
+                    return $row->getRoleNames()->toArray() !== [] ? $row->getRoleNames()[0] : '-';
                 })
                 ->addColumn('avatar', function ($row) {
                     if ($row->avatar == null) {
@@ -60,33 +35,21 @@ class UserController extends Controller
                     }
                     return asset($this->avatarPath . $row->avatar);
                 })
-                ->addColumn('action', 'users.include.action')
-                ->rawColumns(['hospital', 'action'])
                 ->toJson();
         }
 
         return view('users.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('users.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreUserRequest $request)
     {
         $attr = $request->validated();
+
         if ($request->file('avatar') && $request->file('avatar')->isValid()) {
 
             $filename = $request->file('avatar')->hashName();
@@ -94,35 +57,24 @@ class UserController extends Controller
             if (!file_exists($folder = public_path($this->avatarPath))) {
                 mkdir($folder, 0777, true);
             }
-            try {
-                Image::make($request->file('avatar')->getRealPath())->resize(500, 500, function ($constraint) {
-                    $constraint->aspectRatio();
-                    $constraint->upsize();
-                })->save(public_path($this->avatarPath) . $filename);
-            } catch (\Throwable $th) {
-                // Handle the exception
-            }
+
+            Image::make($request->file('avatar')->getRealPath())->resize(500, 500, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })->save(public_path($this->avatarPath) . $filename);
 
             $attr['avatar'] = $filename;
         }
 
         $attr['password'] = bcrypt($request->password);
-        $attr['is_grant_user'] = 'No';
+
         $user = User::create($attr);
 
         $user->assignRole($request->role);
-
-        return redirect()
-            ->route('users.index')
-            ->with('success', 'Pengguna berhasil dibuat.');
+        Alert::toast('Pengguna berhasil dibuat.', 'success');
+        return redirect()->route('users.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function show(User $user)
     {
         $user->load('roles:id,name');
@@ -130,25 +82,13 @@ class UserController extends Controller
         return view('users.show', compact('user'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function edit(User $user)
     {
-        $user->load('roles:id,name,hospital_id');
+        $user->load('roles:id,name');
+
         return view('users.edit', compact('user'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateUserRequest $request, User $user)
     {
         $attr = $request->validated();
@@ -191,28 +131,19 @@ class UserController extends Controller
         $user->update($attr);
 
         $user->syncRoles($request->role);
-
+        Alert::toast('Pengguna berhasil diperbarui.', 'success');
         return redirect()
-            ->route('users.index')
-            ->with('success', 'Pengguna berhasil diperbarui.');
+            ->route('users.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(User $user)
     {
         if ($user->avatar != null && file_exists($oldAvatar = public_path($this->avatarPath . $user->avatar))) {
             unlink($oldAvatar);
         }
-
         $user->delete();
-
+        Alert::toast('Pengguna berhasil dihapus.', 'success');
         return redirect()
-            ->route('users.index')
-            ->with('success', 'Pengguna berhasil dihapus.');
+            ->route('users.index');
     }
 }

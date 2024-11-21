@@ -91,7 +91,6 @@
                                                     @enderror
                                                 </div>
 
-
                                                 <div class="mb-3">
                                                     {!! NoCaptcha::display() !!}
                                                     {!! NoCaptcha::renderJs() !!}
@@ -102,10 +101,10 @@
                                                     @enderror
                                                 </div>
                                                 <div class="form-check ">
-                                                    <div class="float-end">
+                                                    {{-- <div class="float-end">
                                                         <a href="{{ route('password.request') }}" class="text-muted">Forgot
                                                             password?</a>
-                                                    </div>
+                                                    </div> --}}
 
                                                     <input class="form-check-input" type="checkbox" value=""
                                                         id="auth-remember-check" onclick="myFunction()">

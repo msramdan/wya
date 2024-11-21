@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Yajra\DataTables\Facades\DataTables;
-use Spatie\Permission\Models\{Role, Permission};
 use App\Http\Requests\{StoreRoleRequest, UpdateRoleRequest};
+use Spatie\Permission\Models\{Role, Permission};
+use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class RoleAndPermissionController extends Controller
@@ -19,15 +17,18 @@ class RoleAndPermissionController extends Controller
         $this->middleware('permission:role & permission delete')->only('delete');
     }
 
-    public function index(Request $request)
+    public function index()
     {
         if (request()->ajax()) {
-            $role = DB::table('roles')
-                ->select('roles.*')
-                ->where('hospital_id', session('sessionHospital'))
-                ->get();
-            return DataTables::of($role)
+            $users = Role::query();
+
+            return DataTables::of($users)
                 ->addIndexColumn()
+                ->addColumn('created_at', function ($row) {
+                    return $row->created_at->format('d/m/Y H:i');
+                })->addColumn('updated_at', function ($row) {
+                    return $row->updated_at->format('d/m/Y H:i');
+                })
                 ->addColumn('action', 'roles.include.action')
                 ->toJson();
         }
@@ -42,14 +43,10 @@ class RoleAndPermissionController extends Controller
 
     public function store(StoreRoleRequest $request)
     {
-        $role = Role::create(
-            [
-                'name' => $request->name,
-                'hospital_id' => session('sessionHospital'),
-            ]
-        );
+        $role = Role::create(['name' => $request->name]);
+
         $role->givePermissionTo($request->permissions);
-        Alert::toast('Peran dan Izin Akses berhasil dibuat.', 'success'); // Mengubah teks alert ke bahasa Indonesia
+        Alert::toast('Pedan dan Izin Akses berhasil dibuat.', 'success');
         return redirect()
             ->route('roles.index');
     }
@@ -57,58 +54,43 @@ class RoleAndPermissionController extends Controller
     public function show(int $id)
     {
         $role = Role::with('permissions')->findOrFail($id);
-        cekAksesRs($role->hospital_id);
+
         return view('roles.show', compact('role'));
     }
 
     public function edit(int $id)
     {
         $role = Role::with('permissions')->findOrFail($id);
-        cekAksesRs($role->hospital_id);
+
         return view('roles.edit', compact('role'));
     }
 
     public function update(UpdateRoleRequest $request, $id)
     {
         $role = Role::findOrFail($id);
-        $oldPermissions = $role->permissions->pluck('name')->toArray();
+
         $role->update(['name' => $request->name]);
+
         $role->syncPermissions($request->permissions);
-
-        $newPermissions = $role->permissions->pluck('name')->toArray();
-        if ($oldPermissions !== $newPermissions) {
-            activity()
-                ->useLog('log_role')
-                ->causedBy(auth()->user())
-                ->performedOn($role)
-                ->withProperties([
-                    'old' => ['permissions' => $oldPermissions],
-                    'attributes' => ['permissions' => $newPermissions],
-                ])
-                ->event('updated')
-                ->log("Peran dan Izin Akses {$role->name} permissions diperbarui");
-        }
-
-        Alert::toast('Peran dan Izin Akses berhasil diperbarui.', 'success'); // Mengubah teks alert ke bahasa Indonesia
-        return redirect()->route('roles.index');
+        Alert::toast('Pedan dan Izin Akses berhasil diperbaharui.', 'success');
+        return redirect()
+            ->route('roles.index');
     }
 
     public function destroy(int $id)
     {
         $role = Role::withCount('users')->findOrFail($id);
-
-        // if any user where role.id = $id
         if ($role->users_count < 1) {
             $role->delete();
-            Alert::toast('Peran dan Izin Akses berhasil dihapus.', 'success'); // Mengubah teks alert ke bahasa Indonesia
+            Alert::toast('Pedan dan Izin Akses berhasil dihapus.', 'success');
             return redirect()
                 ->route('roles.index');
         } else {
-            Alert::toast('Tidak dapat menghapus Peran dan Izin Akses karena masih terkait dengan pengguna.', 'error'); // Mengubah teks alert ke bahasa Indonesia
+            Alert::toast('Can`t delete role.', 'error');
             return redirect()
                 ->route('roles.index');
         }
 
-        return redirect()->route('roles.index');
+        return redirect()->route('role.index');
     }
 }
