@@ -1,0 +1,22 @@
+<?php
+return [
+  'head' => 'Pengajuan Work Order',
+  'create' => 'Buat Work Order Baru',
+  'filter_hospital' => 'Filter Rumah Sakit',
+  'filter_equipment' => 'Semua Peralatan',
+  'filter_type' => 'Semua Jenis',
+  'filter_category' => 'Semua Kategori',
+  'filter_created' => 'Semua Pembuat',
+  'hospital' => 'Rumah Sakit',
+  'wo_number' => 'Nomor WO',
+  'filed_date' => 'Tanggal Diajukan',
+  'equipment' => 'Peralatan',
+  'type' => 'Jenis',
+  'category' => 'Kategori',
+  'created_by' => 'Dibuat Oleh',
+  'approval_user' => 'Persetujuan Pengguna',
+  'status' => 'Status',
+  'action' => 'Aksi',
+  'detail_work_order' => 'Detail Work Order',
+  'informasi' => 'Informasi Peralatan',
+];
