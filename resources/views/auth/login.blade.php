@@ -31,24 +31,21 @@
                                                             aria-label="Slide 1"></button>
                                                         <button type="button" data-bs-target="#qoutescarouselIndicators"
                                                             data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                                        {{-- <button type="button" data-bs-target="#qoutescarouselIndicators"
-                                                            data-bs-slide-to="2" aria-label="Slide 3"></button> --}}
+                                                        <button type="button" data-bs-target="#qoutescarouselIndicators"
+                                                            data-bs-slide-to="2" aria-label="Slide 3"></button>
                                                     </div>
                                                     <div class="carousel-inner text-center text-white pb-5">
                                                         <div class="carousel-item active">
-                                                            <p class="fs-15 fst-italic">" Great! Clean code, clean
-                                                                design, easy for customization. Thanks very much! "</p>
+                                                            <p class="fs-15 fst-italic">" Hentikan bullying di sekolah! Semua siswa berhak merasa aman dan nyaman. "</p>
                                                         </div>
                                                         <div class="carousel-item">
-                                                            <p class="fs-15 fst-italic">" The Application is really great
-                                                                with
-                                                                an amazing customer support."</p>
+                                                            <p class="fs-15 fst-italic">" Laporkan tindakan bullying di sekolah, bersama kita bisa menciptakan lingkungan belajar yang positif. "</p>
                                                         </div>
-                                                        {{-- <div class="carousel-item">
-                                                            <p class="fs-15 fst-italic">" Great! Clean code, clean
-                                                                design, easy for customization. Thanks very much! "</p>
-                                                        </div> --}}
+                                                        <div class="carousel-item">
+                                                            <p class="fs-15 fst-italic">" Jadilah teman yang baik, saling menghormati adalah kunci untuk menghentikan bullying. "</p>
+                                                        </div>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>

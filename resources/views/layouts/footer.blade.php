@@ -2,9 +2,6 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
-                <script>
-                    document.write(new Date().getFullYear())
-                </script> © PT. Mitra Tera Akurasi.
             </div>
         </div>
     </div>

@@ -49,7 +49,7 @@
     </div>
 @endsection
 
-@push('css-styles')
+@push('css')
     <style>
         .select2-container .select2-selection--multiple .select2-selection__choice {
             color: #000 !important;
