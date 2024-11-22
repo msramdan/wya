@@ -57,7 +57,7 @@ class LandingWebController extends Controller
         ]);
 
         // Generate token for Private type, otherwise set it to null
-        $token = $request->type == 'Private' ? rand(100000, 999999) : null;
+        $token = $request->type == 'Private' ? strtoupper(bin2hex(random_bytes(3))) : null;
 
         // Use Query Builder to insert data into 'aduans' table
         try {
