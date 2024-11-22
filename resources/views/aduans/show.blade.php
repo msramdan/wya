@@ -76,6 +76,15 @@
                                             @endif
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td class="fw-bold">{{ __('Token') }}</td>
+                                        @if ($aduan->token != null)
+                                            <td><b>{{ $aduan->token }}</b></td>
+                                        @else
+                                            <td><b>-</b></td>
+                                        @endif
+
+                                    </tr>
                                 </table>
                             </div>
 

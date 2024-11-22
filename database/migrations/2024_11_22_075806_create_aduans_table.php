@@ -23,6 +23,7 @@ return new class extends Migration
 			$table->enum('type', ['Public', 'Private']);
 			$table->enum('is_read', ['Yes', 'No']);
             $table->enum('status', ['Dalam Penanganan', 'Ditolak','Selesai']);
+            $table->string('token')->nullable();
             $table->timestamps();
         });
     }

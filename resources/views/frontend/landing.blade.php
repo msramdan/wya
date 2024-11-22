@@ -57,6 +57,8 @@
     <script src="{{ asset('landing') }}/assets/vendor/glightbox/js/glightbox.min.js"></script>
     <script src="{{ asset('landing') }}/assets/vendor/swiper/swiper-bundle.min.js"></script>
     <script src="{{ asset('landing') }}/assets/js/main.js"></script>
+    @stack('js')
+
 </body>
 
 </html>

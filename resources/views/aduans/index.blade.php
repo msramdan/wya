@@ -52,6 +52,7 @@
                                             <th>{{ __('Type') }}</th>
                                             <th>{{ __('Is Read') }}</th>
                                             <th>{{ __('Status') }}</th>
+                                            <th>Token</th>
                                             <th>{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
@@ -105,6 +106,10 @@
                 {
                     data: 'status',
                     name: 'status',
+                },
+                {
+                    data: 'token',
+                    name: 'token',
                 },
                 {
                     data: 'action',

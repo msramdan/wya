@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Aduan extends Model
 {
     use HasFactory;
-    protected $fillable = ['nama', 'email', 'judul', 'keterangan', 'tanggal', 'type', 'is_read','status'];
+    protected $fillable = ['nama', 'email', 'judul', 'keterangan', 'tanggal', 'type', 'is_read','status','token'];
 }

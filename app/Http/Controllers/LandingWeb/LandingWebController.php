@@ -56,6 +56,9 @@ class LandingWebController extends Controller
             'g-recaptcha-response' => 'required|captcha',  // Assuming you're using Google reCAPTCHA
         ]);
 
+        // Generate token for Private type, otherwise set it to null
+        $token = $request->type == 'Private' ? rand(100000, 999999) : null;
+
         // Use Query Builder to insert data into 'aduans' table
         try {
             DB::table('aduans')->insert([
@@ -67,15 +70,23 @@ class LandingWebController extends Controller
                 'tanggal' => now(),
                 'is_read' => 'No',
                 'status' => 'Dalam Penanganan',
+                'token' => $token,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
+
+            // If the type is Private, add token information to the session
+            if ($request->type == 'Private') {
+                return redirect()->route('web.form')->with('success', 'Laporan berhasil dikirim. Token untuk melihat Aduan: <b>' . $token . '</b>');
+            }
 
             return redirect()->route('web.form')->with('success', 'Laporan berhasil dikirim.');
         } catch (\Exception $e) {
             return back()->with('error', 'Terjadi kesalahan saat mengirim laporan.');
         }
     }
+
+
 
     public function private()
     {

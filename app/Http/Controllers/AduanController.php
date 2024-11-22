@@ -17,19 +17,14 @@ class AduanController extends Controller
         $this->middleware('permission:aduan delete')->only('destroy');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         if (request()->ajax()) {
-            $aduans = Aduan::query();
+            // Order by id in descending order
+            $aduans = Aduan::query()->orderBy('id', 'desc');
 
             return DataTables::of($aduans)
                 ->addIndexColumn()
-
                 ->addColumn('status', function ($row) {
                     if ($row->status == 'Dalam Penanganan') {
                         return '<span class="badge badge-label bg-info badge-width"><i class="mdi mdi-circle-medium"></i>Dalam Penanganan</span>';
@@ -39,9 +34,14 @@ class AduanController extends Controller
                         return '<span class="badge badge-label bg-success badge-width"><i class="mdi mdi-circle-medium"></i>Selesai</span>';
                     }
                 })
-
                 ->addColumn('keterangan', function ($row) {
                     return str($row->keterangan)->limit(100);
+                })
+                ->addColumn('token', function ($row) {
+                    if ($row->token != null) {
+                        return $row->token;
+                    }
+                    return '-';
                 })
                 ->addColumn('action', 'aduans.include.action')
                 ->rawColumns(['status', 'action'])
@@ -51,11 +51,6 @@ class AduanController extends Controller
         return view('aduans.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('aduans.create');
