@@ -9,6 +9,6 @@ class LandingWebController extends Controller
 {
     public function index()
     {
-        return view('landing_web.index');
+        return view('frontend.index');
     }
 }
