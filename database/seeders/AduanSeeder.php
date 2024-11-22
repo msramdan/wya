@@ -198,7 +198,7 @@ class AduanSeeder extends Seeder
                 'judul' => 'Penipuan Uang oleh Teman',
                 'keterangan' => 'Laporan mengenai penipuan yang dilakukan oleh teman sekelas terkait uang.',
                 'tanggal' => now(),
-                'type' => 'Public',
+                'type' => 'Private',
                 'is_read' => 'Yes',
                 'status' => 'Ditolak',
                 'token' => '111111',

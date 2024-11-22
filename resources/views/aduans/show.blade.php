@@ -28,7 +28,7 @@
         </div>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="card">
                         <div class="card-body">
                             <div class="table-responsive">
@@ -65,11 +65,17 @@
                                         <td class="fw-bold">{{ __('Status') }}</td>
                                         <td>
                                             @if ($aduan->status == 'Dalam Penanganan')
-                                                <button class="btn btn-secondary">{{ $aduan->status }}</button>
+                                                <button class="btn btn-secondary">
+                                                    <i class="fa fa-spinner fa-spin"></i> {{ $aduan->status }}
+                                                </button>
                                             @elseif ($aduan->status == 'Ditolak')
-                                                <button class="btn btn-danger">{{ $aduan->status }}</button>
+                                                <button class="btn btn-danger">
+                                                    <i class="fa fa-times-circle"></i> {{ $aduan->status }}
+                                                </button>
                                             @elseif ($aduan->status == 'Selesai')
-                                                <button class="btn btn-success">{{ $aduan->status }}</button>
+                                                <button class="btn btn-success">
+                                                    <i class="fa fa-check-circle"></i> {{ $aduan->status }}
+                                                </button>
                                             @else
                                                 <span>{{ $aduan->status }}</span>
                                                 <!-- Fallback if status is not one of the known values -->
@@ -83,12 +89,58 @@
                                         @else
                                             <td><b>-</b></td>
                                         @endif
-
                                     </tr>
                                 </table>
                             </div>
 
-                            <a href="{{ url()->previous() }}" class="btn btn-secondary">{{ __('Kembali') }}</a>
+                            <a href="{{ url()->previous() }}" class="btn btn-secondary"><i class="fa fa-arrow-left"
+                                    aria-hidden="true"></i> {{ __('Kembali') }}</a>
+                            @can('update aduan')
+                                <button class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#statusModal">{{ __('Update Status') }}</button>
+                            @endcan
+
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="statusModalLabel">{{ __('Update Status Aduan') }}
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="{{ route('aduans.updateStatus', $aduan->id) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <div class="mb-3">
+                                                    <label for="status"
+                                                        class="form-label">{{ __('Status Baru') }}</label>
+                                                    <select class="form-select" id="status_aduan" name="status_aduan"
+                                                        required>
+                                                        <option value="Dalam Penanganan"
+                                                            {{ $aduan->status == 'Dalam Penanganan' ? 'selected' : '' }}>
+                                                            {{ __('Dalam Penanganan') }}
+                                                        </option>
+                                                        <option value="Ditolak"
+                                                            {{ $aduan->status == 'Ditolak' ? 'selected' : '' }}>
+                                                            {{ __('Ditolak') }}
+                                                        </option>
+                                                        <option value="Selesai"
+                                                            {{ $aduan->status == 'Selesai' ? 'selected' : '' }}>
+                                                            {{ __('Selesai') }}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

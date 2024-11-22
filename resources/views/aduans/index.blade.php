@@ -6,17 +6,13 @@
     <style>
         .badge-width {
             display: inline-block;
-            /* Memastikan span memiliki lebar tetap */
             width: 140px;
-            /* Atur lebar sesuai kebutuhan */
             text-align: center;
-            /* Untuk memastikan teks berada di tengah */
             font-size: 0.9em;
-            /* Ukuran font lebih kecil */
             line-height: 1.5;
-            /* Mengatur tinggi garis untuk vertikal center */
         }
     </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 @endpush
 
 @section('content')
@@ -39,6 +35,12 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card">
+                        <div class="card-header">
+                            <button id="btnExport" class="btn btn-success">
+                                <i class='fas fa-file-excel'></i> Export
+                            </button>
+                        </div>
+
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="data-table">
@@ -68,6 +70,7 @@
 
 
 @push('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.5.1/sweetalert2.all.min.js"></script>
     <script>
         $('#data-table').DataTable({
             processing: true,
@@ -119,5 +122,55 @@
                 }
             ],
         });
+    </script>
+
+    <script>
+        $(document).on('click', '#btnExport', function(event) {
+            event.preventDefault();
+            exportData();
+        });
+
+        var exportData = function() {
+            var url = '/panel/exportAduan';
+            $.ajax({
+                url: url,
+                type: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+                data: {},
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                beforeSend: function() {
+                    Swal.fire({
+                        title: 'Harap tunggu!',
+                        html: 'Exporting data',
+                        allowOutsideClick: false,
+                        onBeforeOpen: () => {
+                            Swal.showLoading()
+                        },
+                    });
+                },
+                success: function(data) {
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(data);
+                    var nameFile = 'Data aduan.xlsx';
+
+                    link.download = nameFile;
+                    link.click();
+                    swal.close();
+                },
+                error: function(data) {
+                    console.log(data);
+                    Swal.fire({
+                        icon: 'error',
+                        title: "Error",
+                        text: "Data export failed",
+                        allowOutsideClick: false,
+                    });
+                }
+            });
+        }
     </script>
 @endpush

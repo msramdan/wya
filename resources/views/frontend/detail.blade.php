@@ -56,27 +56,27 @@
                             </tr>
                             <tr>
                         @endif
-
-                        <td class="fw-bold">{{ __('Status') }}</td>
-                        <td>:</td>
-                        <td>
-                            @if ($aduan->status == 'Dalam Penanganan')
-                                <button class="btn btn-secondary">
-                                    <i class="fa fa-spinner fa-spin"></i> {{ $aduan->status }}
-                                </button>
-                            @elseif ($aduan->status == 'Ditolak')
-                                <button class="btn btn-danger">
-                                    <i class="fa fa-times-circle"></i> {{ $aduan->status }}
-                                </button>
-                            @elseif ($aduan->status == 'Selesai')
-                                <button class="btn btn-success">
-                                    <i class="fa fa-check-circle"></i> {{ $aduan->status }}
-                                </button>
-                            @else
-                                <span>{{ $aduan->status }}</span>
-                                <!-- Fallback if status is not one of the known values -->
-                            @endif
-                        </td>
+                        <tr>
+                            <td class="fw-bold">{{ __('Status') }}</td>
+                            <td>:</td>
+                            <td>
+                                @if ($aduan->status == 'Dalam Penanganan')
+                                    <button class="btn btn-secondary">
+                                        <i class="fa fa-spinner fa-spin"></i> {{ $aduan->status }}
+                                    </button>
+                                @elseif ($aduan->status == 'Ditolak')
+                                    <button class="btn btn-danger">
+                                        <i class="fa fa-times-circle"></i> {{ $aduan->status }}
+                                    </button>
+                                @elseif ($aduan->status == 'Selesai')
+                                    <button class="btn btn-success">
+                                        <i class="fa fa-check-circle"></i> {{ $aduan->status }}
+                                    </button>
+                                @else
+                                    <span>{{ $aduan->status }}</span>
+                                    <!-- Fallback if status is not one of the known values -->
+                                @endif
+                            </td>
                         </tr>
                     </table>
                 </div>

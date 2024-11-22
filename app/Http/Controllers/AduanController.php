@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExportAduan;
 use App\Models\Aduan;
 use App\Http\Requests\{StoreAduanRequest, UpdateAduanRequest};
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AduanController extends Controller
 {
@@ -20,9 +24,7 @@ class AduanController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            // Order by id in descending order
             $aduans = Aduan::query()->orderBy('id', 'desc');
-
             return DataTables::of($aduans)
                 ->addIndexColumn()
                 ->addColumn('status', function ($row) {
@@ -114,12 +116,6 @@ class AduanController extends Controller
             ->route('aduans.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Aduan  $aduan
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Aduan $aduan)
     {
         try {
@@ -129,6 +125,34 @@ class AduanController extends Controller
         } catch (\Throwable $th) {
             Alert::toast('The aduan cant be deleted because its related to another table.', 'error');
             return redirect()->route('aduans.index');
+        }
+    }
+
+    public function exportAduan()
+    {
+        $date = date('d-m-Y');
+        $nameFile = 'Data Aduan' . $date;
+        return Excel::download(new ExportAduan(), $nameFile . '.xlsx');
+    }
+
+    public function updateStatus($id, Request $request)
+    {
+        $request->validate([
+            'status_aduan' => 'required|in:Dalam Penanganan,Ditolak,Selesai',
+        ]);
+
+        // Mengupdate status aduan di database
+        $updated = DB::table('aduans')
+            ->where('id', $id)
+            ->update(['status' => $request->status_aduan]);
+
+        // Cek apakah update berhasil
+        if ($updated) {
+            Alert::toast('Status aduan berhasil diperbarui.', 'success');
+            return redirect()->route('aduans.show', $id);
+        } else {
+            Alert::toast('Terjadi kesalahan saat memperbarui status.', 'error');
+            return redirect()->route('aduans.show', $id);
         }
     }
 }
