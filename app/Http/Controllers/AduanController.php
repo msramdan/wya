@@ -86,7 +86,21 @@ class AduanController extends Controller
      */
     public function show(Aduan $aduan)
     {
-        return view('aduans.show', compact('aduan'));
+        $comments = DB::table('comments')
+            ->join('users', 'comments.user_id', '=', 'users.id')
+            ->select(
+                'comments.id',
+                'comments.komentar',
+                'comments.tanggal',
+                'users.name as user_name',
+                'users.email as user_email',
+                'users.avatar as user_avatar'
+            )
+            ->where('comments.aduan_id', $aduan->id)
+            ->orderBy('comments.tanggal', 'asc')
+            ->get();
+
+        return view('aduans.show', compact('aduan', 'comments'));
     }
 
     /**
@@ -154,5 +168,27 @@ class AduanController extends Controller
             Alert::toast('Terjadi kesalahan saat memperbarui status.', 'error');
             return redirect()->route('aduans.show', $id);
         }
+    }
+
+    public function storeComment(Request $request, $aduanId)
+    {
+        $request->validate([
+            'comment' => 'required|string|max:1000',
+        ]);
+
+        // Pastikan aduan dengan id tersebut ada
+        $aduan = DB::table('aduans')->where('id', $aduanId)->first();
+        if (!$aduan) {
+            Alert::toast('Aduan tidak ditemukan.', 'error');
+            return redirect()->back();
+        }
+        DB::table('comments')->insert([
+            'aduan_id' => $aduanId,
+            'user_id' => auth()->id(),
+            'komentar' => $request->input('comment'),
+            'tanggal' => now(),
+        ]);
+        Alert::toast('Komentar berhasil ditambahkan.', 'success');
+        return redirect()->route('aduans.show', $aduanId);
     }
 }

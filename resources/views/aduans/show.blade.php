@@ -78,7 +78,6 @@
                                                 </button>
                                             @else
                                                 <span>{{ $aduan->status }}</span>
-                                                <!-- Fallback if status is not one of the known values -->
                                             @endif
                                         </td>
                                     </tr>
@@ -99,7 +98,6 @@
                                 <button class="btn btn-primary" data-bs-toggle="modal"
                                     data-bs-target="#statusModal">{{ __('Update Status') }}</button>
                             @endcan
-
 
                             <!-- Modal -->
                             <div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel"
@@ -144,6 +142,53 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Kolom untuk form komentar dan daftar komentar -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>{{ __('Komentar') }}</h5>
+                            <div class="comments-list">
+                                @forelse ($comments as $comment)
+                                    <div class="comment-item mb-3 d-flex">
+                                        <!-- Avatar -->
+                                        @if ($comment->user_avatar == null)
+                                            <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($comment->user_email))) }}&s=450"
+                                                alt="{{ $comment->user_name }}" class="rounded-circle me-3" width="40"
+                                                height="40">
+                                        @else
+                                            <img src="{{ asset('uploads/images/avatars/' . $comment->user_avatar) }}"
+                                                alt="{{ $comment->user_name }}" class="rounded-circle me-3" width="40"
+                                                height="40">
+                                        @endif
+                                        <div>
+                                            <p class="mb-1">
+                                                <strong>{{ $comment->user_name }}</strong>
+                                                <span
+                                                    class="text-muted">{{ \Carbon\Carbon::parse($comment->tanggal)->diffForHumans() }}</span>
+                                            </p>
+                                            <p class="mb-0">{{ $comment->komentar }}</p>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <p>{{ __('Belum ada komentar.') }}</p>
+                                @endforelse
+                            </div>
+                            <br>
+                            @can('respon aduan')
+                                <form action="{{ route('aduans.comments.store', $aduan->id) }}" method="POST">
+                                    @csrf
+                                    <div class="mb-3">
+                                        <textarea class="form-control" name="comment" rows="3" placeholder="{{ __('Tulis komentar...') }}" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">{{ __('Kirim') }}</button>
+                                </form>
+                            @endcan
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

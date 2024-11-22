@@ -41,7 +41,9 @@ Route::prefix('panel')->group(function () {
         Route::controller(AduanController::class)->group(function () {
             Route::get('/exportAduan', 'exportAduan')->name('exportAduan');
             Route::put('/aduans/{id}/updateStatus', 'updateStatus')->name('aduans.updateStatus');
+            Route::post('/aduans/{aduan}/comments', 'storeComment')->name('aduans.comments.store');
         });
+
     });
 });
 
