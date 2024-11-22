@@ -121,37 +121,42 @@
                         </tr>
                     </table>
 
-                    <!-- Comment Section -->
                     <div class="comments-section mt-4">
                         <h3>{{ __('Komentar') }}</h3>
-                        @foreach ($comments as $comment)
-                            <!-- Assuming 'comments' is a relationship -->
-                            <div class="comment-item mb-3">
-                                <div class="d-flex">
-                                    <!-- Avatar -->
-                                    @if ($comment->user_avatar == null)
-                                        <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($comment->user_email))) }}&s=50"
-                                            alt="{{ $comment->user_name }}" class="rounded-circle me-3" width="40"
-                                            height="40">
-                                    @else
-                                        <img src="{{ asset('uploads/images/avatars/' . $comment->user_avatar) }}"
-                                            alt="{{ $comment->user_name }}" class="rounded-circle me-3" width="40"
-                                            height="40">
-                                    @endif
 
-                                    <!-- Comment Details -->
-                                    <div>
-                                        <p class="mb-1">
-                                            <strong>{{ $comment->user_name }}</strong>
-                                            <span
-                                                class="text-muted">{{ \Carbon\Carbon::parse($comment->tanggal)->diffForHumans() }}</span>
-                                        </p>
-                                        <p class="mb-0" style="text-align: justify">{{ $comment->komentar }}</p>
+                        <!-- Check if there are any comments -->
+                        @if ($comments->isEmpty())
+                            <p class="text-muted">{{ __('Belum ada komentar.') }}</p>
+                        @else
+                            @foreach ($comments as $comment)
+                                <!-- Assuming 'comments' is a relationship -->
+                                <div class="comment-item mb-3">
+                                    <div class="d-flex">
+                                        <!-- Avatar -->
+                                        @if ($comment->user_avatar == null)
+                                            <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($comment->user_email))) }}&s=50"
+                                                alt="{{ $comment->user_name }}" class="rounded-circle me-3" width="40"
+                                                height="40">
+                                        @else
+                                            <img src="{{ asset('uploads/images/avatars/' . $comment->user_avatar) }}"
+                                                alt="{{ $comment->user_name }}" class="rounded-circle me-3" width="40"
+                                                height="40">
+                                        @endif
+
+                                        <!-- Comment Details -->
+                                        <div>
+                                            <p class="mb-1">
+                                                <strong>{{ $comment->user_name }}</strong>
+                                                <span class="text-muted">{{ \Carbon\Carbon::parse($comment->tanggal)->diffForHumans() }}</span>
+                                            </p>
+                                            <p class="mb-0" style="text-align: justify">{{ $comment->komentar }}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        @endif
                     </div>
+
                 </div>
             </div>
         </section>
