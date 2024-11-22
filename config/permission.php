@@ -183,5 +183,6 @@ return [
         ],
         ['group' => 'setting apps', 'access' => ['setting app view', 'setting app edit']],
         ['group' => 'backup', 'access' => ['backup database view']],
+        ['group' => 'aduans', 'access' => ['aduan view', 'aduan edit', 'aduan delete']],
     ],
 ];

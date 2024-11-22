@@ -23,8 +23,7 @@
 </head>
 
 <body class="index-page">
-
-    <header id="header" class="header d-flex align-items-center fixed-top">
+    <header id="header" class="header d-flex align-items-center sticky-top">
         <div class="container-fluid container-xl position-relative d-flex align-items-center">
             <a href="{{route('web')}}" class="logo d-flex align-items-center me-auto">
                 <img src="{{ asset('landing') }}/assets/img/logo.png" alt="">
@@ -43,6 +42,8 @@
 
         </div>
     </header>
+
+
     @yield('content')
     <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>

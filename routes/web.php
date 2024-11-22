@@ -34,3 +34,5 @@ Route::prefix('panel')->group(function () {
         Route::get('/backup/download', [BackupController::class, 'downloadBackup'])->name('backup.download');
     });
 });
+
+Route::resource('aduans', App\Http\Controllers\AduanController::class)->middleware('auth');

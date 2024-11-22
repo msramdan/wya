@@ -75,12 +75,28 @@ return [
 
     'sidebars' => [
         [
+            'header' => 'Aduan',
+            'permissions' => [
+                'aduan view'
+            ],
+            'menus' => [
+                [
+                    'title' => 'Aduan',
+                    'icon' => '<i data-feather="book"></i>',
+                    'route' => '/aduans',
+                    'permission' => 'aduan view',
+                    'permissions' => [],
+                    'submenus' => []
+                ]
+            ]
+        ],
+        [
             'header' => 'Utilities',
             'permissions' => [
                 'role & permission view',
                 'user view',
                 'setting app view',
-                'backup database view',
+                'backup database view'
             ],
             'menus' => [
                 [
@@ -98,7 +114,7 @@ return [
                         'role & permission view',
                         'user view',
                         'setting app view',
-                        'backup database view',
+                        'backup database view'
                     ],
                     'submenus' => [
                         [
