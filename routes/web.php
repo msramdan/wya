@@ -16,6 +16,10 @@ Route::get('/web', function () {
     return redirect()->route('web');
 });
 Route::get('/', [LandingWebController::class, 'index'])->name('web');
+Route::get('/list', [LandingWebController::class, 'list'])->name('web.list');
+Route::get('/form', [LandingWebController::class, 'form'])->name('web.form');
+Route::get('/aduan-private', [LandingWebController::class, 'private'])->name('web.private');
+
 Route::prefix('panel')->group(function () {
     Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');

@@ -11,4 +11,20 @@ class LandingWebController extends Controller
     {
         return view('frontend.index');
     }
+
+    public function list()
+    {
+        return view('frontend.list');
+    }
+
+    public function form()
+    {
+        return view('frontend.form');
+    }
+
+    public function private()
+    {
+        return view('frontend.private');
+    }
+
 }
