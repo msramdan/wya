@@ -56,7 +56,6 @@ class LandingWebController extends Controller
             'g-recaptcha-response' => 'required|captcha',  // Assuming you're using Google reCAPTCHA
         ]);
 
-        // Generate token for Private type, otherwise set it to null
         $token = $request->type == 'Private' ? strtoupper(bin2hex(random_bytes(3))) : null;
 
         // Use Query Builder to insert data into 'aduans' table
@@ -92,6 +91,26 @@ class LandingWebController extends Controller
     {
         return view('frontend.private');
     }
+
+    public function checkAduan(Request $request)
+    {
+        // Gabungkan input token dari form menjadi satu string
+        $token = $request->input('satu') . $request->input('dua') . $request->input('tiga') .
+            $request->input('empat') . $request->input('lima') . $request->input('enam');
+
+        // Cari data aduan berdasarkan token yang digabungkan menggunakan Query Builder
+        $aduan = DB::table('aduans')->where('token', $token)->first();
+
+        // Cek apakah aduan ditemukan
+        if ($aduan) {
+            // Jika ditemukan, redirect ke halaman detail aduan
+            return redirect()->route('web.detail', ['id' => $aduan->id]); // ganti 'aduan.detail' sesuai route Anda
+        } else {
+            // Jika tidak ditemukan, tampilkan alert
+            return back()->with('error', 'Aduan tidak ditemukan');
+        }
+    }
+
 
     public function search(Request $request)
     {

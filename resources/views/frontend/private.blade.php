@@ -18,7 +18,13 @@
             <div class="container" data-aos="fade-up">
                 <div class="d-flex justify-content-center">
                     <div class="col-md-4">
-                        <form method="POST" action="">
+                        @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+
+                        <form method="POST" action="{{ route('web.checkAduan') }}">
                             @csrf
                             <div class="form-group text-center">
                                 <div class="border-pin">
@@ -61,6 +67,8 @@
         border: 1px solid rgba(0, 0, 0, 0.3);
         border-radius: .5rem;
         color: rgba(0, 0, 0, 0.5);
+        text-transform: uppercase;
+        /* Menambahkan properti ini */
     }
 
     .num:focus,
