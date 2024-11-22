@@ -41,7 +41,7 @@
                                         <div class="d-flex align-items-end justify-content-between mt-4">
                                             <div>
                                                 <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value"
-                                                        data-target="1"></span></h4>
+                                                        data-target="{{$totalPublicAduans}}"></span></h4>
                                             </div>
                                             <div class="avatar-sm flex-shrink-0">
                                                 <span class="avatar-title bg-warning rounded fs-3">
@@ -68,12 +68,12 @@
                                         <div class="d-flex align-items-end justify-content-between mt-4">
                                             <div>
                                                 <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span
-                                                        class="counter-value" data-target="2"></span>
+                                                        class="counter-value" data-target="{{$totalPrivateAduans}}"></span>
                                                 </h4>
                                             </div>
                                             <div class="avatar-sm flex-shrink-0">
                                                 <span class="avatar-title bg-success rounded fs-3">
-                                                    <i class="mdi mdi-cube"></i>
+                                                    <i class="mdi mdi-book-multiple"></i>
                                                 </span>
                                             </div>
                                         </div>
@@ -96,7 +96,7 @@
                                         <div class="d-flex align-items-end justify-content-between mt-4">
                                             <div>
                                                 <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span
-                                                        class="counter-value" data-target="2"></span>
+                                                        class="counter-value" data-target="{{$totalUsers}}"></span>
                                                 </h4>
                                             </div>
                                             <div class="avatar-sm flex-shrink-0">
@@ -124,12 +124,12 @@
                                         <div class="d-flex align-items-end justify-content-between mt-4">
                                             <div>
                                                 <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span
-                                                        class="counter-value" data-target="2"></span>
+                                                        class="counter-value" data-target="{{$totalRoles}}"></span>
                                                 </h4>
                                             </div>
                                             <div class="avatar-sm flex-shrink-0">
                                                 <span class="avatar-title bg-danger rounded fs-3">
-                                                    <i class="fa fa-address-book" aria-hidden="true"></i>
+                                                    <i class="fa fa-cog" aria-hidden="true"></i>
                                                 </span>
                                             </div>
                                         </div>

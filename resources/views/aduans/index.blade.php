@@ -41,7 +41,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-sm" id="data-table">
+                                <table class="table table-bordered" id="data-table">
                                     <thead>
                                         <tr>
                                             <th>#</th>

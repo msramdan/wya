@@ -43,6 +43,12 @@ class AduanController extends Controller
                     }
                     return '-';
                 })
+                ->addColumn('is_read', function ($row) {
+                    if ($row->type == 'Private') {
+                        return $row->is_read;
+                    }
+                    return '-';
+                })
                 ->addColumn('action', 'aduans.include.action')
                 ->rawColumns(['status', 'action'])
                 ->toJson();
