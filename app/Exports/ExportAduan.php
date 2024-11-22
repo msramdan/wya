@@ -29,7 +29,7 @@ class ExportAduan implements FromView, ShouldAutoSize, WithEvents, WithTitle
     {
         return [
             AfterSheet::class    => function (AfterSheet $event) {
-                $cellRange = 'A1:I1';
+                $cellRange = 'A1:J1';
                 $event->sheet->getStyle($cellRange)->applyFromArray([
                     'borders' => [
                         'allBorders' => [
