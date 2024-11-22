@@ -63,7 +63,18 @@
                                     </tr>
                                     <tr>
                                         <td class="fw-bold">{{ __('Status') }}</td>
-                                        <td>{{ $aduan->status }}</td>
+                                        <td>
+                                            @if ($aduan->status == 'Dalam Penanganan')
+                                                <button class="btn btn-secondary">{{ $aduan->status }}</button>
+                                            @elseif ($aduan->status == 'Ditolak')
+                                                <button class="btn btn-danger">{{ $aduan->status }}</button>
+                                            @elseif ($aduan->status == 'Selesai')
+                                                <button class="btn btn-success">{{ $aduan->status }}</button>
+                                            @else
+                                                <span>{{ $aduan->status }}</span>
+                                                <!-- Fallback if status is not one of the known values -->
+                                            @endif
+                                        </td>
                                     </tr>
                                 </table>
                             </div>

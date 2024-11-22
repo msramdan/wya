@@ -32,13 +32,16 @@
 
             <nav id="navmenu" class="navmenu">
                 <ul>
-                    <li><a href="{{route('web')}}" class="active">Home</a></li>
-                    <li><a href="{{route('web.list')}}">List Aduan</a></li>
-                    <li><a href="{{route('web.form')}}">Form Aduan</a></li>
-                    <li><a href="{{route('web.private')}}">Aduan Private</a></li>
+                    <li><a href="{{ route('web') }}" class="{{ request()->routeIs('web') ? 'active' : '' }}">Home</a></li>
+                    <a href="{{ route('web.list') }}" class="{{ request()->routeIs('web.list') || request()->routeIs('web.detail') ? 'active' : '' }}">
+                        List Aduan
+                    </a>
+                    <li><a href="{{ route('web.form') }}" class="{{ request()->routeIs('web.form') ? 'active' : '' }}">Form Aduan</a></li>
+                    <li><a href="{{ route('web.private') }}" class="{{ request()->routeIs('web.private') ? 'active' : '' }}">Aduan Private</a></li>
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>
+
 
         </div>
     </header>

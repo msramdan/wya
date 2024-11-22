@@ -17,8 +17,12 @@ Route::get('/web', function () {
 });
 Route::get('/', [LandingWebController::class, 'index'])->name('web');
 Route::get('/list', [LandingWebController::class, 'list'])->name('web.list');
+Route::get('/detail/{id}', [LandingWebController::class, 'detail'])->name('web.detail');
 Route::get('/form', [LandingWebController::class, 'form'])->name('web.form');
+Route::post('/store', [LandingWebController::class, 'store'])->name('web.store');
 Route::get('/aduan-private', [LandingWebController::class, 'private'])->name('web.private');
+Route::get('/aduans/search', [LandingWebController::class, 'search'])->name('aduans.search');
+
 
 Route::prefix('panel')->group(function () {
     Route::middleware(['auth', 'web'])->group(function () {
