@@ -21,22 +21,24 @@ class LandingWebController extends Controller
         return view('frontend.list', compact('aduans'));
     }
 
-    public function detail($id)
+    public function detail($id, Request $request)
     {
-        // Fetch the Aduan by ID and ensure it is of type 'Public'
         $aduan = DB::table('aduans')
             ->where('id', $id)
-            ->where('type', 'Public')
             ->first();
-
-        // If Aduan is not found, abort with a 404
         if (!$aduan) {
-            return redirect()->route('aduans.index')->with('error', 'Aduan not found.');
+            return redirect()->route('aduans.index')->with('error', 'Aduan tidak ditemukan.');
         }
 
-        // If found, return the detail view
+        if ($aduan->type === 'Private') {
+            $sessionToken = session('aduan_token');
+            if (!$sessionToken || $sessionToken !== $aduan->token) {
+                return redirect()->route('web.list')->with('error', 'Token tidak valid atau tidak ditemukan.');
+            }
+        }
         return view('frontend.detail', compact('aduan'));
     }
+
 
 
     public function form()
@@ -85,8 +87,6 @@ class LandingWebController extends Controller
         }
     }
 
-
-
     public function private()
     {
         return view('frontend.private');
@@ -94,6 +94,9 @@ class LandingWebController extends Controller
 
     public function checkAduan(Request $request)
     {
+        // Lupakan token yang ada di session sebelumnya, jika ada
+        session()->forget('aduan_token');
+
         // Gabungkan input token dari form menjadi satu string
         $token = $request->input('satu') . $request->input('dua') . $request->input('tiga') .
             $request->input('empat') . $request->input('lima') . $request->input('enam');
@@ -103,8 +106,11 @@ class LandingWebController extends Controller
 
         // Cek apakah aduan ditemukan
         if ($aduan) {
-            // Jika ditemukan, redirect ke halaman detail aduan
-            return redirect()->route('web.detail', ['id' => $aduan->id]); // ganti 'aduan.detail' sesuai route Anda
+            // Jika ditemukan, simpan token dalam session
+            session()->put('aduan_token', $token);
+
+            // Redirect ke halaman detail aduan dengan ID
+            return redirect()->route('web.detail', ['id' => $aduan->id]);
         } else {
             // Jika tidak ditemukan, tampilkan alert
             return back()->with('error', 'Aduan tidak ditemukan');

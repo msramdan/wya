@@ -154,6 +154,12 @@
                     </div>
                 </div>
                 <div class="row">
+                    @if (session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
                     @foreach ($aduans as $aduan)
                         <div class="col-md-4 mb-4">
                             <div class="card shadow-sm border-light">
