@@ -17,26 +17,48 @@ class LandingWebController extends Controller
     {
         $aduans = DB::table('aduans')
             ->where('type', 'Public')
+            ->orderBy('id', 'desc')
             ->paginate(9);
+
         return view('frontend.list', compact('aduans'));
     }
 
+
     public function detail($id, Request $request)
     {
+        // Fetch Aduan data
         $aduan = DB::table('aduans')
             ->where('id', $id)
             ->first();
+
         if (!$aduan) {
             return redirect()->route('aduans.index')->with('error', 'Aduan tidak ditemukan.');
         }
 
+        // Token validation for private Aduan
         if ($aduan->type === 'Private') {
             $sessionToken = session('aduan_token');
             if (!$sessionToken || $sessionToken !== $aduan->token) {
                 return redirect()->route('web.list')->with('error', 'Token tidak valid atau tidak ditemukan.');
             }
         }
-        return view('frontend.detail', compact('aduan'));
+
+        $comments = DB::table('comments')
+            ->join('users', 'comments.user_id', '=', 'users.id')
+            ->select(
+                'comments.id',
+                'comments.komentar',
+                'comments.tanggal',
+                'users.name as user_name',
+                'users.email as user_email',
+                'users.avatar as user_avatar'
+            )
+            ->where('comments.aduan_id', $aduan->id)
+            ->orderBy('comments.tanggal', 'asc')
+            ->get();
+
+        // Pass Aduan and Comments to the view
+        return view('frontend.detail', compact('aduan', 'comments'));
     }
 
 

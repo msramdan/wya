@@ -4,6 +4,48 @@
 
 @section('content')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Styling for the comment section */
+        .comments-section {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .comment-item {
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+        }
+
+        .comment-item:last-child {
+            border-bottom: none;
+        }
+
+        .comment-item .d-flex {
+            align-items: center;
+        }
+
+        .comment-item img {
+            border-radius: 50%;
+        }
+
+        .comment-item p {
+            margin: 0;
+        }
+
+        .comment-item .text-muted {
+            font-size: 0.875rem;
+        }
+
+        .comment-item strong {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+    </style>
+
+
+
     <main class="main">
         <div class="page-title" data-aos="fade">
             <div class="container d-lg-flex justify-content-between align-items-center">
@@ -74,15 +116,45 @@
                                     </button>
                                 @else
                                     <span>{{ $aduan->status }}</span>
-                                    <!-- Fallback if status is not one of the known values -->
                                 @endif
                             </td>
                         </tr>
                     </table>
+
+                    <!-- Comment Section -->
+                    <div class="comments-section mt-4">
+                        <h3>{{ __('Komentar') }}</h3>
+                        @foreach ($comments as $comment)
+                            <!-- Assuming 'comments' is a relationship -->
+                            <div class="comment-item mb-3">
+                                <div class="d-flex">
+                                    <!-- Avatar -->
+                                    @if ($comment->user_avatar == null)
+                                        <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($comment->user_email))) }}&s=50"
+                                            alt="{{ $comment->user_name }}" class="rounded-circle me-3" width="40"
+                                            height="40">
+                                    @else
+                                        <img src="{{ asset('uploads/images/avatars/' . $comment->user_avatar) }}"
+                                            alt="{{ $comment->user_name }}" class="rounded-circle me-3" width="40"
+                                            height="40">
+                                    @endif
+
+                                    <!-- Comment Details -->
+                                    <div>
+                                        <p class="mb-1">
+                                            <strong>{{ $comment->user_name }}</strong>
+                                            <span
+                                                class="text-muted">{{ \Carbon\Carbon::parse($comment->tanggal)->diffForHumans() }}</span>
+                                        </p>
+                                        <p class="mb-0" style="text-align: justify">{{ $comment->komentar }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </section>
 
     </main>
-
 @endsection

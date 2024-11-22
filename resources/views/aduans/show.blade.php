@@ -167,7 +167,7 @@
                                                 <span
                                                     class="text-muted">{{ \Carbon\Carbon::parse($comment->tanggal)->diffForHumans() }}</span>
                                             </p>
-                                            <p class="mb-0">{{ $comment->komentar }}</p>
+                                            <p class="mb-0" style="text-align: justify">{{ $comment->komentar }}</p>
                                         </div>
                                     </div>
                                 @empty
@@ -176,12 +176,12 @@
                             </div>
                             <br>
                             @can('respon aduan')
-                                <form action="{{ route('aduans.comments.store', $aduan->id) }}" method="POST">
+                                <form action="{{ route('aduans.comments.store', $aduan->id) }}" method="POST" style="margin-bottom: 50px">
                                     @csrf
                                     <div class="mb-3">
                                         <textarea class="form-control" name="comment" rows="3" placeholder="{{ __('Tulis komentar...') }}" required></textarea>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">{{ __('Kirim') }}</button>
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane" aria-hidden="true"></i> {{ __('Kirim') }}</button>
                                 </form>
                             @endcan
 
