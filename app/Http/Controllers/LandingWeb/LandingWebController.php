@@ -5,6 +5,9 @@ namespace App\Http\Controllers\LandingWeb;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Mail\AduanNotificationMail;
+use Illuminate\Support\Facades\Mail;
+
 
 class LandingWebController extends Controller
 {
@@ -61,8 +64,6 @@ class LandingWebController extends Controller
         return view('frontend.detail', compact('aduan', 'comments'));
     }
 
-
-
     public function form()
     {
         return view('frontend.form');
@@ -82,9 +83,9 @@ class LandingWebController extends Controller
 
         $token = $request->type == 'Private' ? strtoupper(bin2hex(random_bytes(3))) : null;
 
-        // Use Query Builder to insert data into 'aduans' table
         try {
-            DB::table('aduans')->insert([
+            // Insert data into 'aduans' table
+            $aduanId = DB::table('aduans')->insertGetId([
                 'nama' => $request->nama,
                 'email' => $request->email,
                 'judul' => $request->judul,
@@ -98,7 +99,26 @@ class LandingWebController extends Controller
                 'updated_at' => now(),
             ]);
 
-            // If the type is Private, add token information to the session
+            // Data to pass to the email
+            $aduanData = [
+                'nama' => $request->nama,
+                'email' => $request->email,
+                'judul' => $request->judul,
+                'keterangan' => $request->keterangan,
+                'type' => $request->type,
+                'token' => $token,
+            ];
+
+            // Kirim email ke pembuat aduan
+            Mail::to($request->email)->send(new AduanNotificationMail($aduanData));
+
+            // Kirim email ke semua user di tabel users
+            $users = DB::table('users')->pluck('email'); // Ambil email semua user
+            foreach ($users as $userEmail) {
+                Mail::to($userEmail)->send(new AduanNotificationMail($aduanData));
+            }
+
+            // Redirect dengan pesan sukses
             if ($request->type == 'Private') {
                 return redirect()->route('web.form')->with('success', 'Laporan berhasil dikirim. Token untuk melihat Aduan: <b>' . $token . '</b>');
             }
